@@ -10,12 +10,16 @@ import {
   ChevronDown,
   Zap,
   Sun,
-  Battery,
   Wrench,
   Lightbulb,
-  Building2,
   HardHat,
+  Droplets,
+  Thermometer,
+  Package,
+  ShieldCheck,
   PlugZap,
+  Hammer,
+  Layers,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -23,44 +27,121 @@ import { Input } from "@/components/ui/input"
 
 const categories = [
   {
-    name: "Solar Panels",
+    name: "Lighting & Electrical",
+    icon: Lightbulb,
+    subcategories: [
+      "Circuit Breakers & Panels",
+      "Wire & Cable",
+      "Conduit & Fittings",
+      "Switches & Outlets",
+      "LED Lighting",
+      "Emergency Lighting",
+    ],
+  },
+  {
+    name: "Solar & Renewables",
     icon: Sun,
-    subcategories: ["Monocrystalline", "Bifacial", "Commercial", "Residential", "Flexible", "All-Black"],
+    subcategories: [
+      "Solar Panels",
+      "Inverters",
+      "Racking & Mounting",
+      "Batteries & ESS",
+      "Solar Kits",
+      "Monitoring",
+    ],
   },
   {
-    name: "Inverters",
-    icon: Zap,
-    subcategories: ["Hybrid", "Grid-Tie", "Off-Grid", "Micro Inverters", "String Inverters"],
+    name: "Tools",
+    icon: Wrench,
+    subcategories: [
+      "Power Tools",
+      "Hand Tools",
+      "Tool Storage",
+      "Fasteners",
+      "Power Tool Accessories",
+      "Welding",
+    ],
   },
   {
-    name: "Batteries & ESS",
-    icon: Battery,
-    subcategories: ["Lithium", "AGM", "Gel Deep Cycle", "Wall-Mount", "Rack-Mount"],
+    name: "HVAC",
+    icon: Thermometer,
+    subcategories: [
+      "Mini Splits",
+      "Heaters",
+      "Fans & Ventilation",
+      "Air Quality",
+      "HVAC Parts",
+      "Thermostats",
+    ],
+  },
+  {
+    name: "Plumbing",
+    icon: Droplets,
+    subcategories: [
+      "Pipe & Fittings",
+      "Valves",
+      "Water Heaters",
+      "Pumps",
+      "Plumbing Tools",
+      "Drain Openers",
+    ],
+  },
+  {
+    name: "Hardware",
+    icon: Hammer,
+    subcategories: [
+      "Fasteners",
+      "Door Hardware",
+      "Cabinet Hardware",
+      "Safety & Security",
+      "Keys & Locks",
+      "Metal Sheets & Rods",
+    ],
+  },
+  {
+    name: "Building Materials",
+    icon: Layers,
+    subcategories: [
+      "Lumber & Trim",
+      "Roofing & Gutters",
+      "Insulation",
+      "Concrete & Masonry",
+      "Decking",
+      "Fencing",
+    ],
+  },
+  {
+    name: "Safety & Workwear",
+    icon: ShieldCheck,
+    subcategories: [
+      "Hard Hats",
+      "Safety Glasses",
+      "Gloves",
+      "Hi-Vis Clothing",
+      "Fall Protection",
+      "First Aid",
+    ],
   },
   {
     name: "Generators",
     icon: PlugZap,
-    subcategories: ["Standby", "Portable", "Dual Fuel", "Commercial", "Parts & Accessories"],
-  },
-  {
-    name: "Electrical",
-    icon: Lightbulb,
-    subcategories: ["Breakers & Panels", "Wire & Cable", "Conduit", "Connectors", "Switches"],
-  },
-  {
-    name: "Tools & Hardware",
-    icon: Wrench,
-    subcategories: ["Power Tools", "Hand Tools", "Safety Gear", "Fasteners", "Racking & Mounting"],
-  },
-  {
-    name: "Lighting",
-    icon: Lightbulb,
-    subcategories: ["LED Fixtures", "Outdoor", "Commercial", "Emergency", "Smart Lighting"],
+    subcategories: [
+      "Standby",
+      "Portable",
+      "Dual Fuel",
+      "Commercial",
+      "Parts & Accessories",
+    ],
   },
   {
     name: "EV Charging",
-    icon: PlugZap,
-    subcategories: ["Level 2 Chargers", "Level 3 DC Fast", "Commercial Stations", "Accessories"],
+    icon: Zap,
+    subcategories: [
+      "Level 2 Chargers",
+      "DC Fast Chargers",
+      "Commercial Stations",
+      "Accessories",
+    ],
   },
 ]
 
@@ -83,7 +164,7 @@ export function Navbar() {
               PES<span className="text-primary">.supply</span>
             </span>
             <span className="block text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
-              Electrical & Solar
+              Electrical &amp; Supply
             </span>
           </div>
         </a>
@@ -92,23 +173,31 @@ export function Navbar() {
         <div className="relative flex flex-1 items-center">
           <div
             className={`flex w-full items-center overflow-hidden rounded-lg border transition-colors ${
-              searchFocused ? "border-primary ring-2 ring-primary/20" : "border-border"
+              searchFocused
+                ? "border-primary ring-2 ring-primary/20"
+                : "border-border"
             }`}
           >
-            <select className="hidden h-10 border-r border-border bg-muted px-3 text-xs font-medium text-foreground md:block" aria-label="Search category">
-              <option>All Categories</option>
+            <select
+              className="hidden h-10 border-r border-border bg-muted px-3 text-xs font-medium text-foreground md:block"
+              aria-label="Search category"
+            >
+              <option>All Departments</option>
               {categories.map((c) => (
                 <option key={c.name}>{c.name}</option>
               ))}
             </select>
             <Input
               type="search"
-              placeholder="Search panels, inverters, wire, switchgear..."
+              placeholder="Search products, brands, part numbers..."
               className="h-10 flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
             />
-            <Button size="sm" className="m-1 h-8 rounded-md bg-primary px-3 text-primary-foreground hover:bg-primary/90">
+            <Button
+              size="sm"
+              className="m-1 h-8 rounded-md bg-primary px-3 text-primary-foreground hover:bg-primary/90"
+            >
               <Search className="h-4 w-4" />
               <span className="sr-only">Search</span>
             </Button>
@@ -117,7 +206,11 @@ export function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" className="hidden gap-1.5 text-foreground lg:flex">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="hidden gap-1.5 text-foreground lg:flex"
+          >
             <User className="h-4 w-4" />
             <span className="text-sm">Account</span>
           </Button>
@@ -134,28 +227,34 @@ export function Navbar() {
             className="text-foreground lg:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
             <span className="sr-only">Menu</span>
           </Button>
         </div>
       </div>
 
       {/* Category bar (desktop) */}
-      <nav className="hidden border-t border-border bg-muted/50 lg:block" aria-label="Main categories">
+      <nav
+        className="hidden border-t border-border bg-muted/50 lg:block"
+        aria-label="Main categories"
+      >
         <div className="mx-auto flex max-w-7xl items-center px-4">
-          {categories.map((cat) => (
+          {categories.slice(0, 8).map((cat) => (
             <div
               key={cat.name}
               className="group relative"
               onMouseEnter={() => setActiveCategory(cat.name)}
               onMouseLeave={() => setActiveCategory(null)}
             >
-              <button className="flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium text-foreground/80 transition-colors hover:text-primary">
-                <cat.icon className="h-4 w-4" />
+              <button className="flex items-center gap-1.5 px-2.5 py-2.5 text-[13px] font-medium text-foreground/80 transition-colors hover:text-primary">
+                <cat.icon className="h-3.5 w-3.5" />
                 <span className="hidden xl:inline">{cat.name}</span>
                 <ChevronDown className="hidden h-3 w-3 xl:block" />
               </button>
-              {/* Dropdown */}
               {activeCategory === cat.name && (
                 <div className="absolute left-0 top-full z-50 w-56 rounded-b-lg border border-t-0 border-border bg-card p-3 shadow-lg">
                   {cat.subcategories.map((sub) => (
@@ -168,7 +267,10 @@ export function Navbar() {
                     </a>
                   ))}
                   <div className="mt-2 border-t border-border pt-2">
-                    <a href="#" className="block rounded-md px-3 py-2 text-sm font-medium text-primary">
+                    <a
+                      href="#"
+                      className="block rounded-md px-3 py-2 text-sm font-medium text-primary"
+                    >
                       View All {cat.name}
                     </a>
                   </div>
@@ -177,13 +279,19 @@ export function Navbar() {
             </div>
           ))}
           <div className="ml-auto flex items-center gap-4">
-            <a href="#" className="flex items-center gap-1.5 text-sm font-semibold text-sale">
+            <a
+              href="#"
+              className="flex items-center gap-1.5 text-sm font-semibold text-sale"
+            >
               <HardHat className="h-4 w-4" />
-              Pro Pricing
+              Deals
             </a>
-            <a href="#" className="flex items-center gap-1.5 text-sm font-medium text-foreground/80 hover:text-primary">
-              <Building2 className="h-4 w-4" />
-              Commercial
+            <a
+              href="#"
+              className="flex items-center gap-1.5 text-sm font-medium text-foreground/80 hover:text-primary"
+            >
+              <Package className="h-4 w-4" />
+              Bulk Discount
             </a>
           </div>
         </div>
@@ -205,11 +313,17 @@ export function Navbar() {
                 </a>
               ))}
               <div className="my-2 border-t border-border" />
-              <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sale">
+              <a
+                href="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sale"
+              >
                 <HardHat className="h-4 w-4" />
-                Pro Pricing
+                Deals
               </a>
-              <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-card-foreground hover:bg-muted">
+              <a
+                href="#"
+                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-card-foreground hover:bg-muted"
+              >
                 <User className="h-4 w-4 text-primary" />
                 Account
               </a>

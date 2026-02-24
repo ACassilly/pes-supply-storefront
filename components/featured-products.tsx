@@ -12,147 +12,147 @@ const products = [
     id: 1,
     name: "Jinko Solar 580W N-Type Bifacial Module",
     category: "solar",
-    price: 133.40,
-    originalPrice: 174.00,
-    pricePerWatt: "$0.23",
+    price: 133.4,
+    originalPrice: 174.0,
     rating: 4.8,
     reviews: 342,
     image: "/images/product-solar-panel.jpg",
     badge: "Best Seller",
     inStock: true,
     freeShipping: true,
-    specs: ["580W", "Bifacial", "N-Type", "25yr Warranty"],
+    specs: ["580W", "Bifacial", "N-Type"],
   },
   {
     id: 2,
+    name: "Milwaukee M18 FUEL 1/2\" Hammer Drill Kit",
+    category: "tools",
+    price: 199.0,
+    originalPrice: 279.0,
+    rating: 4.9,
+    reviews: 1204,
+    image: "/images/product-tools.jpg",
+    badge: "Top Rated",
+    inStock: true,
+    freeShipping: true,
+    specs: ["18V", "Brushless", "2-Speed"],
+  },
+  {
+    id: 3,
+    name: "Square D 200A Main Breaker Panel",
+    category: "electrical",
+    price: 189.95,
+    originalPrice: 234.0,
+    rating: 4.7,
+    reviews: 567,
+    image: "/images/cat-electrical.jpg",
+    badge: "Popular",
+    inStock: true,
+    freeShipping: false,
+    specs: ["200A", "30-Space", "Indoor"],
+  },
+  {
+    id: 4,
+    name: "MRCOOL DIY 24K BTU Ductless Mini Split",
+    category: "hvac",
+    price: 1549.0,
+    originalPrice: 1899.0,
+    rating: 4.6,
+    reviews: 893,
+    image: "/images/cat-hvac.jpg",
+    badge: "Hot Deal",
+    inStock: true,
+    freeShipping: true,
+    specs: ["24K BTU", "20 SEER", "WiFi"],
+  },
+  {
+    id: 5,
     name: "Sol-Ark 15K Hybrid Inverter",
-    category: "inverters",
-    price: 3995.00,
-    originalPrice: 4595.00,
-    pricePerWatt: null,
+    category: "solar",
+    price: 3995.0,
+    originalPrice: 4595.0,
     rating: 4.9,
     reviews: 187,
     image: "/images/product-inverter.jpg",
     badge: "Top Rated",
     inStock: true,
     freeShipping: true,
-    specs: ["15kW", "Hybrid", "200A MPPT", "10yr Warranty"],
+    specs: ["15kW", "Hybrid", "200A MPPT"],
   },
   {
-    id: 3,
-    name: "EG4 PowerPro WallMount Battery 280Ah",
-    category: "batteries",
-    price: 1699.00,
-    originalPrice: 2199.00,
-    pricePerWatt: null,
-    rating: 4.7,
-    reviews: 256,
-    image: "/images/product-battery.jpg",
-    badge: "Hot Deal",
-    inStock: true,
-    freeShipping: false,
-    specs: ["14.3kWh", "LiFePO4", "Wall-Mount", "10yr Warranty"],
-  },
-  {
-    id: 4,
+    id: 6,
     name: "Generac 22kW Standby Generator",
     category: "generators",
-    price: 5299.00,
-    originalPrice: 5799.00,
-    pricePerWatt: null,
+    price: 5299.0,
+    originalPrice: 5799.0,
     rating: 4.6,
     reviews: 128,
     image: "/images/product-generator.jpg",
     badge: "In Stock",
     inStock: true,
     freeShipping: true,
-    specs: ["22kW", "Natural Gas/LP", "Auto Transfer", "5yr Warranty"],
-  },
-  {
-    id: 5,
-    name: "LONGi Hi-MO X6 595W Solar Panel",
-    category: "solar",
-    price: 142.80,
-    originalPrice: 190.40,
-    pricePerWatt: "$0.24",
-    rating: 4.9,
-    reviews: 203,
-    image: "/images/product-solar-panel.jpg",
-    badge: "New",
-    inStock: true,
-    freeShipping: true,
-    specs: ["595W", "HPBC", "N-Type", "30yr Warranty"],
-  },
-  {
-    id: 6,
-    name: "Enphase IQ8M Microinverter",
-    category: "inverters",
-    price: 169.00,
-    originalPrice: 199.00,
-    pricePerWatt: null,
-    rating: 4.8,
-    reviews: 412,
-    image: "/images/product-inverter.jpg",
-    badge: "Popular",
-    inStock: true,
-    freeShipping: true,
-    specs: ["330VA", "Micro", "Grid-Form", "25yr Warranty"],
+    specs: ["22kW", "NG/LP", "Auto Transfer"],
   },
   {
     id: 7,
     name: "Tesla Wall Connector Gen 3 EV Charger",
     category: "ev",
-    price: 475.00,
-    originalPrice: 530.00,
-    pricePerWatt: null,
+    price: 475.0,
+    originalPrice: 530.0,
     rating: 4.7,
     reviews: 891,
     image: "/images/product-ev-charger.jpg",
     badge: "Fast Ship",
     inStock: true,
     freeShipping: true,
-    specs: ["48A", "Level 2", "WiFi", "Indoor/Outdoor"],
+    specs: ["48A", "Level 2", "WiFi"],
   },
   {
     id: 8,
-    name: "IronRidge XR100 Racking Rail 14ft",
-    category: "tools",
-    price: 78.50,
-    originalPrice: 99.00,
-    pricePerWatt: null,
-    rating: 4.9,
-    reviews: 614,
-    image: "/images/cat-racking.jpg",
-    badge: "Staple",
+    name: "SharkBite 1/2\" Push-to-Connect Valve Kit",
+    category: "plumbing",
+    price: 24.97,
+    originalPrice: 34.99,
+    rating: 4.8,
+    reviews: 2310,
+    image: "/images/cat-plumbing.jpg",
+    badge: "Value Pack",
     inStock: true,
-    freeShipping: true,
-    specs: ["14ft", "Aluminum", "XR100", "UL 2703"],
+    freeShipping: false,
+    specs: ["1/2\"", "Push-Fit", "Lead-Free"],
   },
 ]
 
 const tabs = [
-  { value: "all", label: "All Products" },
-  { value: "solar", label: "Solar Panels" },
-  { value: "inverters", label: "Inverters" },
-  { value: "batteries", label: "Batteries" },
+  { value: "all", label: "All" },
+  { value: "electrical", label: "Electrical" },
+  { value: "solar", label: "Solar" },
+  { value: "tools", label: "Tools" },
+  { value: "hvac", label: "HVAC" },
+  { value: "plumbing", label: "Plumbing" },
   { value: "generators", label: "Generators" },
   { value: "ev", label: "EV Charging" },
-  { value: "tools", label: "Racking & BOS" },
 ]
 
 export function FeaturedProducts() {
   const [activeTab, setActiveTab] = useState("all")
 
   const filtered =
-    activeTab === "all" ? products : products.filter((p) => p.category === activeTab)
+    activeTab === "all"
+      ? products
+      : products.filter((p) => p.category === activeTab)
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12" aria-label="Featured products">
+    <section
+      className="mx-auto max-w-7xl px-4 py-10"
+      aria-label="Featured products"
+    >
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Featured Products</h2>
+          <h2 className="text-2xl font-bold text-foreground">
+            Featured Products
+          </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Handpicked deals on top-rated equipment
+            Handpicked deals across every department
           </p>
         </div>
       </div>
@@ -160,7 +160,11 @@ export function FeaturedProducts() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
         <TabsList className="h-auto flex-wrap">
           {tabs.map((tab) => (
-            <TabsTrigger key={tab.value} value={tab.value} className="text-xs sm:text-sm">
+            <TabsTrigger
+              key={tab.value}
+              value={tab.value}
+              className="text-xs sm:text-sm"
+            >
               {tab.label}
             </TabsTrigger>
           ))}
@@ -176,11 +180,7 @@ export function FeaturedProducts() {
   )
 }
 
-function ProductCard({
-  product,
-}: {
-  product: (typeof products)[0]
-}) {
+function ProductCard({ product }: { product: (typeof products)[0] }) {
   const discount = Math.round(
     ((product.originalPrice - product.price) / product.originalPrice) * 100
   )
@@ -205,10 +205,16 @@ function ProductCard({
         )}
         {/* Hover actions */}
         <div className="absolute bottom-2 right-2 flex translate-y-2 gap-1.5 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-card text-card-foreground shadow-md hover:bg-primary hover:text-primary-foreground" aria-label="Quick view">
+          <button
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-card text-card-foreground shadow-md hover:bg-primary hover:text-primary-foreground"
+            aria-label="Quick view"
+          >
             <Eye className="h-4 w-4" />
           </button>
-          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-card text-card-foreground shadow-md hover:bg-sale hover:text-sale-foreground" aria-label="Add to wishlist">
+          <button
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-card text-card-foreground shadow-md hover:bg-sale hover:text-sale-foreground"
+            aria-label="Add to wishlist"
+          >
             <Heart className="h-4 w-4" />
           </button>
         </div>
@@ -218,7 +224,7 @@ function ProductCard({
       <div className="flex flex-1 flex-col p-3">
         {/* Specs */}
         <div className="mb-2 flex flex-wrap gap-1">
-          {product.specs.slice(0, 3).map((spec) => (
+          {product.specs.map((spec) => (
             <span
               key={spec}
               className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground"
@@ -228,7 +234,7 @@ function ProductCard({
           ))}
         </div>
 
-        <h3 className="mb-1 text-sm font-semibold text-card-foreground leading-snug line-clamp-2 group-hover:text-primary">
+        <h3 className="mb-1 line-clamp-2 text-sm font-semibold text-card-foreground leading-snug group-hover:text-primary">
           {product.name}
         </h3>
 
@@ -247,7 +253,7 @@ function ProductCard({
             ))}
           </div>
           <span className="text-xs text-muted-foreground">
-            {product.rating} ({product.reviews})
+            {product.rating} ({product.reviews.toLocaleString()})
           </span>
           <span className="ml-auto flex items-center gap-0.5 text-[9px] font-semibold text-primary">
             <ShieldCheck className="h-3 w-3" />
@@ -259,15 +265,18 @@ function ProductCard({
         <div className="mt-auto">
           <div className="flex items-baseline gap-2">
             <span className="text-lg font-bold text-foreground">
-              ${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+              $
+              {product.price.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+              })}
             </span>
             <span className="text-xs text-muted-foreground line-through">
-              ${product.originalPrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+              $
+              {product.originalPrice.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+              })}
             </span>
           </div>
-          {product.pricePerWatt && (
-            <span className="text-xs font-medium text-primary">{product.pricePerWatt}/W</span>
-          )}
           {product.freeShipping && (
             <span className="mt-1 flex items-center gap-1 text-[10px] font-medium text-success">
               <Truck className="h-3 w-3" /> Free Shipping
