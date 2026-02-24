@@ -1,26 +1,23 @@
 "use client"
 
-import { Phone, HelpCircle } from "lucide-react"
+import { Phone } from "lucide-react"
 
 export function TopBar() {
   return (
     <div className="bg-topbar text-topbar-foreground">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-1.5 text-xs">
-        <span className="font-medium text-topbar-foreground/60">
-          <span className="font-semibold text-topbar-foreground">PES Supply</span>
-          {" "}| A PES Global Company
-        </span>
-        <div className="flex items-center gap-4">
-          <a href="#" className="hidden items-center gap-1.5 text-topbar-foreground/60 transition-colors hover:text-topbar-foreground sm:flex">
-            <HelpCircle className="h-3 w-3" />
-            Help
-          </a>
-          <a href="tel:8888760007" className="flex items-center gap-1.5 text-topbar-foreground/60 transition-colors hover:text-topbar-foreground">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-1.5 text-xs">
+        <a href="#" className="truncate font-medium text-topbar-foreground/70 transition-colors hover:text-topbar-foreground">
+          Free shipping on orders $999+ &mdash; Pro accounts get same-day dispatch
+        </a>
+        <div className="flex shrink-0 items-center gap-3 sm:gap-5">
+          <a href="#" className="hidden text-topbar-foreground/70 transition-colors hover:text-topbar-foreground sm:inline">Help Center</a>
+          <a href="tel:8888760007" className="hidden items-center gap-1 text-topbar-foreground/70 transition-colors hover:text-topbar-foreground sm:flex">
             <Phone className="h-3 w-3" />
             (888) 876-0007
           </a>
-          <a href="#" className="font-semibold text-primary hover:underline">
-            Register / Sign In
+          <span className="hidden text-topbar-foreground/20 sm:inline">|</span>
+          <a href="#" className="font-semibold text-primary transition-colors hover:underline">
+            Sign In / Register
           </a>
         </div>
       </div>

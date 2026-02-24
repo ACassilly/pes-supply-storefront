@@ -1,179 +1,272 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
-import {
-  Search,
-  ShoppingCart,
-  User,
-  Menu,
-  X,
-  ChevronDown,
-  Zap,
-  Sun,
-  Wrench,
-  Lightbulb,
-  Droplets,
-  Thermometer,
-  ShieldCheck,
-  PlugZap,
-  Hammer,
-  Layers,
-} from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
 
-const categories = [
+const departments = [
   {
-    name: "Electrical & Lighting",
-    icon: Lightbulb,
-    subcategories: ["Circuit Breakers & Panels", "Wire & Cable", "Conduit & Fittings", "Switches & Outlets", "LED Lighting", "Emergency Lighting"],
+    name: "Electrical",
+    subs: ["Circuit Breakers & Panels", "Wire & Cable", "Conduit & Fittings", "Switches & Outlets", "Boxes & Enclosures", "Disconnects & Transformers"],
+  },
+  {
+    name: "Lighting",
+    subs: ["LED Fixtures", "Emergency & Exit Lighting", "High Bay & Industrial", "Controls & Sensors", "Bulbs & Lamps", "Outdoor & Area Lighting"],
   },
   {
     name: "Solar & Renewables",
-    icon: Sun,
-    subcategories: ["Solar Panels", "Inverters", "Racking & Mounting", "Batteries & ESS", "Solar Kits", "Monitoring"],
+    subs: ["Solar Panels", "Inverters & Optimizers", "Racking & Mounting", "Batteries & ESS", "Solar Kits", "Monitoring & Rapid Shutdown"],
   },
   {
-    name: "Tools & Equipment",
-    icon: Wrench,
-    subcategories: ["Power Tools", "Hand Tools", "Tool Storage", "Fasteners", "Accessories", "Welding"],
+    name: "Tools & Test",
+    subs: ["Power Tools", "Hand Tools", "Meters & Testers", "Fish Tape & Pulling", "Crimping & Termination", "Tool Storage"],
   },
   {
     name: "HVAC",
-    icon: Thermometer,
-    subcategories: ["Mini Splits", "Heaters", "Fans & Ventilation", "Air Quality", "HVAC Parts", "Thermostats"],
+    subs: ["Mini Splits", "Thermostats", "Fans & Ventilation", "Heaters", "HVAC Parts & Accessories"],
   },
   {
     name: "Plumbing",
-    icon: Droplets,
-    subcategories: ["Pipe & Fittings", "Valves", "Water Heaters", "Pumps", "Plumbing Tools"],
-  },
-  {
-    name: "Hardware",
-    icon: Hammer,
-    subcategories: ["Fasteners", "Door Hardware", "Cabinet Hardware", "Safety & Security", "Keys & Locks"],
-  },
-  {
-    name: "Building Materials",
-    icon: Layers,
-    subcategories: ["Lumber & Trim", "Roofing", "Insulation", "Concrete & Masonry", "Decking"],
+    subs: ["Pipe & Fittings", "Valves", "Water Heaters", "Pumps", "Plumbing Tools"],
   },
   {
     name: "Safety & PPE",
-    icon: ShieldCheck,
-    subcategories: ["Hard Hats", "Safety Glasses", "Gloves", "Hi-Vis", "Fall Protection", "First Aid"],
+    subs: ["Hard Hats & Head Protection", "Safety Glasses & Goggles", "Gloves", "Hi-Vis & FR Clothing", "Fall Protection", "First Aid"],
   },
   {
-    name: "Generators",
-    icon: PlugZap,
-    subcategories: ["Standby", "Portable", "Dual Fuel", "Commercial", "Parts"],
+    name: "Data & Comm",
+    subs: ["Structured Cabling", "Racks & Enclosures", "Patch Panels", "Fiber Optic", "Network Switches", "Cable Management"],
   },
   {
     name: "EV Charging",
-    icon: Zap,
-    subcategories: ["Level 2", "DC Fast Chargers", "Commercial", "Accessories"],
+    subs: ["Level 2 Residential", "Level 2 Commercial", "DC Fast Chargers", "Cables & Connectors", "Mounting & Pedestals"],
+  },
+  {
+    name: "Generators",
+    subs: ["Standby & Whole-Home", "Portable", "Commercial & Industrial", "Transfer Switches", "Parts & Maintenance"],
   },
 ]
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
-  const [searchFocused, setSearchFocused] = useState(false)
+  const [megaOpen, setMegaOpen] = useState<string | null>(null)
+  const [allMenuOpen, setAllMenuOpen] = useState(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function handleEnter(name: string) {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setMegaOpen(name)
+  }
+
+  function handleLeave() {
+    closeTimer.current = setTimeout(() => setMegaOpen(null), 150)
+  }
+
+  useEffect(() => {
+    return () => { if (closeTimer.current) clearTimeout(closeTimer.current) }
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 bg-navbar shadow-sm">
-      {/* Main row */}
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-2.5">
+    <header className="sticky top-0 z-50 border-b border-border bg-navbar shadow-sm">
+      {/* Row 1: Logo + Search + Account + Cart */}
+      <div className="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-2 md:gap-5">
+        {/* Logo */}
         <a href="/" className="flex shrink-0 items-center gap-2.5">
-          <Image src="/images/pes-logo.png" alt="PES Supply" width={40} height={40} className="h-10 w-10 rounded-lg object-cover" priority />
-          <div className="hidden sm:block">
-            <span className="text-sm font-bold leading-tight tracking-tight text-foreground">PES Supply</span>
-            <span className="block text-[10px] font-medium text-muted-foreground">Portlandia Electric Supply</span>
+          <Image
+            src="/images/pes-logo.png"
+            alt="PES Supply"
+            width={48}
+            height={48}
+            className="h-11 w-11 rounded-lg object-cover md:h-12 md:w-12"
+            priority
+          />
+          <div className="hidden min-[480px]:block">
+            <span className="block text-base font-extrabold leading-tight tracking-tight text-foreground">PES Supply</span>
+            <span className="block text-[10px] font-medium leading-tight text-muted-foreground">A PES Global Company</span>
           </div>
         </a>
 
-        <div className="relative flex flex-1 items-center">
-          <div className={`flex w-full items-center overflow-hidden rounded-lg border transition-colors ${searchFocused ? "border-primary ring-2 ring-primary/20" : "border-border"}`}>
-            <select className="hidden h-10 border-r border-border bg-muted px-3 text-xs font-medium text-foreground md:block" aria-label="Department">
+        {/* Search */}
+        <div className="relative flex min-w-0 flex-1">
+          <div className="flex w-full items-center overflow-hidden rounded-lg border-2 border-primary bg-card focus-within:ring-2 focus-within:ring-primary/20">
+            <select
+              className="hidden h-11 shrink-0 cursor-pointer border-r border-border bg-muted/60 px-3 text-xs font-medium text-foreground outline-none md:block"
+              aria-label="Search department"
+            >
               <option>All Departments</option>
-              {categories.map((c) => <option key={c.name}>{c.name}</option>)}
+              {departments.map((d) => (
+                <option key={d.name}>{d.name}</option>
+              ))}
             </select>
-            <Input
+            <input
               type="search"
               placeholder="Search 40,000+ products..."
-              className="h-10 flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0"
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
+              className="h-11 min-w-0 flex-1 bg-transparent px-4 text-sm text-foreground outline-none placeholder:text-muted-foreground"
             />
-            <Button size="sm" className="m-1 h-8 rounded-md bg-primary px-3 text-primary-foreground hover:bg-primary/90">
-              <Search className="h-4 w-4" />
-              <span className="sr-only">Search</span>
-            </Button>
+            <button
+              className="flex h-11 w-12 shrink-0 items-center justify-center bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+              aria-label="Search"
+            >
+              <Search className="h-5 w-5" />
+            </button>
           </div>
         </div>
 
-        <div className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" className="hidden gap-1.5 text-foreground lg:flex">
-            <User className="h-4 w-4" />
-            <span className="text-sm">Account</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="relative text-foreground">
-            <ShoppingCart className="h-5 w-5" />
-            <Badge className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary p-0 text-[10px] text-primary-foreground">0</Badge>
-            <span className="sr-only">Cart</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="text-foreground lg:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            <span className="sr-only">Menu</span>
+        {/* Account + Cart */}
+        <div className="flex shrink-0 items-center gap-1">
+          <a
+            href="#"
+            className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex"
+          >
+            <span className="text-[10px] text-muted-foreground">Hello, sign in</span>
+            <span className="text-sm font-bold leading-tight">Account</span>
+          </a>
+          <a
+            href="#"
+            className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex"
+          >
+            <span className="text-[10px] text-muted-foreground">Returns</span>
+            <span className="text-sm font-bold leading-tight">& Orders</span>
+          </a>
+          <a href="#" className="relative flex items-end gap-1 rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted">
+            <div className="relative">
+              <ShoppingCart className="h-6 w-6" />
+              <Badge className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-accent p-0 text-[10px] font-bold text-accent-foreground">
+                0
+              </Badge>
+            </div>
+            <span className="hidden text-sm font-bold sm:inline">Cart</span>
+          </a>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-foreground lg:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Open menu"
+          >
+            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
       </div>
 
-      {/* Category bar */}
-      <nav className="hidden border-t border-border bg-muted/50 lg:block" aria-label="Main categories">
-        <div className="mx-auto flex max-w-7xl items-center px-4">
-          {categories.slice(0, 8).map((cat) => (
-            <div key={cat.name} className="group relative" onMouseEnter={() => setActiveCategory(cat.name)} onMouseLeave={() => setActiveCategory(null)}>
-              <button className="flex items-center gap-1.5 px-3 py-2.5 text-[13px] font-medium text-foreground/80 transition-colors hover:text-primary">
-                <cat.icon className="h-3.5 w-3.5" />
-                <span className="hidden xl:inline">{cat.name}</span>
-                <ChevronDown className="hidden h-3 w-3 xl:block" />
-              </button>
-              {activeCategory === cat.name && (
-                <div className="absolute left-0 top-full z-50 w-56 rounded-b-lg border border-t-0 border-border bg-card p-3 shadow-lg">
-                  {cat.subcategories.map((sub) => (
-                    <a key={sub} href="#" className="block rounded-md px-3 py-2 text-sm text-card-foreground transition-colors hover:bg-muted hover:text-primary">{sub}</a>
-                  ))}
-                  <div className="mt-2 border-t border-border pt-2">
-                    <a href="#" className="block rounded-md px-3 py-2 text-sm font-medium text-primary">View All {cat.name}</a>
+      {/* Row 2: Category bar -- Amazon-style dark text links */}
+      <nav className="hidden border-t border-border bg-foreground lg:block" aria-label="Departments">
+        <div className="mx-auto flex max-w-[1400px] items-center px-4">
+          {/* All menu trigger */}
+          <div
+            className="relative"
+            onMouseEnter={() => setAllMenuOpen(true)}
+            onMouseLeave={() => setAllMenuOpen(false)}
+          >
+            <button className="flex items-center gap-1.5 py-2 pr-4 text-sm font-bold text-background transition-colors hover:text-primary">
+              <Menu className="h-4 w-4" />
+              All
+            </button>
+            {allMenuOpen && (
+              <div className="absolute left-0 top-full z-50 w-64 rounded-b-lg border border-border bg-card py-2 shadow-xl">
+                {departments.map((dept) => (
+                  <a
+                    key={dept.name}
+                    href="#"
+                    className="flex items-center justify-between px-4 py-2.5 text-sm text-card-foreground transition-colors hover:bg-muted"
+                  >
+                    {dept.name}
+                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Department links */}
+          <div className="flex items-center overflow-x-auto">
+            {departments.slice(0, 8).map((dept) => (
+              <div
+                key={dept.name}
+                className="relative"
+                onMouseEnter={() => handleEnter(dept.name)}
+                onMouseLeave={handleLeave}
+              >
+                <a
+                  href="#"
+                  className="block whitespace-nowrap px-3 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary"
+                >
+                  {dept.name}
+                </a>
+                {/* Mega flyout */}
+                {megaOpen === dept.name && (
+                  <div
+                    className="absolute left-0 top-full z-50 w-[480px] rounded-b-lg border border-border bg-card p-5 shadow-xl"
+                    onMouseEnter={() => handleEnter(dept.name)}
+                    onMouseLeave={handleLeave}
+                  >
+                    <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">{dept.name}</div>
+                    <div className="grid grid-cols-2 gap-x-6 gap-y-1">
+                      {dept.subs.map((sub) => (
+                        <a
+                          key={sub}
+                          href="#"
+                          className="rounded-md px-2 py-1.5 text-sm text-card-foreground transition-colors hover:bg-muted hover:text-primary"
+                        >
+                          {sub}
+                        </a>
+                      ))}
+                    </div>
+                    <div className="mt-4 border-t border-border pt-3">
+                      <a href="#" className="text-sm font-semibold text-primary hover:underline">
+                        Shop All {dept.name} &rarr;
+                      </a>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Right side */}
           <div className="ml-auto flex items-center gap-4">
-            <a href="#" className="text-sm font-semibold text-sale">Clearance</a>
+            <a href="#" className="whitespace-nowrap py-2 text-[13px] font-bold text-accent">
+              Deals & Clearance
+            </a>
+            <a href="#" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">
+              Pro Account
+            </a>
           </div>
         </div>
       </nav>
 
-      {/* Mobile */}
+      {/* Mobile nav */}
       {mobileOpen && (
-        <div className="border-t border-border bg-card lg:hidden">
-          <div className="px-4 py-3">
-            <div className="flex flex-col gap-1">
-              {categories.map((cat) => (
-                <a key={cat.name} href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-card-foreground hover:bg-muted">
-                  <cat.icon className="h-4 w-4 text-primary" />
-                  {cat.name}
+        <div className="max-h-[70vh] overflow-y-auto border-t border-border bg-card lg:hidden">
+          <div className="p-4">
+            <div className="mb-4 flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-3">
+              <Search className="h-4 w-4 text-muted-foreground" />
+              <input
+                type="search"
+                placeholder="Search products..."
+                className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+              />
+            </div>
+            <div className="flex flex-col">
+              {departments.map((dept) => (
+                <a
+                  key={dept.name}
+                  href="#"
+                  className="flex items-center justify-between border-b border-border px-1 py-3 text-sm font-medium text-card-foreground"
+                >
+                  {dept.name}
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
                 </a>
               ))}
-              <div className="my-2 border-t border-border" />
-              <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-sale">Clearance</a>
-              <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-card-foreground hover:bg-muted">
-                <User className="h-4 w-4 text-primary" />Account
+            </div>
+            <div className="mt-4 flex flex-col gap-2">
+              <a href="#" className="rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground">
+                Sign In / Register
+              </a>
+              <a href="#" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-card-foreground">
+                Pro Account
               </a>
             </div>
           </div>
