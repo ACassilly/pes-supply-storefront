@@ -17,6 +17,15 @@ const zones = [
 export function ShippingContent() {
   return (
     <div className="bg-background">
+      {/* Breadcrumb */}
+      <nav className="border-b border-border bg-muted/30 px-4 py-3" aria-label="Breadcrumb">
+        <ol className="mx-auto flex max-w-5xl items-center gap-1.5 text-xs text-muted-foreground">
+          <li><a href="/" className="hover:text-primary">Home</a></li>
+          <li className="text-border">/</li>
+          <li className="font-medium text-foreground">Shipping Policy</li>
+        </ol>
+      </nav>
+
       {/* Hero banner */}
       <section className="border-b border-border bg-muted/30 py-12 md:py-16">
         <div className="mx-auto max-w-5xl px-4">
