@@ -99,14 +99,19 @@ export function Navbar() {
       <div className="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-2 md:gap-5">
         {/* Logo */}
         <a href="/" className="flex shrink-0 items-center gap-2.5">
-          <Image
-            src="/images/pes-logo.png"
-            alt="PES Supply"
-            width={120}
-            height={120}
-            className="h-10 w-auto md:h-12"
-            priority
-          />
+          <div className="flex h-11 items-center rounded-lg bg-foreground px-2 md:h-12 md:px-2.5">
+            <Image
+              src="/images/pes-logo.png"
+              alt="PES Supply"
+              width={120}
+              height={120}
+              className="h-8 w-auto brightness-0 invert md:h-9"
+              priority
+            />
+          </div>
+          <div className="hidden min-[480px]:block">
+            <span className="block text-[10px] font-medium leading-tight text-muted-foreground">A PES Global Company</span>
+          </div>
         </a>
 
         {/* Search */}
