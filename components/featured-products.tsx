@@ -115,18 +115,18 @@ const products = [
   },
   {
     id: 8,
-    name: "Milwaukee M18 FUEL Impact Driver Kit",
+    name: "IronRidge XR100 Racking Rail 14ft",
     category: "tools",
-    price: 249.00,
-    originalPrice: 329.00,
+    price: 78.50,
+    originalPrice: 99.00,
     pricePerWatt: null,
     rating: 4.9,
-    reviews: 1204,
-    image: "/images/product-tools.jpg",
-    badge: "Pro Choice",
+    reviews: 614,
+    image: "/images/cat-racking.jpg",
+    badge: "Staple",
     inStock: true,
     freeShipping: true,
-    specs: ["M18", "2000 in-lbs", "Brushless", "Kit"],
+    specs: ["14ft", "Aluminum", "XR100", "UL 2703"],
   },
 ]
 
@@ -137,7 +137,7 @@ const tabs = [
   { value: "batteries", label: "Batteries" },
   { value: "generators", label: "Generators" },
   { value: "ev", label: "EV Charging" },
-  { value: "tools", label: "Tools" },
+  { value: "tools", label: "Racking & BOS" },
 ]
 
 export function FeaturedProducts() {

@@ -12,8 +12,8 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'VoltMax Supply | Solar Panels, Generators, Electrical Equipment & More',
-  description: 'America\'s trusted source for solar panels, inverters, batteries, generators, electrical supplies, and industrial equipment. Wholesale pricing, fast shipping, and expert support.',
+  title: 'PES.supply | Job-Ready Electrical & Solar Supply',
+  description: 'Panels, racking, switchgear, wire, and more — in stock and ready to ship. From service parts to solar kits, get the exact materials you need without overbuying.',
   generator: 'v0.app',
   icons: {
     icon: [

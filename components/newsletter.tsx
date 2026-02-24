@@ -8,10 +8,10 @@ export function Newsletter() {
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-12 text-center md:flex-row md:text-left">
         <div className="flex-1">
           <h2 className="mb-1 text-xl font-bold text-primary-foreground">
-            Stay Connected with Industry Updates
+            Stay in the Loop with PES.supply
           </h2>
           <p className="text-sm text-primary-foreground/70 leading-relaxed">
-            Weekly updates on new products, market trends, flash sales, and industry insights.
+            New inventory drops, flash sales, and project resources — straight to your inbox.
           </p>
         </div>
         <form className="flex w-full max-w-md gap-2">

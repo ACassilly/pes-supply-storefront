@@ -4,30 +4,36 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, ArrowRight, CheckCircle2 } from "lucide-react"
 
 const slides = [
   {
-    tag: "Most Popular",
-    title: "Complete 10kW Solar System",
-    subtitle: "Everything you need to go solar",
-    price: "$9,999",
-    originalPrice: "$12,999",
-    savings: "Save $3,000",
-    description: "Tier 1 panels up to 800W, hybrid inverter, racking, and nationwide freight included.",
-    cta: "View Complete System",
+    tag: "Solar & Electrical Supply",
+    title: "JOB-READY ELECTRICAL & SOLAR SUPPLY",
+    subtitle: "Right-sized power, delivered.",
+    description: "Panels, racking, switchgear, wire, and more — in stock and ready to ship. From service parts to solar kits, get the exact materials you need without overbuying.",
+    cta: "BROWSE INVENTORY",
+    secondaryCta: "START A PROJECT CART",
     image: "/images/hero-solar.jpg",
+    bullets: [
+      "Tier-1 solar and trusted electrical brands in one warehouse",
+      "Singles, cases, and bulk options for every project size",
+      "Fast LTL and parcel shipping direct to shop or jobsite",
+    ],
   },
   {
-    tag: "Tier 1 Certified",
-    title: "Solar Panels from $0.23/W",
-    subtitle: "BloombergNEF verified modules",
-    price: "From $0.23/W",
-    originalPrice: "$0.31/W",
-    savings: "26% OFF",
-    description: "Modules up to 800W from trusted Tier 1 manufacturers. Volume pricing available.",
-    cta: "Shop Solar Panels",
+    tag: "Multi-Category Supply",
+    title: "EVERYTHING ELECTRICAL, FROM SERVICE CALLS TO SOLAR",
+    subtitle: "Mix-and-match from a single cart.",
+    description: "Solar panels, racking, gear, and wiring — shipped jobsite ready. Order the exact count, in-stock racking, and BOS without overbuying.",
+    cta: "SHOP SOLAR & ELECTRICAL",
+    secondaryCta: "GET A CUSTOM QUOTE",
     image: "/images/hero-commercial.jpg",
+    bullets: [
+      "Tier-1 modules and bankable brands in U.S. warehouses",
+      "Singles, partial pallets, and full pallets available for most lines",
+      "Fast LTL and freight shipping direct to shop or jobsite",
+    ],
   },
 ]
 
@@ -37,7 +43,7 @@ export function HeroBanner() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length)
-    }, 6000)
+    }, 7000)
     return () => clearInterval(timer)
   }, [])
 
@@ -45,40 +51,46 @@ export function HeroBanner() {
 
   return (
     <section className="relative overflow-hidden bg-foreground" aria-label="Featured promotions">
-      <div className="relative min-h-[420px] md:min-h-[480px]">
+      <div className="relative min-h-[480px] md:min-h-[520px]">
         {/* Background image */}
         <Image
           src={slide.image}
           alt=""
           fill
-          className="object-cover opacity-40"
+          className="object-cover opacity-35"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/60 to-transparent" />
 
         {/* Content */}
         <div className="relative mx-auto flex max-w-7xl items-center px-4 py-16 md:py-20">
-          <div className="max-w-xl">
+          <div className="max-w-2xl">
             <Badge className="mb-4 border-primary/30 bg-primary/20 text-primary-foreground font-semibold">
               {slide.tag}
             </Badge>
-            <h1 className="mb-2 text-pretty text-3xl font-bold tracking-tight text-background md:text-5xl">
+            <h1 className="mb-3 text-pretty text-3xl font-bold tracking-tight text-background md:text-5xl">
               {slide.title}
             </h1>
-            <p className="mb-4 text-lg text-background/70">{slide.subtitle}</p>
-            <div className="mb-4 flex items-baseline gap-3">
-              <span className="text-3xl font-bold text-primary md:text-4xl">{slide.price}</span>
-              <span className="text-lg text-background/50 line-through">{slide.originalPrice}</span>
-              <Badge className="bg-sale text-sale-foreground">{slide.savings}</Badge>
-            </div>
-            <p className="mb-6 text-sm text-background/60 leading-relaxed">{slide.description}</p>
+            <p className="mb-3 text-lg font-medium text-background/80">{slide.subtitle}</p>
+            <p className="mb-5 max-w-lg text-sm text-background/60 leading-relaxed">{slide.description}</p>
+
+            {/* Support bullets */}
+            <ul className="mb-6 flex flex-col gap-2">
+              {slide.bullets.map((bullet) => (
+                <li key={bullet} className="flex items-center gap-2 text-sm text-background/70">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+
             <div className="flex flex-wrap gap-3">
               <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2">
                 {slide.cta}
                 <ArrowRight className="h-4 w-4" />
               </Button>
               <Button size="lg" variant="outline" className="border-background/30 bg-transparent text-background hover:bg-background/10 hover:text-background">
-                Get a Custom Quote
+                {slide.secondaryCta}
               </Button>
             </div>
           </div>

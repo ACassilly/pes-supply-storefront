@@ -5,22 +5,22 @@ const benefits = [
   {
     icon: DollarSign,
     title: "Contractor Pricing",
-    description: "Exclusive rates and volume discounts",
+    description: "Exclusive rates and volume discounts on every order",
   },
   {
     icon: Zap,
-    title: "Priority Lead Access",
-    description: "First access to qualified project leads",
+    title: "Priority Stock Access",
+    description: "First access to new inventory and pre-order releases",
   },
   {
     icon: FileText,
     title: "Expedited Processing",
-    description: "Same-day order processing and shipping",
+    description: "Same-day order processing and priority shipping",
   },
   {
     icon: Headphones,
-    title: "Technical Resources",
-    description: "Engineering support and documentation",
+    title: "Global Sales Support",
+    description: "U.S. warehouse team + dedicated India-based sales office",
   },
 ]
 
@@ -35,11 +35,11 @@ export function ProMembership() {
               Pro Network
             </span>
             <h2 className="mb-2 text-2xl font-bold text-card-foreground">
-              PowerLink Pro Membership
+              PES Pro Account
             </h2>
             <p className="mb-6 text-sm text-muted-foreground leading-relaxed">
               Premium benefits and exclusive access for established solar contractors and
-              electrical professionals.
+              electrical professionals. Extended-hour coverage through our global sales team.
             </p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {benefits.map((benefit) => (
@@ -58,7 +58,7 @@ export function ProMembership() {
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Button className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-                Apply for Pro Membership
+                Apply for Pro Account
                 <ArrowRight className="h-4 w-4" />
               </Button>
               <span className="text-xs text-muted-foreground">
@@ -70,22 +70,28 @@ export function ProMembership() {
           {/* Right - Quote form */}
           <div className="border-t border-border bg-muted/50 p-6 lg:w-96 lg:border-l lg:border-t-0 lg:p-10">
             <h3 className="mb-1 text-lg font-semibold text-foreground">
-              Get Your Custom Quote
+              Build a Project Cart
             </h3>
             <p className="mb-4 text-xs text-muted-foreground leading-relaxed">
-              Submit your details for a comprehensive solar system quote.
+              Tell us about your project and we&apos;ll put together a right-sized BOM with pricing.
             </p>
             <form className="flex flex-col gap-3">
               <input
                 type="text"
-                placeholder="Property Address"
+                placeholder="Project Address / Jobsite"
                 className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-card-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
-              <input
-                type="text"
-                placeholder="Average Monthly Electric Bill"
-                className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-card-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-              />
+              <select
+                className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-card-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                aria-label="Project type"
+              >
+                <option value="">Project Type</option>
+                <option value="residential-solar">Residential Solar</option>
+                <option value="commercial-solar">Commercial Solar</option>
+                <option value="electrical-service">Electrical Service</option>
+                <option value="ev-charging">EV Charging Install</option>
+                <option value="other">Other</option>
+              </select>
               <input
                 type="text"
                 placeholder="Contact Name"
@@ -97,10 +103,10 @@ export function ProMembership() {
                 className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-card-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
               <Button type="button" className="mt-1 w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                Get My Custom Solar Quote
+                Get My Project Quote
               </Button>
               <p className="text-[10px] text-muted-foreground text-center leading-relaxed">
-                Detailed quote with equipment specs and pricing within 24 hours
+                Detailed BOM with equipment specs and pricing within 24 hours
               </p>
             </form>
           </div>

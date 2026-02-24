@@ -3,22 +3,22 @@ const brands = [
   "LONGi",
   "Canadian Solar",
   "Q Cells",
+  "Trina Solar",
   "Enphase",
   "Sol-Ark",
   "SolarEdge",
-  "Generac",
-  "Schneider Electric",
-  "Eaton",
   "EG4",
-  "Fortress Power",
   "IronRidge",
-  "Panasonic",
-  "Trina Solar",
-  "Hyundai",
-  "REC Solar",
-  "GoodWe",
-  "Milwaukee",
-  "Fronius",
+  "Unirac",
+  "SnapNrack",
+  "Generac",
+  "Eaton",
+  "Schneider Electric",
+  "Square D",
+  "Siemens",
+  "Leviton",
+  "Southwire",
+  "ChargePoint",
 ]
 
 export function BrandPartners() {
@@ -26,9 +26,9 @@ export function BrandPartners() {
     <section className="border-y border-border bg-card" aria-label="Brand partners">
       <div className="mx-auto max-w-7xl px-4 py-10">
         <div className="mb-6 text-center">
-          <h2 className="text-lg font-bold text-foreground">Trusted Brand Partners</h2>
+          <h2 className="text-lg font-bold text-foreground">Bankable Brands, One Warehouse</h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            229 manufacturers and 3,800+ quality products in stock
+            Tier-1 solar and trusted electrical manufacturers in stock and ready to ship
           </p>
         </div>
         <div className="overflow-hidden">

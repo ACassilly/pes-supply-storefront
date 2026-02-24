@@ -80,10 +80,10 @@ export function Navbar() {
           </div>
           <div className="hidden sm:block">
             <span className="text-lg font-bold tracking-tight text-foreground">
-              Volt<span className="text-primary">Max</span>
+              PES<span className="text-primary">.supply</span>
             </span>
             <span className="block text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
-              Supply Co.
+              Electrical & Solar
             </span>
           </div>
         </a>
@@ -103,7 +103,7 @@ export function Navbar() {
             </select>
             <Input
               type="search"
-              placeholder="Search solar panels, inverters, batteries..."
+              placeholder="Search panels, inverters, wire, switchgear..."
               className="h-10 flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}

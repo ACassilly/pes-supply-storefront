@@ -4,33 +4,33 @@ import { ArrowRight } from "lucide-react"
 const categories = [
   {
     name: "Solar Panels",
-    description: "Tier 1 modules up to 800W",
+    description: "Tier-1 modules, singles to full pallets",
     image: "/images/product-solar-panel.jpg",
     badge: "From $0.23/W",
   },
   {
     name: "Inverters",
-    description: "Hybrid, grid-tie & off-grid",
+    description: "Hybrid, grid-tie & micro inverters",
     image: "/images/product-inverter.jpg",
     badge: "Top Brands",
   },
   {
     name: "Batteries & ESS",
-    description: "Lithium, AGM & gel deep cycle",
+    description: "LiFePO4, AGM & wall-mount units",
     image: "/images/product-battery.jpg",
     badge: "In Stock",
   },
   {
     name: "Generators",
-    description: "Standby & portable units",
+    description: "Standby & portable power",
     image: "/images/product-generator.jpg",
     badge: "From $1,995",
   },
   {
-    name: "Tools & Hardware",
-    description: "Power tools, fasteners & more",
+    name: "Wire & Cable",
+    description: "THWN, PV wire, USE-2 & more",
     image: "/images/product-tools.jpg",
-    badge: "New Arrivals",
+    badge: "By the Foot",
   },
   {
     name: "EV Charging",
@@ -39,14 +39,14 @@ const categories = [
     badge: "Hot",
   },
   {
-    name: "Racking & Mounting",
-    description: "Roof & ground mount systems",
+    name: "Racking & BOS",
+    description: "Roof, ground mount & balance of system",
     image: "/images/cat-racking.jpg",
     badge: "Best Sellers",
   },
   {
-    name: "Electrical Supplies",
-    description: "Breakers, wire, conduit & more",
+    name: "Switchgear & Electrical",
+    description: "Breakers, panels, conduit, disconnects",
     image: "/images/cat-electrical.jpg",
     badge: "200+ SKUs",
   },
@@ -59,7 +59,7 @@ export function CategoryGrid() {
         <div>
           <h2 className="text-2xl font-bold text-foreground">Shop by Category</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Quality equipment from trusted manufacturers
+            Bankable brands, in-stock and ready to ship
           </p>
         </div>
         <a href="#" className="hidden items-center gap-1 text-sm font-medium text-primary hover:underline md:flex">

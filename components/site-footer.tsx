@@ -9,9 +9,9 @@ const footerLinks = [
       "Batteries & ESS",
       "Generators",
       "EV Charging",
-      "Electrical Supplies",
-      "Tools & Hardware",
-      "Racking & Mounting",
+      "Switchgear & Electrical",
+      "Wire & Cable",
+      "Racking & BOS",
     ],
   },
   {
@@ -19,10 +19,10 @@ const footerLinks = [
     links: [
       "Residential Solar",
       "Commercial Projects",
-      "Off-Grid Systems",
+      "Electrical Contractors",
       "Solar Kits",
       "System Design",
-      "Bulk Orders",
+      "Bulk & Pallet Orders",
     ],
   },
   {
@@ -39,12 +39,12 @@ const footerLinks = [
   {
     title: "Company",
     links: [
-      "About VoltMax",
+      "About PES.supply",
       "Careers",
       "Press",
       "Contact Us",
       "Support",
-      "Pro Network",
+      "Pro Account",
     ],
   },
 ]
@@ -62,26 +62,26 @@ export function SiteFooter() {
               </div>
               <div>
                 <span className="text-lg font-bold text-background">
-                  Volt<span className="text-primary">Max</span>
+                  PES<span className="text-primary">.supply</span>
                 </span>
                 <span className="block text-[10px] font-medium uppercase tracking-widest text-background/50">
-                  Supply Co.
+                  Electrical & Solar
                 </span>
               </div>
             </a>
             <p className="mb-4 max-w-xs text-sm text-background/50 leading-relaxed">
-              America&apos;s trusted source for solar panels, electrical equipment, generators,
-              and industrial supplies. Wholesale pricing with expert support.
+              Panels, racking, switchgear, wire, and more — in stock and ready to ship.
+              From service parts to solar kits, right-sized for every project.
             </p>
             <div className="flex flex-col gap-2 text-xs text-background/50">
               <a href="tel:8888760007" className="flex items-center gap-2 hover:text-primary">
                 <Phone className="h-3.5 w-3.5" /> (888) 876-0007
               </a>
-              <a href="mailto:support@voltmax.supply" className="flex items-center gap-2 hover:text-primary">
-                <Mail className="h-3.5 w-3.5" /> support@voltmax.supply
+              <a href="mailto:sales@pes.supply" className="flex items-center gap-2 hover:text-primary">
+                <Mail className="h-3.5 w-3.5" /> sales@pes.supply
               </a>
               <span className="flex items-center gap-2">
-                <MapPin className="h-3.5 w-3.5" /> 12+ Distribution Centers
+                <MapPin className="h-3.5 w-3.5" /> U.S. Warehouses + Global Sales Office
               </span>
             </div>
           </div>
@@ -109,7 +109,7 @@ export function SiteFooter() {
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-background/10 pt-6 md:flex-row">
           <p className="text-xs text-background/40">
-            &copy; 2026 VoltMax Supply Co. All rights reserved.
+            &copy; 2026 PES.supply. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-4 text-xs text-background/40">
             <a href="#" className="hover:text-background">Privacy Policy</a>

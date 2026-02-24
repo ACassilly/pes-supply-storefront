@@ -29,7 +29,7 @@ function useCountdown(targetDate: Date) {
 }
 
 export function DealsBanner() {
-  const endDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) // 3 days from now
+  const endDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
   const { days, hours, minutes, seconds } = useCountdown(endDate)
 
   return (
@@ -43,11 +43,11 @@ export function DealsBanner() {
             </span>
           </div>
           <h2 className="mb-2 text-pretty text-2xl font-bold text-background md:text-3xl">
-            Spring Power Event
+            Right-Sized Solar Starts Here
           </h2>
           <p className="text-sm text-background/60 leading-relaxed">
-            Save up to 40% on solar panels, inverters, and complete systems. Professional
-            installation support included.
+            Save up to 40% on panels, racking, and BOS. Order the exact count you
+            need — singles, partial pallets, or full pallets. Shipped jobsite ready.
           </p>
         </div>
 

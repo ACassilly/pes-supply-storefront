@@ -7,16 +7,16 @@ const reviews = [
     company: "Pacific Solar Engineering",
     stat: "15+ MW Commercial Installations",
     quote:
-      "VoltMax has been our primary supplier for commercial solar projects throughout the Pacific Northwest. Their technical support and consistent product availability have been instrumental in completing our installations this year.",
+      "PES.supply has been our go-to for commercial solar projects throughout the Pacific Northwest. Being able to order the exact panel count without overbuying, plus their consistent stock on racking and BOS, keeps our projects on schedule.",
     rating: 5,
   },
   {
     name: "Sarah Martinez",
-    location: "Portland, OR",
-    company: "Northwest Solar Solutions",
+    location: "Austin, TX",
+    company: "Lone Star Solar Solutions",
     stat: "500+ Residential Installations",
     quote:
-      "We've partnered with VoltMax for over 4 years on residential solar installations. Their inventory management and same-day shipping help us maintain project schedules and customer satisfaction.",
+      "We switched to PES.supply for the flexibility — singles, partial pallets, full pallets, all from one cart. Their global sales team is responsive and the shipping is fast. It just works for our volume.",
     rating: 5,
   },
   {
@@ -25,7 +25,7 @@ const reviews = [
     company: "Green Energy Development",
     stat: "2.8MW Municipal Solar Project",
     quote:
-      "Their engineering team provided critical support during the permitting process for our municipal solar project. The technical documentation and compliance assistance made the difference in meeting our timeline.",
+      "From wire and switchgear to Tier-1 panels, PES.supply handles our full BOM in a single order. Their project cart tool and custom quoting saved us weeks on our municipal build.",
     rating: 5,
   },
 ]
@@ -37,7 +37,7 @@ export function Testimonials() {
         <div className="mb-8 text-center">
           <h2 className="text-2xl font-bold text-foreground">Trusted by Contractors Nationwide</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Real feedback from professionals who build with our equipment
+            Real feedback from professionals who build with PES.supply equipment
           </p>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

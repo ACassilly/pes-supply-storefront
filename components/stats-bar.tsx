@@ -1,16 +1,16 @@
-import { Package, MapPin, Users, Truck, ShieldCheck, Award } from "lucide-react"
+import { Package, Warehouse, Users, Truck, ShieldCheck, Award } from "lucide-react"
 
 const stats = [
   { icon: Package, value: "3,800+", label: "SKUs In Stock" },
-  { icon: MapPin, value: "12+", label: "Distribution Hubs" },
-  { icon: Users, value: "8,500+", label: "Contractors Nationwide" },
-  { icon: Truck, value: "1-3 Days", label: "Delivery Nationwide" },
+  { icon: Warehouse, value: "U.S.", label: "Warehouse Network" },
+  { icon: Users, value: "8,500+", label: "Contractors Served" },
+  { icon: Truck, value: "Fast", label: "LTL & Parcel Ship" },
 ]
 
 const certifications = [
   { icon: ShieldCheck, label: "BABA Compliant" },
   { icon: Award, label: "NABCEP Certified" },
-  { icon: Truck, label: "Nationwide Delivery" },
+  { icon: Truck, label: "Jobsite Delivery" },
   { icon: ShieldCheck, label: "UL Listed" },
 ]
 

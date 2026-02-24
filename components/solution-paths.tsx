@@ -5,33 +5,33 @@ import { Button } from "@/components/ui/button"
 const solutions = [
   {
     icon: Home,
-    title: "Residential Systems",
+    title: "Residential Installers",
     description:
-      "Complete solar kits and components for homeowners and residential installers.",
-    cta: "Explore Residential",
+      "Mix-and-match panels, racking, and BOS for any residential project. Singles and partial pallets available.",
+    cta: "Shop Residential",
     image: "/images/hero-solar.jpg",
   },
   {
     icon: Building2,
     title: "Commercial Projects",
     description:
-      "Bulk pricing and technical support for commercial and utility-scale installations.",
+      "Bulk pricing and tech support for commercial and utility-scale installations. Talk to our global sales team.",
     cta: "Get Commercial Quote",
     image: "/images/hero-commercial.jpg",
   },
   {
     icon: HardHat,
-    title: "Installer Network",
+    title: "Electrical Contractors",
     description:
-      "Join PowerLink for contractor pricing, leads, and technical resources.",
-    cta: "Join Pro Network",
-    image: "/images/product-tools.jpg",
+      "Service parts, switchgear, wire, and conduit for everyday electrical work. In-stock and same-day ship.",
+    cta: "Shop Electrical",
+    image: "/images/cat-electrical.jpg",
   },
   {
     icon: Container,
-    title: "Bulk & Container",
+    title: "Bulk & Pallet Orders",
     description:
-      "Pallet and container pricing for large projects and inventory stocking.",
+      "From one pallet to full truckloads, get solar gear and electrical materials you need without overbuying.",
     cta: "View Bulk Pricing",
     image: "/images/cat-racking.jpg",
   },
@@ -42,9 +42,9 @@ export function SolutionPaths() {
     <section className="bg-muted/50" aria-label="Solution paths">
       <div className="mx-auto max-w-7xl px-4 py-12">
         <div className="mb-8 text-center">
-          <h2 className="text-2xl font-bold text-foreground">Choose Your Solution Path</h2>
+          <h2 className="text-2xl font-bold text-foreground">Built for Every Project Size</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Solar and electrical solutions for every application
+            From service calls to solar farms, PES.supply has you covered
           </p>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
