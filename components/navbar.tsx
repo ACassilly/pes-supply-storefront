@@ -13,7 +13,6 @@ import {
   Sun,
   Wrench,
   Lightbulb,
-  HardHat,
   Droplets,
   Thermometer,
   Package,
@@ -52,7 +51,7 @@ const categories = [
     ],
   },
   {
-    name: "Tools",
+    name: "Tools & Equipment",
     icon: Wrench,
     subcategories: [
       "Power Tools",
@@ -112,7 +111,7 @@ const categories = [
     ],
   },
   {
-    name: "Safety & Workwear",
+    name: "Safety & PPE",
     icon: ShieldCheck,
     subcategories: [
       "Hard Hats",
@@ -126,13 +125,7 @@ const categories = [
   {
     name: "Generators",
     icon: PlugZap,
-    subcategories: [
-      "Standby",
-      "Portable",
-      "Dual Fuel",
-      "Commercial",
-      "Parts & Accessories",
-    ],
+    subcategories: ["Standby", "Portable", "Dual Fuel", "Commercial", "Parts"],
   },
   {
     name: "EV Charging",
@@ -153,9 +146,8 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-navbar text-navbar-foreground shadow-sm">
-      {/* Main nav row */}
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-2.5">
-        {/* Real PES Logo */}
+      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-2">
+        {/* Logo */}
         <a href="/" className="flex shrink-0 items-center gap-2.5">
           <Image
             src="/images/pes-logo.png"
@@ -167,10 +159,10 @@ export function Navbar() {
           />
           <div className="hidden sm:block">
             <span className="text-[15px] font-bold leading-tight tracking-tight text-foreground">
-              Portlandia Electric
+              PES Supply
             </span>
-            <span className="block text-[10px] font-semibold uppercase tracking-widest text-primary">
-              Supply
+            <span className="block text-[10px] font-medium text-muted-foreground">
+              Portlandia Electric Supply
             </span>
           </div>
         </a>
@@ -195,7 +187,7 @@ export function Navbar() {
             </select>
             <Input
               type="search"
-              placeholder="Search 40,000+ products, brands, part numbers..."
+              placeholder="Search 40,000+ products..."
               className="h-10 flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
@@ -223,9 +215,9 @@ export function Navbar() {
           <Button variant="ghost" size="sm" className="relative text-foreground">
             <ShoppingCart className="h-5 w-5" />
             <Badge className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary p-0 text-[10px] text-primary-foreground">
-              3
+              0
             </Badge>
-            <span className="sr-only">Shopping cart, 3 items</span>
+            <span className="sr-only">Cart</span>
           </Button>
           <Button
             variant="ghost"
@@ -233,21 +225,14 @@ export function Navbar() {
             className="text-foreground lg:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {mobileOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             <span className="sr-only">Menu</span>
           </Button>
         </div>
       </div>
 
-      {/* Category bar (desktop) */}
-      <nav
-        className="hidden border-t border-border bg-muted/50 lg:block"
-        aria-label="Main categories"
-      >
+      {/* Category bar */}
+      <nav className="hidden border-t border-border bg-muted/50 lg:block" aria-label="Main categories">
         <div className="mx-auto flex max-w-7xl items-center px-4">
           {categories.slice(0, 8).map((cat) => (
             <div
@@ -273,10 +258,7 @@ export function Navbar() {
                     </a>
                   ))}
                   <div className="mt-2 border-t border-border pt-2">
-                    <a
-                      href="#"
-                      className="block rounded-md px-3 py-2 text-sm font-medium text-primary"
-                    >
+                    <a href="#" className="block rounded-md px-3 py-2 text-sm font-medium text-primary">
                       View All {cat.name}
                     </a>
                   </div>
@@ -285,25 +267,16 @@ export function Navbar() {
             </div>
           ))}
           <div className="ml-auto flex items-center gap-4">
-            <a
-              href="#"
-              className="flex items-center gap-1.5 text-sm font-semibold text-sale"
-            >
-              <HardHat className="h-4 w-4" />
-              Deals
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-1.5 text-sm font-medium text-foreground/80 hover:text-primary"
-            >
-              <Package className="h-4 w-4" />
-              Bulk Pricing
+            <a href="#" className="text-sm font-semibold text-sale">Clearance</a>
+            <a href="#" className="text-sm font-medium text-foreground/80 hover:text-primary">
+              <Package className="mr-1 inline h-4 w-4" />
+              Bulk
             </a>
           </div>
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile */}
       {mobileOpen && (
         <div className="border-t border-border bg-card lg:hidden">
           <div className="px-4 py-3">
@@ -319,17 +292,10 @@ export function Navbar() {
                 </a>
               ))}
               <div className="my-2 border-t border-border" />
-              <a
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sale"
-              >
-                <HardHat className="h-4 w-4" />
-                Deals
+              <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-sale">
+                Clearance
               </a>
-              <a
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-card-foreground hover:bg-muted"
-              >
+              <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-card-foreground hover:bg-muted">
                 <User className="h-4 w-4 text-primary" />
                 Account
               </a>

@@ -12,8 +12,8 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Portlandia Electric Supply | 40,000+ Products In Stock',
-  description: 'Lighting, electrical, solar, tools, HVAC, plumbing, and more. 40,000+ products from trusted brands, in stock and ready to ship to your jobsite or shop.',
+  title: 'PES Supply | 40,000+ Products In Stock | A PES Global Company',
+  description: 'PES Supply (Portlandia Electric Supply) -- the distribution arm of PES Global. 40,000+ products across lighting, electrical, solar, tools, HVAC, plumbing, and more. In stock and ready to ship.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-background">
       <body className={`${_inter.variable} ${_geistMono.variable} font-sans antialiased`}>
         {children}
         <Analytics />

@@ -12,40 +12,40 @@ const footerLinks = [
       "Plumbing",
       "Hardware & Fasteners",
       "Building Materials",
-      "Safety & Workwear",
+      "Safety & PPE",
     ],
   },
   {
-    title: "Solutions",
+    title: "For Professionals",
     links: [
-      "Contractors & Trades",
-      "Commercial Projects",
-      "Property Managers",
-      "Solar Installers",
-      "System Design Help",
-      "Bulk & Pallet Orders",
+      "Pro Account",
+      "Net-30 Terms",
+      "Bulk & Pallet Pricing",
+      "Project Quotes",
+      "Commercial Sales",
+      "Government & BABA",
     ],
   },
   {
     title: "Resources",
     links: [
+      "Spec Sheets & Data",
       "Installation Guides",
-      "Product Datasheets",
-      "Compliance Docs",
       "Warranty Info",
-      "Financing Options",
-      "Blog & News",
+      "Return Policy",
+      "Shipping & Delivery",
+      "Blog",
     ],
   },
   {
     title: "Company",
     links: [
-      "About Us",
+      "About PES Supply",
+      "PES Global",
       "Careers",
-      "Press",
-      "Contact Us",
+      "Contact",
       "Support",
-      "Pro Account",
+      "Press",
     ],
   },
 ]
@@ -60,45 +60,36 @@ export function SiteFooter() {
             <a href="/" className="mb-4 flex items-center gap-3">
               <Image
                 src="/images/pes-logo.png"
-                alt="Portlandia Electric Supply"
+                alt="PES Supply"
                 width={44}
                 height={44}
                 className="h-11 w-11 rounded-lg object-cover"
               />
               <div>
                 <span className="text-[15px] font-bold leading-tight text-background">
-                  Portlandia Electric
+                  PES Supply
                 </span>
-                <span className="block text-[10px] font-semibold uppercase tracking-widest text-primary">
-                  Supply
+                <span className="block text-[10px] font-medium text-background/50">
+                  A PES Global Company
                 </span>
               </div>
             </a>
-            <p className="mb-3 max-w-xs text-sm text-background/50 leading-relaxed">
+            <p className="mb-4 max-w-xs text-sm text-background/50 leading-relaxed">
               40,000+ products across lighting, electrical, solar, tools, HVAC,
-              plumbing, and more. In stock and ready to ship from our U.S.
-              warehouses.
+              plumbing, and more. In stock and shipping from U.S. warehouses.
             </p>
-            <div className="mb-4 flex gap-3">
-              <div className="rounded-md border border-background/10 px-2.5 py-1.5">
-                <div className="text-sm font-bold text-background">40K+</div>
-                <div className="text-[9px] text-background/40">Products</div>
-              </div>
-              <div className="rounded-md border border-background/10 px-2.5 py-1.5">
-                <div className="text-sm font-bold text-background">4.9/5</div>
-                <div className="text-[9px] text-background/40">Rating</div>
-              </div>
-              <div className="rounded-md border border-background/10 px-2.5 py-1.5">
-                <div className="text-sm font-bold text-background">2,400+</div>
-                <div className="text-[9px] text-background/40">Reviews</div>
-              </div>
-            </div>
             <div className="flex flex-col gap-2 text-xs text-background/50">
-              <a href="tel:8888760007" className="flex items-center gap-2 hover:text-primary">
+              <a
+                href="tel:8888760007"
+                className="flex items-center gap-2 hover:text-primary"
+              >
                 <Phone className="h-3.5 w-3.5" /> (888) 876-0007
               </a>
-              <a href="mailto:sales@portlandiaelectric.com" className="flex items-center gap-2 hover:text-primary">
-                <Mail className="h-3.5 w-3.5" /> sales@portlandiaelectric.com
+              <a
+                href="mailto:sales@pes.supply"
+                className="flex items-center gap-2 hover:text-primary"
+              >
+                <Mail className="h-3.5 w-3.5" /> sales@pes.supply
               </a>
               <span className="flex items-center gap-2">
                 <MapPin className="h-3.5 w-3.5" /> Portland, OR
@@ -109,7 +100,9 @@ export function SiteFooter() {
           {/* Link columns */}
           {footerLinks.map((col) => (
             <div key={col.title}>
-              <h3 className="mb-3 text-sm font-semibold text-background">{col.title}</h3>
+              <h3 className="mb-3 text-sm font-semibold text-background">
+                {col.title}
+              </h3>
               <ul className="flex flex-col gap-2">
                 {col.links.map((link) => (
                   <li key={link}>
@@ -126,16 +119,26 @@ export function SiteFooter() {
           ))}
         </div>
 
-        {/* Bottom bar */}
+        {/* Bottom */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-background/10 pt-6 md:flex-row">
-          <p className="text-xs text-background/40">
-            &copy; 2026 Portlandia Electric Supply. All rights reserved.
-          </p>
+          <div className="flex flex-col gap-1 text-xs text-background/40">
+            <span>
+              &copy; 2026 Portlandia Electric Supply, Inc. All rights reserved.
+            </span>
+            <span>
+              PES Supply is a division of{" "}
+              <a href="#" className="font-semibold text-background/60 hover:text-primary">
+                PES Global
+              </a>
+              .
+            </span>
+          </div>
           <div className="flex flex-wrap gap-4 text-xs text-background/40">
-            <a href="#" className="hover:text-background">Privacy Policy</a>
-            <a href="#" className="hover:text-background">Terms of Service</a>
-            <a href="#" className="hover:text-background">Return Policy</a>
-            <a href="#" className="hover:text-background">Shipping Info</a>
+            <a href="#" className="hover:text-background">Privacy</a>
+            <a href="#" className="hover:text-background">Terms</a>
+            <a href="#" className="hover:text-background">Returns</a>
+            <a href="#" className="hover:text-background">Shipping</a>
+            <a href="#" className="hover:text-background">Accessibility</a>
           </div>
         </div>
       </div>
