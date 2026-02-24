@@ -54,6 +54,7 @@ export function HeroBanner() {
             fill
             className="object-cover opacity-30"
             priority
+            loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/60" />
 
