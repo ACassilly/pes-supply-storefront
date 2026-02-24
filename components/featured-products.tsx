@@ -174,11 +174,12 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-all hover:border-primary/30 hover:shadow-lg">
-      <div className="relative aspect-square overflow-hidden bg-muted">
+      <div className="relative aspect-square w-full overflow-hidden bg-muted">
         <Image
           src={product.image}
           alt={product.name}
           fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <Badge className="absolute left-2 top-2 bg-primary text-primary-foreground text-[10px]">
