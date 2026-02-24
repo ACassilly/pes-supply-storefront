@@ -57,22 +57,14 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-6">
           {/* Brand */}
           <div className="col-span-2">
-            <a href="/" className="mb-4 flex items-center gap-3">
+            <a href="/" className="mb-4 inline-block">
               <Image
-                src="/images/pes-logo.jpg"
+                src="/images/pes-logo.png"
                 alt="PES Supply"
-                width={44}
-                height={44}
-                className="h-11 w-11 rounded-lg object-cover"
+                width={100}
+                height={100}
+                className="h-14 w-auto brightness-0 invert"
               />
-              <div>
-                <span className="text-[15px] font-bold leading-tight text-background">
-                  PES Supply
-                </span>
-                <span className="block text-[10px] font-medium text-background/50">
-                  A PES Global Company
-                </span>
-              </div>
             </a>
             <p className="mb-4 max-w-xs text-sm text-background/50 leading-relaxed">
               40,000+ products across lighting, electrical, solar, tools, HVAC,

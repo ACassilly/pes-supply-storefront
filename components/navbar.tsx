@@ -100,17 +100,13 @@ export function Navbar() {
         {/* Logo */}
         <a href="/" className="flex shrink-0 items-center gap-2.5">
           <Image
-            src="/images/pes-logo.jpg"
+            src="/images/pes-logo.png"
             alt="PES Supply"
-            width={48}
-            height={48}
-            className="h-11 w-11 rounded-lg object-cover md:h-12 md:w-12"
+            width={120}
+            height={120}
+            className="h-10 w-auto md:h-12"
             priority
           />
-          <div className="hidden min-[480px]:block">
-            <span className="block text-base font-extrabold leading-tight tracking-tight text-foreground">PES Supply</span>
-            <span className="block text-[10px] font-medium leading-tight text-muted-foreground">A PES Global Company</span>
-          </div>
         </a>
 
         {/* Search */}
