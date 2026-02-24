@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import {
   Search,
   ShoppingCart,
@@ -153,18 +154,23 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-navbar text-navbar-foreground shadow-sm">
       {/* Main nav row */}
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
-        {/* Logo */}
-        <a href="/" className="flex shrink-0 items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-            <Zap className="h-5 w-5 text-primary-foreground" />
-          </div>
+      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-2.5">
+        {/* Real PES Logo */}
+        <a href="/" className="flex shrink-0 items-center gap-2.5">
+          <Image
+            src="/images/pes-logo.png"
+            alt="Portlandia Electric Supply"
+            width={44}
+            height={44}
+            className="h-11 w-11 rounded-lg object-cover"
+            priority
+          />
           <div className="hidden sm:block">
-            <span className="text-lg font-bold tracking-tight text-foreground">
-              PES<span className="text-primary">.supply</span>
+            <span className="text-[15px] font-bold leading-tight tracking-tight text-foreground">
+              Portlandia Electric
             </span>
-            <span className="block text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
-              Electrical &amp; Supply
+            <span className="block text-[10px] font-semibold uppercase tracking-widest text-primary">
+              Supply
             </span>
           </div>
         </a>
@@ -189,7 +195,7 @@ export function Navbar() {
             </select>
             <Input
               type="search"
-              placeholder="Search products, brands, part numbers..."
+              placeholder="Search 40,000+ products, brands, part numbers..."
               className="h-10 flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
@@ -291,7 +297,7 @@ export function Navbar() {
               className="flex items-center gap-1.5 text-sm font-medium text-foreground/80 hover:text-primary"
             >
               <Package className="h-4 w-4" />
-              Bulk Discount
+              Bulk Pricing
             </a>
           </div>
         </div>

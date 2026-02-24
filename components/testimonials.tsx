@@ -5,30 +5,30 @@ const reviews = [
   {
     name: "Michael Chen, PE",
     location: "Seattle, WA",
-    company: "Pacific Solar Engineering",
-    stat: "15+ MW Installed",
+    company: "Pacific NW Electrical",
+    stat: "200+ Jobs/Year",
     quote:
-      "PES.supply has been our go-to for commercial solar projects throughout the Pacific Northwest. Being able to order the exact panel count without overbuying, plus their consistent stock on racking and BOS, keeps our projects on schedule.",
+      "We buy everything from breakers to wire to LED fixtures through Portlandia Electric. Having 40,000 products from one source means fewer vendors and less headache. Their team in Portland actually picks up the phone.",
     rating: 5,
     image: "/images/person-michael.jpg",
   },
   {
     name: "Sarah Martinez",
     location: "Austin, TX",
-    company: "Lone Star Solar Solutions",
-    stat: "500+ Resi Installs",
+    company: "Lone Star Contractors",
+    stat: "15-Person Crew",
     quote:
-      "We switched to PES.supply for the flexibility — singles, partial pallets, full pallets, all from one cart. Their global sales team is responsive and the shipping is fast. It just works for our volume.",
+      "Switched from our old distributor last year and haven't looked back. Same-day shipping is real, the pricing is competitive, and they carry the exact brands my guys want on the truck. DeWalt, Southwire, Square D -- all in one order.",
     rating: 5,
     image: "/images/person-sarah.jpg",
   },
   {
     name: "David Kim, PMP",
     location: "Denver, CO",
-    company: "Green Energy Development",
-    stat: "2.8 MW Municipal",
+    company: "Elevate Property Group",
+    stat: "120 Units Managed",
     quote:
-      "From wire and switchgear to Tier-1 panels, PES.supply handles our full BOM in a single order. Their project cart tool and custom quoting saved us weeks on our municipal build.",
+      "As a property manager, I need everything from replacement breakers to HVAC parts to bulk LED lamps. Portlandia Electric lets me order exactly what I need -- one fixture or a case of 48 -- without minimum order games.",
     rating: 5,
     image: "/images/person-david.jpg",
   },
@@ -40,11 +40,11 @@ export function Testimonials() {
       <div className="mx-auto max-w-7xl px-4 py-14">
         <div className="mb-10 text-center">
           <h2 className="text-2xl font-bold text-foreground">
-            Trusted by Contractors Nationwide
+            What Our Customers Say
           </h2>
           <p className="mx-auto mt-2 max-w-lg text-sm text-muted-foreground leading-relaxed">
-            Real feedback from licensed professionals who build with PES.supply
-            equipment every day
+            Electricians, contractors, property managers, and builders who rely
+            on Portlandia Electric Supply every day
           </p>
           {/* Aggregate rating */}
           <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2">
@@ -58,7 +58,7 @@ export function Testimonials() {
             </div>
             <span className="text-sm font-semibold text-foreground">4.9/5</span>
             <span className="text-xs text-muted-foreground">
-              from 1,240+ verified reviews
+              from 2,400+ verified reviews
             </span>
           </div>
         </div>

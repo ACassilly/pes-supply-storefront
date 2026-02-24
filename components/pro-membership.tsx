@@ -11,17 +11,17 @@ const benefits = [
   {
     icon: Zap,
     title: "Priority Stock Access",
-    description: "First access to new inventory and pre-order releases",
+    description: "First access to new inventory and limited-quantity deals",
   },
   {
     icon: FileText,
-    title: "Expedited Processing",
-    description: "Same-day order processing and priority shipping",
+    title: "Same-Day Processing",
+    description: "Orders placed by 2pm PT ship same day, every day",
   },
   {
     icon: Headphones,
     title: "Dedicated Rep",
-    description: "Named account rep who knows your projects and preferences",
+    description: "Named account rep in Portland who knows your projects",
   },
 ]
 
@@ -36,12 +36,12 @@ export function ProMembership() {
               Pro Network
             </span>
             <h2 className="mb-2 text-2xl font-bold text-card-foreground">
-              PES Pro Account
+              Portlandia Electric Pro Account
             </h2>
             <p className="mb-6 text-sm text-muted-foreground leading-relaxed">
-              Premium benefits and exclusive access for established solar
-              contractors and electrical professionals. Extended-hour coverage
-              through our global sales team.
+              Premium benefits for licensed contractors, property managers, and
+              trade professionals. Access 40,000+ products with contractor
+              pricing and a real person on the other end of the line.
             </p>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -67,18 +67,18 @@ export function ProMembership() {
               <div className="relative h-16 w-28 shrink-0 overflow-hidden rounded-lg">
                 <Image
                   src="/images/team-warehouse.jpg"
-                  alt="PES.supply warehouse team"
+                  alt="Portlandia Electric Supply warehouse team"
                   fill
                   className="object-cover"
                 />
               </div>
               <div>
                 <p className="text-xs font-semibold text-card-foreground">
-                  Our team ships from 3 U.S. warehouses
+                  Our team ships from U.S. warehouses
                 </p>
                 <p className="mt-0.5 text-[11px] text-muted-foreground leading-snug">
                   Real people picking, packing, and supporting every order.
-                  Talk to us at (888) 876-0007.
+                  Call us at (888) 876-0007.
                 </p>
               </div>
             </div>
@@ -101,27 +101,28 @@ export function ProMembership() {
           {/* Right - Quote form */}
           <div className="border-t border-border bg-muted/50 p-6 lg:w-96 lg:border-l lg:border-t-0 lg:p-10">
             <h3 className="mb-1 text-lg font-semibold text-foreground">
-              Build a Project Cart
+              Request a Project Quote
             </h3>
             <p className="mb-4 text-xs text-muted-foreground leading-relaxed">
-              Tell us about your project and we&apos;ll put together a
-              right-sized BOM with pricing.
+              Tell us what you need and we&apos;ll put together pricing
+              from our 40,000+ product catalog.
             </p>
             <form className="flex flex-col gap-3">
               <input
                 type="text"
-                placeholder="Project Address / Jobsite"
+                placeholder="Company / Jobsite Name"
                 className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-card-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
               <select
                 className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-card-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                 aria-label="Project type"
               >
-                <option value="">Project Type</option>
-                <option value="residential-solar">Residential Solar</option>
-                <option value="commercial-solar">Commercial Solar</option>
-                <option value="electrical-service">Electrical Service</option>
-                <option value="ev-charging">EV Charging Install</option>
+                <option value="">What do you need?</option>
+                <option value="electrical">Electrical / Lighting</option>
+                <option value="solar">Solar / Renewables</option>
+                <option value="tools">Tools & Equipment</option>
+                <option value="hvac">HVAC / Plumbing</option>
+                <option value="mixed">Mixed / Full Buildout</option>
                 <option value="other">Other</option>
               </select>
               <input
@@ -138,10 +139,10 @@ export function ProMembership() {
                 type="button"
                 className="mt-1 w-full bg-primary text-primary-foreground hover:bg-primary/90"
               >
-                Get My Project Quote
+                Get My Quote
               </Button>
               <p className="text-center text-[10px] text-muted-foreground leading-relaxed">
-                Detailed BOM with equipment specs and pricing within 24 hours
+                Custom pricing within 24 hours from our Portland team
               </p>
             </form>
           </div>

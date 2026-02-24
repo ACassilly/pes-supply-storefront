@@ -1,4 +1,5 @@
-import { Zap, Phone, Mail, MapPin } from "lucide-react"
+import Image from "next/image"
+import { Phone, Mail, MapPin } from "lucide-react"
 
 const footerLinks = [
   {
@@ -39,7 +40,7 @@ const footerLinks = [
   {
     title: "Company",
     links: [
-      "About PES.supply",
+      "About Us",
       "Careers",
       "Press",
       "Contact Us",
@@ -56,47 +57,51 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-6">
           {/* Brand */}
           <div className="col-span-2">
-            <a href="/" className="mb-4 flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                <Zap className="h-5 w-5 text-primary-foreground" />
-              </div>
+            <a href="/" className="mb-4 flex items-center gap-3">
+              <Image
+                src="/images/pes-logo.png"
+                alt="Portlandia Electric Supply"
+                width={44}
+                height={44}
+                className="h-11 w-11 rounded-lg object-cover"
+              />
               <div>
-                <span className="text-lg font-bold text-background">
-                  PES<span className="text-primary">.supply</span>
+                <span className="text-[15px] font-bold leading-tight text-background">
+                  Portlandia Electric
                 </span>
-                <span className="block text-[10px] font-medium uppercase tracking-widest text-background/50">
-                  Electrical & Solar
+                <span className="block text-[10px] font-semibold uppercase tracking-widest text-primary">
+                  Supply
                 </span>
               </div>
             </a>
             <p className="mb-3 max-w-xs text-sm text-background/50 leading-relaxed">
-              Electrical, solar, tools, HVAC, plumbing, and more — in stock and
-              ready to ship. Right-sized for every project, from service calls
-              to full buildouts.
+              40,000+ products across lighting, electrical, solar, tools, HVAC,
+              plumbing, and more. In stock and ready to ship from our U.S.
+              warehouses.
             </p>
             <div className="mb-4 flex gap-3">
               <div className="rounded-md border border-background/10 px-2.5 py-1.5">
-                <div className="text-sm font-bold text-background">8,500+</div>
-                <div className="text-[9px] text-background/40">Contractors</div>
+                <div className="text-sm font-bold text-background">40K+</div>
+                <div className="text-[9px] text-background/40">Products</div>
               </div>
               <div className="rounded-md border border-background/10 px-2.5 py-1.5">
                 <div className="text-sm font-bold text-background">4.9/5</div>
-                <div className="text-[9px] text-background/40">Avg Rating</div>
+                <div className="text-[9px] text-background/40">Rating</div>
               </div>
               <div className="rounded-md border border-background/10 px-2.5 py-1.5">
-                <div className="text-sm font-bold text-background">3,800+</div>
-                <div className="text-[9px] text-background/40">SKUs</div>
+                <div className="text-sm font-bold text-background">2,400+</div>
+                <div className="text-[9px] text-background/40">Reviews</div>
               </div>
             </div>
             <div className="flex flex-col gap-2 text-xs text-background/50">
               <a href="tel:8888760007" className="flex items-center gap-2 hover:text-primary">
                 <Phone className="h-3.5 w-3.5" /> (888) 876-0007
               </a>
-              <a href="mailto:sales@pes.supply" className="flex items-center gap-2 hover:text-primary">
-                <Mail className="h-3.5 w-3.5" /> sales@pes.supply
+              <a href="mailto:sales@portlandiaelectric.com" className="flex items-center gap-2 hover:text-primary">
+                <Mail className="h-3.5 w-3.5" /> sales@portlandiaelectric.com
               </a>
               <span className="flex items-center gap-2">
-                <MapPin className="h-3.5 w-3.5" /> U.S. Warehouses + Global Sales Office
+                <MapPin className="h-3.5 w-3.5" /> Portland, OR
               </span>
             </div>
           </div>
@@ -124,7 +129,7 @@ export function SiteFooter() {
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-background/10 pt-6 md:flex-row">
           <p className="text-xs text-background/40">
-            &copy; 2026 PES.supply. All rights reserved.
+            &copy; 2026 Portlandia Electric Supply. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-4 text-xs text-background/40">
             <a href="#" className="hover:text-background">Privacy Policy</a>

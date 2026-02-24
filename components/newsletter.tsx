@@ -8,10 +8,10 @@ export function Newsletter() {
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-12 text-center md:flex-row md:text-left">
         <div className="flex-1">
           <h2 className="mb-1 text-xl font-bold text-primary-foreground">
-            Stay in the Loop with PES.supply
+            Stay in the Loop
           </h2>
           <p className="text-sm text-primary-foreground/70 leading-relaxed">
-            New inventory drops, flash sales, and project resources — straight to your inbox.
+            New products, clearance drops, and contractor resources from Portlandia Electric Supply.
           </p>
         </div>
         <form className="flex w-full max-w-md gap-2">

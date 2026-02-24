@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Lock, CreditCard, RotateCcw, Headphones, ShieldCheck, Award } from "lucide-react"
+import { Lock, CreditCard, RotateCcw, Headphones, ShieldCheck, Truck } from "lucide-react"
 
 const signals = [
   {
@@ -10,7 +10,7 @@ const signals = [
   {
     icon: CreditCard,
     title: "Flexible Payment",
-    description: "Visa, MC, Amex, ACH, wire & Net-30 terms",
+    description: "Visa, MC, Amex, ACH, wire & Net-30 terms available",
   },
   {
     icon: RotateCcw,
@@ -19,27 +19,27 @@ const signals = [
   },
   {
     icon: Headphones,
-    title: "Expert Support",
-    description: "Real humans, M-F 7am-6pm PT + global team",
+    title: "Portland-Based Support",
+    description: "Real people who know the products, Mon-Fri 7am-5pm PT",
   },
   {
     icon: ShieldCheck,
-    title: "Manufacturer Warranty",
-    description: "Full OEM warranties on every product we sell",
+    title: "Authorized Distributor",
+    description: "Full manufacturer warranties on everything we sell",
   },
   {
-    icon: Award,
-    title: "UL & BABA Certified",
-    description: "Compliance docs available on request",
+    icon: Truck,
+    title: "Fast Shipping",
+    description: "Same-day shipping on in-stock orders placed by 2pm PT",
   },
 ]
 
-const paymentMethods = [
-  { name: "Visa", logo: "https://cdn.brandfetch.io/idnem8Ccjj/w/128/h/80/theme/light/icon.png" },
-  { name: "Mastercard", logo: "https://cdn.brandfetch.io/id9no9Lhbs/w/128/h/80/theme/light/icon.png" },
-  { name: "American Express", logo: "https://cdn.brandfetch.io/id_LHhAXpC/w/128/h/80/theme/light/icon.png" },
-  { name: "Discover", logo: "https://cdn.brandfetch.io/idCdwtO0Kk/w/128/h/80/theme/light/icon.png" },
-  { name: "PayPal", logo: "https://logo.clearbit.com/paypal.com" },
+const paymentLogos = [
+  { name: "Visa", src: "https://logo.clearbit.com/visa.com" },
+  { name: "Mastercard", src: "https://logo.clearbit.com/mastercard.com" },
+  { name: "American Express", src: "https://logo.clearbit.com/americanexpress.com" },
+  { name: "Discover", src: "https://logo.clearbit.com/discover.com" },
+  { name: "PayPal", src: "https://logo.clearbit.com/paypal.com" },
 ]
 
 export function TrustSignals() {
@@ -63,57 +63,51 @@ export function TrustSignals() {
           ))}
         </div>
 
-        {/* Payment methods & compliance bar */}
+        {/* Payment & compliance */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 border-t border-border pt-6">
-          {/* Payment card logos */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-wider">
-              We Accept:
+              We Accept
             </span>
-            {paymentMethods.map((method) => (
+            {paymentLogos.map((pm) => (
               <div
-                key={method.name}
+                key={pm.name}
                 className="flex h-8 w-12 items-center justify-center rounded border border-border bg-background p-1"
               >
                 <Image
-                  src={method.logo}
-                  alt={method.name}
-                  width={40}
-                  height={26}
+                  src={pm.src}
+                  alt={pm.name}
+                  width={36}
+                  height={24}
                   className="h-5 w-auto object-contain"
                   unoptimized
                 />
               </div>
             ))}
-            {/* ACH & Wire as text since they have no card logo */}
-            {["ACH", "Wire", "Net-30"].map((method) => (
+            {["ACH", "Wire", "Net-30"].map((m) => (
               <span
-                key={method}
+                key={m}
                 className="rounded border border-border bg-background px-2 py-1.5 text-[10px] font-bold text-foreground/70"
               >
-                {method}
+                {m}
               </span>
             ))}
           </div>
 
           <span className="hidden h-4 w-px bg-border lg:block" />
 
-          {/* Compliance badges */}
           <div className="flex items-center gap-3">
-            {[
-              "UL Listed",
-              "BABA Compliant",
-              "TAA Compliant",
-              "NABCEP Partner",
-            ].map((badge) => (
-              <span
-                key={badge}
-                className="flex items-center gap-1 text-[10px] font-semibold text-primary"
-              >
-                <ShieldCheck className="h-3.5 w-3.5" />
-                {badge}
-              </span>
-            ))}
+            {["Authorized Distributor", "UL Listed Products", "BABA Compliant"].map(
+              (badge) => (
+                <span
+                  key={badge}
+                  className="flex items-center gap-1 text-[10px] font-semibold text-primary"
+                >
+                  <ShieldCheck className="h-3.5 w-3.5" />
+                  {badge}
+                </span>
+              )
+            )}
           </div>
         </div>
       </div>

@@ -3,23 +3,23 @@ import { Headphones, Package, ThumbsUp, Warehouse, ArrowRight } from "lucide-rea
 const stats = [
   {
     icon: Headphones,
-    title: "Dedicated Customer\nService Team",
-    cta: "Contact support",
+    title: "Dedicated Support\nTeam in Portland",
+    cta: "Talk to a real person",
   },
   {
     icon: Package,
-    title: "More than 3,800\nIn-Stock SKUs",
-    cta: "Explore our catalog",
+    title: "40,000+ Products\nIn Stock & Ready",
+    cta: "Explore the catalog",
   },
   {
     icon: ThumbsUp,
-    title: "95% Approval Rating\nfrom Shoppers",
-    cta: "See all reviews",
+    title: "95% Customer\nApproval Rating",
+    cta: "See what people say",
   },
   {
     icon: Warehouse,
-    title: "3 U.S. Warehouses\nNationwide Shipping",
-    cta: "Learn more",
+    title: "U.S. Warehouses\nNationwide Shipping",
+    cta: "Shipping & delivery",
   },
 ]
 

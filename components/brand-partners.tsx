@@ -1,86 +1,35 @@
 import Image from "next/image"
 
 const brands = [
-  {
-    name: "Jinko Solar",
-    logo: "https://logo.clearbit.com/jinkosolar.com",
-  },
-  {
-    name: "LONGi",
-    logo: "https://logo.clearbit.com/longi.com",
-  },
-  {
-    name: "Canadian Solar",
-    logo: "https://logo.clearbit.com/canadiansolar.com",
-  },
-  {
-    name: "Q Cells",
-    logo: "https://logo.clearbit.com/q-cells.com",
-  },
-  {
-    name: "Trina Solar",
-    logo: "https://logo.clearbit.com/trinasolar.com",
-  },
-  {
-    name: "Enphase",
-    logo: "https://logo.clearbit.com/enphase.com",
-  },
-  {
-    name: "SolarEdge",
-    logo: "https://logo.clearbit.com/solaredge.com",
-  },
-  {
-    name: "Generac",
-    logo: "https://logo.clearbit.com/generac.com",
-  },
-  {
-    name: "Eaton",
-    logo: "https://logo.clearbit.com/eaton.com",
-  },
-  {
-    name: "Schneider Electric",
-    logo: "https://logo.clearbit.com/se.com",
-  },
-  {
-    name: "Siemens",
-    logo: "https://logo.clearbit.com/siemens.com",
-  },
-  {
-    name: "Leviton",
-    logo: "https://logo.clearbit.com/leviton.com",
-  },
-  {
-    name: "Southwire",
-    logo: "https://logo.clearbit.com/southwire.com",
-  },
-  {
-    name: "ChargePoint",
-    logo: "https://logo.clearbit.com/chargepoint.com",
-  },
-  {
-    name: "Milwaukee Tool",
-    logo: "https://logo.clearbit.com/milwaukeetool.com",
-  },
-  {
-    name: "DeWalt",
-    logo: "https://logo.clearbit.com/dewalt.com",
-  },
-  {
-    name: "Honeywell",
-    logo: "https://logo.clearbit.com/honeywell.com",
-  },
-  {
-    name: "3M",
-    logo: "https://logo.clearbit.com/3m.com",
-  },
-  {
-    name: "Hubbell",
-    logo: "https://logo.clearbit.com/hubbell.com",
-  },
-  {
-    name: "IronRidge",
-    logo: "https://logo.clearbit.com/ironridge.com",
-  },
+  // Electrical
+  { name: "Eaton", logo: "https://logo.clearbit.com/eaton.com" },
+  { name: "Siemens", logo: "https://logo.clearbit.com/siemens.com" },
+  { name: "Schneider Electric", logo: "https://logo.clearbit.com/se.com" },
+  { name: "Leviton", logo: "https://logo.clearbit.com/leviton.com" },
+  { name: "Hubbell", logo: "https://logo.clearbit.com/hubbell.com" },
+  { name: "Southwire", logo: "https://logo.clearbit.com/southwire.com" },
+  { name: "Lutron", logo: "https://logo.clearbit.com/lutron.com" },
+  // Tools
+  { name: "Milwaukee Tool", logo: "https://logo.clearbit.com/milwaukeetool.com" },
+  { name: "DeWalt", logo: "https://logo.clearbit.com/dewalt.com" },
+  { name: "Klein Tools", logo: "https://logo.clearbit.com/kleintools.com" },
+  { name: "Fluke", logo: "https://logo.clearbit.com/fluke.com" },
+  { name: "Bosch", logo: "https://logo.clearbit.com/bosch.com" },
+  // HVAC & General
+  { name: "Honeywell", logo: "https://logo.clearbit.com/honeywell.com" },
+  { name: "3M", logo: "https://logo.clearbit.com/3m.com" },
+  { name: "Generac", logo: "https://logo.clearbit.com/generac.com" },
+  { name: "Rheem", logo: "https://logo.clearbit.com/rheem.com" },
+  { name: "Watts", logo: "https://logo.clearbit.com/watts.com" },
+  // Solar & EV
+  { name: "Enphase", logo: "https://logo.clearbit.com/enphase.com" },
+  { name: "SolarEdge", logo: "https://logo.clearbit.com/solaredge.com" },
+  { name: "Q Cells", logo: "https://logo.clearbit.com/q-cells.com" },
+  { name: "ChargePoint", logo: "https://logo.clearbit.com/chargepoint.com" },
+  { name: "IronRidge", logo: "https://logo.clearbit.com/ironridge.com" },
+  // Lighting
+  { name: "RAB Lighting", logo: "https://logo.clearbit.com/rablighting.com" },
+  { name: "Lithonia", logo: "https://logo.clearbit.com/acuitybrands.com" },
 ]
 
 export function BrandPartners() {
@@ -122,8 +71,8 @@ export function BrandPartners() {
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
           Authorized distributor for{" "}
-          <span className="font-semibold text-foreground">20+ manufacturers</span>{" "}
-          across solar, electrical, tools, HVAC, and power storage
+          <span className="font-semibold text-foreground">50+ manufacturers</span>{" "}
+          across electrical, tools, solar, HVAC, lighting, and plumbing
         </p>
       </div>
     </section>

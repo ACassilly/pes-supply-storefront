@@ -12,8 +12,8 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'PES.supply | Job-Ready Electrical & Solar Supply',
-  description: 'Panels, racking, switchgear, wire, and more — in stock and ready to ship. From service parts to solar kits, get the exact materials you need without overbuying.',
+  title: 'Portlandia Electric Supply | 40,000+ Products In Stock',
+  description: 'Lighting, electrical, solar, tools, HVAC, plumbing, and more. 40,000+ products from trusted brands, in stock and ready to ship to your jobsite or shop.',
   generator: 'v0.app',
   icons: {
     icon: [

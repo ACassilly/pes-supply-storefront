@@ -39,15 +39,15 @@ export function DealsBanner() {
           <div className="mb-2 flex items-center justify-center gap-2 md:justify-start">
             <Clock className="h-5 w-5 text-accent" />
             <span className="text-sm font-semibold uppercase tracking-wider text-accent">
-              Flash Sale - Limited Time
+              Limited Time Offers
             </span>
           </div>
           <h2 className="mb-2 text-pretty text-2xl font-bold text-background md:text-3xl">
-            Right-Sized Solar Starts Here
+            Weekly Warehouse Clearance
           </h2>
           <p className="text-sm text-background/60 leading-relaxed">
-            Save up to 40% on panels, racking, and BOS. Order the exact count you
-            need — singles, partial pallets, or full pallets. Shipped jobsite ready.
+            Save up to 40% on lighting, tools, electrical, and more.
+            Overstock and closeout deals from the brands you already use.
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export function DealsBanner() {
           size="lg"
           className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
         >
-          Shop Deals
+          Shop Clearance
           <ArrowRight className="h-4 w-4" />
         </Button>
       </div>

@@ -4,10 +4,10 @@ import { MapPin, Phone, Truck, ShieldCheck } from "lucide-react"
 
 const announcements = [
   "Free Shipping on Orders $999+",
-  "Tier-1 Solar & Trusted Electrical Brands in One Warehouse",
-  "Singles, Cases, and Bulk Options for Every Project Size",
-  "Fast LTL & Parcel Shipping Direct to Shop or Jobsite",
-  "BABA & TAA Compliant Products Available",
+  "40,000+ Products from Brands You Trust",
+  "Same-Day Shipping on In-Stock Orders Placed by 2pm PT",
+  "Contractor Pricing & Net-30 Terms Available",
+  "Lighting, Electrical, Solar, HVAC, Plumbing, Tools & More",
 ]
 
 export function TopBar() {
@@ -33,17 +33,17 @@ export function TopBar() {
           </span>
           <span className="flex items-center gap-1.5">
             <MapPin className="h-3 w-3" />
-            U.S. Warehouses + Global Sales Office
+            Portland, OR &middot; U.S. Warehouses
           </span>
         </div>
         <div className="flex w-full items-center justify-center gap-6 md:w-auto md:justify-end">
           <span className="flex items-center gap-1.5">
             <Truck className="h-3 w-3" />
-            Fast LTL & Parcel Shipping
+            Fast Shipping Nationwide
           </span>
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="h-3 w-3" />
-            UL Listed Equipment
+            Authorized Distributor
           </span>
         </div>
       </div>
