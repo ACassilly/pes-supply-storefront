@@ -5,47 +5,47 @@ const footerLinks = [
   {
     title: "Departments",
     links: [
-      "Lighting & Electrical",
-      "Solar & Renewables",
-      "Tools & Equipment",
-      "HVAC & Ventilation",
-      "Plumbing",
-      "Hardware & Fasteners",
-      "Building Materials",
-      "Safety & PPE",
+      { label: "Lighting & Electrical", href: "#" },
+      { label: "Solar & Renewables", href: "#" },
+      { label: "Tools & Equipment", href: "#" },
+      { label: "HVAC & Ventilation", href: "#" },
+      { label: "Plumbing", href: "#" },
+      { label: "Hardware & Fasteners", href: "#" },
+      { label: "Building Materials", href: "#" },
+      { label: "Safety & PPE", href: "#" },
     ],
   },
   {
     title: "For Professionals",
     links: [
-      "Pro Account",
-      "Net-30 Terms",
-      "Bulk & Pallet Pricing",
-      "Project Quotes",
-      "Commercial Sales",
-      "Government & BABA",
+      { label: "Pro Account", href: "#" },
+      { label: "Net-30 Terms", href: "#" },
+      { label: "Bulk & Pallet Pricing", href: "#" },
+      { label: "Project Quotes", href: "#" },
+      { label: "Commercial Sales", href: "#" },
+      { label: "Government & BABA", href: "#" },
     ],
   },
   {
     title: "Resources",
     links: [
-      "Spec Sheets & Data",
-      "Installation Guides",
-      "Warranty Info",
-      "Return Policy",
-      "Shipping & Delivery",
-      "Blog",
+      { label: "Spec Sheets & Data", href: "#" },
+      { label: "Installation Guides", href: "#" },
+      { label: "Warranty Info", href: "#" },
+      { label: "Return Policy", href: "/returns" },
+      { label: "Shipping & Delivery", href: "/shipping" },
+      { label: "Blog", href: "#" },
     ],
   },
   {
     title: "Company",
     links: [
-      "About PES Supply",
-      "PES Global",
-      "Careers",
-      "Contact",
-      "Support",
-      "Press",
+      { label: "About PES Supply", href: "/about" },
+      { label: "PES Global", href: "#" },
+      { label: "Careers", href: "#" },
+      { label: "Contact", href: "#" },
+      { label: "Support", href: "#" },
+      { label: "Press", href: "#" },
     ],
   },
 ]
@@ -67,8 +67,8 @@ export function SiteFooter() {
               />
             </a>
             <p className="mb-4 max-w-xs text-sm text-background/50 leading-relaxed">
-              40,000+ products across lighting, electrical, solar, tools, HVAC,
-              plumbing, and more. In stock and shipping from U.S. warehouses.
+              169 brands, 500+ vendors, 40,000+ products across energy, electrical, solar, tools, HVAC,
+              plumbing, and more. Shipping nationwide from Louisville, KY.
             </p>
             <div className="flex flex-col gap-2 text-xs text-background/50">
               <a
@@ -103,12 +103,12 @@ export function SiteFooter() {
               </h3>
               <ul className="flex flex-col gap-2">
                 {col.links.map((link) => (
-                  <li key={link}>
+                  <li key={link.label}>
                     <a
-                      href="#"
+                      href={link.href}
                       className="text-xs text-background/50 transition-colors hover:text-primary"
                     >
-                      {link}
+                      {link.label}
                     </a>
                   </li>
                 ))}
@@ -134,8 +134,8 @@ export function SiteFooter() {
           <div className="flex flex-wrap gap-4 text-xs text-background/40">
             <a href="#" className="hover:text-background">Privacy</a>
             <a href="#" className="hover:text-background">Terms</a>
-            <a href="#" className="hover:text-background">Returns</a>
-            <a href="#" className="hover:text-background">Shipping</a>
+            <a href="/returns" className="hover:text-background">Returns</a>
+            <a href="/shipping" className="hover:text-background">Shipping</a>
             <a href="#" className="hover:text-background">Accessibility</a>
           </div>
         </div>

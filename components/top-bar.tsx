@@ -1,6 +1,6 @@
 "use client"
 
-import { Phone } from "lucide-react"
+import { Phone } from "lucide-react" // v2026
 
 export function TopBar() {
   return (
@@ -10,7 +10,7 @@ export function TopBar() {
           Free shipping on orders $999+ &mdash; Pro accounts get same-day dispatch
         </a>
         <div className="flex shrink-0 items-center gap-3 sm:gap-5">
-          <a href="#" className="hidden text-topbar-foreground/70 transition-colors hover:text-topbar-foreground sm:inline">Help Center</a>
+          <a href="/shipping" className="hidden text-topbar-foreground/70 transition-colors hover:text-topbar-foreground sm:inline">Shipping</a>
           <a href="tel:8888760007" className="hidden items-center gap-1 text-topbar-foreground/70 transition-colors hover:text-topbar-foreground sm:flex">
             <Phone className="h-3 w-3" />
             (888) 876-0007
