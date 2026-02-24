@@ -4,34 +4,34 @@ import { Button } from "@/components/ui/button"
 
 const solutions = [
   {
-    icon: Home,
-    title: "Residential Installers",
-    description:
-      "Mix-and-match panels, racking, and BOS for any residential project. Singles and partial pallets available.",
-    cta: "Shop Residential",
-    image: "/images/hero-solar.jpg",
-  },
-  {
-    icon: Building2,
-    title: "Commercial Projects",
-    description:
-      "Bulk pricing and tech support for commercial and utility-scale installations. Talk to our global sales team.",
-    cta: "Get Commercial Quote",
-    image: "/images/hero-commercial.jpg",
-  },
-  {
     icon: HardHat,
     title: "Electrical Contractors",
     description:
-      "Service parts, switchgear, wire, and conduit for everyday electrical work. In-stock and same-day ship.",
+      "Breakers, wire, conduit, switches, and service parts for everyday jobs. In stock and same-day ship.",
     cta: "Shop Electrical",
     image: "/images/cat-electrical.jpg",
+  },
+  {
+    icon: Building2,
+    title: "Commercial & Facility",
+    description:
+      "Lighting, HVAC, plumbing, and electrical for commercial builds and facility maintenance. Volume pricing available.",
+    cta: "Get a Quote",
+    image: "/images/hero-commercial.jpg",
+  },
+  {
+    icon: Home,
+    title: "Residential & Remodel",
+    description:
+      "Everything for residential work -- fixtures, hardware, tools, and finishing materials. Singles to case packs.",
+    cta: "Shop Residential",
+    image: "/images/hero-workshop.jpg",
   },
   {
     icon: Container,
     title: "Bulk & Pallet Orders",
     description:
-      "From one pallet to full truckloads, get solar gear and electrical materials you need without overbuying.",
+      "From one case to full truckloads across any department. Right-sized quantities, no minimum-order games.",
     cta: "View Bulk Pricing",
     image: "/images/cat-racking.jpg",
   },
@@ -44,7 +44,7 @@ export function SolutionPaths() {
         <div className="mb-8 text-center">
           <h2 className="text-2xl font-bold text-foreground">Built for Every Project Size</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            From service calls to solar farms, PES.supply has you covered
+            From service calls to full builds, Portlandia Electric has you covered
           </p>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
