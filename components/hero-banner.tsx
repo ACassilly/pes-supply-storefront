@@ -9,7 +9,7 @@ const slides = [
   {
     eyebrow: "PES Supply | A PES Global Company",
     headline: "40,000+ Products. In Stock. Ships Today.",
-    subline: "Electrical, solar, lighting, tools, HVAC, plumbing, and more from 50+ authorized manufacturers.",
+    subline: "Electrical, solar, lighting, tools, HVAC, plumbing, and more from 169 brands and 500+ vendors.",
     cta: "Shop All Products",
     ctaSecondary: "Open a Pro Account",
     image: "/images/hero-commercial.jpg",
@@ -156,7 +156,8 @@ export function HeroBanner() {
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {[
               { val: "40,000+", lbl: "Products" },
-              { val: "50+", lbl: "Brands" },
+              { val: "169", lbl: "Brands" },
+              { val: "500+", lbl: "Vendors" },
               { val: "8,500+", lbl: "Contractors" },
             ].map((s) => (
               <span key={s.lbl} className="flex items-baseline gap-1.5">

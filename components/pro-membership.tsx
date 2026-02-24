@@ -5,7 +5,7 @@ import { ArrowRight, Truck, ShieldCheck, CreditCard, Headphones, Award, Globe } 
 import { Button } from "@/components/ui/button"
 
 const pillars = [
-  { icon: ShieldCheck, title: "Authorized Distributor", desc: "Full OEM warranties from 50+ manufacturers. Factory-direct, always." },
+  { icon: ShieldCheck, title: "Authorized Distributor", desc: "Full OEM warranties from 169 brands and 500+ vendors. Factory-direct, always." },
   { icon: Truck, title: "Same-Day Shipping", desc: "Orders by 2 PM ET ship same day. Free freight over $999." },
   { icon: CreditCard, title: "Net-30 & Trade Pricing", desc: "30-day terms and volume-tiered pricing for approved accounts." },
   { icon: Headphones, title: "Named Account Rep", desc: "A real person in Louisville who knows your projects and picks up the phone." },

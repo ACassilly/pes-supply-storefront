@@ -36,7 +36,7 @@ export function BrandPartners() {
       <div className="mx-auto max-w-7xl px-4 py-10">
         <div className="mb-6 text-center">
           <h2 className="text-lg font-bold text-foreground">
-            Authorized Distributor for 50+ Manufacturers
+            Authorized Distributor &mdash; 169 Brands, 500+ Vendors
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Full OEM warranties. Factory-direct pricing. Always in stock.
