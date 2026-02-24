@@ -69,10 +69,25 @@ export function SiteFooter() {
                 </span>
               </div>
             </a>
-            <p className="mb-4 max-w-xs text-sm text-background/50 leading-relaxed">
-              Panels, racking, switchgear, wire, and more — in stock and ready to ship.
-              From service parts to solar kits, right-sized for every project.
+            <p className="mb-3 max-w-xs text-sm text-background/50 leading-relaxed">
+              Panels, racking, switchgear, wire, and more — in stock and ready
+              to ship. From service parts to solar kits, right-sized for every
+              project.
             </p>
+            <div className="mb-4 flex gap-3">
+              <div className="rounded-md border border-background/10 px-2.5 py-1.5">
+                <div className="text-sm font-bold text-background">8,500+</div>
+                <div className="text-[9px] text-background/40">Contractors</div>
+              </div>
+              <div className="rounded-md border border-background/10 px-2.5 py-1.5">
+                <div className="text-sm font-bold text-background">4.9/5</div>
+                <div className="text-[9px] text-background/40">Avg Rating</div>
+              </div>
+              <div className="rounded-md border border-background/10 px-2.5 py-1.5">
+                <div className="text-sm font-bold text-background">3,800+</div>
+                <div className="text-[9px] text-background/40">SKUs</div>
+              </div>
+            </div>
             <div className="flex flex-col gap-2 text-xs text-background/50">
               <a href="tel:8888760007" className="flex items-center gap-2 hover:text-primary">
                 <Phone className="h-3.5 w-3.5" /> (888) 876-0007

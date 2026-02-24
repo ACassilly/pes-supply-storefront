@@ -9,6 +9,7 @@ import { SolutionPaths } from "@/components/solution-paths"
 import { ProMembership } from "@/components/pro-membership"
 import { BrandPartners } from "@/components/brand-partners"
 import { Testimonials } from "@/components/testimonials"
+import { TrustSignals } from "@/components/trust-signals"
 import { Newsletter } from "@/components/newsletter"
 import { SiteFooter } from "@/components/site-footer"
 
@@ -25,8 +26,9 @@ export default function Home() {
         <DealsBanner />
         <SolutionPaths />
         <ProMembership />
-        <BrandPartners />
         <Testimonials />
+        <BrandPartners />
+        <TrustSignals />
         <Newsletter />
       </main>
       <SiteFooter />

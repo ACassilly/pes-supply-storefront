@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Star, ShoppingCart, Heart, Eye, Truck } from "lucide-react"
+import { Star, ShoppingCart, Heart, Eye, Truck, ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -248,6 +248,10 @@ function ProductCard({
           </div>
           <span className="text-xs text-muted-foreground">
             {product.rating} ({product.reviews})
+          </span>
+          <span className="ml-auto flex items-center gap-0.5 text-[9px] font-semibold text-primary">
+            <ShieldCheck className="h-3 w-3" />
+            Verified
           </span>
         </div>
 
