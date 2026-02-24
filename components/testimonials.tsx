@@ -53,7 +53,7 @@ export function Testimonials() {
               ))}
             </div>
             <span className="text-2xl font-bold text-foreground">4.9 / 5</span>
-            <span className="text-xs text-muted-foreground">2,400+ verified reviews</span>
+            <span className="text-xs text-muted-foreground">2,400+ reviews on Google & Trustpilot</span>
           </div>
         </div>
 

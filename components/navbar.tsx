@@ -2,9 +2,10 @@
 
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
-import { Search, ShoppingCart, User, Menu, X, ChevronRight } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useCart } from "@/hooks/use-cart"
 
 const departments = [
   {
@@ -49,7 +50,31 @@ const departments = [
   },
 ]
 
+function MobileDeptAccordion({ dept }: { dept: { name: string; subs: string[] } }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="border-b border-border">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between px-1 py-3 text-sm font-medium text-card-foreground"
+      >
+        {dept.name}
+        <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="pb-3 pl-3">
+          {dept.subs.map((sub) => (
+            <a key={sub} href="#" className="block py-1.5 text-xs text-muted-foreground hover:text-primary">{sub}</a>
+          ))}
+          <a href="#" className="mt-1 block text-xs font-semibold text-primary">Shop All {dept.name}</a>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function Navbar() {
+  const { count: cartCount } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [megaOpen, setMegaOpen] = useState<string | null>(null)
   const [allMenuOpen, setAllMenuOpen] = useState(false)
@@ -75,7 +100,7 @@ export function Navbar() {
         {/* Logo */}
         <a href="/" className="flex shrink-0 items-center gap-2.5">
           <Image
-            src="/images/pes-logo.png"
+            src="/images/pes-logo.jpg"
             alt="PES Supply"
             width={48}
             height={48}
@@ -134,7 +159,7 @@ export function Navbar() {
             <div className="relative">
               <ShoppingCart className="h-6 w-6" />
               <Badge className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-accent p-0 text-[10px] font-bold text-accent-foreground">
-                0
+                {cartCount}
               </Badge>
             </div>
             <span className="hidden text-sm font-bold sm:inline">Cart</span>
@@ -239,35 +264,41 @@ export function Navbar() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="max-h-[70vh] overflow-y-auto border-t border-border bg-card lg:hidden">
+        <div className="max-h-[80vh] overflow-y-auto border-t border-border bg-card lg:hidden">
           <div className="p-4">
+            {/* Mobile search */}
             <div className="mb-4 flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-3">
               <Search className="h-4 w-4 text-muted-foreground" />
-              <input
-                type="search"
-                placeholder="Search products..."
-                className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-              />
+              <input type="search" placeholder="Search 40,000+ products..." className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
             </div>
+
+            {/* Account quick links */}
+            <div className="mb-4 flex gap-2">
+              <a href="#" className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground">
+                <User className="h-4 w-4" /> Account
+              </a>
+              <a href="#" className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground">
+                <ShoppingCart className="h-4 w-4" /> Cart ({cartCount})
+              </a>
+            </div>
+
+            {/* Deals link */}
+            <a href="#" className="mb-4 flex items-center justify-center rounded-lg bg-sale/10 py-2.5 text-sm font-bold text-sale">
+              Deals & Clearance
+            </a>
+
+            {/* Expandable departments */}
             <div className="flex flex-col">
               {departments.map((dept) => (
-                <a
-                  key={dept.name}
-                  href="#"
-                  className="flex items-center justify-between border-b border-border px-1 py-3 text-sm font-medium text-card-foreground"
-                >
-                  {dept.name}
-                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                </a>
+                <MobileDeptAccordion key={dept.name} dept={dept} />
               ))}
             </div>
+
+            {/* Bottom CTAs */}
             <div className="mt-4 flex flex-col gap-2">
-              <a href="#" className="rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground">
-                Sign In / Register
-              </a>
-              <a href="#" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-card-foreground">
-                Pro Account
-              </a>
+              <a href="#" className="rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground">Sign In / Register</a>
+              <a href="#" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-card-foreground">Open a Pro Account</a>
+              <a href="tel:8888760007" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-muted-foreground">(888) 876-0007</a>
             </div>
           </div>
         </div>

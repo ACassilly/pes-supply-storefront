@@ -59,7 +59,7 @@ export function SiteFooter() {
           <div className="col-span-2">
             <a href="/" className="mb-4 flex items-center gap-3">
               <Image
-                src="/images/pes-logo.png"
+                src="/images/pes-logo.jpg"
                 alt="PES Supply"
                 width={44}
                 height={44}

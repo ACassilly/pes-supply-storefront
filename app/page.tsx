@@ -3,11 +3,11 @@ import { Navbar } from "@/components/navbar"
 import { HeroBanner } from "@/components/hero-banner"
 import { SolutionsGrid } from "@/components/solutions-grid"
 import { FeaturedProducts } from "@/components/featured-products"
-import { WhyPes } from "@/components/why-pes"
 import { ProMembership } from "@/components/pro-membership"
 import { Testimonials } from "@/components/testimonials"
 import { BrandPartners } from "@/components/brand-partners"
 import { SiteFooter } from "@/components/site-footer"
+import { CartToastProvider } from "@/components/cart-toast"
 
 export default function Home() {
   return (
@@ -18,12 +18,12 @@ export default function Home() {
         <HeroBanner />
         <SolutionsGrid />
         <FeaturedProducts />
-        <WhyPes />
         <ProMembership />
         <Testimonials />
         <BrandPartners />
       </main>
       <SiteFooter />
+      <CartToastProvider />
     </div>
   )
 }

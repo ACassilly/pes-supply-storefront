@@ -6,6 +6,8 @@ import { Star, ShoppingCart, Heart, Eye, Truck, ShieldCheck } from "lucide-react
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useCart } from "@/hooks/use-cart"
+import { triggerCartToast } from "@/components/cart-toast"
 
 const products = [
   {
@@ -168,9 +170,15 @@ export function FeaturedProducts() {
 }
 
 function ProductCard({ product }: { product: (typeof products)[0] }) {
+  const { addItem } = useCart()
   const discount = Math.round(
     ((product.originalPrice - product.price) / product.originalPrice) * 100
   )
+
+  function handleAddToCart() {
+    addItem({ id: product.id, name: product.name, price: product.price, image: product.image })
+    triggerCartToast({ name: product.name, price: product.price, image: product.image })
+  }
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-all hover:border-primary/30 hover:shadow-lg">
@@ -264,6 +272,7 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
         <Button
           size="sm"
           className="mt-3 w-full gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
+          onClick={handleAddToCart}
         >
           <ShoppingCart className="h-3.5 w-3.5" />
           Add to Cart
