@@ -5,6 +5,10 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    remotePatterns: [
+      { hostname: "logo.clearbit.com" },
+      { hostname: "cdn.brandfetch.io" },
+    ],
   },
 }
 

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Lock, CreditCard, RotateCcw, Headphones, ShieldCheck, Award } from "lucide-react"
 
 const signals = [
@@ -33,6 +34,14 @@ const signals = [
   },
 ]
 
+const paymentMethods = [
+  { name: "Visa", logo: "https://cdn.brandfetch.io/idnem8Ccjj/w/128/h/80/theme/light/icon.png" },
+  { name: "Mastercard", logo: "https://cdn.brandfetch.io/id9no9Lhbs/w/128/h/80/theme/light/icon.png" },
+  { name: "American Express", logo: "https://cdn.brandfetch.io/id_LHhAXpC/w/128/h/80/theme/light/icon.png" },
+  { name: "Discover", logo: "https://cdn.brandfetch.io/idCdwtO0Kk/w/128/h/80/theme/light/icon.png" },
+  { name: "PayPal", logo: "https://logo.clearbit.com/paypal.com" },
+]
+
 export function TrustSignals() {
   return (
     <section
@@ -55,22 +64,36 @@ export function TrustSignals() {
         </div>
 
         {/* Payment methods & compliance bar */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-border pt-6">
-          {/* Payment methods - text badges instead of broken SVGs */}
-          <div className="flex items-center gap-2">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 border-t border-border pt-6">
+          {/* Payment card logos */}
+          <div className="flex items-center gap-4">
             <span className="text-[10px] font-medium uppercase text-muted-foreground tracking-wider">
               We Accept:
             </span>
-            {["VISA", "Mastercard", "AMEX", "Discover", "ACH", "Wire"].map(
-              (method) => (
-                <span
-                  key={method}
-                  className="rounded border border-border bg-muted px-2 py-1 text-[10px] font-bold text-foreground/70"
-                >
-                  {method}
-                </span>
-              )
-            )}
+            {paymentMethods.map((method) => (
+              <div
+                key={method.name}
+                className="flex h-8 w-12 items-center justify-center rounded border border-border bg-background p-1"
+              >
+                <Image
+                  src={method.logo}
+                  alt={method.name}
+                  width={40}
+                  height={26}
+                  className="h-5 w-auto object-contain"
+                  unoptimized
+                />
+              </div>
+            ))}
+            {/* ACH & Wire as text since they have no card logo */}
+            {["ACH", "Wire", "Net-30"].map((method) => (
+              <span
+                key={method}
+                className="rounded border border-border bg-background px-2 py-1.5 text-[10px] font-bold text-foreground/70"
+              >
+                {method}
+              </span>
+            ))}
           </div>
 
           <span className="hidden h-4 w-px bg-border lg:block" />

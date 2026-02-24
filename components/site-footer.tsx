@@ -2,26 +2,26 @@ import { Zap, Phone, Mail, MapPin } from "lucide-react"
 
 const footerLinks = [
   {
-    title: "Products",
+    title: "Departments",
     links: [
-      "Solar Panels",
-      "Inverters",
-      "Batteries & ESS",
-      "Generators",
-      "EV Charging",
-      "Switchgear & Electrical",
-      "Wire & Cable",
-      "Racking & BOS",
+      "Lighting & Electrical",
+      "Solar & Renewables",
+      "Tools & Equipment",
+      "HVAC & Ventilation",
+      "Plumbing",
+      "Hardware & Fasteners",
+      "Building Materials",
+      "Safety & Workwear",
     ],
   },
   {
     title: "Solutions",
     links: [
-      "Residential Solar",
+      "Contractors & Trades",
       "Commercial Projects",
-      "Electrical Contractors",
-      "Solar Kits",
-      "System Design",
+      "Property Managers",
+      "Solar Installers",
+      "System Design Help",
       "Bulk & Pallet Orders",
     ],
   },
@@ -70,9 +70,9 @@ export function SiteFooter() {
               </div>
             </a>
             <p className="mb-3 max-w-xs text-sm text-background/50 leading-relaxed">
-              Panels, racking, switchgear, wire, and more — in stock and ready
-              to ship. From service parts to solar kits, right-sized for every
-              project.
+              Electrical, solar, tools, HVAC, plumbing, and more — in stock and
+              ready to ship. Right-sized for every project, from service calls
+              to full buildouts.
             </p>
             <div className="mb-4 flex gap-3">
               <div className="rounded-md border border-background/10 px-2.5 py-1.5">
