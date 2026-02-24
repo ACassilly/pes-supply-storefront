@@ -4,33 +4,30 @@ import { useState, useEffect } from "react"
 import { ArrowRight, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-function useCountdown(targetDate: Date) {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate))
-
-  function getTimeLeft(target: Date) {
-    const diff = target.getTime() - Date.now()
-    if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 }
-    return {
-      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((diff / (1000 * 60)) % 60),
-      seconds: Math.floor((diff / 1000) % 60),
-    }
+function getTimeLeft(target: number) {
+  const diff = target - Date.now()
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+  return {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((diff / (1000 * 60)) % 60),
+    seconds: Math.floor((diff / 1000) % 60),
   }
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(getTimeLeft(targetDate))
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [targetDate])
-
-  return timeLeft
 }
 
 export function DealsBanner() {
-  const endDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
-  const { days, hours, minutes, seconds } = useCountdown(endDate)
+  const [mounted, setMounted] = useState(false)
+  const [endDate] = useState(() => Date.now() + 3 * 24 * 60 * 60 * 1000)
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+
+  useEffect(() => {
+    setMounted(true)
+    setTimeLeft(getTimeLeft(endDate))
+    const timer = setInterval(() => setTimeLeft(getTimeLeft(endDate)), 1000)
+    return () => clearInterval(timer)
+  }, [endDate])
+
+  const { days, hours, minutes, seconds } = timeLeft
 
   return (
     <section className="border-y border-border bg-foreground" aria-label="Flash deals">
@@ -60,8 +57,11 @@ export function DealsBanner() {
             { label: "Sec", value: seconds },
           ].map((unit) => (
             <div key={unit.label} className="flex flex-col items-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-background/10 text-2xl font-bold text-background tabular-nums md:h-16 md:w-16 md:text-3xl">
-                {String(unit.value).padStart(2, "0")}
+              <div
+                suppressHydrationWarning
+                className="flex h-14 w-14 items-center justify-center rounded-lg bg-background/10 text-2xl font-bold text-background tabular-nums md:h-16 md:w-16 md:text-3xl"
+              >
+                {mounted ? String(unit.value).padStart(2, "0") : "--"}
               </div>
               <span className="mt-1 text-[10px] font-medium uppercase text-background/50">
                 {unit.label}
