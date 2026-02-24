@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button"
 
 const pillars = [
   { icon: ShieldCheck, title: "Authorized Distributor", desc: "Full OEM warranties from 50+ manufacturers. Factory-direct, always." },
-  { icon: Truck, title: "Same-Day Shipping", desc: "Orders by 2 PM PT ship same day. Free freight over $999." },
+  { icon: Truck, title: "Same-Day Shipping", desc: "Orders by 2 PM ET ship same day. Free freight over $999." },
   { icon: CreditCard, title: "Net-30 & Trade Pricing", desc: "30-day terms and volume-tiered pricing for approved accounts." },
-  { icon: Headphones, title: "Named Account Rep", desc: "A real person in Portland who knows your projects and picks up the phone." },
+  { icon: Headphones, title: "Named Account Rep", desc: "A real person in Louisville who knows your projects and picks up the phone." },
   { icon: Award, title: "Compliance Ready", desc: "BABA compliant, UL listed, NABCEP certified. Procurement-ready docs." },
   { icon: Globe, title: "Backed by PES Global", desc: "Local service, global supply chain, enterprise-grade operations." },
 ]
@@ -47,11 +47,11 @@ export function ProMembership() {
             {/* Team photo */}
             <div className="mt-8 flex items-center gap-4 rounded-lg bg-card p-4 border border-border">
               <div className="relative h-16 w-28 shrink-0 overflow-hidden rounded-lg">
-                <Image src="/images/team-warehouse.jpg" alt="PES Supply warehouse team in Portland" fill className="object-cover" sizes="112px" />
+                <Image src="/images/team-warehouse.jpg" alt="PES Supply warehouse team in Louisville, KY" fill className="object-cover" sizes="112px" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-foreground">Real people. Real warehouse. Portland, OR.</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">Our team picks, packs, and supports every order. Call (888) 876-0007.</p>
+                <p className="text-sm font-semibold text-foreground">Real people. Real warehouse. Louisville, KY.</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">Our team picks, packs, and supports every order. Call (888) 876-0007 or (502) 790-0600.</p>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@ export function ProMembership() {
               <Button type="submit" className="mt-1 w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                 Submit <ArrowRight className="h-4 w-4" />
               </Button>
-              <p className="text-center text-[10px] text-muted-foreground">Response within 1 business day from our Portland team</p>
+              <p className="text-center text-[10px] text-muted-foreground">Response within 1 business day from our Louisville team</p>
             </form>
           </div>
         </div>

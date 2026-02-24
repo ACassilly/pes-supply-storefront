@@ -17,7 +17,7 @@ const slides = [
   {
     eyebrow: "For Contractors & Trades",
     headline: "Net-30 Terms. Same-Day Shipping. Real People.",
-    subline: "From breakers and wire to solar panels and generators -- one distributor, one PO, one call to Portland.",
+    subline: "From breakers and wire to solar panels and generators -- one distributor, one PO, one call to our Louisville team.",
     cta: "Apply for Trade Pricing",
     ctaSecondary: "Shop Electrical",
     image: "/images/hero-workshop.jpg",

@@ -86,13 +86,19 @@ export function SiteFooter() {
                 <Phone className="h-3.5 w-3.5" /> (888) 876-0007
               </a>
               <a
-                href="mailto:sales@pes.supply"
+                href="tel:5027900600"
                 className="flex items-center gap-2 hover:text-primary"
               >
-                <Mail className="h-3.5 w-3.5" /> sales@pes.supply
+                <Phone className="h-3.5 w-3.5" /> (502) 790-0600
+              </a>
+              <a
+                href="mailto:connect@portlandiaelectric.supply"
+                className="flex items-center gap-2 hover:text-primary"
+              >
+                <Mail className="h-3.5 w-3.5" /> connect@portlandiaelectric.supply
               </a>
               <span className="flex items-center gap-2">
-                <MapPin className="h-3.5 w-3.5" /> Portland, OR
+                <MapPin className="h-3.5 w-3.5" /> 1507 Portland Ave, Louisville, KY 40203
               </span>
             </div>
           </div>

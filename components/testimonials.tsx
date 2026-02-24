@@ -8,7 +8,7 @@ const reviews = [
     company: "Pacific NW Electrical",
     location: "Seattle, WA",
     quote:
-      "We order breakers, wire, and LED fixtures through PES every week. One vendor for everything means fewer POs and less time chasing shipments. Their Portland team actually picks up the phone.",
+      "We order breakers, wire, and LED fixtures through PES every week. One vendor for everything means fewer POs and less time chasing shipments. Their Louisville team actually picks up the phone.",
     rating: 5,
     image: "/images/person-michael.jpg",
   },
@@ -98,7 +98,7 @@ export function Testimonials() {
         {/* CTA */}
         <div className="mt-8 flex flex-col items-center gap-3 text-center">
           <p className="text-sm text-muted-foreground">
-            Questions? Talk to a real person on our Portland team.
+            Questions? Talk to a real person on our Louisville team.
           </p>
           <Button variant="outline" className="gap-2 text-primary">
             <Phone className="h-4 w-4" />
