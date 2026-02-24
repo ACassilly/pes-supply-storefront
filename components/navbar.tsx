@@ -179,7 +179,7 @@ export function Navbar() {
 
       {/* Row 2: Category bar -- Amazon-style dark text links */}
       <nav className="hidden border-t border-border bg-foreground lg:block" aria-label="Departments">
-        <div className="mx-auto flex max-w-[1400px] items-center px-4">
+        <div className="mx-auto flex max-w-[1400px] items-center gap-0 px-4">
           {/* All menu trigger */}
           <div
             className="relative"
@@ -207,8 +207,8 @@ export function Navbar() {
           </div>
 
           {/* Department links */}
-          <div className="flex items-center overflow-x-auto">
-            {departments.slice(0, 8).map((dept) => (
+          <div className="flex min-w-0 flex-1 items-center overflow-hidden">
+            {departments.slice(0, 7).map((dept) => (
               <div
                 key={dept.name}
                 className="relative"
@@ -217,7 +217,7 @@ export function Navbar() {
               >
                 <a
                   href="#"
-                  className="block whitespace-nowrap px-3 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary"
+                  className="block whitespace-nowrap px-2.5 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary"
                 >
                   {dept.name}
                 </a>
@@ -252,12 +252,12 @@ export function Navbar() {
           </div>
 
           {/* Right side */}
-          <div className="ml-auto flex items-center gap-4">
+          <div className="ml-auto flex shrink-0 items-center gap-3 pl-2">
             <a href="#" className="whitespace-nowrap py-2 text-[13px] font-bold text-accent">
-              Deals & Clearance
+              Deals
             </a>
             <a href="#" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">
-              Pro Account
+              Pro
             </a>
           </div>
         </div>
