@@ -97,7 +97,7 @@ export function HeroBanner() {
       >
         {/* Crossfade background images */}
         {slides.map((s, i) => (
-          <Image key={s.image} src={s.image} alt="" fill className={`object-cover transition-opacity duration-700 ${i === current ? "opacity-20" : "opacity-0"}`} priority={i === 0} sizes="100vw" />
+          <Image key={s.image} src={s.image} alt="" fill className={`object-cover transition-opacity duration-700 ${i === current ? "opacity-20" : "opacity-0"}`} priority loading="eager" sizes="100vw" />
         ))}
         <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/85 to-foreground/40" />
 

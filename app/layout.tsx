@@ -5,6 +5,7 @@ import { TopBar } from '@/components/top-bar'
 import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { CartToastProvider } from '@/components/cart-toast'
+import { BackToTop } from '@/components/back-to-top'
 import './globals.css'
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -47,6 +48,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-background">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "PES Supply",
+              alternateName: "Portlandia Electric Supply",
+              url: "https://pes.supply",
+              telephone: "+1-888-876-0007",
+              email: "connect@portlandiaelectric.supply",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "1507 Portland Ave",
+                addressLocality: "Louisville",
+                addressRegion: "KY",
+                postalCode: "40203",
+                addressCountry: "US",
+              },
+              parentOrganization: { "@type": "Organization", name: "PES Global" },
+              description: "Electrical, solar, lighting, tools, HVAC, plumbing distributor. 169 brands, 500+ vendors, 40,000+ products.",
+            }),
+          }}
+        />
+      </head>
       <body className={`${_inter.variable} ${_geistMono.variable} font-sans antialiased`}>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
           Skip to main content
@@ -58,6 +85,7 @@ export default function RootLayout({
         </main>
         <SiteFooter />
         <CartToastProvider />
+        <BackToTop />
         <Analytics />
       </body>
     </html>

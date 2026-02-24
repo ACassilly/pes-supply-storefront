@@ -101,8 +101,20 @@ export function SiteFooter() {
           ))}
         </div>
 
+        {/* Newsletter */}
+        <div className="mt-10 flex flex-col items-center gap-4 border-t border-background/10 pt-8 text-center md:flex-row md:text-left">
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold text-background">Stay in the loop</h3>
+            <p className="mt-0.5 text-xs text-background/50">Product launches, trade pricing, and industry updates.</p>
+          </div>
+          <form className="flex w-full max-w-sm items-center gap-2" onSubmit={(e) => e.preventDefault()}>
+            <input type="email" placeholder="Email address" className="h-9 min-w-0 flex-1 rounded-md border border-background/20 bg-background/5 px-3 text-xs text-background placeholder:text-background/30 focus:border-primary focus:outline-none" />
+            <button type="submit" className="h-9 shrink-0 rounded-md bg-primary px-4 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90">Subscribe</button>
+          </form>
+        </div>
+
         {/* Bottom */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-background/10 pt-6 md:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-background/10 pt-6 md:flex-row">
           <div className="flex flex-col gap-1 text-xs text-background/40">
             <span>{`\u00A9 ${year} PES Supply (Portlandia Electric Supply, Inc.). All rights reserved.`}</span>
             <span>

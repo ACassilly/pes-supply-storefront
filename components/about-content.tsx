@@ -39,6 +39,15 @@ const whoWeServe = [
 export function AboutContent() {
   return (
     <div className="bg-background">
+      {/* Breadcrumb */}
+      <nav className="border-b border-border bg-muted/30 px-4 py-3" aria-label="Breadcrumb">
+        <ol className="mx-auto flex max-w-5xl items-center gap-1.5 text-xs text-muted-foreground">
+          <li><a href="/" className="hover:text-primary">Home</a></li>
+          <li className="text-border">/</li>
+          <li className="font-medium text-foreground">About PES Supply</li>
+        </ol>
+      </nav>
+
       {/* Hero */}
       <section className="relative border-b border-border bg-foreground py-16 md:py-24">
         <div className="mx-auto max-w-5xl px-4">
