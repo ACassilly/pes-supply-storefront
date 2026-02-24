@@ -1,29 +1,26 @@
 import Image from "next/image"
 import { ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const categories = [
+  { name: "Solar Panels", image: "/images/product-solar-panel.jpg" },
+  { name: "Inverters", image: "/images/product-inverter.jpg" },
+  { name: "Batteries / ESS", image: "/images/product-battery.jpg" },
+  { name: "Generators", image: "/images/product-generator.jpg" },
   { name: "Lighting & Electrical", image: "/images/cat-electrical.jpg" },
-  { name: "Solar & Renewables", image: "/images/product-solar-panel.jpg" },
   { name: "Tools & Equipment", image: "/images/product-tools.jpg" },
-  { name: "HVAC & Cooling", image: "/images/cat-hvac.jpg" },
-  { name: "Plumbing", image: "/images/cat-plumbing.jpg" },
-  { name: "Hardware & Fasteners", image: "/images/cat-hardware.jpg" },
-  { name: "Safety & PPE", image: "/images/cat-safety.jpg" },
-  { name: "Building Materials", image: "/images/cat-building.jpg" },
-  { name: "Generators & Power", image: "/images/product-generator.jpg" },
   { name: "EV Charging", image: "/images/product-ev-charger.jpg" },
-  { name: "Batteries & Storage", image: "/images/product-battery.jpg" },
   { name: "Racking & Mounting", image: "/images/cat-racking.jpg" },
 ]
 
 export function CategoryGrid() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-10" aria-label="Shop by department">
+    <section className="mx-auto max-w-7xl px-4 py-10" aria-label="Shop by category">
       <div className="mb-6 flex items-end justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Shop by Department</h2>
+          <h2 className="text-2xl font-bold text-foreground">Shop by Category</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            40,000+ products across 12 departments
+            Tier 1 solar modules and quality equipment from trusted manufacturers
           </p>
         </div>
         <a
@@ -33,26 +30,33 @@ export function CategoryGrid() {
           All Departments <ArrowRight className="h-4 w-4" />
         </a>
       </div>
-      <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {categories.map((cat) => (
           <a
             key={cat.name}
             href="#"
-            className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-all hover:border-primary/30 hover:shadow-md"
+            className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-lg"
           >
-            <div className="relative aspect-square w-full overflow-hidden bg-muted">
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
               <Image
                 src={cat.image}
                 alt={cat.name}
                 fill
-                sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 16vw"
+                sizes="(max-width: 640px) 50vw, 25vw"
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </div>
-            <div className="px-2 py-2 text-center">
-              <h3 className="text-[11px] font-semibold text-card-foreground leading-tight group-hover:text-primary sm:text-xs">
+            <div className="flex items-center justify-between px-3 py-3">
+              <h3 className="text-sm font-bold text-card-foreground group-hover:text-primary">
                 {cat.name}
               </h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 px-2 text-xs font-semibold text-primary opacity-0 transition-opacity group-hover:opacity-100"
+              >
+                Shop <ArrowRight className="ml-1 h-3 w-3" />
+              </Button>
             </div>
           </a>
         ))}

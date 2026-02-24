@@ -1,144 +1,253 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, ArrowRight, ShieldCheck, Truck, Phone } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import {
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  Check,
+} from "lucide-react"
 
-const slides = [
+/* ── Hero product cards (PES.supply style) ── */
+const heroProducts = [
   {
-    tag: "40,000+ Products In Stock",
-    title: "The supply house that ships like a warehouse.",
-    subtitle:
-      "Electrical, solar, tools, HVAC, plumbing, hardware, and more -- from the brands you already spec. In stock, priced right, shipped today.",
-    image: "/images/hero-workshop.jpg",
-    cta: "Shop All Departments",
-  },
-  {
-    tag: "Built for the Trades",
-    title: "Pro accounts. Real pricing. A real team.",
-    subtitle:
-      "Contractor pricing, Net-30 terms, named account reps, and same-day shipping on in-stock orders placed by 2pm PT. This is how a supply house should work.",
-    image: "/images/hero-commercial.jpg",
-    cta: "Open a Pro Account",
-  },
-  {
-    tag: "A PES Global Company",
-    title: "Local roots. Global supply chain.",
-    subtitle:
-      "PES Supply is the distribution arm of PES Global. We leverage worldwide sourcing to deliver brand-name products at prices that make your bids win.",
+    tag: "MOST POPULAR",
+    tag2: "COMPLETE TURNKEY",
+    title: "Complete 10kW Solar System",
+    price: "$11,999",
+    priceNote: "Delivered",
+    wasPrice: "$12,999",
+    save: "Save $1,000",
+    description:
+      "Complete turnkey system with Tier 1 panels up to 800W, hybrid inverter, racking, and nationwide freight included",
+    bullets: [
+      "JA Solar 580W Panels",
+      "Sol-Ark 12K Hybrid Inverter",
+      "IronRidge Racking System",
+      "25-Year Warranties",
+    ],
+    cta: "View Complete System",
     image: "/images/hero-solar.jpg",
-    cta: "Learn About PES Global",
+  },
+  {
+    tag: "TIER 1 CERTIFIED",
+    title: "Tier 1 Solar Panels",
+    price: "from $0.23",
+    priceNote: "/W",
+    wasPrice: "$0.31/W",
+    save: "Save 26% OFF",
+    description:
+      "Tier 1 Solar Modules up to 800W — All modules Tier 1 per BloombergNEF, updated quarterly",
+    bullets: [
+      "JA Solar TopCon",
+      "Longi Hi-MO 6",
+      "Jinko Tiger Neo",
+      "Up to 800W Output",
+    ],
+    cta: "Shop Solar Panels",
+    image: "/images/product-solar-panel.jpg",
+  },
+  {
+    tag: "COMMERCIAL GRADE",
+    title: "Standby Generators",
+    price: "from $1,995",
+    wasPrice: "$2,495",
+    save: "Save $500 OFF",
+    description:
+      "Automatic standby generators for residential and commercial applications, expert installation available",
+    bullets: [
+      "Generac Guardian",
+      "Kohler Standby",
+      "Automatic Transfer Switch",
+      "Natural Gas & LP",
+    ],
+    cta: "Shop Generators",
+    image: "/images/product-generator.jpg",
   },
 ]
 
 export function HeroBanner() {
   const [current, setCurrent] = useState(0)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  function resetTimer() {
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = setInterval(
+      () => setCurrent((p) => (p + 1) % heroProducts.length),
+      8000
+    )
+  }
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length)
-    }, 7000)
-    return () => clearInterval(timer)
+    resetTimer()
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const slide = slides[current]
+  function go(dir: number) {
+    setCurrent(
+      (p) => (p + dir + heroProducts.length) % heroProducts.length
+    )
+    resetTimer()
+  }
+
+  const card = heroProducts[current]
 
   return (
-    <section aria-label="Hero">
-      <div className="relative overflow-hidden bg-foreground">
-        <div className="relative min-h-[420px] md:min-h-[480px]">
+    <section aria-label="Hero" className="bg-foreground">
+      <div className="relative mx-auto grid max-w-7xl gap-0 lg:grid-cols-2">
+        {/* Left: background image */}
+        <div className="relative hidden min-h-[480px] overflow-hidden lg:block">
           <Image
-            src={slide.image}
+            src={card.image}
             alt=""
             fill
-            className="object-cover opacity-30"
+            className="object-cover opacity-40"
             priority
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/60" />
-
-          <div className="relative mx-auto flex max-w-7xl flex-col justify-center px-4 py-12 md:py-16">
-            {/* Tag */}
-            <span className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-              <ShieldCheck className="h-3 w-3" />
-              {slide.tag}
-            </span>
-
-            <h1 className="mb-3 max-w-2xl text-pretty text-3xl font-bold leading-tight text-background md:text-4xl lg:text-5xl">
-              {slide.title}
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 to-foreground/40" />
+          <div className="relative flex h-full flex-col justify-end p-10">
+            <h1 className="max-w-md text-pretty text-4xl font-bold leading-tight text-background">
+              Power Your Home &amp; Business
             </h1>
-
-            <p className="mb-8 max-w-xl text-base text-background/60 leading-relaxed">
-              {slide.subtitle}
+            <p className="mt-2 max-w-sm text-sm text-background/60 leading-relaxed">
+              Top brands, unbeatable prices, fast delivery, and real support
+              for pros and homeowners alike.
             </p>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <Button
-                size="lg"
-                className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
-              >
-                {slide.cta}
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="gap-2 border-background/20 bg-transparent text-background hover:bg-background/10"
-              >
-                <Phone className="h-4 w-4" />
-                (888) 876-0007
-              </Button>
-            </div>
-
-            {/* Inline trust strip */}
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-background/50">
-              <span className="flex items-center gap-1.5">
-                <Truck className="h-3.5 w-3.5 text-primary" />
-                Same-day shipping by 2pm PT
-              </span>
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-                Authorized distributor, full warranties
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Phone className="h-3.5 w-3.5 text-primary" />
-                Portland-based team, Mon-Fri 7-5 PT
-              </span>
-            </div>
-
-            {/* Dots & arrows */}
             <div className="mt-6 flex items-center gap-3">
               <button
-                onClick={() =>
-                  setCurrent((prev) => (prev - 1 + slides.length) % slides.length)
-                }
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-background/10 text-background hover:bg-background/20"
-                aria-label="Previous slide"
+                onClick={() => go(-1)}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-background/10 text-background hover:bg-background/20"
+                aria-label="Previous"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
               <div className="flex gap-2">
-                {slides.map((_, i) => (
+                {heroProducts.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => setCurrent(i)}
+                    onClick={() => {
+                      setCurrent(i)
+                      resetTimer()
+                    }}
                     className={`h-1.5 rounded-full transition-all ${
-                      i === current ? "w-8 bg-primary" : "w-3 bg-background/30"
+                      i === current
+                        ? "w-8 bg-primary"
+                        : "w-3 bg-background/30"
                     }`}
-                    aria-label={`Go to slide ${i + 1}`}
+                    aria-label={`Slide ${i + 1}`}
                   />
                 ))}
               </div>
               <button
-                onClick={() => setCurrent((prev) => (prev + 1) % slides.length)}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-background/10 text-background hover:bg-background/20"
-                aria-label="Next slide"
+                onClick={() => go(1)}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-background/10 text-background hover:bg-background/20"
+                aria-label="Next"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Right: product card */}
+        <div className="flex items-center justify-center p-4 lg:p-8">
+          <div className="w-full max-w-md rounded-xl border border-background/10 bg-background/5 p-6 backdrop-blur-sm">
+            <div className="mb-3 flex flex-wrap gap-2">
+              <Badge className="bg-primary text-primary-foreground text-[10px] font-bold uppercase">
+                {card.tag}
+              </Badge>
+              {card.tag2 && (
+                <Badge variant="outline" className="border-primary/50 text-primary text-[10px] font-bold uppercase">
+                  {card.tag2}
+                </Badge>
+              )}
+            </div>
+
+            <h2 className="mb-2 text-2xl font-bold text-background lg:text-3xl">
+              {card.title}
+            </h2>
+
+            <div className="mb-1 flex items-baseline gap-2">
+              <span className="text-3xl font-extrabold text-primary lg:text-4xl">
+                {card.price}
+              </span>
+              {card.priceNote && (
+                <span className="text-sm text-background/60">
+                  {card.priceNote}
+                </span>
+              )}
+            </div>
+            <div className="mb-4 flex items-center gap-3 text-sm">
+              <span className="text-background/40 line-through">
+                Was {card.wasPrice}
+              </span>
+              <span className="font-semibold text-sale">{card.save}</span>
+            </div>
+
+            <p className="mb-4 text-sm text-background/60 leading-relaxed">
+              {card.description}
+            </p>
+
+            <ul className="mb-6 flex flex-col gap-2">
+              {card.bullets.map((b) => (
+                <li
+                  key={b}
+                  className="flex items-center gap-2 text-sm text-background/80"
+                >
+                  <Check className="h-3.5 w-3.5 shrink-0 text-primary" />
+                  {b}
+                </li>
+              ))}
+            </ul>
+
+            <Button
+              size="lg"
+              className="w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              {card.cta}
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Mobile: nav dots below card */}
+        <div className="flex items-center justify-center gap-3 pb-6 lg:hidden">
+          <button
+            onClick={() => go(-1)}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-background/10 text-background hover:bg-background/20"
+            aria-label="Previous"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <div className="flex gap-2">
+            {heroProducts.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setCurrent(i)
+                  resetTimer()
+                }}
+                className={`h-1.5 rounded-full transition-all ${
+                  i === current ? "w-8 bg-primary" : "w-3 bg-background/30"
+                }`}
+                aria-label={`Slide ${i + 1}`}
+              />
+            ))}
+          </div>
+          <button
+            onClick={() => go(1)}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-background/10 text-background hover:bg-background/20"
+            aria-label="Next"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </section>

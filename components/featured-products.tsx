@@ -248,6 +248,11 @@ function ProductCard({ product }: { product: (typeof products)[0] }) {
             <span className="text-xs text-muted-foreground line-through">
               ${product.originalPrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}
             </span>
+            {discount > 0 && (
+              <span className="text-xs font-semibold text-sale">
+                Save ${(product.originalPrice - product.price).toLocaleString("en-US", { minimumFractionDigits: 2 })}
+              </span>
+            )}
           </div>
           {product.freeShipping && (
             <span className="mt-1 flex items-center gap-1 text-[10px] font-medium text-primary">
