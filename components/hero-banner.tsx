@@ -4,7 +4,8 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, ArrowRight, Truck, ShieldCheck, Phone, Star } from "lucide-react"
+import { StarRating } from "@/components/star-rating"
+import { ChevronLeft, ChevronRight, ArrowRight, Truck, ShieldCheck, Phone } from "lucide-react"
 
 const slides = [
   {
@@ -36,25 +37,7 @@ const heroProducts = [
   { name: "Milwaukee M18 FUEL Hammer Drill", slug: "milwaukee-m18-fuel-hammer-drill-kit", price: 199.00, was: 279.00, rating: 4.9, reviews: 1204, image: "/images/product-tools.jpg", tag: "Ships Today" },
 ]
 
-function MiniStars({ rating }: { rating: number }) {
-  return (
-    <div className="flex items-center gap-px" aria-label={`${rating} out of 5 stars`}>
-      {Array.from({ length: 5 }).map((_, i) => {
-        const fill = Math.min(1, Math.max(0, rating - i))
-        return (
-          <span key={i} className="relative inline-block h-2.5 w-2.5">
-            <Star className="absolute inset-0 h-2.5 w-2.5 fill-background/10 text-background/10" />
-            {fill > 0 && (
-              <span className="absolute inset-0 overflow-hidden" style={{ width: `${fill * 100}%` }}>
-                <Star className="h-2.5 w-2.5 fill-accent text-accent" />
-              </span>
-            )}
-          </span>
-        )
-      })}
-    </div>
-  )
-}
+
 
 export function HeroBanner() {
   const [current, setCurrent] = useState(0)
@@ -98,7 +81,7 @@ export function HeroBanner() {
         onTouchEnd={onTouchEnd}
       >
         {slides.map((s, i) => (
-          <Image key={s.image} src={s.image} alt="" fill className={`object-cover transition-opacity duration-700 ${i === current ? "opacity-20" : "opacity-0"}`} priority loading="eager" sizes="100vw" />
+          <Image key={s.image} src={s.image} alt="" fill className={`object-cover transition-opacity duration-700 ${i === current ? "opacity-20" : "opacity-0"}`} priority={i === 0} loading={i === 0 ? "eager" : "lazy"} sizes="100vw" />
         ))}
         <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/85 to-foreground/40" />
 
@@ -143,7 +126,7 @@ export function HeroBanner() {
                   <div className="flex min-w-0 flex-1 flex-col justify-between py-px">
                     <h3 className="line-clamp-1 text-[11px] font-semibold leading-tight text-background">{p.name}</h3>
                     <div className="flex items-center gap-1">
-                      <MiniStars rating={p.rating} />
+                      <StarRating rating={p.rating} size="xs" />
                       <span className="text-[9px] text-background/40">({p.reviews.toLocaleString()})</span>
                     </div>
                     <div className="flex items-baseline gap-1.5">

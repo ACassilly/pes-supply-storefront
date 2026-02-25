@@ -109,6 +109,10 @@ export function Navbar() {
         </form>
 
         {/* Account + Cart */}
+        <div className="hidden shrink-0 flex-col lg:flex">
+          <span className="text-[10px] text-muted-foreground">Ships from Louisville, KY</span>
+          <span className="text-[11px] font-bold text-primary">Est. delivery: 1-3 business days</span>
+        </div>
         <div className="flex shrink-0 items-center gap-1">
           <Link href="/account" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
             <span className="text-[10px] text-muted-foreground">Hello, sign in</span>
@@ -132,6 +136,18 @@ export function Navbar() {
           <Button variant="ghost" size="icon" className="text-foreground lg:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
+        </div>
+      </div>
+
+      {/* Trending searches */}
+      <div className="hidden border-t border-border bg-muted/40 lg:block">
+        <div className="mx-auto flex max-w-[1400px] items-center gap-2 px-4 py-1">
+          <span className="text-[10px] font-medium text-muted-foreground">Trending:</span>
+          {["14/2 NM-B", "200A Panel", "580W Solar", "#12 THHN", "Milwaukee M18", "EV Charger", "Mini Split", "LED High Bay"].map((term) => (
+            <Link key={term} href={`/search?q=${encodeURIComponent(term)}`} className="rounded-full border border-border bg-card px-2.5 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+              {term}
+            </Link>
+          ))}
         </div>
       </div>
 

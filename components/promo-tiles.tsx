@@ -104,6 +104,7 @@ export function PromoTiles() {
                 alt=""
                 fill
                 sizes="260px"
+                loading="lazy"
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className={`absolute inset-0 bg-gradient-to-r ${promo.color}`} />
