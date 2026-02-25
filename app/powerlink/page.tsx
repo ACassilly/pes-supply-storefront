@@ -246,8 +246,8 @@ export default function PowerLinkPage() {
                   <a href="tel:8888760007" className="flex items-center gap-2.5 text-xs text-muted-foreground hover:text-primary">
                     <Phone className="h-3.5 w-3.5 text-primary" /> (888) 876-0007
                   </a>
-                  <a href="mailto:powerlink@pessupply.com" className="flex items-center gap-2.5 text-xs text-muted-foreground hover:text-primary">
-                    <Mail className="h-3.5 w-3.5 text-primary" /> powerlink@pessupply.com
+                  <a href="mailto:powerlink@pes.supply" className="flex items-center gap-2.5 text-xs text-muted-foreground hover:text-primary">
+                    <Mail className="h-3.5 w-3.5 text-primary" /> powerlink@pes.supply
                   </a>
                   <span className="flex items-center gap-2.5 text-xs text-muted-foreground">
                     <MessageCircle className="h-3.5 w-3.5 text-primary" /> Live Chat -- Mon-Fri 8am-5pm EST

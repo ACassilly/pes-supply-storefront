@@ -152,11 +152,11 @@ export function Navbar() {
                     <p className="text-[10px] text-muted-foreground">(888) 876-0007</p>
                   </div>
                 </a>
-                <a href="mailto:sales@pessupply.com" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
+                <a href="mailto:sales@pes.supply" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
                   <Mail className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm font-medium text-card-foreground">Email</p>
-                    <p className="text-[10px] text-muted-foreground">sales@pessupply.com</p>
+                    <p className="text-[10px] text-muted-foreground">sales@pes.supply</p>
                   </div>
                 </a>
               </div>

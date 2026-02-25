@@ -96,10 +96,10 @@ export function ContactContent() {
               <span className="text-lg font-bold">Live Chat</span>
               <span className="flex items-center gap-1 text-sm text-background/60"><span className="inline-block h-2 w-2 rounded-full bg-primary" /> Online Now</span>
             </button>
-            <a href="mailto:sales@pessupply.com" className="flex flex-col items-center gap-2 rounded-xl border border-background/10 bg-background/5 p-6 transition-colors hover:bg-background/10">
+            <a href="mailto:sales@pes.supply" className="flex flex-col items-center gap-2 rounded-xl border border-background/10 bg-background/5 p-6 transition-colors hover:bg-background/10">
               <Mail className="h-8 w-8 text-primary" />
               <span className="text-lg font-bold">Email</span>
-              <span className="text-sm text-background/60">sales@pessupply.com</span>
+              <span className="text-sm text-background/60">sales@pes.supply</span>
             </a>
           </div>
         </div>
@@ -264,8 +264,8 @@ export function ContactContent() {
                 <h3 className="flex items-center gap-2 text-sm font-bold text-card-foreground"><Phone className="h-4 w-4 text-primary" /> Direct Contact</h3>
                 <div className="mt-3 space-y-2 text-sm">
                   <p className="text-muted-foreground"><span className="font-semibold text-card-foreground">Phone:</span> (888) 876-0007</p>
-                  <p className="text-muted-foreground"><span className="font-semibold text-card-foreground">Email:</span> sales@pessupply.com</p>
-                  <p className="text-muted-foreground"><span className="font-semibold text-card-foreground">Quotes:</span> quotes@pessupply.com</p>
+                  <p className="text-muted-foreground"><span className="font-semibold text-card-foreground">Email:</span> sales@pes.supply</p>
+                  <p className="text-muted-foreground"><span className="font-semibold text-card-foreground">Quotes:</span> quotes@pes.supply</p>
                 </div>
               </div>
 
@@ -280,7 +280,7 @@ export function ContactContent() {
               <div className="rounded-xl border border-border bg-card p-5">
                 <h3 className="text-sm font-bold text-card-foreground">Supplier & Compliance</h3>
                 <p className="mt-2 text-sm text-muted-foreground">For supplier compliance inquiries:</p>
-                <a href="mailto:compliance@pessupply.com" className="text-sm font-semibold text-primary hover:underline">compliance@pessupply.com</a>
+                <a href="mailto:compliance@pes.supply" className="text-sm font-semibold text-primary hover:underline">compliance@pes.supply</a>
               </div>
             </aside>
           </div>
