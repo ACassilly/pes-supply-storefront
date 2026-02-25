@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
@@ -50,6 +50,8 @@ export function Navbar() {
   const [allMenuOpen, setAllMenuOpen] = useState(false)
   const [cartOpen, setCartOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
+  const [langOpen, setLangOpen] = useState(false)
+  const [lang, setLang] = useState<"en" | "es">("en")
   const [searchQuery, setSearchQuery] = useState("")
   const [searchDept, setSearchDept] = useState("All Departments")
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -156,6 +158,32 @@ export function Navbar() {
                   <Link href="/about" className="text-xs text-muted-foreground hover:text-primary hover:underline">Contact Customer Service</Link>
                 </div>
               </div>
+            </div>
+          )}
+        </div>
+
+        {/* Language / Currency selector */}
+        <div className="relative hidden lg:block" onMouseEnter={() => setLangOpen(true)} onMouseLeave={() => setLangOpen(false)}>
+          <button className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted" aria-expanded={langOpen} aria-haspopup="true">
+            <Globe className="h-4 w-4 text-primary" />
+            <span className="text-sm font-bold uppercase">{lang}</span>
+            <ChevronDown className={`h-3 w-3 text-muted-foreground transition-transform ${langOpen ? "rotate-180" : ""}`} />
+          </button>
+          {langOpen && (
+            <div className="absolute right-0 top-full z-50 w-56 rounded-lg border border-border bg-card py-3 shadow-xl">
+              <p className="px-4 pb-2 text-xs font-semibold text-foreground">Select your preferred language</p>
+              <button onClick={() => { setLang("en"); setLangOpen(false) }} className={`flex w-full items-center gap-3 px-4 py-2 text-sm transition-colors hover:bg-muted ${lang === "en" ? "text-primary font-semibold" : "text-card-foreground"}`}>
+                <span className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${lang === "en" ? "border-primary" : "border-muted-foreground/40"}`}>
+                  {lang === "en" && <span className="h-2 w-2 rounded-full bg-primary" />}
+                </span>
+                English | $ USD
+              </button>
+              <button onClick={() => { setLang("es"); setLangOpen(false) }} className={`flex w-full items-center gap-3 px-4 py-2 text-sm transition-colors hover:bg-muted ${lang === "es" ? "text-primary font-semibold" : "text-card-foreground"}`}>
+                <span className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${lang === "es" ? "border-primary" : "border-muted-foreground/40"}`}>
+                  {lang === "es" && <span className="h-2 w-2 rounded-full bg-primary" />}
+                </span>
+                {"Espa\u00f1ol | $ USD"}
+              </button>
             </div>
           )}
         </div>
