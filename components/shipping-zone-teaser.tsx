@@ -9,7 +9,7 @@ const zone3 = "M330,115 L380,110 390,140 380,170 340,175 320,155 325,130Z M380,1
 export function ShippingZoneTeaser() {
   return (
     <section className="py-6 md:py-8">
-      <div className="mx-auto max-w-[1400px] px-4">
+      <div className="mx-auto max-w-7xl px-4">
         <h2 className="mb-1 text-center text-xl font-bold text-foreground md:text-2xl">Estimated Shipping Times</h2>
         <p className="mb-6 text-center text-sm text-muted-foreground">
           In-house logistics from our Louisville, KY fulfillment center. Not a 3PL.

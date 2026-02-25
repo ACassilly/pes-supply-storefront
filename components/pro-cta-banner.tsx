@@ -33,7 +33,7 @@ export function ProCtaBanner() {
             <Link href="/pro">Open a Pro Account <ArrowRight className="h-3.5 w-3.5" /></Link>
           </Button>
           <Button asChild variant="outline" className="border-background/20 text-background hover:bg-background/10">
-            <Link href="/pro">Request a Quote</Link>
+            <Link href="/quote">Request a Quote</Link>
           </Button>
         </div>
       </div>

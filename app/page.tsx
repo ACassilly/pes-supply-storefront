@@ -11,23 +11,25 @@ import { Certifications } from "@/components/certifications"
 import { BlogStrip } from "@/components/blog-strip"
 import { Testimonials } from "@/components/testimonials"
 import { BrandPartners } from "@/components/brand-partners"
+import { SectionNav } from "@/components/section-nav"
 
 export default function Home() {
   return (
     <>
-      <HeroBanner />
+      <div id="hero"><HeroBanner /></div>
       <TradePricingBanner />
       <ValuePropStrip />
-      <PromoTiles />
-      <SolutionsGrid />
-      <NewArrivals />
-      <CuratedRows />
-      <ShippingZoneTeaser />
+      <div id="promos"><PromoTiles /></div>
+      <div id="departments"><SolutionsGrid /></div>
+      <div id="new-arrivals"><NewArrivals /></div>
+      <div id="curated"><CuratedRows /></div>
+      <div id="shipping-map"><ShippingZoneTeaser /></div>
       <ProCtaBanner />
       <Certifications />
-      <BlogStrip />
-      <Testimonials />
+      <div id="blog"><BlogStrip /></div>
+      <div id="reviews"><Testimonials /></div>
       <BrandPartners />
+      <SectionNav />
     </>
   )
 }

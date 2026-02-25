@@ -15,7 +15,7 @@ const reviews = [
     name: "Sarah Martinez",
     location: "Austin, Texas",
     quote: "Switched about a year ago. Pricing is fair, the stuff shows up when they say it will, and I don't have to call three people to get a straight answer.",
-    rating: 5,
+    rating: 4,
   },
   {
     name: "David Kim, PMP",
@@ -33,7 +33,7 @@ const reviews = [
     name: "Linda Tran",
     location: "Phoenix, Arizona",
     quote: "The solar panel kits came exactly as described, well packaged, and the price beat every quote I got locally. Will absolutely order again.",
-    rating: 5,
+    rating: 4,
   },
   {
     name: "Robert Egan",
@@ -61,7 +61,7 @@ export function Testimonials() {
 
   return (
     <section className="bg-muted/30 py-10 md:py-14" aria-labelledby="reviews-heading">
-      <div className="mx-auto max-w-[1400px] px-4">
+      <div className="mx-auto max-w-7xl px-4">
         <h2 id="reviews-heading" className="mb-8 text-center text-xl font-bold text-foreground md:text-2xl">
           Trust in our customers' experiences
         </h2>

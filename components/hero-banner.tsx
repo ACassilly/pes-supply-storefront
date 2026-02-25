@@ -147,8 +147,8 @@ export function HeroBanner() {
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-1 px-4 py-2 text-[11px] md:justify-between">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <span className="flex items-baseline gap-1">
-              <span className="text-xs font-bold text-foreground">8,500+</span>
-              <span className="text-muted-foreground">contractors order from PES</span>
+              <span className="text-xs font-bold text-foreground">Thousands</span>
+              <span className="text-muted-foreground">of contractors trust PES</span>
             </span>
             <span className="hidden text-border sm:inline">|</span>
             <span className="text-muted-foreground">40,000+ products across 10 departments</span>

@@ -11,42 +11,42 @@ const promos = [
     subtitle: "Orders $999+",
     href: "/departments/electrical",
     image: "/images/hero-commercial.jpg",
-    color: "from-emerald-900/90 to-emerald-900/40",
+    color: "from-foreground/90 to-foreground/40",
   },
   {
     title: "Solar Bundles",
     subtitle: "Panel + Inverter Kits",
     href: "/departments/solar",
     image: "/images/product-solar-panel.jpg",
-    color: "from-sky-900/90 to-sky-900/40",
+    color: "from-foreground/85 to-foreground/35",
   },
   {
     title: "EV Charger Sale",
     subtitle: "Up to 15% Off",
     href: "/departments/ev-charging",
     image: "/images/product-ev-charger.jpg",
-    color: "from-slate-900/90 to-slate-900/40",
+    color: "from-foreground/90 to-foreground/35",
   },
   {
     title: "New: MRCOOL",
     subtitle: "Ductless Mini Splits",
     href: "/departments/hvac",
     image: "/images/cat-hvac.jpg",
-    color: "from-blue-900/90 to-blue-900/40",
+    color: "from-foreground/85 to-foreground/40",
   },
   {
     title: "Bulk Wire Deals",
     subtitle: "Pallet Pricing",
     href: "/departments/electrical",
     image: "/images/cat-electrical.jpg",
-    color: "from-amber-900/90 to-amber-900/40",
+    color: "from-foreground/90 to-foreground/45",
   },
   {
     title: "Clearance",
     subtitle: "While Supplies Last",
     href: "/departments",
     image: "/images/cat-generators.jpg",
-    color: "from-red-900/90 to-red-900/40",
+    color: "from-foreground/95 to-foreground/40",
   },
 ]
 
@@ -90,8 +90,7 @@ export function PromoTiles() {
 
         <div
           ref={scrollRef}
-          className="scrollbar-hide flex gap-3 overflow-x-auto scroll-smooth"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          className="scrollbar-none flex gap-3 overflow-x-auto scroll-smooth"
         >
           {promos.map((promo) => (
             <Link
