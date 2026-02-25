@@ -114,10 +114,10 @@ export function Navbar() {
 
         {/* Account + Cart */}
         {/* Contact Us dropdown */}
-        <div className="relative hidden lg:block" onMouseEnter={() => setContactOpen(true)} onMouseLeave={() => setContactOpen(false)}>
-          <button className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted" aria-expanded={contactOpen} aria-haspopup="true">
+        <div className="relative hidden md:block" onMouseEnter={() => setContactOpen(true)} onMouseLeave={() => setContactOpen(false)}>
+          <button className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted" aria-expanded={contactOpen} aria-haspopup="true">
             <Phone className="h-4 w-4 text-primary" />
-            <span className="text-sm font-bold">Contact Us</span>
+            <span className="hidden text-sm font-bold lg:inline">Contact Us</span>
             <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground transition-transform ${contactOpen ? "rotate-180" : ""}`} />
           </button>
           {contactOpen && (
@@ -163,7 +163,7 @@ export function Navbar() {
         </div>
 
         {/* Language / Currency selector */}
-        <div className="relative hidden lg:block" onMouseEnter={() => setLangOpen(true)} onMouseLeave={() => setLangOpen(false)}>
+        <div className="relative hidden md:block" onMouseEnter={() => setLangOpen(true)} onMouseLeave={() => setLangOpen(false)}>
           <button className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted" aria-expanded={langOpen} aria-haspopup="true">
             <Globe className="h-4 w-4 text-primary" />
             <span className="text-sm font-bold uppercase">{lang}</span>
@@ -208,13 +208,13 @@ export function Navbar() {
             </div>
             <span className="hidden text-sm font-bold sm:inline">Cart</span>
           </button>
-          <Button variant="ghost" size="icon" className="text-foreground lg:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
+          <Button variant="ghost" size="icon" className="text-foreground md:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
       </div>
 
-      {/* Trending searches */}
+      {/* Trending searches - lg+ only to save vertical space at md */}
       <div className="hidden border-t border-border bg-muted/40 lg:block">
         <div className="mx-auto flex max-w-[1400px] items-center gap-2 px-4 py-1">
           <span className="text-[10px] font-medium text-muted-foreground">Trending:</span>
@@ -227,8 +227,8 @@ export function Navbar() {
       </div>
 
       {/* Row 2: Category bar */}
-      <nav className="hidden border-t border-border bg-foreground lg:block" aria-label="Department navigation">
-        <div className="mx-auto flex max-w-[1400px] items-center px-4">
+      <nav className="hidden border-t border-border bg-foreground md:block" aria-label="Department navigation">
+        <div className="mx-auto flex max-w-[1400px] items-center overflow-x-auto px-4 scrollbar-none">
           {/* All menu */}
           <div className="relative" onMouseEnter={() => setAllMenuOpen(true)} onMouseLeave={() => setAllMenuOpen(false)}>
             <button className="flex items-center gap-1.5 py-2 pr-4 text-sm font-bold text-background transition-colors hover:text-primary" aria-expanded={allMenuOpen} aria-haspopup="true" onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setAllMenuOpen(!allMenuOpen) } if (e.key === "Escape") setAllMenuOpen(false) }}>
@@ -282,7 +282,7 @@ export function Navbar() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="max-h-[80vh] overflow-y-auto border-t border-border bg-card lg:hidden" role="dialog" aria-label="Navigation menu">
+        <div className="max-h-[80vh] overflow-y-auto border-t border-border bg-card md:hidden" role="dialog" aria-label="Navigation menu">
           <div className="p-4">
             <form onSubmit={handleSearch} className="mb-4 flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-3">
               <Search className="h-4 w-4 text-muted-foreground" />
