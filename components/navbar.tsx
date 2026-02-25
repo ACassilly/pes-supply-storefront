@@ -154,7 +154,7 @@ export function Navbar() {
                 <div className="flex flex-col gap-1">
                   <Link href="/shipping" className="text-xs text-muted-foreground hover:text-primary hover:underline">Track Your Order</Link>
                   <Link href="/shipping" className="text-xs text-muted-foreground hover:text-primary hover:underline">Shipping & Returns</Link>
-                  <Link href="/pro#quote" className="text-xs text-muted-foreground hover:text-primary hover:underline">Request a Quote</Link>
+                  <Link href="/quote" className="text-xs text-muted-foreground hover:text-primary hover:underline">Request a Quote</Link>
                   <Link href="/about" className="text-xs text-muted-foreground hover:text-primary hover:underline">Contact Customer Service</Link>
                 </div>
               </div>
@@ -271,7 +271,7 @@ export function Navbar() {
 
           <div className="ml-auto flex shrink-0 items-center gap-3 pl-2">
             <QuickOrderPad />
-            <Link href="/pro#quote" className="flex items-center gap-1.5 whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Request a Quote</Link>
+            <Link href="/quote" className="flex items-center gap-1.5 whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Request a Quote</Link>
             <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-accent">Deals & Clearance</Link>
             <Link href="/pro" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Pro Account</Link>
           </div>
