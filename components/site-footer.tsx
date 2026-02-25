@@ -21,7 +21,7 @@ const footerLinks = [
     links: [
       { label: "Pro Account", href: "/pro" },
       { label: "Net-30 Terms", href: "/pro" },
-      { label: "Bulk & Pallet Pricing", href: "/pro" },
+      { label: "Bulk & Pallet Pricing", href: "/bulk" },
       { label: "Project Quotes", href: "/pro" },
       { label: "Commercial Sales", href: "/pro" },
       { label: "Government & BABA", href: "/pro" },

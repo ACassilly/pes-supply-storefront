@@ -272,6 +272,7 @@ export function Navbar() {
           <div className="ml-auto flex shrink-0 items-center gap-3 pl-2">
             <QuickOrderPad />
             <Link href="/quote" className="flex items-center gap-1.5 whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Request a Quote</Link>
+            <Link href="/bulk" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Bulk Pricing</Link>
             <Link href="/powerlink" className="flex items-center gap-1 whitespace-nowrap py-2 text-[13px] font-medium text-accent transition-colors hover:text-accent/80">Power Link</Link>
             <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-sale">Deals & Clearance</Link>
             <Link href="/pro" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Pro Account</Link>
@@ -291,7 +292,10 @@ export function Navbar() {
               <Link href="/account" className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><User className="h-4 w-4" /> Account</Link>
               <button onClick={() => { setMobileOpen(false); setCartOpen(true) }} className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><ShoppingCart className="h-4 w-4" /> Cart{cartCount > 0 ? ` (${cartCount})` : ""}</button>
             </div>
-            <Link href="/deals" className="mb-4 flex items-center justify-center rounded-lg bg-sale/10 py-2.5 text-sm font-bold text-sale">Deals & Clearance</Link>
+            <div className="mb-4 flex gap-2">
+              <Link href="/deals" className="flex flex-1 items-center justify-center rounded-lg bg-sale/10 py-2.5 text-sm font-bold text-sale">Deals & Clearance</Link>
+              <Link href="/bulk" className="flex flex-1 items-center justify-center rounded-lg border border-primary/20 bg-primary/5 py-2.5 text-sm font-medium text-primary">Bulk Pricing</Link>
+            </div>
             <div className="flex flex-col">
               {departments.map((dept) => (<MobileDeptAccordion key={dept.slug} dept={dept} />))}
             </div>
