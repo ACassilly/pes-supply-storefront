@@ -1,7 +1,6 @@
-"use client"
-
 import Image from "next/image"
 import { Phone, Mail, MapPin } from "lucide-react"
+import { NewsletterForm } from "./newsletter-form"
 
 const footerLinks = [
   {
@@ -109,10 +108,7 @@ export function SiteFooter() {
             <h3 className="text-sm font-semibold text-background">Get trade pricing alerts</h3>
             <p className="mt-0.5 text-xs text-background/50">New product drops, volume pricing, and contractor-only deals. No spam.</p>
           </div>
-          <form className="flex w-full max-w-sm items-center gap-2" onSubmit={(e) => e.preventDefault()}>
-            <input type="email" placeholder="Email address" className="h-9 min-w-0 flex-1 rounded-md border border-background/20 bg-background/5 px-3 text-xs text-background placeholder:text-background/30 focus:border-primary focus:outline-none" />
-            <button type="submit" className="h-9 shrink-0 rounded-md bg-primary px-4 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90">Subscribe</button>
-          </form>
+          <NewsletterForm />
         </div>
 
         {/* Bottom */}
