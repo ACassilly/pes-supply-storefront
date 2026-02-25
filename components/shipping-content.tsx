@@ -1,14 +1,20 @@
-import Link from "next/link"
-import { Truck, Package, ShieldCheck, Clock, MapPin, Phone, Mail, DollarSign } from "lucide-react"
+"use client"
 
+import Link from "next/link"
+import { useState } from "react"
+import { Truck, Package, ShieldCheck, Clock, MapPin, Phone, Mail, DollarSign, ChevronDown, FileText, XCircle, AlertTriangle, HelpCircle, CheckCircle, MessageCircle, ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+
+/* ── Shipping tiers ── */
 const shippingTiers = [
-  { method: "Standard Ground", transit: "1 -- 5 business days", cost: "Calculated at checkout", carrier: "FedEx / UPS" },
+  { method: "Standard Ground", transit: "1-5 business days", cost: "Calculated at checkout", carrier: "FedEx / UPS" },
   { method: "Expedited (2-Day)", transit: "2 business days", cost: "Calculated at checkout", carrier: "FedEx / UPS" },
   { method: "Next Day Air", transit: "1 business day", cost: "Calculated at checkout", carrier: "FedEx / UPS" },
-  { method: "Freight / LTL", transit: "3 -- 10 business days", cost: "Free over $999", carrier: "Trusted freight partners" },
-  { method: "Container / Project", transit: "Custom quote", cost: "Project-based pricing", carrier: "PES Logistics" },
+  { method: "Freight / LTL", transit: "3-10 business days", cost: "Free over $999", carrier: "Trusted freight partners" },
+  { method: "Hot-Shot / Project", transit: "Custom quote", cost: "Project-based pricing", carrier: "PES Logistics" },
 ]
 
+/* ── Zone data ── */
 const zones = [
   { zone: "Zone 1 -- 1-Day Ground", region: "KY, IN, OH, TN, WV, IL", color: "bg-primary", description: "Next-day delivery via UPS/FedEx Ground." },
   { zone: "Zone 2 -- 2-Day Ground", region: "GA, AL, MS, MO, IA, WI, MI, PA, VA, NC, SC, AR, KS, NE, MN, NY, NJ, MD, DE, DC, CT", color: "bg-primary/60", description: "Most of the eastern US and Midwest." },
@@ -16,16 +22,14 @@ const zones = [
   { zone: "Zone 4 -- 4-5 Day Ground", region: "WA, OR, CA, NV, UT, ID, AK, HI", color: "bg-muted-foreground/20", description: "West Coast and Pacific states." },
 ]
 
-// US state abbreviations mapped to zones (1-4) for the SVG map
 const stateZones: Record<string, number> = {
-  KY: 1, IN: 1, OH: 1, TN: 1, WV: 1, IL: 1,
-  GA: 2, AL: 2, MS: 2, MO: 2, IA: 2, WI: 2, MI: 2, PA: 2, VA: 2, NC: 2, SC: 2, AR: 2, KS: 2, NE: 2, MN: 2, NY: 2, NJ: 2, MD: 2, DE: 2, DC: 2, CT: 2,
-  TX: 3, FL: 3, LA: 3, OK: 3, CO: 3, SD: 3, ND: 3, WY: 3, MT: 3, ME: 3, VT: 3, NH: 3, MA: 3, RI: 3, NM: 3, AZ: 3,
-  WA: 4, OR: 4, CA: 4, NV: 4, UT: 4, ID: 4, AK: 4, HI: 4,
+  KY:1,IN:1,OH:1,TN:1,WV:1,IL:1,
+  GA:2,AL:2,MS:2,MO:2,IA:2,WI:2,MI:2,PA:2,VA:2,NC:2,SC:2,AR:2,KS:2,NE:2,MN:2,NY:2,NJ:2,MD:2,DE:2,DC:2,CT:2,
+  TX:3,FL:3,LA:3,OK:3,CO:3,SD:3,ND:3,WY:3,MT:3,ME:3,VT:3,NH:3,MA:3,RI:3,NM:3,AZ:3,
+  WA:4,OR:4,CA:4,NV:4,UT:4,ID:4,AK:4,HI:4,
 }
 
-// Approximate center-of-state coordinates on a 960x600 viewBox
-const statePositions: Record<string, [number, number]> = {
+const statePositions: Record<string,[number,number]> = {
   WA:[120,75],OR:[95,145],CA:[70,280],NV:[115,240],ID:[155,145],MT:[210,80],WY:[230,170],UT:[175,240],
   CO:[260,250],AZ:[155,330],NM:[225,340],ND:[310,85],SD:[315,140],NE:[330,190],KS:[345,245],OK:[365,295],
   TX:[340,375],MN:[375,100],IA:[385,170],MO:[415,240],AR:[415,305],LA:[420,370],WI:[415,110],IL:[435,200],
@@ -34,50 +38,66 @@ const statePositions: Record<string, [number, number]> = {
   DE:[575,205],MD:[565,210],CT:[590,160],MA:[600,148],RI:[600,158],VT:[580,110],NH:[590,115],ME:[610,85],
 }
 
-function zoneColor(z: number) {
-  if (z === 1) return "fill-primary"
-  if (z === 2) return "fill-primary/50"
-  if (z === 3) return "fill-primary/25"
-  return "fill-muted"
-}
+function zoneColor(z: number) { return z===1?"fill-primary":z===2?"fill-primary/50":z===3?"fill-primary/25":"fill-muted" }
+function zoneTextColor(z: number) { return z<=2?"fill-primary-foreground":"fill-foreground" }
 
-function zoneTextColor(z: number) {
-  if (z === 1) return "fill-primary-foreground"
-  if (z === 2) return "fill-primary-foreground"
-  return "fill-foreground"
-}
+/* ── TOC sections ── */
+const tocSections = [
+  { id: "free-shipping", label: "Free Shipping", icon: Truck },
+  { id: "shipping-costs", label: "Shipping Costs", icon: DollarSign },
+  { id: "shipping-types", label: "Shipping Types", icon: Clock },
+  { id: "destinations", label: "Destinations", icon: MapPin },
+  { id: "confirmations", label: "Confirmations", icon: FileText },
+  { id: "cancellations", label: "Cancellations", icon: XCircle },
+  { id: "damaged", label: "Damaged Products", icon: AlertTriangle },
+  { id: "faq", label: "FAQ", icon: HelpCircle },
+]
+
+/* ── FAQ ── */
+const faqs = [
+  { q: "How long does it take for my order to ship?", a: "Most in-stock orders placed before 2:00 PM ET Monday-Friday ship the same business day. Orders placed after the cutoff or on weekends/holidays ship the next business day. Some oversized or LTL freight items may require 1-2 additional handling days." },
+  { q: "Do you offer free shipping?", a: "Yes. Standard ground shipping is free on qualifying orders of $999 or more within the contiguous United States. Orders under $999 receive a calculated rate at checkout based on weight and destination. Pro Account holders receive reduced freight thresholds -- contact your rep for details." },
+  { q: "Can I expedite my order?", a: "Yes. 2-Day and Next-Day air options are available at checkout for most items under 150 lbs. LTL freight shipments (pallets, panels, large equipment) cannot be expedited. Contact us for hot-shot delivery quotes on urgent job-site needs." },
+  { q: "Do you ship to Alaska, Hawaii, or U.S. territories?", a: "Currently we ship only within the contiguous 48 United States. We do not ship to Alaska, Hawaii, Puerto Rico, Guam, U.S. Virgin Islands, or APO/FPO addresses. International shipments can be arranged through PES Global -- contact sales@pessupply.com for a quote." },
+  { q: "How are oversized or heavy items shipped?", a: "Items over 150 lbs or exceeding standard parcel dimensions ship via LTL freight carrier. LTL shipments typically arrive in 3-10 business days depending on destination. Liftgate delivery is available for an additional charge if you do not have a loading dock." },
+  { q: "What if my order arrives damaged?", a: "Inspect all deliveries upon receipt. If damage is visible while the carrier is on site, take photos and refuse the damaged items. Contact us within 48 hours with your order number and photos. For concealed damage discovered after delivery, notify us within 7 days. We will file a carrier claim and arrange a replacement or refund." },
+  { q: "Can I change my shipping address after ordering?", a: "Address changes can be made within 30 minutes of order confirmation, before the order enters our pick-pack queue. After that window the order cannot be redirected. Please verify your address at checkout." },
+  { q: "Do you offer freight or pallet pricing?", a: "Yes. Bulk and pallet orders receive volume-based freight discounts. Pro Account holders receive the best rates. Visit our Bulk Pricing page or contact your account rep for a custom freight quote." },
+]
 
 export function ShippingContent() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
   return (
     <div className="bg-background">
       {/* Breadcrumb */}
       <nav className="border-b border-border bg-muted/30 px-4 py-3" aria-label="Breadcrumb">
-        <ol className="mx-auto flex max-w-6xl items-center gap-1.5 text-xs text-muted-foreground">
+        <ol className="mx-auto flex max-w-[1400px] items-center gap-1.5 text-xs text-muted-foreground">
           <li><Link href="/" className="hover:text-primary">Home</Link></li>
           <li className="text-border">/</li>
-          <li className="font-medium text-foreground">Shipping & Delivery</li>
+          <li className="font-medium text-foreground">Shipping Policy</li>
         </ol>
       </nav>
 
       {/* Hero */}
-      <section className="border-b border-border bg-foreground py-12 md:py-16">
-        <div className="mx-auto max-w-6xl px-4">
+      <section className="border-b border-border bg-foreground py-10 md:py-14">
+        <div className="mx-auto max-w-[1400px] px-4">
           <div className="flex items-center gap-3 text-primary">
-            <Truck className="h-8 w-8" />
+            <Truck className="h-7 w-7" />
             <span className="text-sm font-bold uppercase tracking-widest">Shipping & Delivery</span>
           </div>
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-background md:text-4xl">
+          <h1 className="mt-4 text-balance text-3xl font-extrabold tracking-tight text-background md:text-4xl">
             Same-Day Shipping from Louisville, KY
           </h1>
-          <p className="mt-3 max-w-2xl text-base leading-relaxed text-background/60">
-            Order by 2 PM ET and it ships today. Free freight on orders over $999. Every shipment fully insured with real-time tracking.
+          <p className="mt-3 max-w-2xl text-pretty text-base leading-relaxed text-background/60">
+            Order by 2 PM ET and it ships today. Free freight on orders over $999. Every shipment fully insured with real-time tracking. In-house logistics -- not a 3PL.
           </p>
         </div>
       </section>
 
       {/* Quick stats */}
       <section className="border-b border-border">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-2 md:grid-cols-4">
           {[
             { icon: Clock, label: "Same-Day Dispatch", value: "Order by 2 PM ET" },
             { icon: DollarSign, label: "Free Freight", value: "Orders $999+" },
@@ -93,153 +113,296 @@ export function ShippingContent() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        {/* Zone map */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground">Ground Delivery Zones</h2>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            Transit times are estimates for UPS/FedEx Ground after same-day dispatch from Louisville, KY.
-          </p>
+      {/* Jump-link TOC */}
+      <section className="border-b border-border bg-muted/30">
+        <div className="mx-auto max-w-[1400px] overflow-x-auto px-4 py-3">
+          <nav className="flex items-center gap-2 md:justify-center" aria-label="Shipping policy sections">
+            {tocSections.map((s) => (
+              <a key={s.id} href={`#${s.id}`} className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+                <s.icon className="h-3 w-3" />{s.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </section>
 
-          <div className="mt-6 flex flex-col gap-8 lg:flex-row">
-            {/* Visual map */}
-            <div className="relative flex items-center justify-center overflow-hidden rounded-xl border border-border bg-muted/20 p-6 lg:w-3/5">
-              <svg viewBox="0 0 700 440" className="h-full w-full" aria-label="US shipping zone map from Louisville, KY" role="img">
-                <title>Shipping zones from Louisville, KY</title>
-                {Object.entries(statePositions).map(([abbr, [x, y]]) => {
-                  const zone = stateZones[abbr] || 4
-                  return (
-                    <g key={abbr}>
-                      <rect x={x - 18} y={y - 12} width={36} height={24} rx={4} className={`${zoneColor(zone)} stroke-background`} strokeWidth={1.5} />
-                      <text x={x} y={y + 4} textAnchor="middle" className={`${zoneTextColor(zone)} text-[10px] font-bold`}>{abbr}</text>
-                    </g>
-                  )
-                })}
-                {/* Louisville marker */}
-                <circle cx={495} cy={245} r={6} className="fill-accent stroke-background" strokeWidth={2} />
-                <circle cx={495} cy={245} r={12} className="fill-accent/20" />
-                <text x={495} y={230} textAnchor="middle" className="fill-foreground text-[9px] font-bold">Louisville</text>
-              </svg>
-            </div>
+      {/* Main content + sidebar */}
+      <div className="mx-auto max-w-[1400px] px-4 py-10 md:py-14">
+        <div className="grid gap-10 lg:grid-cols-[1fr_300px]">
+          {/* Main column */}
+          <div className="flex flex-col gap-12">
 
-            {/* Zone legend */}
-            <div className="flex flex-col gap-3 lg:w-2/5">
-              {zones.map((z) => (
-                <div key={z.zone} className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
-                  <div className={`mt-1 h-4 w-4 shrink-0 rounded ${z.color}`} />
-                  <div>
-                    <h3 className="text-sm font-bold text-card-foreground">{z.zone}</h3>
-                    <p className="mt-0.5 text-xs text-muted-foreground">{z.region}</p>
-                    <p className="mt-0.5 text-[11px] text-muted-foreground">{z.description}</p>
+            {/* Zone map */}
+            <section>
+              <h2 className="mb-2 text-2xl font-bold text-foreground">Fast & Reliable Shipping Nationwide</h2>
+              <p className="mb-6 text-sm text-muted-foreground">Transit times are estimates for UPS/FedEx Ground after same-day dispatch from Louisville, KY.</p>
+              <div className="flex flex-col gap-8 lg:flex-row">
+                <div className="relative flex items-center justify-center overflow-hidden rounded-xl border border-border bg-muted/20 p-6 lg:w-3/5">
+                  <svg viewBox="0 0 700 440" className="h-full w-full" aria-label="US shipping zone map" role="img">
+                    <title>Shipping zones from Louisville, KY</title>
+                    {Object.entries(statePositions).map(([abbr, [x, y]]) => {
+                      const zone = stateZones[abbr] || 4
+                      return (<g key={abbr}><rect x={x-18} y={y-12} width={36} height={24} rx={4} className={`${zoneColor(zone)} stroke-background`} strokeWidth={1.5} /><text x={x} y={y+4} textAnchor="middle" className={`${zoneTextColor(zone)} text-[10px] font-bold`}>{abbr}</text></g>)
+                    })}
+                    <circle cx={495} cy={245} r={6} className="fill-accent stroke-background" strokeWidth={2} />
+                    <circle cx={495} cy={245} r={12} className="fill-accent/20" />
+                    <text x={495} y={230} textAnchor="middle" className="fill-foreground text-[9px] font-bold">Louisville</text>
+                  </svg>
+                </div>
+                <div className="flex flex-col gap-3 lg:w-2/5">
+                  {zones.map((z) => (
+                    <div key={z.zone} className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
+                      <div className={`mt-1 h-4 w-4 shrink-0 rounded ${z.color}`} />
+                      <div>
+                        <h3 className="text-sm font-bold text-card-foreground">{z.zone}</h3>
+                        <p className="mt-0.5 text-xs text-muted-foreground">{z.region}</p>
+                        <p className="mt-0.5 text-[11px] text-muted-foreground">{z.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="mt-1 flex items-start gap-2 rounded-lg bg-muted/50 p-3">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <p className="text-xs leading-relaxed text-muted-foreground">Ships from Louisville, KY 40203. Transit times may vary during peak seasons.</p>
                   </div>
                 </div>
-              ))}
-              <div className="mt-1 flex items-start gap-2 rounded-lg bg-muted/50 p-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <p className="text-xs leading-relaxed text-muted-foreground">
-                  Ships from 1507 Portland Ave, Louisville, KY 40203. Transit times may vary during peak seasons.
-                </p>
+              </div>
+            </section>
+
+            {/* Free Shipping */}
+            <section id="free-shipping" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><Truck className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">To Qualify for Free Shipping</h2>
+              </div>
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <ul className="flex flex-col gap-2.5">
+                  <li className="flex items-start gap-2.5 text-sm text-card-foreground"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />Your order must total <strong>$999 or more</strong> before taxes, fees, or shipping charges.</li>
+                  <li className="flex items-start gap-2.5 text-sm text-card-foreground"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />Free shipping applies to orders weighing <strong>up to 150 pounds</strong> meeting standard parcel dimensions.</li>
+                  <li className="flex items-start gap-2.5 text-sm text-card-foreground"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />You must be a resident of the <strong>contiguous 48 United States.</strong></li>
+                  <li className="flex items-start gap-2.5 text-sm text-card-foreground"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><strong>Pro Account holders</strong> receive reduced freight thresholds. <Link href="/pro" className="font-semibold text-primary hover:underline">Open a Pro Account</Link></li>
+                </ul>
+                <p className="mt-4 rounded-lg bg-muted/50 px-4 py-2.5 text-xs text-muted-foreground">Some products may require additional shipping charges due to weight, size, or special handling. You will be charged an additional shipping cost if the service is not covered by our free shipping policy. Surcharges are clearly marked on product pages and at checkout.</p>
+              </div>
+            </section>
+
+            {/* Shipping Costs */}
+            <section id="shipping-costs" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><DollarSign className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Shipping Costs</h2>
+              </div>
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <p className="mb-4 text-sm leading-relaxed text-card-foreground">Rates are determined by your service level, order weight, and destination. Shipping charges are non-refundable. Enter your ZIP code at checkout for exact costs.</p>
+                <div className="overflow-hidden rounded-lg border border-border">
+                  <table className="w-full text-sm">
+                    <thead><tr className="border-b border-border bg-muted/50"><th className="px-4 py-2.5 text-left font-semibold text-foreground">Order Total</th><th className="px-4 py-2.5 text-left font-semibold text-foreground">Standard Ground</th><th className="hidden px-4 py-2.5 text-left font-semibold text-foreground md:table-cell">2-Day Air</th></tr></thead>
+                    <tbody>
+                      <tr className="border-b border-border"><td className="px-4 py-2.5 text-card-foreground">Under $250</td><td className="px-4 py-2.5 text-muted-foreground">Calculated at checkout</td><td className="hidden px-4 py-2.5 text-muted-foreground md:table-cell">Calculated at checkout</td></tr>
+                      <tr className="border-b border-border"><td className="px-4 py-2.5 text-card-foreground">$250 - $499</td><td className="px-4 py-2.5 text-muted-foreground">Flat $29.99</td><td className="hidden px-4 py-2.5 text-muted-foreground md:table-cell">Calculated at checkout</td></tr>
+                      <tr className="border-b border-border"><td className="px-4 py-2.5 text-card-foreground">$500 - $998</td><td className="px-4 py-2.5 text-muted-foreground">Flat $14.99</td><td className="hidden px-4 py-2.5 text-muted-foreground md:table-cell">Calculated at checkout</td></tr>
+                      <tr className="bg-primary/5"><td className="px-4 py-2.5 font-semibold text-primary">$999+</td><td className="px-4 py-2.5 font-semibold text-primary">FREE</td><td className="hidden px-4 py-2.5 text-muted-foreground md:table-cell">Calculated at checkout</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+
+            {/* Shipping Types */}
+            <section id="shipping-types" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><Clock className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Shipping Types</h2>
+              </div>
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <p className="mb-4 text-sm text-card-foreground">PES partners with <strong>UPS, FedEx, and freight carriers</strong> offering insurance and tracking on every shipment.</p>
+                <div className="overflow-hidden rounded-lg border border-border">
+                  <table className="w-full text-sm">
+                    <thead><tr className="border-b border-border bg-muted/50"><th className="px-4 py-2.5 text-left font-semibold text-foreground">Method</th><th className="px-4 py-2.5 text-left font-semibold text-foreground">Transit Time</th><th className="hidden px-4 py-2.5 text-left font-semibold text-foreground md:table-cell">Cost</th><th className="hidden px-4 py-2.5 text-left font-semibold text-foreground lg:table-cell">Carrier</th></tr></thead>
+                    <tbody>
+                      {shippingTiers.map((t, i) => (
+                        <tr key={t.method} className={i < shippingTiers.length - 1 ? "border-b border-border" : ""}>
+                          <td className="px-4 py-3 font-medium text-foreground">{t.method}</td>
+                          <td className="px-4 py-3 text-muted-foreground">{t.transit}</td>
+                          <td className="hidden px-4 py-3 text-muted-foreground md:table-cell">{t.cost}</td>
+                          <td className="hidden px-4 py-3 text-muted-foreground lg:table-cell">{t.carrier}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-4 rounded-lg bg-muted/50 px-4 py-2.5 text-xs text-muted-foreground">Shipping times are in business days (Monday-Friday, excluding holidays) and begin once the order has been processed and shipped. Handling generally takes 0-1 business days for in-stock items. There is no overnight shipping for LTL freight.</p>
+              </div>
+            </section>
+
+            {/* Ground vs Freight detail cards */}
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="rounded-xl border border-border bg-card p-5">
+                <div className="mb-3 flex items-center gap-2"><Package className="h-5 w-5 text-primary" /><h3 className="text-base font-bold text-card-foreground">Ground / Parcel</h3></div>
+                <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Free on orders $999+. Otherwise calculated at checkout.</li>
+                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />UPS Ground, FedEx Ground, or USPS Priority depending on weight.</li>
+                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Expedited (2-Day, Next Day) available at checkout.</li>
+                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Tracking emailed as soon as label is created.</li>
+                </ul>
+              </div>
+              <div className="rounded-xl border border-border bg-card p-5">
+                <div className="mb-3 flex items-center gap-2"><Truck className="h-5 w-5 text-primary" /><h3 className="text-base font-bold text-card-foreground">Freight / LTL</h3></div>
+                <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Items over 150 lbs ship via LTL freight carrier.</li>
+                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Free freight on panels, generators, and inverters over $999.</li>
+                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Liftgate and residential delivery available for additional fee.</li>
+                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Request a freight quote for pallet or job-site delivery.</li>
+                </ul>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Shipping methods table */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground">Shipping Methods & Rates</h2>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            Rates are calculated at checkout based on weight, dimensions, and destination. All shipments use PES Supply accounts for logistics and insurance.
-          </p>
-          <div className="mt-6 overflow-hidden rounded-xl border border-border">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-border bg-muted/50">
-                  <th className="px-4 py-3 font-semibold text-foreground">Method</th>
-                  <th className="px-4 py-3 font-semibold text-foreground">Transit Time</th>
-                  <th className="hidden px-4 py-3 font-semibold text-foreground md:table-cell">Cost</th>
-                  <th className="hidden px-4 py-3 font-semibold text-foreground lg:table-cell">Carrier</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shippingTiers.map((tier, i) => (
-                  <tr key={tier.method} className={i < shippingTiers.length - 1 ? "border-b border-border" : ""}>
-                    <td className="px-4 py-3.5 font-medium text-foreground">{tier.method}</td>
-                    <td className="px-4 py-3.5 text-muted-foreground">{tier.transit}</td>
-                    <td className="hidden px-4 py-3.5 text-muted-foreground md:table-cell">{tier.cost}</td>
-                    <td className="hidden px-4 py-3.5 text-muted-foreground lg:table-cell">{tier.carrier}</td>
-                  </tr>
+            {/* Destinations */}
+            <section id="destinations" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><MapPin className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Shipping Destinations</h2>
+              </div>
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <p className="mb-3 text-sm leading-relaxed text-card-foreground"><strong>We currently ship within the contiguous 48 United States.</strong> The following are not eligible:</p>
+                <p className="mb-4 text-sm text-muted-foreground">Alaska, Hawaii, American Samoa, Guam, Marshall Islands, Micronesia, North Mariana Islands, Palau, Puerto Rico, U.S. Virgin Islands, and APO/FPO addresses. We do not recommend using a PO Box as a shipping address.</p>
+                <p className="mb-3 text-sm text-card-foreground">Once placed, shipping addresses <strong>cannot be changed</strong> due to state tax regulations. Please verify your address at checkout.</p>
+                <div className="rounded-lg border border-accent/20 bg-accent/5 px-4 py-3">
+                  <p className="text-xs font-medium text-accent">International Shipping: For orders outside the U.S., contact PES Global at <a href="mailto:sales@pessupply.com" className="underline">sales@pessupply.com</a> for a custom quote and logistics coordination.</p>
+                </div>
+              </div>
+            </section>
+
+            {/* Confirmations */}
+            <section id="confirmations" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><FileText className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Shipping & Order Confirmations</h2>
+              </div>
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <p className="text-sm leading-relaxed text-card-foreground">As soon as your order is placed, you will receive an email confirmation with your order summary. A second email with tracking information and the expected shipping date will be sent once the order ships. Tracking numbers are provided upon availability. We recommend keeping them on hand.</p>
+              </div>
+            </section>
+
+            {/* Cancellations */}
+            <section id="cancellations" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><XCircle className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Order Cancellations</h2>
+              </div>
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <p className="mb-3 text-sm leading-relaxed text-card-foreground">Order cancellations are permitted <strong>within 30 minutes</strong> of receiving your emailed order confirmation. You can cancel through your account dashboard or by calling <a href="tel:8888760007" className="font-semibold text-primary hover:underline">(888) 876-0007</a> during business hours.</p>
+                <p className="text-sm text-muted-foreground">After the 30-minute window, orders enter our pick-pack queue and cannot be stopped or redirected. If your order has already shipped, please initiate a return.</p>
+              </div>
+            </section>
+
+            {/* Damaged Products */}
+            <section id="damaged" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><AlertTriangle className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Damaged Products</h2>
+              </div>
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <div className="mb-4">
+                  <p className="mb-2 text-sm font-semibold text-foreground">If damage is visible at delivery:</p>
+                  <ul className="flex flex-col gap-1.5 pl-1">
+                    <li className="flex items-start gap-2 text-sm text-card-foreground"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Do not accept the damaged items -- refuse delivery.</li>
+                    <li className="flex items-start gap-2 text-sm text-card-foreground"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Take photographs of the damage and packaging immediately.</li>
+                    <li className="flex items-start gap-2 text-sm text-card-foreground"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Obtain copies of the carrier paperwork (BOL) if possible.</li>
+                    <li className="flex items-start gap-2 text-sm text-card-foreground"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Contact us immediately to arrange a replacement or refund.</li>
+                  </ul>
+                </div>
+                <div className="mb-4">
+                  <p className="mb-2 text-sm font-semibold text-foreground">If damage is discovered after delivery:</p>
+                  <ul className="flex flex-col gap-1.5 pl-1">
+                    <li className="flex items-start gap-2 text-sm text-card-foreground"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Notify us within <strong>7 days</strong> of receiving the product.</li>
+                    <li className="flex items-start gap-2 text-sm text-card-foreground"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Take photos of the damage and retain all original packaging.</li>
+                    <li className="flex items-start gap-2 text-sm text-card-foreground"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Email <a href="mailto:connect@portlandiaelectric.supply" className="font-medium text-primary hover:underline">connect@portlandiaelectric.supply</a> with your order number, the signed BOL, and photos.</li>
+                  </ul>
+                </div>
+                <p className="rounded-lg bg-muted/50 px-4 py-2.5 text-xs text-muted-foreground">Products that have been installed or altered cannot be submitted for damage claims. If the BOL is not properly noted at time of delivery, PES Supply cannot be held responsible for additional replacement costs.</p>
+              </div>
+            </section>
+
+            {/* FAQ */}
+            <section id="faq" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><HelpCircle className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Frequently Asked Questions</h2>
+              </div>
+              <div className="flex flex-col gap-2">
+                {faqs.map((f, i) => (
+                  <div key={i} className="overflow-hidden rounded-xl border border-border bg-card">
+                    <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-muted/30" aria-expanded={openFaq === i}>
+                      <span className="pr-4 text-sm font-semibold text-foreground">{f.q}</span>
+                      <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
+                    </button>
+                    {openFaq === i && (
+                      <div className="border-t border-border px-5 py-4">
+                        <p className="text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+                      </div>
+                    )}
+                  </div>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            </section>
           </div>
-        </section>
 
-        {/* Ground / Freight details */}
-        <section className="mb-16 grid gap-6 lg:grid-cols-2">
-          <div className="rounded-lg border border-border bg-card p-6">
-            <div className="mb-3 flex items-center gap-2">
-              <Package className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-bold text-card-foreground">Ground / Parcel</h2>
+          {/* Sidebar */}
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 flex flex-col gap-4">
+              <div className="rounded-xl border border-border bg-card p-5">
+                <p className="mb-1 text-sm font-bold text-foreground">Need Help?</p>
+                <p className="mb-4 text-xs text-muted-foreground">Monday - Friday, 8 AM - 5 PM ET</p>
+                <div className="flex flex-col gap-2.5">
+                  <button className="flex items-center gap-3 rounded-lg border border-border px-3.5 py-2.5 transition-colors hover:bg-muted">
+                    <MessageCircle className="h-4 w-4 text-primary" />
+                    <div className="text-left"><p className="text-xs font-semibold text-foreground">Live Chat</p><p className="flex items-center gap-1 text-[10px] text-muted-foreground"><span className="inline-block h-1.5 w-1.5 rounded-full bg-primary" /> Online Now</p></div>
+                  </button>
+                  <a href="tel:8888760007" className="flex items-center gap-3 rounded-lg border border-border px-3.5 py-2.5 transition-colors hover:bg-muted">
+                    <Phone className="h-4 w-4 text-primary" />
+                    <div><p className="text-xs font-semibold text-foreground">Call</p><p className="text-[10px] text-muted-foreground">(888) 876-0007</p></div>
+                  </a>
+                  <a href="mailto:sales@pessupply.com" className="flex items-center gap-3 rounded-lg border border-border px-3.5 py-2.5 transition-colors hover:bg-muted">
+                    <Mail className="h-4 w-4 text-primary" />
+                    <div><p className="text-xs font-semibold text-foreground">Email</p><p className="text-[10px] text-muted-foreground">sales@pessupply.com</p></div>
+                  </a>
+                </div>
+              </div>
+              <div className="rounded-xl border border-border bg-card p-5">
+                <p className="mb-3 text-sm font-bold text-foreground">Quick Links</p>
+                <div className="flex flex-col gap-2">
+                  <Link href="/account" className="flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-primary"><FileText className="h-3 w-3" /> Order Summary</Link>
+                  <Link href="/account" className="flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-primary"><Truck className="h-3 w-3" /> Track Your Order</Link>
+                  <Link href="/quote" className="flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-primary"><FileText className="h-3 w-3" /> Request a Quote</Link>
+                  <Link href="/bulk" className="flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-primary"><Package className="h-3 w-3" /> Bulk Pricing</Link>
+                </div>
+              </div>
+              <div className="rounded-xl border border-primary/20 bg-primary/5 p-5">
+                <p className="mb-1 text-sm font-bold text-foreground">Pro Account Holders</p>
+                <p className="mb-3 text-xs text-muted-foreground">Get reduced freight thresholds, net-30 terms, and a named account rep.</p>
+                <Button size="sm" asChild className="w-full bg-primary text-primary-foreground hover:bg-primary/90"><Link href="/pro">Open a Pro Account</Link></Button>
+              </div>
             </div>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /> Free on orders $999+. Otherwise calculated at checkout.</li>
-              <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /> UPS Ground, FedEx Ground, or USPS Priority depending on weight.</li>
-              <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /> Expedited (2-Day, Next Day) available at checkout.</li>
-              <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /> Tracking emailed as soon as label is created.</li>
-            </ul>
-          </div>
-          <div className="rounded-lg border border-border bg-card p-6">
-            <div className="mb-3 flex items-center gap-2">
-              <Truck className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-bold text-card-foreground">Freight / LTL</h2>
-            </div>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /> Items over 150 lbs or oversized ship via LTL carrier.</li>
-              <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /> Free freight on most generators, panels, and inverters over $999.</li>
-              <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /> Liftgate and residential delivery available for additional fee.</li>
-              <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" /> Request a freight quote for pallet quantities or job-site delivery.</li>
-            </ul>
-          </div>
-        </section>
-
-        {/* Inspection policy */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground">Inspecting Shipments Upon Delivery</h2>
-          <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
-            <p>
-              When your order arrives, it is crucial that you thoroughly inspect your shipment. By signing the delivery receipt without noting any damages, you confirm that you received the shipment in good condition. PES Supply cannot be held responsible for damage or missing items not noted on the delivery receipt.
-            </p>
-            <div className="rounded-xl border border-border bg-muted/30 p-5">
-              <h3 className="mb-3 text-sm font-bold text-foreground">If You Receive a Damaged Shipment:</h3>
-              <ol className="ml-4 list-decimal space-y-2">
-                <li>If delivered by freight truck and you find damage, contact the carrier using the phone number on the carrier{"'"}s bill. Take photos immediately.</li>
-                <li>If you accept a visibly damaged package, note on the delivery receipt that you are signing for a damaged package and include a photo.</li>
-                <li>After receiving your shipment, carefully count and inspect the contents before acknowledging delivery.</li>
-                <li>In case of damage during transit, take photos and note the damage on the Bill of Lading (BOL). If there is significant visible damage, you should reject the delivery.</li>
-                <li>Notify PES Supply by email (<a href="mailto:connect@portlandiaelectric.supply" className="font-medium text-primary hover:underline">connect@portlandiaelectric.supply</a>) within 24 hours of delivery, including the signed BOL and supporting photos.</li>
-              </ol>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              If the BOL is not properly noted at time of delivery, PES Supply cannot be held responsible for additional replacement costs. All returned items are subject to inspection and approval.
-            </p>
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section className="rounded-xl border border-border bg-foreground p-6 text-center md:p-8">
-          <MapPin className="mx-auto h-6 w-6 text-primary" />
-          <h2 className="mt-2 text-lg font-bold text-background">Need a shipping estimate?</h2>
-          <p className="mt-1 text-sm text-background/60">Our Louisville team quotes freight in under an hour. Available Monday -- Friday, 8 AM -- 6 PM ET.</p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
-            <a href="tel:8888760007" className="flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground hover:bg-primary/90">
-              <Phone className="h-4 w-4" /> (888) 876-0007
-            </a>
-            <a href="mailto:connect@portlandiaelectric.supply" className="flex items-center gap-2 rounded-lg border border-background/20 px-5 py-2.5 text-sm font-medium text-background hover:bg-background/10">
-              <Mail className="h-4 w-4" /> Email Us
-            </a>
-          </div>
-        </section>
+          </aside>
+        </div>
       </div>
+
+      {/* Bottom action cards */}
+      <section className="border-t border-border bg-muted/30 py-8">
+        <div className="mx-auto grid max-w-[1400px] gap-3 px-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { icon: FileText, title: "Order Summary", desc: "View recent orders and invoices", href: "/account" },
+            { icon: Truck, title: "Track Your Order", desc: "Real-time tracking for all shipments", href: "/account" },
+            { icon: Package, title: "Shipping Options", desc: "Compare rates and delivery times", href: "#shipping-types" },
+            { icon: ArrowRight, title: "Return Instructions", desc: "Start a return or exchange", href: "/shipping" },
+          ].map((card) => (
+            <Link key={card.title} href={card.href} className="flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4 transition-colors hover:border-primary/40 hover:bg-muted/40">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10"><card.icon className="h-5 w-5 text-primary" /></div>
+              <div><p className="text-sm font-semibold text-foreground">{card.title}</p><p className="text-xs text-muted-foreground">{card.desc}</p></div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

@@ -21,10 +21,12 @@ const footerLinks = [
     links: [
       { label: "Pro Account", href: "/pro" },
       { label: "Net-30 Terms", href: "/pro" },
-      { label: "Bulk & Pallet Pricing", href: "/pro" },
+      { label: "Bulk & Pallet Pricing", href: "/bulk" },
       { label: "Project Quotes", href: "/pro" },
       { label: "Commercial Sales", href: "/pro" },
       { label: "Government & BABA", href: "/pro" },
+      { label: "Power Link Installers", href: "/powerlink" },
+      { label: "Request a Quote", href: "/quote" },
     ],
   },
   {
@@ -43,7 +45,7 @@ const footerLinks = [
       { label: "About PES Supply", href: "/about" },
       { label: "PES Global", href: "/about" },
       { label: "Careers", href: "/about" },
-      { label: "Contact", href: "/about" },
+      { label: "Contact", href: "/contact" },
       { label: "Brands", href: "/brands" },
     ],
   },

@@ -1,0 +1,360 @@
+"use client"
+
+import { useState } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { ArrowRight, Truck, ShieldCheck, CreditCard, Headphones, Award, Globe, CheckCircle2, Loader2, Users, ClipboardList, BarChart3, Building2, ChevronDown, Zap } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { StarRating } from "@/components/star-rating"
+
+/* ---------- data ---------- */
+
+const benefits = [
+  { icon: CreditCard, title: "Pro Deals & Prices", short: "Pro pricing applied at checkout and vendor-negotiated discounts for large orders.", detail: "Get Pro Pricing benefits automatically when you create a business account. Volume-tiered pricing improves as your account grows. Bulk discounts are available on pallets and full cases. For large orders, submit model numbers and quantities via our quick-order pad or by requesting a quote. Vendor-negotiated discounts on orders over $5,000 may take 1-2 business days as we work directly with the manufacturer." },
+  { icon: Headphones, title: "Account Management", short: "Personalized business shopping experience from start to finish with your account manager.", detail: "Upon creating your business account, we assign you a dedicated Account Manager based in Louisville, KY. Their name and direct contact info appear on your dashboard every time you log in. Your rep handles quotes, sourcing, order issues, and can proactively suggest alternatives when items are backordered." },
+  { icon: Truck, title: "In-House Fulfillment", short: "Same-day shipping from our Louisville warehouse. Free freight on qualified orders over $999.", detail: "Unlike marketplace competitors, PES operates its own warehouse and logistics. Orders placed by 2 PM ET ship same day. Ground transit reaches 60% of the US in 1-2 business days from Louisville. LTL freight quotes are generated at checkout -- no 'call for pricing.' White-glove delivery is available for solar panel pallets and generator sets." },
+  { icon: ShieldCheck, title: "Authorized Distributor", short: "Full OEM warranties from 169 brands. Factory-direct pricing. No gray market.", detail: "Every product sold through PES Supply carries the full manufacturer warranty. We are authorized by brands including Square D, Milwaukee, MRCOOL, Jinko, Sol-Ark, Generac, and 163 others. Procurement-ready documentation (certs, spec sheets, COOs) is available on every order for government and institutional buyers." },
+  { icon: Award, title: "Compliance & Certifications", short: "BABA compliant, UL listed, NABCEP certified. Procurement-ready documentation on every order.", detail: "PES Supply maintains BABA (Build America, Buy America) compliance documentation for all qualifying products. Our solar division carries NABCEP certification. All electrical products are UL Listed. We provide certificates of origin, test reports, and compliance letters on request -- critical for government, municipal, and institutional procurement." },
+  { icon: Globe, title: "Backed by PES Global", short: "Local service with a global supply chain. Enterprise-grade operations, startup-fast response.", detail: "PES Supply is a division of PES Global, giving you access to international sourcing, multi-brand vendor relationships, and enterprise-grade operations. This means better pricing through scale, access to hard-to-find SKUs, and the ability to fulfill large commercial projects that smaller distributors can't handle." },
+]
+
+const proFeatures = [
+  { icon: BarChart3, title: "Pro Pricing", desc: "Volume-tiered pricing unlocked automatically as your account grows. The more you buy, the better your rate." },
+  { icon: ClipboardList, title: "Quick Reorder", desc: "One-click reorder from your purchase history. Save job lists. Paste POs directly into the quick-order pad." },
+  { icon: Users, title: "Multi-User Accounts", desc: "Add project managers, foremen, and purchasing agents to your account with custom permissions." },
+  { icon: Building2, title: "Job Accounts", desc: "Separate billing and shipping by job site. Track spend per project. Export reports for your accountant." },
+]
+
+const testimonials = [
+  { quote: "We switched from Rexel to PES for our solar installs. Same brands, better pricing, and our rep actually picks up the phone.", name: "Mike R.", title: "Solar Installer", location: "Nashville, TN", rating: 5 },
+  { quote: "The quick-order pad saved us hours. We paste our takeoff sheet and the whole order is built in 30 seconds.", name: "Carlos D.", title: "Electrical Contractor", location: "Atlanta, GA", rating: 5 },
+  { quote: "Net-30 terms from day one. No other online distributor did that for us without a year of history.", name: "Sarah K.", title: "Property Manager", location: "Columbus, OH", rating: 5 },
+]
+
+const industries = [
+  "Electrical Contractor", "Solar Installer", "HVAC Contractor", "Plumber", "General Contractor",
+  "Property Manager (Single/Multifamily)", "Property Manager (Commercial)", "Roofing Contractor",
+  "Fire/Water Restoration", "Government / Municipal", "Housing Authority", "Healthcare Facility",
+  "Education / Schools", "Manufacturing", "Non-Profit Organization", "Landscaping",
+  "EV Charging Installer", "Data Center / IT", "Reseller / Distributor", "Import/Export",
+  "Janitorial / Building Services", "Restaurant / Hospitality", "Transportation",
+  "Water Treatment", "Shopping for Personal Use", "Other",
+]
+
+/* ---------- sub components ---------- */
+
+function ExpandableCard({ icon: Icon, title, short, detail }: typeof benefits[number]) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="rounded-xl border border-border bg-card p-5">
+      <div className="flex items-start gap-4">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+          <Icon className="h-5 w-5 text-primary" />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-sm font-semibold text-card-foreground">{title}</h3>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{short}</p>
+          <button onClick={() => setOpen(!open)} className="mt-2 flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+            {open ? "Close" : "Read more"}
+            <ChevronDown className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`} />
+          </button>
+        </div>
+      </div>
+      {open && (
+        <div className="mt-4 border-t border-border pt-4">
+          <p className="text-xs leading-relaxed text-muted-foreground">{detail}</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ---------- form ---------- */
+
+interface FormData { company: string; name: string; email: string; phone: string; type: string; need: string; language: string; businessType: string }
+interface FormErrors { company?: string; name?: string; email?: string }
+
+function validate(d: FormData): FormErrors {
+  const e: FormErrors = {}
+  if (!d.company.trim()) e.company = "Company name is required"
+  if (!d.name.trim()) e.name = "Your name is required"
+  if (!d.email.trim()) e.email = "Email is required"
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) e.email = "Enter a valid email"
+  return e
+}
+
+/* ---------- page ---------- */
+
+export default function ProPage() {
+  const [form, setForm] = useState<FormData>({ company: "", name: "", email: "", phone: "", type: "", need: "", language: "", businessType: "" })
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [tab, setTab] = useState<"business" | "personal">("business")
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const errs = validate(form)
+    setErrors(errs)
+    if (Object.keys(errs).length > 0) return
+    setSubmitting(true)
+    setTimeout(() => { setSubmitting(false); setSubmitted(true) }, 1200)
+  }
+
+  function handleChange(field: keyof FormData, value: string) {
+    setForm((prev) => ({ ...prev, [field]: value }))
+    if (errors[field as keyof FormErrors]) setErrors((prev) => { const n = { ...prev }; delete n[field as keyof FormErrors]; return n })
+  }
+
+  return (
+    <main>
+      {/* Hero banner */}
+      <section className="border-b border-border bg-foreground">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-12 text-center md:py-16">
+          <span className="rounded-full bg-primary/20 px-4 py-1 text-xs font-semibold text-primary">For Trade Professionals</span>
+          <h1 className="max-w-2xl text-balance text-3xl font-bold text-background md:text-4xl">Your Business Deserves Pro Pricing, Pro Terms, and a Pro Team.</h1>
+          <p className="max-w-xl text-pretty text-sm leading-relaxed text-background/60">Join the contractors, installers, and property managers who switched to PES for authorized brands, Net-30 terms, same-day shipping, and a named rep who actually picks up the phone.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg" className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+              <a href="#register">Create a Business Account <ArrowRight className="h-4 w-4" /></a>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-background/30 bg-transparent text-background hover:border-background hover:bg-background/10">
+              <Link href="/quote">Request a Quote</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="gap-2 border-accent/40 bg-transparent text-accent hover:border-accent hover:bg-accent/10">
+              <Link href="/powerlink">Join Power Link Installer Network <Zap className="h-4 w-4" /></Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Professionals Choose PES -- expandable cards */}
+      <section className="border-b border-border bg-muted/30 py-12">
+        <div className="mx-auto max-w-7xl px-4">
+          <h2 className="mb-2 text-center text-xl font-bold text-foreground md:text-2xl">Why Professionals Choose PES</h2>
+          <p className="mx-auto mb-8 max-w-lg text-center text-sm text-muted-foreground">Everything you need from a distributor -- without the runaround.</p>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {benefits.map((b) => <ExpandableCard key={b.title} {...b} />)}
+          </div>
+        </div>
+      </section>
+
+      {/* Pro features */}
+      <section className="border-b border-border py-12">
+        <div className="mx-auto max-w-7xl px-4">
+          <h2 className="mb-2 text-center text-xl font-bold text-foreground md:text-2xl">What You Get With a Pro Account</h2>
+          <p className="mx-auto mb-8 max-w-lg text-center text-sm text-muted-foreground">Tools built for how you actually work.</p>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {proFeatures.map((f) => (
+              <div key={f.title} className="flex items-start gap-4 rounded-xl border border-border bg-card p-6">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                  <f.icon className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-card-foreground">{f.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Registration section */}
+      <section id="register" className="scroll-mt-20 border-b border-border bg-muted/30 py-12">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="flex flex-col gap-10 lg:flex-row lg:gap-14">
+            {/* Left: account type selector + benefits */}
+            <div className="flex-1">
+              <h2 className="mb-1 text-2xl font-bold text-foreground">Register for PES Supply</h2>
+              <p className="mb-6 text-sm text-muted-foreground">Choose your account type to get started.</p>
+
+              <div className="mb-6 flex gap-2">
+                <button onClick={() => setTab("business")} className={`flex-1 rounded-lg border px-4 py-3 text-left transition-colors ${tab === "business" ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/30"}`}>
+                  <p className={`text-sm font-bold ${tab === "business" ? "text-primary" : "text-card-foreground"}`}>Business Account</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">Trade pricing, Net-30 terms, named rep</p>
+                </button>
+                <button onClick={() => setTab("personal")} className={`flex-1 rounded-lg border px-4 py-3 text-left transition-colors ${tab === "personal" ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/30"}`}>
+                  <p className={`text-sm font-bold ${tab === "personal" ? "text-primary" : "text-card-foreground"}`}>Personal Account</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">Browse and buy at listed prices</p>
+                </button>
+              </div>
+
+              {tab === "business" ? (
+                <div>
+                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">Join our program tailored to professionals like you. Get <strong className="text-foreground">FREE access</strong> to exclusive purchasing features and Pro Pricing.</p>
+                  <ul className="flex flex-col gap-2.5">
+                    {["Volume-tiered pricing that improves as you grow", "Net-30 payment terms from day one", "Named account rep in Louisville, KY", "Quick-order pad -- paste your PO or takeoff sheet", "Multi-user accounts with job-level tracking", "BABA-compliant documentation on every order"].map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-sm text-foreground">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-6 flex items-center gap-4 rounded-lg border border-border bg-card p-4">
+                    <div className="relative h-16 w-28 shrink-0 overflow-hidden rounded-lg">
+                      <Image src="/images/team-warehouse.jpg" alt="PES Supply warehouse team in Louisville, KY" fill className="object-cover" sizes="112px" loading="lazy" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">Real people. Real warehouse.</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">Our Louisville team picks, packs, and supports every order.</p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">Create a personal account to browse our full catalog, save favorites, track orders, and check out at listed prices. No business verification required.</p>
+                  <ul className="flex flex-col gap-2.5">
+                    {["Browse 40,000+ products across 10 departments", "Save items to your wishlist", "Track order status and shipping", "Upgrade to Pro anytime for trade pricing"].map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-sm text-foreground">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <p className="mt-6 text-xs text-muted-foreground">Already have an account? <Link href="/account" className="font-semibold text-primary hover:underline">Sign In</Link></p>
+            </div>
+
+            {/* Right: form */}
+            <div id="quote" className="w-full scroll-mt-20 rounded-xl border border-border bg-card p-6 lg:w-[420px] lg:p-8">
+              {submitted ? (
+                <div className="flex flex-col items-center justify-center py-8 text-center">
+                  <CheckCircle2 className="h-12 w-12 text-primary" />
+                  <h3 className="mt-4 text-lg font-bold text-card-foreground">{tab === "business" ? "Application Received" : "Account Created"}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {tab === "business"
+                      ? <>Our Louisville team will reach out within 1 business day. Check your email at <strong className="text-card-foreground">{form.email}</strong>.</>
+                      : <>You can now browse, save favorites, and track orders. Check your email at <strong className="text-card-foreground">{form.email}</strong>.</>
+                    }
+                  </p>
+                  <Button variant="outline" className="mt-6" onClick={() => { setSubmitted(false); setForm({ company: "", name: "", email: "", phone: "", type: "", need: "", language: "", businessType: "" }) }}>Submit Another</Button>
+                </div>
+              ) : (
+                <>
+                  <h3 className="mb-1 text-lg font-bold text-card-foreground">{tab === "business" ? "Create a Business Account" : "Create a Personal Account"}</h3>
+                  <p className="mb-5 text-xs text-muted-foreground">{tab === "business" ? "Your account manager can contact you directly." : "Start shopping in seconds."}</p>
+                  <form className="flex flex-col gap-3" onSubmit={handleSubmit} noValidate>
+                    {tab === "business" && (
+                      <div>
+                        <input type="text" required placeholder="Company Name *" value={form.company} onChange={(e) => handleChange("company", e.target.value)} className={`w-full rounded-lg border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.company ? "border-destructive" : "border-input focus:border-primary"}`} />
+                        {errors.company && <p className="mt-1 text-xs text-destructive">{errors.company}</p>}
+                      </div>
+                    )}
+                    <div>
+                      <input type="text" required placeholder="Your Name *" value={form.name} onChange={(e) => handleChange("name", e.target.value)} className={`w-full rounded-lg border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.name ? "border-destructive" : "border-input focus:border-primary"}`} />
+                      {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
+                    </div>
+                    <div>
+                      <input type="email" required placeholder="Email Address *" value={form.email} onChange={(e) => handleChange("email", e.target.value)} className={`w-full rounded-lg border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.email ? "border-destructive" : "border-input focus:border-primary"}`} />
+                      {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
+                    </div>
+                    <input type="tel" placeholder="Phone (optional)" value={form.phone} onChange={(e) => handleChange("phone", e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                    {tab === "business" && (
+                      <>
+                        <select value={form.type} onChange={(e) => handleChange("type", e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" aria-label="Industry">
+                          <option value="">Industry</option>
+                          {industries.map((i) => <option key={i} value={i}>{i}</option>)}
+                        </select>
+                        <select value={form.language} onChange={(e) => handleChange("language", e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" aria-label="Preferred language">
+                          <option value="">Preferred Language</option>
+                          <option value="en">English</option>
+                          <option value="es">{"Espa\u00f1ol"}</option>
+                        </select>
+                        <select value={form.businessType} onChange={(e) => handleChange("businessType", e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" aria-label="Business type">
+                          <option value="">Business Type</option>
+                          <option value="contractor">Contractor / Installer</option>
+                          <option value="website">I sell on my website</option>
+                          <option value="amazon">Amazon seller</option>
+                          <option value="marketplace">Marketplace seller (other)</option>
+                          <option value="wholesale">Wholesale / Distribution</option>
+                          <option value="other">Other</option>
+                        </select>
+                        <select value={form.need} onChange={(e) => handleChange("need", e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" aria-label="What do you need?">
+                          <option value="">What are you looking for?</option>
+                          <option value="pro">Pro Account (trade pricing + terms)</option>
+                          <option value="quote">Project Quote</option>
+                          <option value="bulk">Bulk / Pallet Pricing</option>
+                          <option value="powerlink">Power Link Installer Network</option>
+                          <option value="other">Something Else</option>
+                        </select>
+                      </>
+                    )}
+                    <label className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <input type="checkbox" className="h-3.5 w-3.5 rounded border-input accent-primary" />
+                      Sign up to our business newsletter
+                    </label>
+                    <Button type="submit" disabled={submitting} className="mt-1 w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                      {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                      {submitting ? "Submitting..." : tab === "business" ? "Create Business Account" : "Create Account"}
+                      {!submitting && <ArrowRight className="h-4 w-4" />}
+                    </Button>
+                    <p className="text-center text-[10px] text-muted-foreground">
+                      By selecting &quot;Create Account&quot; you agree to our{" "}
+                      <Link href="/terms" className="text-primary hover:underline">Terms</Link> and{" "}
+                      <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
+                    </p>
+                  </form>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="border-b border-border py-12">
+        <div className="mx-auto max-w-7xl px-4">
+          <h2 className="mb-8 text-center text-xl font-bold text-foreground">What Pros Are Saying</h2>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {testimonials.map((t) => (
+              <div key={t.name} className="flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center">
+                <StarRating rating={t.rating} size="md" />
+                <p className="mt-4 text-sm leading-relaxed text-card-foreground">&ldquo;{t.quote}&rdquo;</p>
+                <p className="mt-4 text-xs font-semibold text-foreground">- {t.name}, {t.title}</p>
+                <p className="text-xs text-muted-foreground">{t.location}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Questions CTA */}
+      <section className="border-b border-border bg-muted/30 py-8">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 text-center md:flex-row md:text-left">
+          <Headphones className="h-10 w-10 shrink-0 text-primary" />
+          <div className="flex-1">
+            <p className="text-sm font-bold text-foreground">{"Questions? Connect with Our Pro Support Team"}</p>
+            <p className="mt-0.5 text-xs text-muted-foreground">Available Monday - Friday between 8:00 AM EST - 5:00 PM EST</p>
+          </div>
+          <div className="flex gap-3">
+            <Button asChild size="sm" variant="outline" className="gap-1.5">
+              <a href="tel:8888760007">Call (888) 876-0007</a>
+            </Button>
+            <Button asChild size="sm" variant="outline" className="gap-1.5">
+              <a href="mailto:sales@pessupply.com">Email Us</a>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="bg-foreground py-12">
+        <div className="mx-auto max-w-3xl px-4 text-center">
+          <h2 className="text-2xl font-bold text-background md:text-3xl">Ready to get started?</h2>
+          <p className="mt-2 text-sm text-background/60">Create your account in 60 seconds. Our team will have you set up within one business day.</p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg" className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+              <a href="#register">Create a Business Account <ArrowRight className="h-4 w-4" /></a>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-background/30 bg-transparent text-background hover:border-background hover:bg-background/10">
+              <Link href="/">Continue Shopping</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+    </main>
+  )
+}
