@@ -155,7 +155,7 @@ export function Navbar() {
                   <Link href="/shipping" className="text-xs text-muted-foreground hover:text-primary hover:underline">Track Your Order</Link>
                   <Link href="/shipping" className="text-xs text-muted-foreground hover:text-primary hover:underline">Shipping & Returns</Link>
                   <Link href="/quote" className="text-xs text-muted-foreground hover:text-primary hover:underline">Request a Quote</Link>
-                  <Link href="/about" className="text-xs text-muted-foreground hover:text-primary hover:underline">Contact Customer Service</Link>
+                  <Link href="/contact" className="text-xs text-muted-foreground hover:text-primary hover:underline">Contact Customer Service</Link>
                 </div>
               </div>
             </div>

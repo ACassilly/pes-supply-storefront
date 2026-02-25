@@ -45,7 +45,7 @@ const footerLinks = [
       { label: "About PES Supply", href: "/about" },
       { label: "PES Global", href: "/about" },
       { label: "Careers", href: "/about" },
-      { label: "Contact", href: "/about" },
+      { label: "Contact", href: "/contact" },
       { label: "Brands", href: "/brands" },
     ],
   },
