@@ -53,8 +53,8 @@ export function ProMembership() {
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-14">
           <div className="flex-1">
             <span className="mb-2 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">Why Contractors Choose PES</span>
-            <h2 id="pro-heading" className="mb-2 text-2xl font-bold text-foreground md:text-3xl">Not a marketplace. A real distributor.</h2>
-            <p className="mb-8 max-w-lg text-sm leading-relaxed text-muted-foreground">PES Supply is the distribution arm of PES Global -- with a warehouse, a team, and a phone number. We stock it, we ship it, we stand behind it.</p>
+            <h2 id="pro-heading" className="mb-2 text-2xl font-bold text-foreground md:text-3xl">One store. One team. Everything handled.</h2>
+            <p className="mb-8 max-w-lg text-sm leading-relaxed text-muted-foreground">Other groups list on PES. We handle the rest -- warehousing, shipping, support, and warranties. You get Amazon-scale selection with a real distributor behind every order.</p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {pillars.map((p) => (
                 <div key={p.title} className="flex items-start gap-3">

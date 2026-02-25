@@ -10,14 +10,14 @@ import { useCart } from "@/hooks/use-cart"
 import { triggerCartToast } from "@/components/cart-toast"
 
 const products = [
-  { id: 1, name: "Square D 200A Main Breaker Panel", category: "electrical", price: 189.95, originalPrice: 234.0, rating: 4.7, reviews: 567, image: "/images/product-panel.jpg", badge: "Best Seller", freeShipping: false, specs: ["200A", "30-Space", "Indoor"] },
-  { id: 2, name: 'Milwaukee M18 FUEL 1/2" Hammer Drill Kit', category: "tools", price: 199.0, originalPrice: 279.0, rating: 4.9, reviews: 1204, image: "/images/product-tools.jpg", badge: "Top Rated", freeShipping: true, specs: ["18V", "Brushless", "2-Speed"] },
-  { id: 3, name: "MRCOOL DIY 24K BTU Ductless Mini Split", category: "hvac", price: 1549.0, originalPrice: 1899.0, rating: 4.6, reviews: 893, image: "/images/cat-hvac.jpg", badge: "Hot Deal", freeShipping: true, specs: ["24K BTU", "20 SEER", "WiFi"] },
-  { id: 4, name: "Jinko 580W N-Type Bifacial Module", category: "solar", price: 133.4, originalPrice: 174.0, rating: 4.8, reviews: 342, image: "/images/product-solar-panel.jpg", badge: "Popular", freeShipping: true, specs: ["580W", "Bifacial", "Tier 1"] },
+  { id: 1, name: "Square D 200A Main Breaker Panel", category: "electrical", price: 189.95, originalPrice: 234.0, rating: 4.7, reviews: 567, image: "/images/product-panel.jpg", badge: "In Stock", freeShipping: false, specs: ["200A", "30-Space", "Indoor"] },
+  { id: 2, name: 'Milwaukee M18 FUEL 1/2" Hammer Drill Kit', category: "tools", price: 199.0, originalPrice: 279.0, rating: 4.9, reviews: 1204, image: "/images/product-tools.jpg", badge: "Ships Today", freeShipping: true, specs: ["18V", "Brushless", "2-Speed"] },
+  { id: 3, name: "MRCOOL DIY 24K BTU Ductless Mini Split", category: "hvac", price: 1549.0, originalPrice: 1899.0, rating: 4.6, reviews: 893, image: "/images/cat-hvac.jpg", badge: "In Stock", freeShipping: true, specs: ["24K BTU", "20 SEER", "WiFi"] },
+  { id: 4, name: "Jinko 580W N-Type Bifacial Module", category: "solar", price: 133.4, originalPrice: 174.0, rating: 4.8, reviews: 342, image: "/images/product-solar-panel.jpg", badge: "Ready to Ship", freeShipping: true, specs: ["580W", "Bifacial", "Tier 1"] },
   { id: 5, name: "Generac 22kW Standby Generator", category: "generators", price: 5299.0, originalPrice: 5799.0, rating: 4.6, reviews: 128, image: "/images/product-generator.jpg", badge: "In Stock", freeShipping: true, specs: ["22kW", "NG/LP", "Auto Transfer"] },
-  { id: 6, name: 'SharkBite 1/2" Push-to-Connect Valve Kit', category: "plumbing", price: 24.97, originalPrice: 34.99, rating: 4.8, reviews: 2310, image: "/images/cat-plumbing.jpg", badge: "Value", freeShipping: false, specs: ['1/2"', "Push-Fit", "Lead-Free"] },
-  { id: 7, name: "Tesla Wall Connector Gen 3 EV Charger", category: "ev", price: 475.0, originalPrice: 530.0, rating: 4.7, reviews: 891, image: "/images/product-ev-charger.jpg", badge: "Fast Ship", freeShipping: true, specs: ["48A", "Level 2", "WiFi"] },
-  { id: 8, name: "Sol-Ark 15K Hybrid Inverter", category: "solar", price: 3995.0, originalPrice: 4595.0, rating: 4.9, reviews: 187, image: "/images/product-inverter.jpg", badge: "Top Rated", freeShipping: true, specs: ["15kW", "Hybrid", "200A MPPT"] },
+  { id: 6, name: 'SharkBite 1/2" Push-to-Connect Valve Kit', category: "plumbing", price: 24.97, originalPrice: 34.99, rating: 4.8, reviews: 2310, image: "/images/cat-plumbing.jpg", badge: "Ships Today", freeShipping: false, specs: ['1/2"', "Push-Fit", "Lead-Free"] },
+  { id: 7, name: "Tesla Wall Connector Gen 3 EV Charger", category: "ev", price: 475.0, originalPrice: 530.0, rating: 4.7, reviews: 891, image: "/images/product-ev-charger.jpg", badge: "In Stock", freeShipping: true, specs: ["48A", "Level 2", "WiFi"] },
+  { id: 8, name: "Sol-Ark 15K Hybrid Inverter", category: "solar", price: 3995.0, originalPrice: 4595.0, rating: 4.9, reviews: 187, image: "/images/product-inverter.jpg", badge: "Ready to Ship", freeShipping: true, specs: ["15kW", "Hybrid", "200A MPPT"] },
 ]
 
 const tabs = [
@@ -60,7 +60,7 @@ export function FeaturedProducts() {
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 id="featured-heading" className="text-2xl font-bold text-foreground">Featured Products</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Handpicked by our team -- all in stock, all ship today</p>
+          <p className="mt-1 text-sm text-muted-foreground">In stock in Louisville. Order by 2 PM ET, ships same day.</p>
         </div>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Every product backed by full manufacturer warranty

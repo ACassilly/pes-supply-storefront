@@ -8,31 +8,31 @@ import { ChevronLeft, ChevronRight, ArrowRight, Truck, ShieldCheck, Phone, Star 
 const slides = [
   {
     eyebrow: "PES Supply | A PES Global Company",
-    headline: "40,000+ Products. In Stock. Ships Today.",
-    subline: "Electrical, solar, lighting, tools, HVAC, plumbing, and more from 169 brands and 500+ vendors.",
+    headline: "Everything for the job. One order. Ships today.",
+    subline: "Not a marketplace -- a real distributor backed by PES Global. 40,000+ products from 169 brands, in stock and ready to ship from Louisville.",
     cta: "Shop All Products", ctaSecondary: "Open a Pro Account",
     image: "/images/hero-commercial.jpg",
   },
   {
     eyebrow: "For Contractors & Trades",
-    headline: "Net-30 Terms. Same-Day Shipping. Real People.",
-    subline: "From breakers and wire to solar panels and generators -- one distributor, one PO, one call to our Louisville team.",
+    headline: "Your crew trusts the brands. You can trust the source.",
+    subline: "Net-30 terms, same-day shipping, named account reps. One PO, one distributor, one call when you need it.",
     cta: "Apply for Trade Pricing", ctaSecondary: "Shop Electrical",
     image: "/images/hero-workshop.jpg",
   },
   {
     eyebrow: "Enterprise & Government",
-    headline: "BABA Compliant. UL Listed. Procurement Ready.",
-    subline: "Serving municipalities, school districts, and Fortune 500 operations with compliance and volume pricing.",
+    headline: "Procurement ready. Compliance built in.",
+    subline: "BABA compliant, UL listed, NABCEP certified. Volume pricing and documentation for municipalities, schools, and Fortune 500 facilities.",
     cta: "Contact Sales", ctaSecondary: "View Certifications",
     image: "/images/hero-solar.jpg",
   },
 ]
 
 const heroProducts = [
-  { name: "Square D 200A Main Breaker Panel", price: 189.95, was: 234.00, rating: 4.7, reviews: 567, image: "/images/product-panel.jpg", tag: "Best Seller" },
+  { name: "Square D 200A Main Breaker Panel", price: 189.95, was: 234.00, rating: 4.7, reviews: 567, image: "/images/product-panel.jpg", tag: "In Stock" },
   { name: "Jinko 580W Bifacial Module", price: 133.40, was: 174.00, rating: 4.8, reviews: 342, image: "/images/product-solar-panel.jpg", tag: "Ships Free" },
-  { name: "Milwaukee M18 FUEL Hammer Drill", price: 199.00, was: 279.00, rating: 4.9, reviews: 1204, image: "/images/product-tools.jpg", tag: "Top Rated" },
+  { name: "Milwaukee M18 FUEL Hammer Drill", price: 199.00, was: 279.00, rating: 4.9, reviews: 1204, image: "/images/product-tools.jpg", tag: "Ships Today" },
 ]
 
 function StarRating({ rating }: { rating: number }) {
@@ -161,17 +161,12 @@ export function HeroBanner() {
       <div className="border-b border-border bg-muted/60">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-2 px-4 py-3 text-xs md:justify-between">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            {[
-              { val: "40,000+", lbl: "Products" },
-              { val: "169", lbl: "Brands" },
-              { val: "500+", lbl: "Vendors" },
-              { val: "8,500+", lbl: "Contractors" },
-            ].map((s) => (
-              <span key={s.lbl} className="flex items-baseline gap-1.5">
-                <span className="text-sm font-bold text-foreground">{s.val}</span>
-                <span className="text-muted-foreground">{s.lbl}</span>
-              </span>
-            ))}
+            <span className="flex items-baseline gap-1.5">
+              <span className="text-sm font-bold text-foreground">8,500+</span>
+              <span className="text-muted-foreground">contractors order from PES</span>
+            </span>
+            <span className="hidden text-border sm:inline">|</span>
+            <span className="text-muted-foreground">40,000+ products from 169 brands</span>
           </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-muted-foreground">
             <span className="flex items-center gap-1"><Truck className="h-3.5 w-3.5 text-primary" /> Same-Day Shipping</span>
