@@ -40,11 +40,15 @@ export function TopBar() {
   return (
     <div className={`bg-topbar text-topbar-foreground transition-all duration-300 ${hidden ? "h-0 overflow-hidden opacity-0" : "h-auto opacity-100"}`}>
       <div className="mx-auto flex max-w-[1400px] items-center px-4 py-1.5 text-xs">
-        {/* Left links - desktop */}
-        <div className="hidden shrink-0 items-center gap-3 lg:flex">
+        {/* Left links - visible at md+ */}
+        <div className="hidden shrink-0 items-center gap-2 md:flex lg:gap-3">
+          <Link href="/about" className="text-topbar-foreground/70 transition-colors hover:text-topbar-foreground">About Us</Link>
           <Link href="/shipping" className="text-topbar-foreground/70 transition-colors hover:text-topbar-foreground">Shipping</Link>
-          <Link href="/shipping" className="text-topbar-foreground/70 transition-colors hover:text-topbar-foreground">Returns</Link>
-          <a href="tel:8888760007" className="flex items-center gap-1 text-topbar-foreground/70 transition-colors hover:text-topbar-foreground">
+          <Link href="/contact" className="text-topbar-foreground/70 transition-colors hover:text-topbar-foreground">Support</Link>
+          <span className="hidden text-topbar-foreground/20 lg:inline">|</span>
+          <Link href="/deals" className="hidden font-semibold text-accent transition-colors hover:text-accent/80 lg:inline">Deals</Link>
+          <Link href="/quote" className="hidden text-topbar-foreground/70 transition-colors hover:text-topbar-foreground lg:inline">Request a Quote</Link>
+          <a href="tel:8888760007" className="hidden items-center gap-1 text-topbar-foreground/70 transition-colors hover:text-topbar-foreground lg:flex">
             <Phone className="h-3 w-3" /> (888) 876-0007
           </a>
         </div>
@@ -67,8 +71,8 @@ export function TopBar() {
           </button>
         </div>
 
-        {/* Right links - desktop */}
-        <div className="hidden shrink-0 items-center gap-2 lg:flex">
+        {/* Right links - visible at md+ */}
+        <div className="hidden shrink-0 items-center gap-2 md:flex">
           <span className="text-topbar-foreground/20">|</span>
           <Link href="/account" className="font-semibold text-primary transition-colors hover:underline">Sign In / Register</Link>
         </div>
