@@ -1,0 +1,229 @@
+// Shared product/department/brand data used across all pages
+
+export interface Product {
+  id: number
+  slug: string
+  name: string
+  brand: string
+  category: string
+  department: string
+  price: number
+  originalPrice: number
+  rating: number
+  reviews: number
+  image: string
+  badge: "In Stock" | "Ships Today" | "Ready to Ship" | "Ships Free" | "Low Stock"
+  freeShipping: boolean
+  specs: string[]
+  sku: string
+  description: string
+  features: string[]
+  shipsFrom: string
+}
+
+export interface Department {
+  name: string
+  slug: string
+  count: string
+  image: string
+  description: string
+  subs: { name: string; slug: string; count: string }[]
+}
+
+export interface Brand {
+  name: string
+  slug: string
+  departments: string[]
+  productCount: number
+  description: string
+  website: string
+}
+
+export const departments: Department[] = [
+  {
+    name: "Electrical", slug: "electrical", count: "12,400+", image: "/images/cat-electrical.jpg",
+    description: "Circuit breakers, panels, wire, cable, conduit, fittings, switches, outlets, boxes, enclosures, disconnects, and transformers from Eaton, Siemens, Schneider Electric, Leviton, and more.",
+    subs: [
+      { name: "Circuit Breakers & Panels", slug: "circuit-breakers-panels", count: "2,800+" },
+      { name: "Wire & Cable", slug: "wire-cable", count: "3,200+" },
+      { name: "Conduit & Fittings", slug: "conduit-fittings", count: "1,900+" },
+      { name: "Switches & Outlets", slug: "switches-outlets", count: "2,100+" },
+      { name: "Boxes & Enclosures", slug: "boxes-enclosures", count: "1,400+" },
+      { name: "Disconnects & Transformers", slug: "disconnects-transformers", count: "980+" },
+    ],
+  },
+  {
+    name: "Lighting", slug: "lighting", count: "5,200+", image: "/images/cat-lighting.jpg",
+    description: "LED fixtures, high bay, troffers, emergency and exit lighting, controls, sensors, bulbs, and outdoor area lighting from Lithonia, RAB, Hubbell, Lutron, and more.",
+    subs: [
+      { name: "LED Fixtures", slug: "led-fixtures", count: "1,800+" },
+      { name: "Emergency & Exit Lighting", slug: "emergency-exit", count: "640+" },
+      { name: "High Bay & Industrial", slug: "high-bay", count: "720+" },
+      { name: "Controls & Sensors", slug: "controls-sensors", count: "580+" },
+      { name: "Bulbs & Lamps", slug: "bulbs-lamps", count: "890+" },
+      { name: "Outdoor & Area Lighting", slug: "outdoor-area", count: "570+" },
+    ],
+  },
+  {
+    name: "Solar & Renewables", slug: "solar", count: "4,200+", image: "/images/product-solar-panel.jpg",
+    description: "Solar panels, inverters, optimizers, racking, mounting, batteries, ESS, monitoring, and rapid shutdown from Jinko, Q Cells, Enphase, SolarEdge, Sol-Ark, IronRidge, and more.",
+    subs: [
+      { name: "Solar Panels", slug: "solar-panels", count: "680+" },
+      { name: "Inverters & Optimizers", slug: "inverters-optimizers", count: "420+" },
+      { name: "Racking & Mounting", slug: "racking-mounting", count: "1,200+" },
+      { name: "Batteries & ESS", slug: "batteries-ess", count: "340+" },
+      { name: "Solar Kits", slug: "solar-kits", count: "180+" },
+      { name: "Monitoring & Rapid Shutdown", slug: "monitoring-shutdown", count: "380+" },
+    ],
+  },
+  {
+    name: "Tools & Test", slug: "tools", count: "6,800+", image: "/images/product-tools.jpg",
+    description: "Power tools, hand tools, meters, testers, fish tape, pulling equipment, crimping, termination, and tool storage from Milwaukee, DeWalt, Klein, Fluke, Bosch, and more.",
+    subs: [
+      { name: "Power Tools", slug: "power-tools", count: "2,100+" },
+      { name: "Hand Tools", slug: "hand-tools", count: "1,800+" },
+      { name: "Meters & Testers", slug: "meters-testers", count: "920+" },
+      { name: "Fish Tape & Pulling", slug: "fish-tape-pulling", count: "480+" },
+      { name: "Crimping & Termination", slug: "crimping-termination", count: "640+" },
+      { name: "Tool Storage", slug: "tool-storage", count: "860+" },
+    ],
+  },
+  {
+    name: "HVAC", slug: "hvac", count: "3,600+", image: "/images/cat-hvac.jpg",
+    description: "Mini splits, thermostats, fans, ventilation, heaters, and HVAC parts from MRCOOL, Honeywell, Rheem, and more.",
+    subs: [
+      { name: "Mini Splits", slug: "mini-splits", count: "420+" },
+      { name: "Thermostats", slug: "thermostats", count: "680+" },
+      { name: "Fans & Ventilation", slug: "fans-ventilation", count: "920+" },
+      { name: "Heaters", slug: "heaters", count: "580+" },
+      { name: "HVAC Parts & Accessories", slug: "hvac-parts", count: "1,000+" },
+    ],
+  },
+  {
+    name: "Plumbing", slug: "plumbing", count: "2,900+", image: "/images/cat-plumbing.jpg",
+    description: "Pipe, fittings, valves, water heaters, pumps, and plumbing tools from SharkBite, Watts, Rheem, and more.",
+    subs: [
+      { name: "Pipe & Fittings", slug: "pipe-fittings", count: "1,200+" },
+      { name: "Valves", slug: "valves", count: "580+" },
+      { name: "Water Heaters", slug: "water-heaters", count: "340+" },
+      { name: "Pumps", slug: "pumps", count: "420+" },
+      { name: "Plumbing Tools", slug: "plumbing-tools", count: "360+" },
+    ],
+  },
+  {
+    name: "Generators", slug: "generators", count: "1,400+", image: "/images/cat-generators.jpg",
+    description: "Standby, portable, and commercial generators plus transfer switches and maintenance parts from Generac and more.",
+    subs: [
+      { name: "Standby & Whole-Home", slug: "standby-generators", count: "280+" },
+      { name: "Portable", slug: "portable-generators", count: "340+" },
+      { name: "Commercial & Industrial", slug: "commercial-generators", count: "180+" },
+      { name: "Transfer Switches", slug: "transfer-switches", count: "320+" },
+      { name: "Parts & Maintenance", slug: "generator-parts", count: "280+" },
+    ],
+  },
+  {
+    name: "EV Charging", slug: "ev-charging", count: "800+", image: "/images/cat-ev.jpg",
+    description: "Level 2 residential and commercial chargers, DC fast chargers, cables, connectors, and mounting from Tesla, ChargePoint, and more.",
+    subs: [
+      { name: "Level 2 Residential", slug: "l2-residential", count: "180+" },
+      { name: "Level 2 Commercial", slug: "l2-commercial", count: "220+" },
+      { name: "DC Fast Chargers", slug: "dc-fast", count: "120+" },
+      { name: "Cables & Connectors", slug: "ev-cables", count: "160+" },
+      { name: "Mounting & Pedestals", slug: "ev-mounting", count: "120+" },
+    ],
+  },
+  {
+    name: "Safety & PPE", slug: "safety", count: "2,200+", image: "/images/cat-safety.jpg",
+    description: "Hard hats, safety glasses, gloves, hi-vis and FR clothing, fall protection, and first aid from 3M, Honeywell, and more.",
+    subs: [
+      { name: "Hard Hats & Head Protection", slug: "hard-hats", count: "280+" },
+      { name: "Safety Glasses & Goggles", slug: "safety-glasses", count: "420+" },
+      { name: "Gloves", slug: "gloves", count: "580+" },
+      { name: "Hi-Vis & FR Clothing", slug: "hi-vis-fr", count: "460+" },
+      { name: "Fall Protection", slug: "fall-protection", count: "280+" },
+      { name: "First Aid", slug: "first-aid", count: "180+" },
+    ],
+  },
+  {
+    name: "Data & Comm", slug: "datacomm", count: "1,800+", image: "/images/cat-hardware.jpg",
+    description: "Structured cabling, racks, enclosures, patch panels, fiber optic, network switches, and cable management.",
+    subs: [
+      { name: "Structured Cabling", slug: "structured-cabling", count: "520+" },
+      { name: "Racks & Enclosures", slug: "racks-enclosures", count: "280+" },
+      { name: "Patch Panels", slug: "patch-panels", count: "220+" },
+      { name: "Fiber Optic", slug: "fiber-optic", count: "340+" },
+      { name: "Network Switches", slug: "network-switches", count: "240+" },
+      { name: "Cable Management", slug: "cable-management", count: "200+" },
+    ],
+  },
+]
+
+export const brands: Brand[] = [
+  { name: "Eaton", slug: "eaton", departments: ["Electrical"], productCount: 3200, description: "Circuit breakers, panels, transformers, and power distribution equipment.", website: "eaton.com" },
+  { name: "Siemens", slug: "siemens", departments: ["Electrical", "HVAC"], productCount: 2800, description: "Electrical distribution, automation, and building technology.", website: "siemens.com" },
+  { name: "Schneider Electric", slug: "schneider-electric", departments: ["Electrical", "Solar & Renewables"], productCount: 2400, description: "Square D panels, breakers, switchgear, and energy management.", website: "se.com" },
+  { name: "Leviton", slug: "leviton", departments: ["Electrical", "Data & Comm", "Lighting"], productCount: 1800, description: "Wiring devices, lighting controls, and networking solutions.", website: "leviton.com" },
+  { name: "Hubbell", slug: "hubbell", departments: ["Electrical", "Lighting"], productCount: 1600, description: "Wiring devices, boxes, fittings, and commercial lighting.", website: "hubbell.com" },
+  { name: "Southwire", slug: "southwire", departments: ["Electrical", "Tools & Test"], productCount: 1400, description: "Wire, cable, cord products, and electrical tools.", website: "southwire.com" },
+  { name: "Lutron", slug: "lutron", departments: ["Lighting", "Electrical"], productCount: 980, description: "Dimmers, lighting controls, shading solutions, and smart home integration.", website: "lutron.com" },
+  { name: "Milwaukee Tool", slug: "milwaukee", departments: ["Tools & Test"], productCount: 2100, description: "M18 and M12 power tools, hand tools, and accessories.", website: "milwaukeetool.com" },
+  { name: "DeWalt", slug: "dewalt", departments: ["Tools & Test"], productCount: 1900, description: "20V MAX and FLEXVOLT power tools, hand tools, and accessories.", website: "dewalt.com" },
+  { name: "Klein Tools", slug: "klein-tools", departments: ["Tools & Test"], productCount: 1200, description: "Professional-grade hand tools, meters, and test equipment.", website: "kleintools.com" },
+  { name: "Fluke", slug: "fluke", departments: ["Tools & Test"], productCount: 680, description: "Digital multimeters, clamp meters, thermal imaging, and test instruments.", website: "fluke.com" },
+  { name: "Bosch", slug: "bosch", departments: ["Tools & Test", "HVAC"], productCount: 1100, description: "Power tools, measuring tools, and HVAC components.", website: "boschtools.com" },
+  { name: "Honeywell", slug: "honeywell", departments: ["HVAC", "Safety & PPE"], productCount: 1400, description: "Thermostats, HVAC controls, and personal protective equipment.", website: "honeywell.com" },
+  { name: "3M", slug: "3m", departments: ["Safety & PPE", "Electrical"], productCount: 980, description: "Safety equipment, electrical tapes, connectors, and abrasives.", website: "3m.com" },
+  { name: "Generac", slug: "generac", departments: ["Generators"], productCount: 420, description: "Standby, portable, and commercial generators and transfer switches.", website: "generac.com" },
+  { name: "Rheem", slug: "rheem", departments: ["HVAC", "Plumbing"], productCount: 580, description: "Water heaters, HVAC systems, and plumbing solutions.", website: "rheem.com" },
+  { name: "Enphase", slug: "enphase", departments: ["Solar & Renewables"], productCount: 340, description: "Microinverters, batteries, and solar monitoring systems.", website: "enphase.com" },
+  { name: "SolarEdge", slug: "solaredge", departments: ["Solar & Renewables"], productCount: 280, description: "String inverters, power optimizers, and monitoring platforms.", website: "solaredge.com" },
+  { name: "Jinko Solar", slug: "jinko", departments: ["Solar & Renewables"], productCount: 120, description: "Tier 1 mono and bifacial solar panels.", website: "jinkosolar.com" },
+  { name: "Q Cells", slug: "q-cells", departments: ["Solar & Renewables"], productCount: 140, description: "High-efficiency solar modules and complete solar solutions.", website: "q-cells.com" },
+  { name: "Sol-Ark", slug: "sol-ark", departments: ["Solar & Renewables"], productCount: 60, description: "Hybrid inverters and whole-home energy management.", website: "sol-ark.com" },
+  { name: "ChargePoint", slug: "chargepoint", departments: ["EV Charging"], productCount: 180, description: "Commercial and residential EV charging solutions.", website: "chargepoint.com" },
+  { name: "IronRidge", slug: "ironridge", departments: ["Solar & Renewables"], productCount: 320, description: "Solar racking, mounting hardware, and roof attachments.", website: "ironridge.com" },
+  { name: "RAB Lighting", slug: "rab-lighting", departments: ["Lighting"], productCount: 640, description: "LED outdoor, area, and landscape lighting fixtures.", website: "rablighting.com" },
+  { name: "Lithonia", slug: "lithonia", departments: ["Lighting"], productCount: 780, description: "Commercial indoor and outdoor LED lighting fixtures.", website: "lithonia.com" },
+  { name: "Watts", slug: "watts", departments: ["Plumbing"], productCount: 420, description: "Plumbing, flow control, and water quality products.", website: "watts.com" },
+  { name: "MRCOOL", slug: "mrcool", departments: ["HVAC"], productCount: 180, description: "DIY ductless mini splits and HVAC systems.", website: "mrcool.com" },
+  { name: "SharkBite", slug: "sharkbite", departments: ["Plumbing"], productCount: 340, description: "Push-to-connect plumbing fittings and PEX systems.", website: "sharkbite.com" },
+  { name: "Tesla", slug: "tesla", departments: ["EV Charging"], productCount: 12, description: "Wall Connector and EV charging accessories.", website: "tesla.com" },
+  { name: "MRCOOL", slug: "mrcool-hvac", departments: ["HVAC"], productCount: 160, description: "Ductless mini splits and air conditioning systems.", website: "mrcool.com" },
+]
+
+export const products: Product[] = [
+  { id: 1, slug: "square-d-200a-main-breaker-panel", name: "Square D 200A Main Breaker Panel", brand: "Schneider Electric", category: "circuit-breakers-panels", department: "electrical", price: 189.95, originalPrice: 234.0, rating: 4.7, reviews: 567, image: "/images/product-panel.jpg", badge: "In Stock", freeShipping: false, specs: ["200A", "30-Space", "Indoor"], sku: "SQD-HOM3060M200PC", description: "Square D Homeline 200-amp 30-space 60-circuit main breaker load center. UL listed, NEMA 1 indoor rated. Compatible with Homeline plug-on neutral breakers.", features: ["200A main breaker included", "30 spaces, 60 circuits", "Plug-on neutral ready", "NEMA 1 indoor enclosure", "UL listed, CSA certified"], shipsFrom: "Louisville, KY" },
+  { id: 2, slug: "milwaukee-m18-fuel-hammer-drill-kit", name: 'Milwaukee M18 FUEL 1/2" Hammer Drill Kit', brand: "Milwaukee Tool", category: "power-tools", department: "tools", price: 199.0, originalPrice: 279.0, rating: 4.9, reviews: 1204, image: "/images/product-tools.jpg", badge: "Ships Today", freeShipping: true, specs: ["18V", "Brushless", "2-Speed"], sku: "MIL-2904-22", description: "Milwaukee M18 FUEL 1/2-inch hammer drill/driver kit with POWERSTATE brushless motor, REDLINK PLUS intelligence, and REDLITHIUM battery technology.", features: ["POWERSTATE brushless motor", "REDLINK PLUS intelligence", "0-2,000 RPM", "1,200 in-lbs torque", "Includes 2 batteries, charger, and bag"], shipsFrom: "Louisville, KY" },
+  { id: 3, slug: "mrcool-diy-24k-mini-split", name: "MRCOOL DIY 24K BTU Ductless Mini Split", brand: "MRCOOL", category: "mini-splits", department: "hvac", price: 1549.0, originalPrice: 1899.0, rating: 4.6, reviews: 893, image: "/images/cat-hvac.jpg", badge: "In Stock", freeShipping: true, specs: ["24K BTU", "20 SEER", "WiFi"], sku: "MRC-DIY-24-HP-WM-230C", description: "MRCOOL DIY 4th Generation 24,000 BTU ductless mini split heat pump. WiFi-enabled, works with Alexa and Google. DIY-friendly pre-charged line set.", features: ["24,000 BTU cooling/heating", "20 SEER efficiency", "WiFi smart control", "DIY pre-charged line set", "Energy Star certified"], shipsFrom: "Louisville, KY" },
+  { id: 4, slug: "jinko-580w-bifacial-module", name: "Jinko 580W N-Type Bifacial Module", brand: "Jinko Solar", category: "solar-panels", department: "solar", price: 133.4, originalPrice: 174.0, rating: 4.8, reviews: 342, image: "/images/product-solar-panel.jpg", badge: "Ready to Ship", freeShipping: true, specs: ["580W", "Bifacial", "Tier 1"], sku: "JKM580N-72HL4-BDV", description: "Jinko Tiger Neo 580W bifacial N-type solar module. Industry-leading efficiency with TOPCon cell technology. 30-year performance warranty.", features: ["580W rated output", "N-type TOPCon cells", "Bifacial power gain up to 25%", "21.8% module efficiency", "30-year linear warranty"], shipsFrom: "Louisville, KY" },
+  { id: 5, slug: "generac-22kw-standby-generator", name: "Generac 22kW Standby Generator", brand: "Generac", category: "standby-generators", department: "generators", price: 5299.0, originalPrice: 5799.0, rating: 4.6, reviews: 128, image: "/images/product-generator.jpg", badge: "In Stock", freeShipping: true, specs: ["22kW", "NG/LP", "Auto Transfer"], sku: "GEN-7043", description: "Generac Guardian Series 22kW whole-home standby generator with 200A automatic transfer switch. Runs on natural gas or LP. Mobile Link WiFi monitoring.", features: ["22,000W standby power", "200A smart transfer switch", "Dual fuel: natural gas or LP", "Mobile Link WiFi monitoring", "5-year limited warranty"], shipsFrom: "Louisville, KY" },
+  { id: 6, slug: "sharkbite-push-connect-valve-kit", name: 'SharkBite 1/2" Push-to-Connect Valve Kit', brand: "SharkBite", category: "valves", department: "plumbing", price: 24.97, originalPrice: 34.99, rating: 4.8, reviews: 2310, image: "/images/cat-plumbing.jpg", badge: "Ships Today", freeShipping: false, specs: ['1/2"', "Push-Fit", "Lead-Free"], sku: "SHK-22222-0000LFA", description: "SharkBite 1/2-inch push-to-connect quarter-turn ball valve. No soldering, clamps, or glue required. Lead-free brass construction.", features: ["Push-to-connect installation", "No tools required", "Lead-free brass", "Quarter-turn operation", "Works on copper, PEX, CPVC"], shipsFrom: "Louisville, KY" },
+  { id: 7, slug: "tesla-wall-connector-gen3", name: "Tesla Wall Connector Gen 3 EV Charger", brand: "Tesla", category: "l2-residential", department: "ev-charging", price: 475.0, originalPrice: 530.0, rating: 4.7, reviews: 891, image: "/images/product-ev-charger.jpg", badge: "In Stock", freeShipping: true, specs: ["48A", "Level 2", "WiFi"], sku: "TSL-1457768-S-02-F", description: "Tesla Wall Connector Gen 3 with up to 48A output. Compatible with all Tesla vehicles and J1772 EVs with adapter. WiFi-enabled for OTA updates.", features: ["Up to 48A / 11.5kW output", "24-foot cable length", "WiFi connectivity", "Power sharing for multiple units", "Indoor/outdoor rated"], shipsFrom: "Louisville, KY" },
+  { id: 8, slug: "sol-ark-15k-hybrid-inverter", name: "Sol-Ark 15K Hybrid Inverter", brand: "Sol-Ark", category: "inverters-optimizers", department: "solar", price: 3995.0, originalPrice: 4595.0, rating: 4.9, reviews: 187, image: "/images/product-inverter.jpg", badge: "Ready to Ship", freeShipping: true, specs: ["15kW", "Hybrid", "200A MPPT"], sku: "SA-15K", description: "Sol-Ark 15K all-in-one hybrid inverter. Supports grid-tied, off-grid, and battery backup. Built-in 200A MPPT charge controllers and rapid shutdown.", features: ["15kW continuous output", "Built-in 200A MPPT", "Grid-tied + off-grid capable", "Rapid shutdown compliant", "10-year warranty, made in USA"], shipsFrom: "Louisville, KY" },
+  { id: 9, slug: "eaton-br-100a-panel", name: "Eaton BR 100A Main Breaker Panel", brand: "Eaton", category: "circuit-breakers-panels", department: "electrical", price: 89.95, originalPrice: 119.0, rating: 4.5, reviews: 892, image: "/images/product-panel.jpg", badge: "In Stock", freeShipping: false, specs: ["100A", "20-Space", "Indoor"], sku: "EAT-BR2020B100V", description: "Eaton BR Series 100-amp 20-space 20-circuit main breaker load center with value pack.", features: ["100A main breaker included", "20 spaces, 20 circuits", "Type BR breaker compatible", "NEMA 1 indoor enclosure", "UL listed"], shipsFrom: "Louisville, KY" },
+  { id: 10, slug: "klein-cl800-digital-clamp-meter", name: "Klein CL800 Digital Clamp Meter", brand: "Klein Tools", category: "meters-testers", department: "tools", price: 89.99, originalPrice: 109.99, rating: 4.8, reviews: 1456, image: "/images/product-tools.jpg", badge: "Ships Today", freeShipping: false, specs: ["600A AC/DC", "TRMS", "CAT III"], sku: "KLE-CL800", description: "Klein Tools CL800 digital clamp meter with auto-ranging True RMS. Measures AC/DC current to 600A and AC/DC voltage to 1000V.", features: ["600A AC/DC current", "True RMS for accuracy", "Auto-ranging", "Temperature measurement", "CAT III 1000V rated"], shipsFrom: "Louisville, KY" },
+  { id: 11, slug: "lithonia-2x4-led-troffer", name: "Lithonia 2x4 LED Flat Panel Troffer", brand: "Lithonia", category: "led-fixtures", department: "lighting", price: 64.5, originalPrice: 89.0, rating: 4.6, reviews: 2340, image: "/images/cat-lighting.jpg", badge: "In Stock", freeShipping: false, specs: ["40W", "5000K", "DLC"], sku: "LIT-CPX-2X4-4000LM-50K", description: "Lithonia CPX 2x4 LED flat panel troffer. 4,000 lumens, 5000K daylight. DLC premium listed for utility rebates.", features: ["4,000 lumens output", "5000K daylight color", "DLC Premium listed", "10-year warranty", "Drop ceiling compatible"], shipsFrom: "Louisville, KY" },
+  { id: 12, slug: "honeywell-t6-pro-thermostat", name: "Honeywell T6 Pro Programmable Thermostat", brand: "Honeywell", category: "thermostats", department: "hvac", price: 79.99, originalPrice: 99.99, rating: 4.4, reviews: 678, image: "/images/cat-hvac.jpg", badge: "Ships Today", freeShipping: false, specs: ["7-Day", "2H/2C", "Pro Install"], sku: "HON-TH6220U2000", description: "Honeywell T6 Pro programmable thermostat with flexible scheduling. Compatible with most HVAC systems.", features: ["7-day programmable", "2 heat / 2 cool stages", "Large backlit display", "Pro installer preferred", "UL listed"], shipsFrom: "Louisville, KY" },
+]
+
+export function getProductsByDepartment(deptSlug: string): Product[] {
+  return products.filter((p) => p.department === deptSlug)
+}
+
+export function getProductsByBrand(brandSlug: string): Product[] {
+  const brand = brands.find((b) => b.slug === brandSlug)
+  if (!brand) return []
+  return products.filter((p) => p.brand === brand.name)
+}
+
+export function getDepartment(slug: string): Department | undefined {
+  return departments.find((d) => d.slug === slug)
+}
+
+export function getBrand(slug: string): Brand | undefined {
+  return brands.find((b) => b.slug === slug)
+}
+
+export function getProduct(slug: string): Product | undefined {
+  return products.find((p) => p.slug === slug)
+}

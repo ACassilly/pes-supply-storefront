@@ -1,7 +1,8 @@
 "use client"
 
 import { useRef, useEffect, useState } from "react"
-import { ShieldCheck, CreditCard } from "lucide-react"
+import Link from "next/link"
+import { ShieldCheck, CreditCard, ArrowRight } from "lucide-react"
 
 const brands = [
   "Eaton", "Siemens", "Schneider Electric", "Leviton", "Hubbell", "Southwire",
@@ -40,6 +41,7 @@ export function BrandPartners() {
         <div className="mb-6 text-center">
           <h2 id="brands-heading" className="text-lg font-bold text-foreground">{`Authorized Distributor \u2014 169 Brands, 500+ Vendors`}</h2>
           <p className="mt-1 text-sm text-muted-foreground">Full OEM warranties. Factory-direct pricing. Always in stock.</p>
+          <Link href="/brands" className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">View All Brands <ArrowRight className="h-3.5 w-3.5" /></Link>
         </div>
 
         <div

@@ -2,22 +2,24 @@
 
 import { useState, useRef, useEffect, useCallback } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
+import { CartFlyout } from "@/components/cart-flyout"
 
 const departments = [
-  { name: "Electrical", subs: ["Circuit Breakers & Panels", "Wire & Cable", "Conduit & Fittings", "Switches & Outlets", "Boxes & Enclosures", "Disconnects & Transformers"] },
-  { name: "Lighting", subs: ["LED Fixtures", "Emergency & Exit Lighting", "High Bay & Industrial", "Controls & Sensors", "Bulbs & Lamps", "Outdoor & Area Lighting"] },
-  { name: "Solar & Renewables", subs: ["Solar Panels", "Inverters & Optimizers", "Racking & Mounting", "Batteries & ESS", "Solar Kits", "Monitoring & Rapid Shutdown"] },
-  { name: "Tools & Test", subs: ["Power Tools", "Hand Tools", "Meters & Testers", "Fish Tape & Pulling", "Crimping & Termination", "Tool Storage"] },
-  { name: "HVAC", subs: ["Mini Splits", "Thermostats", "Fans & Ventilation", "Heaters", "HVAC Parts & Accessories"] },
-  { name: "Plumbing", subs: ["Pipe & Fittings", "Valves", "Water Heaters", "Pumps", "Plumbing Tools"] },
-  { name: "Safety & PPE", subs: ["Hard Hats & Head Protection", "Safety Glasses & Goggles", "Gloves", "Hi-Vis & FR Clothing", "Fall Protection", "First Aid"] },
-  { name: "Data & Comm", subs: ["Structured Cabling", "Racks & Enclosures", "Patch Panels", "Fiber Optic", "Network Switches", "Cable Management"] },
-  { name: "EV Charging", subs: ["Level 2 Residential", "Level 2 Commercial", "DC Fast Chargers", "Cables & Connectors", "Mounting & Pedestals"] },
-  { name: "Generators", subs: ["Standby & Whole-Home", "Portable", "Commercial & Industrial", "Transfer Switches", "Parts & Maintenance"] },
+  { name: "Electrical", slug: "electrical", subs: [{ name: "Circuit Breakers & Panels", slug: "circuit-breakers-panels" }, { name: "Wire & Cable", slug: "wire-cable" }, { name: "Conduit & Fittings", slug: "conduit-fittings" }, { name: "Switches & Outlets", slug: "switches-outlets" }, { name: "Boxes & Enclosures", slug: "boxes-enclosures" }, { name: "Disconnects & Transformers", slug: "disconnects-transformers" }] },
+  { name: "Lighting", slug: "lighting", subs: [{ name: "LED Fixtures", slug: "led-fixtures" }, { name: "Emergency & Exit Lighting", slug: "emergency-exit" }, { name: "High Bay & Industrial", slug: "high-bay" }, { name: "Controls & Sensors", slug: "controls-sensors" }, { name: "Bulbs & Lamps", slug: "bulbs-lamps" }, { name: "Outdoor & Area Lighting", slug: "outdoor-area" }] },
+  { name: "Solar & Renewables", slug: "solar", subs: [{ name: "Solar Panels", slug: "solar-panels" }, { name: "Inverters & Optimizers", slug: "inverters-optimizers" }, { name: "Racking & Mounting", slug: "racking-mounting" }, { name: "Batteries & ESS", slug: "batteries-ess" }, { name: "Solar Kits", slug: "solar-kits" }, { name: "Monitoring & Rapid Shutdown", slug: "monitoring-shutdown" }] },
+  { name: "Tools & Test", slug: "tools", subs: [{ name: "Power Tools", slug: "power-tools" }, { name: "Hand Tools", slug: "hand-tools" }, { name: "Meters & Testers", slug: "meters-testers" }, { name: "Fish Tape & Pulling", slug: "fish-tape-pulling" }, { name: "Crimping & Termination", slug: "crimping-termination" }, { name: "Tool Storage", slug: "tool-storage" }] },
+  { name: "HVAC", slug: "hvac", subs: [{ name: "Mini Splits", slug: "mini-splits" }, { name: "Thermostats", slug: "thermostats" }, { name: "Fans & Ventilation", slug: "fans-ventilation" }, { name: "Heaters", slug: "heaters" }, { name: "HVAC Parts & Accessories", slug: "hvac-parts" }] },
+  { name: "Plumbing", slug: "plumbing", subs: [{ name: "Pipe & Fittings", slug: "pipe-fittings" }, { name: "Valves", slug: "valves" }, { name: "Water Heaters", slug: "water-heaters" }, { name: "Pumps", slug: "pumps" }, { name: "Plumbing Tools", slug: "plumbing-tools" }] },
+  { name: "Safety & PPE", slug: "safety", subs: [{ name: "Hard Hats & Head Protection", slug: "hard-hats" }, { name: "Safety Glasses & Goggles", slug: "safety-glasses" }, { name: "Gloves", slug: "gloves" }, { name: "Hi-Vis & FR Clothing", slug: "hi-vis-fr" }, { name: "Fall Protection", slug: "fall-protection" }, { name: "First Aid", slug: "first-aid" }] },
+  { name: "Data & Comm", slug: "datacomm", subs: [{ name: "Structured Cabling", slug: "structured-cabling" }, { name: "Racks & Enclosures", slug: "racks-enclosures" }, { name: "Patch Panels", slug: "patch-panels" }, { name: "Fiber Optic", slug: "fiber-optic" }, { name: "Network Switches", slug: "network-switches" }, { name: "Cable Management", slug: "cable-management" }] },
+  { name: "EV Charging", slug: "ev-charging", subs: [{ name: "Level 2 Residential", slug: "l2-residential" }, { name: "Level 2 Commercial", slug: "l2-commercial" }, { name: "DC Fast Chargers", slug: "dc-fast" }, { name: "Cables & Connectors", slug: "ev-cables" }, { name: "Mounting & Pedestals", slug: "ev-mounting" }] },
+  { name: "Generators", slug: "generators", subs: [{ name: "Standby & Whole-Home", slug: "standby-generators" }, { name: "Portable", slug: "portable-generators" }, { name: "Commercial & Industrial", slug: "commercial-generators" }, { name: "Transfer Switches", slug: "transfer-switches" }, { name: "Parts & Maintenance", slug: "generator-parts" }] },
 ]
 
 function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
@@ -31,9 +33,9 @@ function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
       <div className={`grid transition-all duration-200 ${open ? "grid-rows-[1fr] pb-3 pl-3" : "grid-rows-[0fr]"}`}>
         <div className="overflow-hidden">
           {dept.subs.map((sub) => (
-            <a key={sub} href="#" className="block py-1.5 text-xs text-muted-foreground hover:text-primary">{sub}</a>
+            <Link key={sub.slug} href={`/departments/${dept.slug}/${sub.slug}`} className="block py-1.5 text-xs text-muted-foreground hover:text-primary">{sub.name}</Link>
           ))}
-          <a href="#" className="mt-1 block text-xs font-semibold text-primary">{"Shop All " + dept.name}</a>
+          <Link href={`/departments/${dept.slug}`} className="mt-1 block text-xs font-semibold text-primary">{"Shop All " + dept.name}</Link>
         </div>
       </div>
     </div>
@@ -45,6 +47,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [megaOpen, setMegaOpen] = useState<string | null>(null)
   const [allMenuOpen, setAllMenuOpen] = useState(false)
+  const [cartOpen, setCartOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [searchDept, setSearchDept] = useState("All Departments")
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -66,7 +69,7 @@ export function Navbar() {
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
     if (searchQuery.trim()) {
-      window.location.href = `https://pes.supply/search?q=${encodeURIComponent(searchQuery.trim())}${searchDept !== "All Departments" ? `&dept=${encodeURIComponent(searchDept)}` : ""}`
+      window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}${searchDept !== "All Departments" ? `&dept=${encodeURIComponent(searchDept)}` : ""}`
     }
   }
 
@@ -74,7 +77,6 @@ export function Navbar() {
     return () => { if (closeTimer.current) clearTimeout(closeTimer.current) }
   }, [])
 
-  // Close mega menu on Escape globally
   useEffect(() => {
     function onKey(e: KeyboardEvent) { if (e.key === "Escape") { setMegaOpen(null); setAllMenuOpen(false) } }
     document.addEventListener("keydown", onKey)
@@ -85,14 +87,14 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-navbar shadow-sm">
       {/* Row 1: Logo + Search + Account + Cart */}
       <div className="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-2 md:gap-5">
-        <a href="/" className="flex shrink-0 items-center gap-2.5">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5">
           <div className="flex h-11 items-center rounded-lg bg-foreground px-2 md:h-12 md:px-2.5">
             <Image src="/images/pes-logo.png" alt="PES Supply" width={120} height={120} className="h-8 w-auto brightness-0 invert md:h-9" priority />
           </div>
           <span className="hidden text-[10px] font-medium leading-tight text-muted-foreground min-[480px]:block">A PES Global Company</span>
-        </a>
+        </Link>
 
-        {/* Search form */}
+        {/* Search */}
         <form onSubmit={handleSearch} className="relative flex min-w-0 flex-1" role="search">
           <div className="flex w-full items-center overflow-hidden rounded-lg border-2 border-primary bg-card focus-within:ring-2 focus-within:ring-primary/20">
             <select value={searchDept} onChange={(e) => setSearchDept(e.target.value)} className="hidden h-11 shrink-0 cursor-pointer border-r border-border bg-muted/60 px-3 text-xs font-medium text-foreground outline-none md:block" aria-label="Search department">
@@ -108,15 +110,15 @@ export function Navbar() {
 
         {/* Account + Cart */}
         <div className="flex shrink-0 items-center gap-1">
-          <a href="#" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
+          <Link href="/account" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
             <span className="text-[10px] text-muted-foreground">Hello, sign in</span>
             <span className="text-sm font-bold leading-tight">Account</span>
-          </a>
-          <a href="/returns" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
+          </Link>
+          <Link href="/returns" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
             <span className="text-[10px] text-muted-foreground">Returns</span>
             <span className="text-sm font-bold leading-tight">{"& Orders"}</span>
-          </a>
-          <a href="#" className="relative flex items-end gap-1 rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted" aria-label={`Cart with ${cartCount} items`}>
+          </Link>
+          <button onClick={() => setCartOpen(true)} className="relative flex items-end gap-1 rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted" aria-label={`Cart with ${cartCount} items`}>
             <div className="relative">
               <ShoppingCart className="h-6 w-6" />
               {cartCount > 0 && (
@@ -126,7 +128,7 @@ export function Navbar() {
               )}
             </div>
             <span className="hidden text-sm font-bold sm:inline">Cart</span>
-          </a>
+          </button>
           <Button variant="ghost" size="icon" className="text-foreground lg:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
@@ -144,31 +146,31 @@ export function Navbar() {
             {allMenuOpen && (
               <div className="absolute left-0 top-full z-50 w-64 rounded-b-lg border border-border bg-card py-2 shadow-xl" role="menu">
                 {departments.map((dept) => (
-                  <a key={dept.name} href="#" role="menuitem" className="flex items-center justify-between px-4 py-2.5 text-sm text-card-foreground transition-colors hover:bg-muted">
+                  <Link key={dept.slug} href={`/departments/${dept.slug}`} role="menuitem" className="flex items-center justify-between px-4 py-2.5 text-sm text-card-foreground transition-colors hover:bg-muted">
                     {dept.name} <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Department links -- show all 10, use text-clip on overflow */}
+          {/* Department links */}
           <div className="flex min-w-0 flex-1 items-center overflow-hidden">
             {departments.map((dept) => (
-              <div key={dept.name} className="relative" onMouseEnter={() => handleEnter(dept.name)} onMouseLeave={handleLeave}>
-                <a href="#" className="block whitespace-nowrap px-2 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary" onKeyDown={(e) => handleKeyDown(e, dept.name)} onFocus={() => handleEnter(dept.name)} onBlur={handleLeave}>
+              <div key={dept.slug} className="relative" onMouseEnter={() => handleEnter(dept.name)} onMouseLeave={handleLeave}>
+                <Link href={`/departments/${dept.slug}`} className="block whitespace-nowrap px-2 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary" onKeyDown={(e) => handleKeyDown(e, dept.name)} onFocus={() => handleEnter(dept.name)} onBlur={handleLeave}>
                   {dept.name}
-                </a>
+                </Link>
                 {megaOpen === dept.name && (
                   <div className="absolute left-1/2 top-full z-50 w-[480px] -translate-x-1/2 rounded-b-lg border border-border bg-card p-5 shadow-xl" onMouseEnter={() => handleEnter(dept.name)} onMouseLeave={handleLeave} role="menu">
                     <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">{dept.name}</div>
                     <div className="grid grid-cols-2 gap-x-6 gap-y-1">
                       {dept.subs.map((sub) => (
-                        <a key={sub} href="#" role="menuitem" className="rounded-md px-2 py-1.5 text-sm text-card-foreground transition-colors hover:bg-muted hover:text-primary">{sub}</a>
+                        <Link key={sub.slug} href={`/departments/${dept.slug}/${sub.slug}`} role="menuitem" className="rounded-md px-2 py-1.5 text-sm text-card-foreground transition-colors hover:bg-muted hover:text-primary">{sub.name}</Link>
                       ))}
                     </div>
                     <div className="mt-4 border-t border-border pt-3">
-                      <a href="#" className="text-sm font-semibold text-primary hover:underline">{"Shop All " + dept.name + " \u2192"}</a>
+                      <Link href={`/departments/${dept.slug}`} className="text-sm font-semibold text-primary hover:underline">{`Shop All ${dept.name} \u2192`}</Link>
                     </div>
                   </div>
                 )}
@@ -177,8 +179,8 @@ export function Navbar() {
           </div>
 
           <div className="ml-auto flex shrink-0 items-center gap-3 pl-2">
-            <a href="#" className="whitespace-nowrap py-2 text-[13px] font-bold text-accent">Deals & Clearance</a>
-            <a href="#" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Pro Account</a>
+            <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-accent">Deals & Clearance</Link>
+            <Link href="/pro" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Pro Account</Link>
           </div>
         </div>
       </nav>
@@ -192,22 +194,24 @@ export function Navbar() {
               <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search products, brands, or part numbers..." className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
             </form>
             <div className="mb-4 flex gap-2">
-              <a href="#" className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><User className="h-4 w-4" /> Account</a>
-              <a href="#" className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><ShoppingCart className="h-4 w-4" /> Cart{cartCount > 0 ? ` (${cartCount})` : ""}</a>
+              <Link href="/account" className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><User className="h-4 w-4" /> Account</Link>
+              <button onClick={() => { setMobileOpen(false); setCartOpen(true) }} className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><ShoppingCart className="h-4 w-4" /> Cart{cartCount > 0 ? ` (${cartCount})` : ""}</button>
             </div>
-            <a href="#" className="mb-4 flex items-center justify-center rounded-lg bg-sale/10 py-2.5 text-sm font-bold text-sale">Deals & Clearance</a>
+            <Link href="/deals" className="mb-4 flex items-center justify-center rounded-lg bg-sale/10 py-2.5 text-sm font-bold text-sale">Deals & Clearance</Link>
             <div className="flex flex-col">
-              {departments.map((dept) => (<MobileDeptAccordion key={dept.name} dept={dept} />))}
+              {departments.map((dept) => (<MobileDeptAccordion key={dept.slug} dept={dept} />))}
             </div>
             <div className="mt-4 flex flex-col gap-2">
-              <a href="#" className="rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground">Sign In / Register</a>
-              <a href="#" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-card-foreground">Open a Pro Account</a>
-              <a href="/shipping" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-muted-foreground">Shipping Info</a>
+              <Link href="/account" className="rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground">Sign In / Register</Link>
+              <Link href="/pro" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-card-foreground">Open a Pro Account</Link>
+              <Link href="/shipping" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-muted-foreground">Shipping Info</Link>
               <a href="tel:8888760007" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-muted-foreground">(888) 876-0007</a>
             </div>
           </div>
         </div>
       )}
+
+      <CartFlyout open={cartOpen} onClose={() => setCartOpen(false)} />
     </header>
   )
 }
