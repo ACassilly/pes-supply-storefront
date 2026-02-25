@@ -58,7 +58,7 @@ const faqs = [
   { q: "How long does it take for my order to ship?", a: "Most in-stock orders placed before 2:00 PM ET Monday-Friday ship the same business day. Orders placed after the cutoff or on weekends/holidays ship the next business day. Some oversized or LTL freight items may require 1-2 additional handling days." },
   { q: "Do you offer free shipping?", a: "Yes. Standard ground shipping is free on qualifying orders of $999 or more within the contiguous United States. Orders under $999 receive a calculated rate at checkout based on weight and destination. Pro Account holders receive reduced freight thresholds -- contact your rep for details." },
   { q: "Can I expedite my order?", a: "Yes. 2-Day and Next-Day air options are available at checkout for most items under 150 lbs. LTL freight shipments (pallets, panels, large equipment) cannot be expedited. Contact us for hot-shot delivery quotes on urgent job-site needs." },
-  { q: "Do you ship to Alaska, Hawaii, or U.S. territories?", a: "Currently we ship only within the contiguous 48 United States. We do not ship to Alaska, Hawaii, Puerto Rico, Guam, U.S. Virgin Islands, or APO/FPO addresses. International shipments can be arranged through PES Global -- contact sales@pessupply.com for a quote." },
+  { q: "Do you ship to Alaska, Hawaii, or U.S. territories?", a: "Currently we ship only within the contiguous 48 United States. We do not ship to Alaska, Hawaii, Puerto Rico, Guam, U.S. Virgin Islands, or APO/FPO addresses. International shipments can be arranged through PES Global -- contact sales@pes.supply for a quote." },
   { q: "How are oversized or heavy items shipped?", a: "Items over 150 lbs or exceeding standard parcel dimensions ship via LTL freight carrier. LTL shipments typically arrive in 3-10 business days depending on destination. Liftgate delivery is available for an additional charge if you do not have a loading dock." },
   { q: "What if my order arrives damaged?", a: "Inspect all deliveries upon receipt. If damage is visible while the carrier is on site, take photos and refuse the damaged items. Contact us within 48 hours with your order number and photos. For concealed damage discovered after delivery, notify us within 7 days. We will file a carrier claim and arrange a replacement or refund." },
   { q: "Can I change my shipping address after ordering?", a: "Address changes can be made within 30 minutes of order confirmation, before the order enters our pick-pack queue. After that window the order cannot be redirected. Please verify your address at checkout." },
@@ -267,7 +267,7 @@ export function ShippingContent() {
                 <p className="mb-4 text-sm text-muted-foreground">Alaska, Hawaii, American Samoa, Guam, Marshall Islands, Micronesia, North Mariana Islands, Palau, Puerto Rico, U.S. Virgin Islands, and APO/FPO addresses. We do not recommend using a PO Box as a shipping address.</p>
                 <p className="mb-3 text-sm text-card-foreground">Once placed, shipping addresses <strong>cannot be changed</strong> due to state tax regulations. Please verify your address at checkout.</p>
                 <div className="rounded-lg border border-accent/20 bg-accent/5 px-4 py-3">
-                  <p className="text-xs font-medium text-accent">International Shipping: For orders outside the U.S., contact PES Global at <a href="mailto:sales@pessupply.com" className="underline">sales@pessupply.com</a> for a custom quote and logistics coordination.</p>
+                  <p className="text-xs font-medium text-accent">International Shipping: For orders outside the U.S., contact PES Global at <a href="mailto:sales@pes.supply" className="underline">sales@pes.supply</a> for a custom quote and logistics coordination.</p>
                 </div>
               </div>
             </section>
@@ -362,9 +362,9 @@ export function ShippingContent() {
                     <Phone className="h-4 w-4 text-primary" />
                     <div><p className="text-xs font-semibold text-foreground">Call</p><p className="text-[10px] text-muted-foreground">(888) 876-0007</p></div>
                   </a>
-                  <a href="mailto:sales@pessupply.com" className="flex items-center gap-3 rounded-lg border border-border px-3.5 py-2.5 transition-colors hover:bg-muted">
+                  <a href="mailto:sales@pes.supply" className="flex items-center gap-3 rounded-lg border border-border px-3.5 py-2.5 transition-colors hover:bg-muted">
                     <Mail className="h-4 w-4 text-primary" />
-                    <div><p className="text-xs font-semibold text-foreground">Email</p><p className="text-[10px] text-muted-foreground">sales@pessupply.com</p></div>
+                    <div><p className="text-xs font-semibold text-foreground">Email</p><p className="text-[10px] text-muted-foreground">sales@pes.supply</p></div>
                   </a>
                 </div>
               </div>

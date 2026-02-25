@@ -334,7 +334,7 @@ export default function ProPage() {
               <a href="tel:8888760007">Call (888) 876-0007</a>
             </Button>
             <Button asChild size="sm" variant="outline" className="gap-1.5">
-              <a href="mailto:sales@pessupply.com">Email Us</a>
+              <a href="mailto:sales@pes.supply">Email Us</a>
             </Button>
           </div>
         </div>

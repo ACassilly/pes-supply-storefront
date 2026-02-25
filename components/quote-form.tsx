@@ -235,11 +235,11 @@ export function QuoteForm() {
                   <p className="text-[10px] text-muted-foreground">(888) 876-0007</p>
                 </div>
               </a>
-              <a href="mailto:quotes@pessupply.com" className="flex items-center gap-2.5 rounded-md border border-border px-3 py-2.5 transition-colors hover:bg-muted">
+              <a href="mailto:quotes@pes.supply" className="flex items-center gap-2.5 rounded-md border border-border px-3 py-2.5 transition-colors hover:bg-muted">
                 <Mail className="h-4 w-4 text-primary" />
                 <div>
                   <p className="text-xs font-medium text-card-foreground">Email</p>
-                  <p className="text-[10px] text-muted-foreground">quotes@pessupply.com</p>
+                  <p className="text-[10px] text-muted-foreground">quotes@pes.supply</p>
                 </div>
               </a>
               <button className="flex items-center gap-2.5 rounded-md border border-border px-3 py-2.5 text-left transition-colors hover:bg-muted">

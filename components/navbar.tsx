@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail, Globe } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
@@ -22,6 +22,17 @@ const departments = [
   { name: "EV Charging", slug: "ev-charging", subs: [{ name: "Level 2 Residential", slug: "l2-residential" }, { name: "Level 2 Commercial", slug: "l2-commercial" }, { name: "DC Fast Chargers", slug: "dc-fast" }, { name: "Cables & Connectors", slug: "ev-cables" }, { name: "Mounting & Pedestals", slug: "ev-mounting" }] },
   { name: "Generators", slug: "generators", subs: [{ name: "Standby & Whole-Home", slug: "standby-generators" }, { name: "Portable", slug: "portable-generators" }, { name: "Commercial & Industrial", slug: "commercial-generators" }, { name: "Transfer Switches", slug: "transfer-switches" }, { name: "Parts & Maintenance", slug: "generator-parts" }] },
 ]
+
+// Seasonal trending searches -- rotates by quarter
+const seasonalTrending: Record<string, string[]> = {
+  winter: ["Transfer Switch", "Generator", "200A Panel", "LED High Bay", "Heat Tape", "Milwaukee M18", "14/2 NM-B", "#12 THHN"],
+  spring: ["580W Solar", "EV Charger", "Mini Split", "200A Panel", "14/2 NM-B", "Racking & Mounting", "Milwaukee M18", "#12 THHN"],
+  summer: ["580W Solar", "Mini Split", "EV Charger", "LED High Bay", "Inverter", "Battery ESS", "200A Panel", "Fan & Ventilation"],
+  fall: ["Generator", "Transfer Switch", "200A Panel", "LED High Bay", "14/2 NM-B", "#12 THHN", "Milwaukee M18", "EV Charger"],
+}
+const month = new Date().getMonth()
+const season = month <= 1 || month === 11 ? "winter" : month <= 4 ? "spring" : month <= 7 ? "summer" : "fall"
+const trendingSearches = seasonalTrending[season]
 
 function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
   const [open, setOpen] = useState(false)
@@ -44,7 +55,7 @@ function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
 }
 
 export function Navbar() {
-  const { count: cartCount } = useCart()
+  const { count: cartCount, total: cartTotal } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [megaOpen, setMegaOpen] = useState<string | null>(null)
   const [allMenuOpen, setAllMenuOpen] = useState(false)
@@ -101,7 +112,7 @@ export function Navbar() {
         {/* Search */}
         <form onSubmit={handleSearch} className="relative flex min-w-0 flex-1" role="search">
           <div className="flex w-full items-center overflow-hidden rounded-lg border-2 border-primary bg-card focus-within:ring-2 focus-within:ring-primary/20">
-            <select value={searchDept} onChange={(e) => setSearchDept(e.target.value)} className="hidden h-11 shrink-0 cursor-pointer border-r border-border bg-muted/60 px-3 text-xs font-medium text-foreground outline-none md:block" aria-label="Search department">
+            <select value={searchDept} onChange={(e) => setSearchDept(e.target.value)} className="hidden h-11 shrink-0 cursor-pointer border-r border-border bg-muted/60 px-2 text-xs font-medium text-foreground outline-none min-[480px]:block md:px-3" aria-label="Search department">
               <option>All Departments</option>
               {departments.map((d) => (<option key={d.name}>{d.name}</option>))}
             </select>
@@ -141,11 +152,11 @@ export function Navbar() {
                     <p className="text-[10px] text-muted-foreground">(888) 876-0007</p>
                   </div>
                 </a>
-                <a href="mailto:sales@pessupply.com" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
+                <a href="mailto:sales@pes.supply" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
                   <Mail className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm font-medium text-card-foreground">Email</p>
-                    <p className="text-[10px] text-muted-foreground">sales@pessupply.com</p>
+                    <p className="text-[10px] text-muted-foreground">sales@pes.supply</p>
                   </div>
                 </a>
               </div>
@@ -188,25 +199,29 @@ export function Navbar() {
           )}
         </div>
 
-        <div className="flex shrink-0 items-center gap-1">
-          <Link href="/account" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
-            <span className="text-[10px] text-muted-foreground">Hello, sign in</span>
-            <span className="text-sm font-bold leading-tight">Account</span>
+        <div className="flex shrink-0 items-center gap-0.5">
+          <Link href="/account" className="hidden items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted md:flex" aria-label="Sign in or account">
+            <User className="h-5 w-5" />
+            <span className="hidden text-sm font-bold lg:inline">Sign In</span>
           </Link>
-          <Link href="/returns" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
-            <span className="text-[10px] text-muted-foreground">Returns</span>
-            <span className="text-sm font-bold leading-tight">{"& Orders"}</span>
+          <Link href="/orders" className="hidden items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted md:flex" aria-label="Orders">
+            <RotateCcw className="h-4.5 w-4.5" />
+            <span className="hidden text-sm font-bold lg:inline">Orders</span>
           </Link>
-          <button onClick={() => setCartOpen(true)} className="relative flex items-end gap-1 rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted" aria-label={`Cart with ${cartCount} items`}>
+          <Link href="/lists" className="hidden items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted md:flex" aria-label="Saved lists">
+            <Heart className="h-4.5 w-4.5" />
+            <span className="hidden text-sm font-bold lg:inline">Lists</span>
+          </Link>
+          <button onClick={() => setCartOpen(true)} className="relative flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted" aria-label={`Cart with ${cartCount} items`}>
             <div className="relative">
-              <ShoppingCart className="h-6 w-6" />
+              <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
-                <Badge className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-accent p-0 text-[10px] font-bold text-accent-foreground">
+                <Badge className="absolute -right-2 -top-2 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-accent p-0 text-[9px] font-bold text-accent-foreground">
                   {cartCount}
                 </Badge>
               )}
             </div>
-            <span className="hidden text-sm font-bold sm:inline">Cart</span>
+            <span className="hidden text-sm font-bold sm:inline">{cartTotal > 0 ? `$${cartTotal.toFixed(2)}` : "Cart"}</span>
           </button>
           <Button variant="ghost" size="icon" className="text-foreground md:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -214,11 +229,11 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Trending searches - lg+ only to save vertical space at md */}
+      {/* Trending searches - lg+ only, seasonal rotation */}
       <div className="hidden border-t border-border bg-muted/40 lg:block">
         <div className="mx-auto flex max-w-[1400px] items-center gap-2 px-4 py-1">
           <span className="text-[10px] font-medium text-muted-foreground">Trending:</span>
-          {["14/2 NM-B", "200A Panel", "580W Solar", "#12 THHN", "Milwaukee M18", "EV Charger", "Mini Split", "LED High Bay"].map((term) => (
+          {trendingSearches.map((term) => (
             <Link key={term} href={`/search?q=${encodeURIComponent(term)}`} className="rounded-full border border-border bg-card px-2.5 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
               {term}
             </Link>
@@ -288,9 +303,11 @@ export function Navbar() {
               <Search className="h-4 w-4 text-muted-foreground" />
               <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search products, brands, or part numbers..." className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
             </form>
-            <div className="mb-4 flex gap-2">
-              <Link href="/account" className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><User className="h-4 w-4" /> Account</Link>
-              <button onClick={() => { setMobileOpen(false); setCartOpen(true) }} className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><ShoppingCart className="h-4 w-4" /> Cart{cartCount > 0 ? ` (${cartCount})` : ""}</button>
+            <div className="mb-3 grid grid-cols-2 gap-2">
+              <Link href="/account" className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><User className="h-4 w-4" /> Sign In</Link>
+              <button onClick={() => { setMobileOpen(false); setCartOpen(true) }} className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><ShoppingCart className="h-4 w-4" /> {cartTotal > 0 ? `$${cartTotal.toFixed(2)}` : "Cart"}{cartCount > 0 ? ` (${cartCount})` : ""}</button>
+              <Link href="/orders" className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><RotateCcw className="h-4 w-4" /> Orders</Link>
+              <Link href="/lists" className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><Heart className="h-4 w-4" /> Lists</Link>
             </div>
             <div className="mb-4 flex gap-2">
               <Link href="/deals" className="flex flex-1 items-center justify-center rounded-lg bg-sale/10 py-2.5 text-sm font-bold text-sale">Deals & Clearance</Link>
