@@ -21,7 +21,7 @@ export function SolutionsGrid() {
       <div className="mb-6 flex items-end justify-between">
         <div>
           <h2 id="dept-heading" className="text-2xl font-bold text-foreground">Shop by Department</h2>
-          <p className="mt-1 text-sm text-muted-foreground">40,000+ products across 10 departments -- all in stock</p>
+          <p className="mt-1 text-sm text-muted-foreground">Everything between the meter and the roof. One supplier, one order.</p>
         </div>
         <a href="#" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline sm:flex">
           View All <ArrowRight className="h-3.5 w-3.5" />

@@ -99,7 +99,7 @@ export function Navbar() {
               <option>All Departments</option>
               {departments.map((d) => (<option key={d.name}>{d.name}</option>))}
             </select>
-            <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search 40,000+ products..." className="h-11 min-w-0 flex-1 bg-transparent px-4 text-sm text-foreground outline-none placeholder:text-muted-foreground" />
+            <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search products, brands, or part numbers..." className="h-11 min-w-0 flex-1 bg-transparent px-4 text-sm text-foreground outline-none placeholder:text-muted-foreground" />
             <button type="submit" className="flex h-11 w-12 shrink-0 items-center justify-center bg-primary text-primary-foreground transition-colors hover:bg-primary/90" aria-label="Search">
               <Search className="h-5 w-5" />
             </button>
@@ -189,7 +189,7 @@ export function Navbar() {
           <div className="p-4">
             <form onSubmit={handleSearch} className="mb-4 flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-3">
               <Search className="h-4 w-4 text-muted-foreground" />
-              <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search 40,000+ products..." className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+              <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search products, brands, or part numbers..." className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
             </form>
             <div className="mb-4 flex gap-2">
               <a href="#" className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><User className="h-4 w-4" /> Account</a>

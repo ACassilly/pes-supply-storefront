@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     default: 'PES Supply | 169 Brands, 500+ Vendors, 40,000+ Products | A PES Global Company',
     template: '%s | PES Supply',
   },
-  description: 'PES Supply (Portlandia Electric Supply) -- the distribution arm of PES Global. 169 brands, 500+ vendors, 40,000+ products across energy, electrical, solar, tools, HVAC, plumbing, and more. Shipping nationwide from Louisville, KY.',
+  description: 'PES Supply -- the distribution engine of PES Global. 40,000+ products across electrical, solar, HVAC, plumbing, tools, safety, EV charging, generators, and more. 169 brands, 500+ vendors. Shipping nationwide from Louisville, KY.',
   metadataBase: new URL('https://pes.supply'),
   openGraph: {
     type: 'website',
@@ -42,11 +42,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="bg-background">
       <head>

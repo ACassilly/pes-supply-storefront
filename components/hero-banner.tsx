@@ -9,14 +9,14 @@ const slides = [
   {
     eyebrow: "PES Supply | A PES Global Company",
     headline: "Everything for the job. One order. Ships today.",
-    subline: "Not a marketplace -- a real distributor backed by PES Global. 40,000+ products from 169 brands, in stock and ready to ship from Louisville.",
+    subline: "Electrical, solar, HVAC, plumbing, tools, safety, and everything in between. 40,000+ products from 169 brands, backed by PES Global. Not a marketplace -- a real distributor.",
     cta: "Shop All Products", ctaSecondary: "Open a Pro Account",
     image: "/images/hero-commercial.jpg",
   },
   {
     eyebrow: "For Contractors & Trades",
     headline: "Your crew trusts the brands. You can trust the source.",
-    subline: "Net-30 terms, same-day shipping, named account reps. One PO, one distributor, one call when you need it.",
+    subline: "Net-30 terms, same-day shipping, named reps. From breakers and wire to mini splits and test equipment -- one PO, one call.",
     cta: "Apply for Trade Pricing", ctaSecondary: "Shop Electrical",
     image: "/images/hero-workshop.jpg",
   },
@@ -166,7 +166,7 @@ export function HeroBanner() {
               <span className="text-muted-foreground">contractors order from PES</span>
             </span>
             <span className="hidden text-border sm:inline">|</span>
-            <span className="text-muted-foreground">40,000+ products from 169 brands</span>
+            <span className="text-muted-foreground">40,000+ products across 10 departments</span>
           </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-muted-foreground">
             <span className="flex items-center gap-1"><Truck className="h-3.5 w-3.5 text-primary" /> Same-Day Shipping</span>
