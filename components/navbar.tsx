@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
@@ -49,6 +49,7 @@ export function Navbar() {
   const [megaOpen, setMegaOpen] = useState<string | null>(null)
   const [allMenuOpen, setAllMenuOpen] = useState(false)
   const [cartOpen, setCartOpen] = useState(false)
+  const [contactOpen, setContactOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [searchDept, setSearchDept] = useState("All Departments")
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -110,10 +111,55 @@ export function Navbar() {
         </form>
 
         {/* Account + Cart */}
-        <div className="hidden shrink-0 flex-col lg:flex">
-          <span className="text-[10px] text-muted-foreground">Ships from Louisville, KY</span>
-          <span className="text-[11px] font-bold text-primary">Est. delivery: 1-3 business days</span>
+        {/* Contact Us dropdown */}
+        <div className="relative hidden lg:block" onMouseEnter={() => setContactOpen(true)} onMouseLeave={() => setContactOpen(false)}>
+          <button className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted" aria-expanded={contactOpen} aria-haspopup="true">
+            <Phone className="h-4 w-4 text-primary" />
+            <span className="text-sm font-bold">Contact Us</span>
+            <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground transition-transform ${contactOpen ? "rotate-180" : ""}`} />
+          </button>
+          {contactOpen && (
+            <div className="absolute right-0 top-full z-50 w-64 rounded-lg border border-border bg-card py-3 shadow-xl">
+              <div className="border-b border-border px-4 pb-3">
+                <p className="text-xs font-semibold text-foreground">Monday - Friday</p>
+                <p className="text-xs text-muted-foreground">8:00 AM - 5:00 PM EST</p>
+              </div>
+              <div className="flex flex-col gap-1 px-2 py-2">
+                <button className="flex items-center gap-3 rounded-md px-3 py-2.5 text-left transition-colors hover:bg-muted">
+                  <MessageCircle className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium text-card-foreground">Live Chat</p>
+                    <p className="flex items-center gap-1 text-[10px] text-muted-foreground"><span className="inline-block h-1.5 w-1.5 rounded-full bg-primary" /> Online Now</p>
+                  </div>
+                </button>
+                <a href="tel:8888760007" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
+                  <Phone className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium text-card-foreground">Call</p>
+                    <p className="text-[10px] text-muted-foreground">(888) 876-0007</p>
+                  </div>
+                </a>
+                <a href="mailto:sales@pessupply.com" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
+                  <Mail className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium text-card-foreground">Email</p>
+                    <p className="text-[10px] text-muted-foreground">sales@pessupply.com</p>
+                  </div>
+                </a>
+              </div>
+              <div className="border-t border-border px-4 pt-3">
+                <p className="mb-1.5 text-xs font-semibold text-foreground">Need Help?</p>
+                <div className="flex flex-col gap-1">
+                  <Link href="/shipping" className="text-xs text-muted-foreground hover:text-primary hover:underline">Track Your Order</Link>
+                  <Link href="/shipping" className="text-xs text-muted-foreground hover:text-primary hover:underline">Shipping & Returns</Link>
+                  <Link href="/pro#quote" className="text-xs text-muted-foreground hover:text-primary hover:underline">Request a Quote</Link>
+                  <Link href="/about" className="text-xs text-muted-foreground hover:text-primary hover:underline">Contact Customer Service</Link>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
+
         <div className="flex shrink-0 items-center gap-1">
           <Link href="/account" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
             <span className="text-[10px] text-muted-foreground">Hello, sign in</span>
