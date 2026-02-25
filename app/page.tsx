@@ -12,6 +12,9 @@ import { BlogStrip } from "@/components/blog-strip"
 import { Testimonials } from "@/components/testimonials"
 import { BrandPartners } from "@/components/brand-partners"
 import { SectionNav } from "@/components/section-nav"
+import { PowerLinkCallout } from "@/components/powerlink-callout"
+import { PesGlobalSection } from "@/components/pes-global-section"
+import { WhyPesStrip } from "@/components/why-pes-strip"
 
 export default function Home() {
   return (
@@ -24,7 +27,10 @@ export default function Home() {
       <div id="new-arrivals"><NewArrivals /></div>
       <div id="curated"><CuratedRows /></div>
       <div id="shipping-map"><ShippingZoneTeaser /></div>
+      <div id="why-pes"><WhyPesStrip /></div>
+      <div id="pes-global"><PesGlobalSection /></div>
       <ProCtaBanner />
+      <div id="powerlink"><PowerLinkCallout /></div>
       <Certifications />
       <div id="blog"><BlogStrip /></div>
       <div id="reviews"><Testimonials /></div>

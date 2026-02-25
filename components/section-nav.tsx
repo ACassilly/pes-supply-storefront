@@ -9,6 +9,9 @@ const sections = [
   { id: "new-arrivals", label: "New" },
   { id: "curated", label: "Products" },
   { id: "shipping-map", label: "Shipping" },
+  { id: "why-pes", label: "Why PES" },
+  { id: "pes-global", label: "Global" },
+  { id: "powerlink", label: "Power Link" },
   { id: "blog", label: "Blog" },
   { id: "reviews", label: "Reviews" },
 ]

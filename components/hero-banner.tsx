@@ -9,24 +9,24 @@ import { ChevronLeft, ChevronRight, ArrowRight, Truck, ShieldCheck, Phone } from
 
 const slides = [
   {
-    eyebrow: "PES Supply | A PES Global Company",
+    eyebrow: "Not a Marketplace -- An Authorized Distributor",
     headline: "Everything for the job. One order. Ships today.",
-    subline: "Electrical, solar, HVAC, plumbing, tools, safety, and everything in between. 40,000+ products from 169 brands. Not a marketplace -- a real distributor.",
+    subline: "40,000+ products from 169 brands. Full OEM warranties. In-house fulfillment by Portlandia Logistics from Louisville, KY. No grey market, no counterfeit risk.",
     cta: "Shop All Products", ctaHref: "/departments", ctaSecondary: "Open a Pro Account", ctaSecondaryHref: "/pro",
     image: "/images/hero-commercial.jpg",
   },
   {
-    eyebrow: "For Contractors & Trades",
-    headline: "Your crew trusts the brands. You can trust the source.",
-    subline: "Net-30 terms, same-day shipping, named reps. From breakers and wire to mini splits and test equipment -- one PO, one call.",
-    cta: "Apply for Trade Pricing", ctaHref: "/pro", ctaSecondary: "Shop Electrical", ctaSecondaryHref: "/departments/electrical",
+    eyebrow: "Power Link Installer Network",
+    headline: "We sell you materials. Then we send you customers.",
+    subline: "Power Link connects homeowners and property managers to PES contractors by ZIP code and trade. No fees. No contracts. Just qualified leads from your supplier.",
+    cta: "Join Power Link", ctaHref: "/powerlink", ctaSecondary: "Learn More", ctaSecondaryHref: "/powerlink",
     image: "/images/hero-workshop.jpg",
   },
   {
-    eyebrow: "Enterprise & Government",
+    eyebrow: "BABA Compliant | PES Global Sourcing",
     headline: "Procurement ready. Compliance built in.",
-    subline: "BABA compliant, UL listed, NABCEP certified. Volume pricing and documentation for municipalities, schools, and Fortune 500 facilities.",
-    cta: "Contact Sales", ctaHref: "/pro", ctaSecondary: "View Certifications", ctaSecondaryHref: "/shipping",
+    subline: "Build America, Buy America documentation ships with your order. PES Global sources domestically first. Portlandia Logistics fulfills in-house.",
+    cta: "BABA Products", ctaHref: "/baba", ctaSecondary: "Request a Quote", ctaSecondaryHref: "/quote",
     image: "/images/hero-solar.jpg",
   },
 ]

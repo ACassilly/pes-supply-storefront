@@ -11,8 +11,9 @@ export function ShippingZoneTeaser() {
     <section className="py-6 md:py-8">
       <div className="mx-auto max-w-7xl px-4">
         <h2 className="mb-1 text-center text-xl font-bold text-foreground md:text-2xl">Estimated Shipping Times</h2>
+        <p className="mb-1 text-center text-xs font-bold uppercase tracking-widest text-primary">Portlandia Logistics</p>
         <p className="mb-6 text-center text-sm text-muted-foreground">
-          In-house logistics from our Louisville, KY fulfillment center. Not a 3PL.
+          In-house fulfillment from our Louisville, KY warehouse. Our team, our trucks, our accountability.
         </p>
         <div className="overflow-hidden rounded-xl border border-border bg-card">
           <div className="grid items-center md:grid-cols-[1.3fr_1fr]">
@@ -61,11 +62,10 @@ export function ShippingZoneTeaser() {
             <div className="flex flex-col gap-4 px-6 py-6 md:px-8">
               <div className="flex items-center gap-2">
                 <Truck className="h-5 w-5 text-primary" />
-                <h3 className="text-lg font-bold text-foreground">In-House Logistics</h3>
+                <h3 className="text-lg font-bold text-foreground">Portlandia Logistics</h3>
               </div>
               <p className="text-sm leading-relaxed text-muted-foreground">
-                PES runs its own warehouse, picks every order, and manages carrier relationships directly.
-                When we say "ships today" we mean our team packed it this morning.
+                PES{"'"}s in-house logistics arm picks, packs, and ships every order. No 3PL middlemen. When something goes wrong, our team in Louisville fixes it -- not a call center.
               </p>
               <ul className="flex flex-col gap-2.5">
                 <li className="flex items-center gap-2.5 text-sm text-card-foreground">
