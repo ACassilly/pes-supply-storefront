@@ -95,7 +95,7 @@ export function HeroBanner() {
               <Button size="sm" asChild className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90">
                 <Link href={slide.ctaHref}>{slide.cta} <ArrowRight className="h-3 w-3" /></Link>
               </Button>
-              <Button size="sm" variant="outline" asChild className="gap-1.5 border-background/20 text-background hover:bg-background/10">
+              <Button size="sm" variant="outline" asChild className="gap-1.5 border-background/40 bg-transparent text-background hover:border-background hover:bg-background/10">
                 <Link href={slide.ctaSecondaryHref}>{slide.ctaSecondary}</Link>
               </Button>
             </div>
