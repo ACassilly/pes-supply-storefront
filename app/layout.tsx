@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     siteName: 'PES Supply',
     title: 'PES Supply | 169 Brands, 500+ Vendors, 40,000+ Products',
     description: 'The distribution arm of PES Global. Electrical, solar, lighting, tools, HVAC, plumbing, and more. Same-day shipping. Net-30 terms.',
+    images: [{ url: '/images/pes-logo.png', width: 600, height: 600, alt: 'PES Supply' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -54,22 +55,27 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "PES Supply",
-              alternateName: "Portlandia Electric Supply",
-              url: "https://pes.supply",
-              telephone: "+1-888-876-0007",
-              email: "connect@portlandiaelectric.supply",
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: "1507 Portland Ave",
-                addressLocality: "Louisville",
-                addressRegion: "KY",
-                postalCode: "40203",
-                addressCountry: "US",
-              },
-              parentOrganization: { "@type": "Organization", name: "PES Global" },
-              description: "Electrical, solar, lighting, tools, HVAC, plumbing distributor. 169 brands, 500+ vendors, 40,000+ products.",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  name: "PES Supply",
+                  legalName: "Portlandia Electric Supply, Inc.",
+                  alternateName: "Portlandia Electric Supply",
+                  url: "https://pes.supply",
+                  logo: "https://pes.supply/images/pes-logo.png",
+                  telephone: "+1-888-876-0007",
+                  email: "connect@portlandiaelectric.supply",
+                  address: { "@type": "PostalAddress", streetAddress: "1507 Portland Ave", addressLocality: "Louisville", addressRegion: "KY", postalCode: "40203", addressCountry: "US" },
+                  parentOrganization: { "@type": "Organization", name: "PES Global" },
+                  description: "169 brands, 500+ vendors, 40,000+ products across energy, electrical, solar, tools, HVAC, plumbing, and more.",
+                },
+                {
+                  "@type": "WebSite",
+                  name: "PES Supply",
+                  url: "https://pes.supply",
+                  potentialAction: { "@type": "SearchAction", target: "https://pes.supply/search?q={search_term_string}", "query-input": "required name=search_term_string" },
+                }
+              ],
             }),
           }}
         />
