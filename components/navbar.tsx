@@ -193,9 +193,9 @@ export function Navbar() {
             <span className="text-[10px] text-muted-foreground">Hello, sign in</span>
             <span className="text-sm font-bold leading-tight">Account</span>
           </Link>
-          <Link href="/returns" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
-            <span className="text-[10px] text-muted-foreground">Returns</span>
-            <span className="text-sm font-bold leading-tight">{"& Orders"}</span>
+          <Link href="/orders" className="hidden flex-col items-start rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted lg:flex">
+            <span className="text-[10px] text-muted-foreground">Track & Manage</span>
+            <span className="text-sm font-bold leading-tight">Orders</span>
           </Link>
           <button onClick={() => setCartOpen(true)} className="relative flex items-end gap-1 rounded-lg px-2.5 py-1.5 text-foreground transition-colors hover:bg-muted" aria-label={`Cart with ${cartCount} items`}>
             <div className="relative">
