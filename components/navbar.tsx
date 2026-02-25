@@ -272,7 +272,8 @@ export function Navbar() {
           <div className="ml-auto flex shrink-0 items-center gap-3 pl-2">
             <QuickOrderPad />
             <Link href="/quote" className="flex items-center gap-1.5 whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Request a Quote</Link>
-            <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-accent">Deals & Clearance</Link>
+            <Link href="/powerlink" className="flex items-center gap-1 whitespace-nowrap py-2 text-[13px] font-medium text-accent transition-colors hover:text-accent/80">Power Link</Link>
+            <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-sale">Deals & Clearance</Link>
             <Link href="/pro" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Pro Account</Link>
           </div>
         </div>
@@ -297,6 +298,7 @@ export function Navbar() {
             <div className="mt-4 flex flex-col gap-2">
               <Link href="/account" className="rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground">Sign In / Register</Link>
               <Link href="/pro" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-card-foreground">Open a Pro Account</Link>
+              <Link href="/powerlink" className="rounded-lg border border-accent/30 bg-accent/5 px-4 py-2.5 text-center text-sm font-medium text-accent">Power Link Installer Network</Link>
               <Link href="/shipping" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-muted-foreground">Shipping Info</Link>
               <a href="tel:8888760007" className="rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-muted-foreground">(888) 876-0007</a>
             </div>

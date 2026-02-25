@@ -25,6 +25,8 @@ const footerLinks = [
       { label: "Project Quotes", href: "/pro" },
       { label: "Commercial Sales", href: "/pro" },
       { label: "Government & BABA", href: "/pro" },
+      { label: "Power Link Installers", href: "/powerlink" },
+      { label: "Request a Quote", href: "/quote" },
     ],
   },
   {
