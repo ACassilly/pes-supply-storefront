@@ -61,8 +61,9 @@ export function ProductCard({ product, variant = "vertical" }: { product: Produc
             <span className="text-sm font-bold text-foreground">${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
             {discount > 0 && <span className="text-[10px] text-muted-foreground line-through">${product.originalPrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>}
           </div>
+          <Link href="/account" className="mt-1 text-[9px] font-semibold text-primary hover:underline">Sign in for your price</Link>
           {product.freeShipping && (
-            <span className="mt-1 flex items-center gap-0.5 text-[10px] font-medium text-primary"><Truck className="h-2.5 w-2.5" /> Free Shipping</span>
+            <span className="mt-0.5 flex items-center gap-0.5 text-[10px] font-medium text-primary"><Truck className="h-2.5 w-2.5" /> Free Shipping</span>
           )}
           <Button size="sm" className="mt-2 w-full gap-1 bg-primary py-1 text-[11px] text-primary-foreground hover:bg-primary/90" onClick={handleAdd} disabled={adding}>
             {adding ? <Loader2 className="h-3 w-3 animate-spin" /> : <ShoppingCart className="h-3 w-3" />}
@@ -97,8 +98,9 @@ export function ProductCard({ product, variant = "vertical" }: { product: Produc
             <span className="text-lg font-bold text-foreground">${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
             {discount > 0 && <span className="text-xs text-muted-foreground line-through">${product.originalPrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>}
           </div>
+          <Link href="/account" className="mt-1 text-[10px] font-semibold text-primary hover:underline">Sign in for your price</Link>
           {product.freeShipping && (
-            <span className="mt-1 flex items-center gap-1 text-[10px] font-medium text-primary"><Truck className="h-3 w-3" /> Free Shipping</span>
+            <span className="mt-0.5 flex items-center gap-1 text-[10px] font-medium text-primary"><Truck className="h-3 w-3" /> Free Shipping</span>
           )}
         </div>
         {/* Quantity stepper + Add to Cart */}

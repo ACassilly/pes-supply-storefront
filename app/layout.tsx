@@ -6,6 +6,7 @@ import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { CartToastProvider } from '@/components/cart-toast'
 import { BackToTop } from '@/components/back-to-top'
+import { ChatWidget } from '@/components/chat-widget'
 import './globals.css'
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -87,6 +88,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </main>
         <SiteFooter />
         <CartToastProvider />
+        <ChatWidget />
         <BackToTop />
         <Analytics />
       </body>

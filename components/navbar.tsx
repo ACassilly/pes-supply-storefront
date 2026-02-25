@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
 import { CartFlyout } from "@/components/cart-flyout"
+import { QuickOrderPad } from "@/components/quick-order-pad"
 
 const departments = [
   { name: "Electrical", slug: "electrical", subs: [{ name: "Circuit Breakers & Panels", slug: "circuit-breakers-panels" }, { name: "Wire & Cable", slug: "wire-cable" }, { name: "Conduit & Fittings", slug: "conduit-fittings" }, { name: "Switches & Outlets", slug: "switches-outlets" }, { name: "Boxes & Enclosures", slug: "boxes-enclosures" }, { name: "Disconnects & Transformers", slug: "disconnects-transformers" }] },
@@ -195,6 +196,8 @@ export function Navbar() {
           </div>
 
           <div className="ml-auto flex shrink-0 items-center gap-3 pl-2">
+            <QuickOrderPad />
+            <Link href="/pro#quote" className="flex items-center gap-1.5 whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Request a Quote</Link>
             <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-accent">Deals & Clearance</Link>
             <Link href="/pro" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Pro Account</Link>
           </div>
