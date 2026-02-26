@@ -1,5 +1,5 @@
-import { writeFileSync, mkdirSync, existsSync } from "fs";
-import { join } from "path";
+const { writeFileSync, mkdirSync, existsSync } = require("fs");
+const { join } = require("path");
 
 const OUT = join(process.cwd(), "public", "images", "brands");
 if (!existsSync(OUT)) mkdirSync(OUT, { recursive: true });
