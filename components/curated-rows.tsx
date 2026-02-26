@@ -22,7 +22,7 @@ const rows: CuratedRow[] = [
       { slug: "sol-ark-15k-hybrid-inverter", name: "Sol-Ark 15K Hybrid Inverter", sku: "SOL-ARK-15K", price: 3995.00, originalPrice: 4595.00, rating: 4.9, reviews: 187, image: "/images/product-inverter.jpg", badge: "Ships Free", freeShipping: true },
       { slug: "generac-22kw-standby-generator", name: "Generac 22kW Standby Generator", sku: "7043", price: 5299.00, originalPrice: 5799.00, rating: 4.6, reviews: 128, image: "/images/product-generator.jpg", badge: "Ships Free", freeShipping: true },
       { slug: "tesla-wall-connector-gen3", name: "Tesla Wall Connector Gen 3", sku: "1457768-01-F", price: 475.00, originalPrice: 530.00, rating: 4.7, reviews: 891, image: "/images/product-ev-charger.jpg", badge: "Ships Free", freeShipping: true },
-      { slug: "mrcool-diy-24k-mini-split", name: "MRCOOL DIY 24K BTU Mini Split", sku: "DIY-24-HP-C-230", price: 1549.00, originalPrice: 1899.00, rating: 4.6, reviews: 893, image: "/images/cat-hvac.jpg", badge: "Ships Free", freeShipping: true },
+      { slug: "mrcool-diy-24k-mini-split", name: "MRCOOL DIY 24K BTU Mini Split", sku: "DIY-24-HP-C-230", price: 1549.00, originalPrice: 1899.00, rating: 4.6, reviews: 893, image: "/images/product-minisplit.jpg", badge: "Ships Free", freeShipping: true },
     ],
   },
   {
@@ -33,8 +33,8 @@ const rows: CuratedRow[] = [
       { slug: "square-d-200a-main-breaker-panel", name: "Square D 200A Main Breaker Panel", sku: "HOM3060M200PC", price: 189.95, originalPrice: 234.00, rating: 4.7, reviews: 567, image: "/images/product-panel.jpg", badge: "In Stock", freeShipping: false },
       { slug: "milwaukee-m18-fuel-hammer-drill-kit", name: 'Milwaukee M18 FUEL 1/2" Hammer Drill Kit', sku: "2904-22", price: 199.00, originalPrice: 279.00, rating: 4.9, reviews: 1204, image: "/images/product-tools.jpg", badge: "Ships Today", freeShipping: true },
       { slug: "sharkbite-push-connect-valve-kit", name: 'SharkBite 1/2" Push-to-Connect Valve Kit', sku: "22222-0000LFA", price: 24.97, originalPrice: 34.99, rating: 4.8, reviews: 2310, image: "/images/cat-plumbing.jpg", badge: "Ships Today", freeShipping: false },
-      { slug: "eaton-br-20a-breaker-10pk", name: "Eaton BR 20A Single Pole Breaker (10-Pack)", sku: "BR120-10PK", price: 47.90, originalPrice: 59.90, rating: 4.9, reviews: 3102, image: "/images/cat-electrical.jpg", badge: "In Stock", freeShipping: false },
-      { slug: "klein-cl800-clamp-meter", name: "Klein Tools CL800 Digital Clamp Meter", sku: "CL800", price: 109.97, originalPrice: 139.99, rating: 4.7, reviews: 874, image: "/images/product-tools.jpg", badge: "In Stock", freeShipping: false },
+      { slug: "eaton-br-20a-breaker-10pk", name: "Eaton BR 20A Single Pole Breaker (10-Pack)", sku: "BR120-10PK", price: 47.90, originalPrice: 59.90, rating: 4.9, reviews: 3102, image: "/images/product-breaker-pack.jpg", badge: "In Stock", freeShipping: false },
+      { slug: "klein-cl800-clamp-meter", name: "Klein Tools CL800 Digital Clamp Meter", sku: "CL800", price: 109.97, originalPrice: 139.99, rating: 4.7, reviews: 874, image: "/images/product-clamp-meter.jpg", badge: "In Stock", freeShipping: false },
     ],
   },
   {
