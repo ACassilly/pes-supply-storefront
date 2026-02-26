@@ -61,7 +61,7 @@ export function FeaturedProducts() {
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 id="featured-heading" className="text-2xl font-bold text-foreground">Featured Products</h2>
-          <p className="mt-1 text-sm text-muted-foreground">In stock in Louisville. Order by 2 PM ET, ships same day.</p>
+          <p className="mt-1 text-sm text-muted-foreground">In stock and ready to ship. Order by 2 PM ET, processed same day.</p>
         </div>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Every product backed by full manufacturer warranty

@@ -8,7 +8,7 @@ export function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState<{ from: "user" | "agent"; text: string }[]>([
-    { from: "agent", text: "Hey! Need help finding a product or getting a quote? Our Louisville team is standing by." },
+    { from: "agent", text: "Hey! Need help finding a product or getting a quote? Our team is standing by." },
   ])
 
   function handleSend(e: React.FormEvent) {
@@ -32,7 +32,7 @@ export function ChatWidget() {
           <div className="flex items-center justify-between bg-primary px-4 py-3">
             <div>
               <p className="text-sm font-bold text-primary-foreground">PES Supply</p>
-              <p className="text-[10px] text-primary-foreground/70">Louisville, KY team -- typically replies in minutes</p>
+              <p className="text-[10px] text-primary-foreground/70">Typically replies in minutes</p>
             </div>
             <button onClick={() => setOpen(false)} className="text-primary-foreground/70 hover:text-primary-foreground" aria-label="Close chat">
               <X className="h-5 w-5" />

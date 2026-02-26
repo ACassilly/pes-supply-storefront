@@ -2,7 +2,7 @@ import { Truck, ShieldCheck, Building2, Zap } from "lucide-react"
 
 const props = [
   { icon: ShieldCheck, label: "169 Authorized Brands", sub: "Full OEM warranties on every order" },
-  { icon: Truck, label: "Portlandia Logistics", sub: "In-house fulfillment from Louisville, KY" },
+  { icon: Truck, label: "Portlandia Logistics", sub: "Managed shipping, parcel to full truckload" },
   { icon: Building2, label: "BABA Compliant", sub: "Documentation ships with your order" },
   { icon: Zap, label: "Power Link Network", sub: "We send qualified leads to our contractors" },
 ]

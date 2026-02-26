@@ -5,11 +5,11 @@ import { ChevronLeft, ChevronRight, Truck, Phone, Zap, ShieldCheck } from "lucid
 import Link from "next/link"
 
 const announcements = [
-  { icon: Truck, text: "Portlandia Logistics: In-House Fulfillment", highlight: "FREE shipping on orders $999+", href: "/shipping" },
+  { icon: Truck, text: "Portlandia Logistics: Managed Shipping", highlight: "FREE freight on qualified orders $999+", href: "/shipping" },
   { icon: ShieldCheck, text: "169 Authorized Brands", highlight: "Full OEM warranties on every order", href: "/brands" },
   { icon: Zap, text: "Power Link Installer Network", highlight: "We send qualified leads to our contractors", href: "/powerlink" },
   { icon: ShieldCheck, text: "BABA Compliant", highlight: "Documentation ships with your order", href: "/baba" },
-  { icon: Truck, text: "Same-Day Shipping from Louisville, KY", highlight: "1-2 day ground to 60% of the US", href: "/shipping" },
+  { icon: Truck, text: "Same-Day Order Processing", highlight: "Order by 2 PM ET, ships same day", href: "/shipping" },
 ]
 
 export function TopBar() {

@@ -11,7 +11,7 @@ const pillars = [
   {
     icon: Truck,
     title: "Portlandia Logistics",
-    body: "Our own warehouse, our own team, our own trucks. Orders placed by 2 PM ET ship same day from Louisville, KY.",
+    body: "Orders placed by 2 PM ET are processed same day. Portlandia Logistics routes every shipment from the nearest manufacturer or stocking location.",
   },
   {
     icon: FileText,
@@ -31,7 +31,7 @@ const pillars = [
   {
     icon: Zap,
     title: "One Order, Every Trade",
-    body: "Electrical, solar, HVAC, plumbing, tools, safety, and generators. One PO, one shipment, one invoice.",
+    body: "Electrical, solar, HVAC, plumbing, tools, safety, and generators. One PO, one invoice across all trades.",
   },
 ]
 

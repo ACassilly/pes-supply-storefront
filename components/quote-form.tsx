@@ -260,7 +260,7 @@ export function QuoteForm() {
             <div className="space-y-3">
               {[
                 { icon: DollarSign, title: "Trade Pricing", desc: "Volume discounts and project-level pricing on every order." },
-                { icon: Warehouse, title: "In-House Fulfillment", desc: "Ships from our Louisville warehouse. Not a 3PL, not a marketplace." },
+                { icon: Warehouse, title: "Managed Fulfillment", desc: "Portlandia Logistics coordinates every shipment from the nearest stocking location." },
                 { icon: UserCheck, title: "Dedicated Account Manager", desc: "Your named rep handles quotes, orders, and follow-up." },
                 { icon: Package, title: "40,000+ SKUs", desc: "Electrical, solar, HVAC, plumbing, tools, safety, and more." },
               ].map((prop) => (
@@ -295,7 +295,7 @@ export function QuoteForm() {
         <div className="mx-auto grid max-w-[1400px] gap-6 px-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { icon: DollarSign, title: "Professional pricing for every trade", desc: "Custom rates for contractors, installers, and property managers." },
-            { icon: Warehouse, title: "Louisville warehouse ready to ship", desc: "In-house logistics. 1-2 day ground to 60% of the US." },
+            { icon: Warehouse, title: "Nationwide stocking network", desc: "Portlandia Logistics ships from the nearest location. Parcel to full truckload." },
             { icon: UserCheck, title: "Dedicated account management", desc: "Your named rep handles every quote and every follow-up." },
             { icon: Package, title: "40,000+ SKUs across 10 departments", desc: "Electrical, solar, HVAC, plumbing, tools, safety, EV, generators." },
           ].map((card) => (

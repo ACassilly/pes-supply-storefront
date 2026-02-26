@@ -70,7 +70,7 @@ export function SiteFooter() {
               <Image src="/images/pes-logo.png" alt="PES Supply" width={100} height={100} className="h-14 w-auto brightness-0 invert" />
             </a>
             <p className="mb-4 max-w-xs text-sm leading-relaxed text-background/50">
-              Authorized distributor. 40,000+ products from 169 brands. In-house fulfillment by Portlandia Logistics from Louisville, KY. BABA compliant.
+              Authorized distributor. 40,000+ products from 169 brands. Logistics managed by Portlandia Logistics. Operations based in Louisville, KY. BABA compliant.
             </p>
             <div className="flex flex-col gap-2 text-xs text-background/50">
               <a href="tel:8888760007" className="flex items-center gap-2 hover:text-primary"><Phone className="h-3.5 w-3.5" /> (888) 876-0007</a>

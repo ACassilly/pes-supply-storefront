@@ -11,7 +11,7 @@ const slides = [
   {
     eyebrow: "PES Supply | Authorized Distributor",
     headline: "Everything for the job. One order. Ships today.",
-    subline: "40,000+ products from 169 brands. Full OEM warranties on every item. Same-day fulfillment from our Louisville, KY warehouse.",
+    subline: "40,000+ products from 169 brands. Full OEM warranties on every item. Orders processed same day, shipped from the nearest stocking location.",
     cta: "Shop All Products", ctaHref: "/departments", ctaSecondary: "Open a Pro Account", ctaSecondaryHref: "/pro",
     image: "/images/hero-commercial.jpg",
   },
@@ -25,7 +25,7 @@ const slides = [
   {
     eyebrow: "BABA Compliant | PES Global Sourcing",
     headline: "Procurement ready. Compliance built in.",
-    subline: "Build America, Buy America documentation ships with your order. Portlandia Logistics fulfills every order in-house from our own warehouse.",
+    subline: "Build America, Buy America documentation ships with your order. Portlandia Logistics coordinates fulfillment across our nationwide stocking network.",
     cta: "BABA Products", ctaHref: "/baba", ctaSecondary: "Request a Quote", ctaSecondaryHref: "/quote",
     image: "/images/hero-solar.jpg",
   },

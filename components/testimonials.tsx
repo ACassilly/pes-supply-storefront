@@ -26,7 +26,7 @@ const reviews = [
   {
     name: "James Whitfield",
     location: "Nashville, Tennessee",
-    quote: "Same-day shipping is real. Ordered a panel at 11 AM, it was on the truck by 1 PM. Showed up next morning. Can't beat that from Louisville.",
+    quote: "Same-day processing is real. Ordered a panel at 11 AM, it shipped by 1 PM. Showed up next morning. PES doesn't mess around.",
     rating: 5,
   },
   {
@@ -118,7 +118,7 @@ export function Testimonials() {
         )}
 
         <div className="mt-8 flex flex-col items-center gap-3 text-center">
-          <p className="text-sm text-muted-foreground">Questions? Talk to a real person on our Louisville team.</p>
+          <p className="text-sm text-muted-foreground">Questions? Talk to a real person on our team.</p>
           <Button variant="outline" className="gap-2 text-primary" asChild>
             <a href="tel:8888760007"><Phone className="h-4 w-4" /> (888) 876-0007</a>
           </Button>
