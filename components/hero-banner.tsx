@@ -9,23 +9,23 @@ import { ChevronLeft, ChevronRight, ArrowRight, Truck, ShieldCheck, Phone } from
 
 const slides = [
   {
-    eyebrow: "Not a Marketplace -- An Authorized Distributor",
+    eyebrow: "PES Supply | Authorized Distributor",
     headline: "Everything for the job. One order. Ships today.",
-    subline: "40,000+ products from 169 brands. Full OEM warranties. In-house fulfillment by Portlandia Logistics from Louisville, KY. No grey market, no counterfeit risk.",
+    subline: "40,000+ products from 169 brands. Full OEM warranties on every item. Same-day fulfillment from our Louisville, KY warehouse.",
     cta: "Shop All Products", ctaHref: "/departments", ctaSecondary: "Open a Pro Account", ctaSecondaryHref: "/pro",
     image: "/images/hero-commercial.jpg",
   },
   {
     eyebrow: "Power Link Installer Network",
-    headline: "We sell you materials. Then we send you customers.",
-    subline: "Power Link connects homeowners and property managers to PES contractors by ZIP code and trade. No fees. No contracts. Just qualified leads from your supplier.",
+    headline: "Your supplier that sends you customers.",
+    subline: "Power Link connects homeowners and property managers to PES contractors by ZIP code and trade. Get qualified leads just for being a customer.",
     cta: "Join Power Link", ctaHref: "/powerlink", ctaSecondary: "Learn More", ctaSecondaryHref: "/powerlink",
     image: "/images/hero-workshop.jpg",
   },
   {
     eyebrow: "BABA Compliant | PES Global Sourcing",
     headline: "Procurement ready. Compliance built in.",
-    subline: "Build America, Buy America documentation ships with your order. PES Global sources domestically first. Portlandia Logistics fulfills in-house.",
+    subline: "Build America, Buy America documentation ships with your order. Portlandia Logistics fulfills every order in-house from our own warehouse.",
     cta: "BABA Products", ctaHref: "/baba", ctaSecondary: "Request a Quote", ctaSecondaryHref: "/quote",
     image: "/images/hero-solar.jpg",
   },

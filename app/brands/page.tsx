@@ -1,5 +1,4 @@
 import Link from "next/link"
-import Image from "next/image"
 import { ChevronRight, ExternalLink } from "lucide-react"
 import { brands, departments } from "@/lib/data"
 import type { Metadata } from "next"
@@ -52,7 +51,7 @@ export default function BrandsPage() {
                     <Link key={brand.slug} href={`/brands/${brand.slug}`} className="group flex items-center gap-3 rounded-lg border border-border bg-card p-3 transition-all hover:border-primary/30 hover:shadow-md">
                       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-muted">
                         {brand.logo ? (
-                          <Image src={brand.logo} alt={brand.name} width={40} height={40} className="h-8 w-8 object-contain" unoptimized />
+                          <img src={brand.logo} alt={brand.name} loading="lazy" className="h-8 w-8 object-contain" />
                         ) : (
                           <span className="text-xs font-bold text-muted-foreground">{brand.name.slice(0, 2).toUpperCase()}</span>
                         )}

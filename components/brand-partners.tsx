@@ -2,7 +2,6 @@
 
 import { useRef, useEffect, useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { ShieldCheck, CreditCard, ArrowRight } from "lucide-react"
 import { brands } from "@/lib/data"
 
@@ -39,7 +38,7 @@ export function BrandPartners() {
     <section className="border-y border-border bg-card" aria-labelledby="brands-heading">
       <div className="mx-auto max-w-7xl px-4 py-10">
         <div className="mb-6 text-center">
-          <h2 id="brands-heading" className="text-lg font-bold text-foreground">{`Authorized Distributor \u2014 ${brands.length}+ Brands, 500+ Vendors`}</h2>
+          <h2 id="brands-heading" className="text-lg font-bold text-foreground">Authorized Distributor &mdash; 169 Brands, 500+ Vendors</h2>
           <p className="mt-1 text-sm text-muted-foreground">Full OEM warranties. Factory-direct pricing. Always in stock.</p>
           <Link href="/brands" className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">View All Brands <ArrowRight className="h-3.5 w-3.5" /></Link>
         </div>
@@ -66,13 +65,11 @@ export function BrandPartners() {
                 className="flex h-16 w-36 shrink-0 items-center justify-center rounded-lg border border-border bg-background px-3 transition-all hover:border-primary/30 hover:shadow-md"
               >
                 {brand.logo ? (
-                  <Image
+                  <img
                     src={brand.logo}
                     alt={brand.name}
-                    width={120}
-                    height={48}
+                    loading="lazy"
                     className="h-10 w-auto max-w-[110px] object-contain"
-                    unoptimized
                   />
                 ) : (
                   <span className="text-xs font-semibold text-muted-foreground">{brand.name}</span>
