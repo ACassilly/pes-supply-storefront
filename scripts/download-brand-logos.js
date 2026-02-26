@@ -1,11 +1,9 @@
-import { writeFile, mkdir } from "fs/promises";
-import { existsSync } from "fs";
-import path from "path";
+const { writeFile, mkdir } = require("fs/promises");
+const { existsSync } = require("fs");
+const path = require("path");
 
 const LOGO_DIR = path.resolve("public/images/brands");
 
-// All brand logos from the live PES Shopify brands page
-// Extracted from https://www.portlandiaelectric.supply/pages/brands
 const logos = [
   { slug: "generac", url: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Generac.webp?v=1714417975" },
   { slug: "amana", url: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Amana_PTAC.webp?v=1714417975" },
@@ -41,7 +39,6 @@ const logos = [
   { slug: "unirac", url: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Unirac.png?v=1731277082" },
   { slug: "canadian-solar", url: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/canadian-solar.png?v=1735576361" },
   { slug: "trina-solar", url: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/trina-solar.png?v=1735576362" },
-  // Additional brands from the page
   { slug: "c-d-emerging", url: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/C_D_Emerging_Energy.webp?v=1714417975" },
   { slug: "solax-power", url: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Solax_Power.webp?v=1714417976" },
   { slug: "k2-systems", url: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/K2_Systems.webp?v=1714417975" },
@@ -144,25 +141,25 @@ async function downloadLogos() {
 
   for (const { slug, url } of logos) {
     const ext = url.includes(".webp") ? "webp" : "png";
-    const dest = path.join(LOGO_DIR, `${slug}.${ext}`);
+    const dest = path.join(LOGO_DIR, slug + "." + ext);
     try {
       const res = await fetch(url);
       if (!res.ok) {
-        console.log(`[FAIL] ${slug}: HTTP ${res.status}`);
+        console.log("[FAIL] " + slug + ": HTTP " + res.status);
         failed++;
         continue;
       }
       const buffer = Buffer.from(await res.arrayBuffer());
       await writeFile(dest, buffer);
-      console.log(`[OK] ${slug}.${ext} (${(buffer.length / 1024).toFixed(1)} KB)`);
+      console.log("[OK] " + slug + "." + ext + " (" + (buffer.length / 1024).toFixed(1) + " KB)");
       success++;
     } catch (err) {
-      console.log(`[FAIL] ${slug}: ${err.message}`);
+      console.log("[FAIL] " + slug + ": " + err.message);
       failed++;
     }
   }
 
-  console.log(`\nDone: ${success} downloaded, ${failed} failed out of ${logos.length} total`);
+  console.log("\nDone: " + success + " downloaded, " + failed + " failed out of " + logos.length + " total");
 }
 
 downloadLogos();
