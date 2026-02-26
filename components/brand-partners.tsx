@@ -2,14 +2,9 @@
 
 import { useRef, useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { ShieldCheck, CreditCard, ArrowRight } from "lucide-react"
-
-const brands = [
-  "Eaton", "Siemens", "Schneider Electric", "Leviton", "Hubbell", "Southwire",
-  "Lutron", "Milwaukee Tool", "DeWalt", "Klein Tools", "Fluke", "Bosch",
-  "Honeywell", "3M", "Generac", "Rheem", "Enphase", "SolarEdge",
-  "Q Cells", "ChargePoint", "IronRidge", "RAB Lighting", "Lithonia", "Watts",
-]
+import { brands } from "@/lib/data"
 
 const paymentMethods = [
   { name: "Visa", bg: "bg-[#1A1F71]", text: "text-white" },
@@ -19,6 +14,11 @@ const paymentMethods = [
   { name: "Wire", bg: "bg-muted", text: "text-foreground" },
   { name: "Net-30", bg: "bg-primary/10", text: "text-primary font-bold" },
 ]
+
+// Brands with logos get image tiles; others get text tiles
+const marqueBrands = brands.filter((b) => b.logo)
+const textBrands = brands.filter((b) => !b.logo).slice(0, 12)
+const allMarquee = [...marqueBrands, ...textBrands]
 
 export function BrandPartners() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -39,7 +39,7 @@ export function BrandPartners() {
     <section className="border-y border-border bg-card" aria-labelledby="brands-heading">
       <div className="mx-auto max-w-7xl px-4 py-10">
         <div className="mb-6 text-center">
-          <h2 id="brands-heading" className="text-lg font-bold text-foreground">{`Authorized Distributor \u2014 169 Brands, 500+ Vendors`}</h2>
+          <h2 id="brands-heading" className="text-lg font-bold text-foreground">{`Authorized Distributor \u2014 ${brands.length}+ Brands, 500+ Vendors`}</h2>
           <p className="mt-1 text-sm text-muted-foreground">Full OEM warranties. Factory-direct pricing. Always in stock.</p>
           <Link href="/brands" className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">View All Brands <ArrowRight className="h-3.5 w-3.5" /></Link>
         </div>
@@ -53,19 +53,31 @@ export function BrandPartners() {
           <div
             className="flex gap-4"
             style={{
-              animation: "scroll 40s linear infinite",
+              animation: "scroll 60s linear infinite",
               animationPlayState: shouldAnimate ? "running" : "paused",
               width: "max-content",
               willChange: "transform",
             }}
           >
-            {[...brands, ...brands].map((brand, i) => (
-              <div
-                key={`${brand}-${i}`}
-                className="flex h-12 w-28 shrink-0 items-center justify-center rounded-lg border border-border bg-background px-2 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground"
+            {[...allMarquee, ...allMarquee].map((brand, i) => (
+              <Link
+                key={`${brand.slug}-${i}`}
+                href={`/brands/${brand.slug}`}
+                className="flex h-16 w-36 shrink-0 items-center justify-center rounded-lg border border-border bg-background px-3 transition-all hover:border-primary/30 hover:shadow-md"
               >
-                {brand}
-              </div>
+                {brand.logo ? (
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={120}
+                    height={48}
+                    className="h-10 w-auto max-w-[110px] object-contain"
+                    unoptimized
+                  />
+                ) : (
+                  <span className="text-xs font-semibold text-muted-foreground">{brand.name}</span>
+                )}
+              </Link>
             ))}
           </div>
         </div>

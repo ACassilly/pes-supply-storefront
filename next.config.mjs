@@ -8,6 +8,7 @@ const nextConfig = {
     remotePatterns: [
       { hostname: "logo.clearbit.com" },
       { hostname: "cdn.brandfetch.io" },
+      { hostname: "cdn.shopify.com" },
     ],
   },
 }

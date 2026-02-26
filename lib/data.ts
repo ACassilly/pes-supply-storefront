@@ -37,6 +37,7 @@ export interface Brand {
   productCount: number
   description: string
   website: string
+  logo?: string
 }
 
 export const departments: Department[] = [
@@ -159,9 +160,9 @@ export const departments: Department[] = [
 ]
 
 export const brands: Brand[] = [
-  { name: "Eaton", slug: "eaton", departments: ["Electrical"], productCount: 3200, description: "Circuit breakers, panels, transformers, and power distribution equipment.", website: "eaton.com" },
-  { name: "Siemens", slug: "siemens", departments: ["Electrical", "HVAC"], productCount: 2800, description: "Electrical distribution, automation, and building technology.", website: "siemens.com" },
-  { name: "Schneider Electric", slug: "schneider-electric", departments: ["Electrical", "Solar & Renewables"], productCount: 2400, description: "Square D panels, breakers, switchgear, and energy management.", website: "se.com" },
+  { name: "Eaton", slug: "eaton", departments: ["Electrical"], productCount: 3200, description: "Circuit breakers, panels, transformers, and power distribution equipment.", website: "eaton.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Eaton_Image_2.png?v=1731948032" },
+  { name: "Siemens", slug: "siemens", departments: ["Electrical", "HVAC"], productCount: 2800, description: "Electrical distribution, automation, and building technology.", website: "siemens.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Siemens.png?v=1731277082" },
+  { name: "Schneider Electric", slug: "schneider-electric", departments: ["Electrical", "Solar & Renewables"], productCount: 2400, description: "Square D panels, breakers, switchgear, and energy management.", website: "se.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Schneider_Electric_Image_3.png?v=1731948032" },
   { name: "Leviton", slug: "leviton", departments: ["Electrical", "Data & Comm", "Lighting"], productCount: 1800, description: "Wiring devices, lighting controls, and networking solutions.", website: "leviton.com" },
   { name: "Hubbell", slug: "hubbell", departments: ["Electrical", "Lighting"], productCount: 1600, description: "Wiring devices, boxes, fittings, and commercial lighting.", website: "hubbell.com" },
   { name: "Southwire", slug: "southwire", departments: ["Electrical", "Tools & Test"], productCount: 1400, description: "Wire, cable, cord products, and electrical tools.", website: "southwire.com" },
@@ -173,22 +174,44 @@ export const brands: Brand[] = [
   { name: "Bosch", slug: "bosch", departments: ["Tools & Test", "HVAC"], productCount: 1100, description: "Power tools, measuring tools, and HVAC components.", website: "boschtools.com" },
   { name: "Honeywell", slug: "honeywell", departments: ["HVAC", "Safety & PPE"], productCount: 1400, description: "Thermostats, HVAC controls, and personal protective equipment.", website: "honeywell.com" },
   { name: "3M", slug: "3m", departments: ["Safety & PPE", "Electrical"], productCount: 980, description: "Safety equipment, electrical tapes, connectors, and abrasives.", website: "3m.com" },
-  { name: "Generac", slug: "generac", departments: ["Generators"], productCount: 420, description: "Standby, portable, and commercial generators and transfer switches.", website: "generac.com" },
+  { name: "Generac", slug: "generac", departments: ["Generators"], productCount: 420, description: "Standby, portable, and commercial generators and transfer switches.", website: "generac.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Generac.webp?v=1714417975" },
   { name: "Rheem", slug: "rheem", departments: ["HVAC", "Plumbing"], productCount: 580, description: "Water heaters, HVAC systems, and plumbing solutions.", website: "rheem.com" },
-  { name: "Enphase", slug: "enphase", departments: ["Solar & Renewables"], productCount: 340, description: "Microinverters, batteries, and solar monitoring systems.", website: "enphase.com" },
-  { name: "SolarEdge", slug: "solaredge", departments: ["Solar & Renewables"], productCount: 280, description: "String inverters, power optimizers, and monitoring platforms.", website: "solaredge.com" },
-  { name: "Jinko Solar", slug: "jinko", departments: ["Solar & Renewables"], productCount: 120, description: "Tier 1 mono and bifacial solar panels.", website: "jinkosolar.com" },
-  { name: "Q Cells", slug: "q-cells", departments: ["Solar & Renewables"], productCount: 140, description: "High-efficiency solar modules and complete solar solutions.", website: "q-cells.com" },
-  { name: "Sol-Ark", slug: "sol-ark", departments: ["Solar & Renewables"], productCount: 60, description: "Hybrid inverters and whole-home energy management.", website: "sol-ark.com" },
+  { name: "Enphase", slug: "enphase", departments: ["Solar & Renewables"], productCount: 340, description: "Microinverters, batteries, and solar monitoring systems.", website: "enphase.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Enphase.webp?v=1714417975" },
+  { name: "SolarEdge", slug: "solaredge", departments: ["Solar & Renewables"], productCount: 280, description: "String inverters, power optimizers, and monitoring platforms.", website: "solaredge.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/SolarEdge.webp?v=1714417976" },
+  { name: "Jinko Solar", slug: "jinko", departments: ["Solar & Renewables"], productCount: 120, description: "Tier 1 mono and bifacial solar panels.", website: "jinkosolar.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Jinko_Solar_image_2.png?v=1731948031" },
+  { name: "Q Cells", slug: "q-cells", departments: ["Solar & Renewables"], productCount: 140, description: "High-efficiency solar modules and complete solar solutions.", website: "q-cells.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Qcells.png?v=1731277082" },
+  { name: "Sol-Ark", slug: "sol-ark", departments: ["Solar & Renewables"], productCount: 60, description: "Hybrid inverters and whole-home energy management.", website: "sol-ark.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Sol-Ark.webp?v=1714417976" },
   { name: "ChargePoint", slug: "chargepoint", departments: ["EV Charging"], productCount: 180, description: "Commercial and residential EV charging solutions.", website: "chargepoint.com" },
-  { name: "IronRidge", slug: "ironridge", departments: ["Solar & Renewables"], productCount: 320, description: "Solar racking, mounting hardware, and roof attachments.", website: "ironridge.com" },
+  { name: "IronRidge", slug: "ironridge", departments: ["Solar & Renewables"], productCount: 320, description: "Solar racking, mounting hardware, and roof attachments.", website: "ironridge.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/IronRidge.png?v=1731277082" },
   { name: "RAB Lighting", slug: "rab-lighting", departments: ["Lighting"], productCount: 640, description: "LED outdoor, area, and landscape lighting fixtures.", website: "rablighting.com" },
   { name: "Lithonia", slug: "lithonia", departments: ["Lighting"], productCount: 780, description: "Commercial indoor and outdoor LED lighting fixtures.", website: "lithonia.com" },
   { name: "Watts", slug: "watts", departments: ["Plumbing"], productCount: 420, description: "Plumbing, flow control, and water quality products.", website: "watts.com" },
   { name: "MRCOOL", slug: "mrcool", departments: ["HVAC"], productCount: 180, description: "DIY ductless mini splits and HVAC systems.", website: "mrcool.com" },
   { name: "SharkBite", slug: "sharkbite", departments: ["Plumbing"], productCount: 340, description: "Push-to-connect plumbing fittings and PEX systems.", website: "sharkbite.com" },
-  { name: "Tesla", slug: "tesla", departments: ["EV Charging"], productCount: 12, description: "Wall Connector and EV charging accessories.", website: "tesla.com" },
-  { name: "MRCOOL", slug: "mrcool-hvac", departments: ["HVAC"], productCount: 160, description: "Ductless mini splits and air conditioning systems.", website: "mrcool.com" },
+  { name: "Tesla", slug: "tesla", departments: ["EV Charging"], productCount: 12, description: "Wall Connector and EV charging accessories.", website: "tesla.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Tesla_Powerwall.png?v=1731277082" },
+  { name: "Wallbox", slug: "wallbox", departments: ["EV Charging"], productCount: 45, description: "Smart EV charging and energy management solutions.", website: "wallbox.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Wallbox.png?v=1731277082" },
+  { name: "Renogy", slug: "renogy", departments: ["Solar & Renewables"], productCount: 220, description: "Solar energy products and storage solutions.", website: "renogy.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Renogy.webp?v=1714417976" },
+  { name: "BYD", slug: "byd", departments: ["Solar & Renewables"], productCount: 80, description: "Batteries, solar products, and electric vehicles.", website: "byd.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/BYD.webp?v=1714417975" },
+  { name: "Fortress Power", slug: "fortress-power", departments: ["Solar & Renewables"], productCount: 40, description: "Advanced lithium battery energy storage.", website: "fortresspower.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Fortress_Power.webp?v=1714417975" },
+  { name: "Sungrow", slug: "sungrow", departments: ["Solar & Renewables"], productCount: 90, description: "Power conversion and energy storage systems.", website: "sungrow.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Sungrow.webp?v=1714417976" },
+  { name: "Fronius", slug: "fronius", departments: ["Solar & Renewables"], productCount: 65, description: "Inverters and energy management solutions.", website: "fronius.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Fronius.webp?v=1714417975" },
+  { name: "General Electric", slug: "general-electric", departments: ["Electrical", "Generators"], productCount: 1200, description: "Power generation and industrial energy solutions.", website: "ge.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/General_Electric.webp?v=1714417975" },
+  { name: "GoodWe", slug: "goodwe", departments: ["Solar & Renewables"], productCount: 55, description: "Solar inverters and energy storage systems.", website: "goodwe.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/GoodWe.webp?v=1714417975" },
+  { name: "SMA Solar", slug: "sma-solar", departments: ["Solar & Renewables"], productCount: 70, description: "Solar inverters and energy solutions.", website: "sma.de", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/SMA_Solar.webp?v=1714417976" },
+  { name: "Panasonic", slug: "panasonic", departments: ["Solar & Renewables", "Electrical"], productCount: 180, description: "Solar panels, batteries, and electrical components.", website: "panasonic.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Panasonic_Image_2.png?v=1731948032" },
+  { name: "Canadian Solar", slug: "canadian-solar", departments: ["Solar & Renewables"], productCount: 95, description: "Solar modules and energy storage systems.", website: "canadiansolar.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/canadian-solar.png?v=1735576361" },
+  { name: "Trina Solar", slug: "trina-solar", departments: ["Solar & Renewables"], productCount: 85, description: "High-efficiency solar modules.", website: "trinasolar.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/trina-solar.png?v=1735576362" },
+  { name: "LONGi Solar", slug: "longi", departments: ["Solar & Renewables"], productCount: 75, description: "Mono PERC and bifacial solar modules.", website: "longi.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/LONGi_Solar_Image_3.png?v=1731948032" },
+  { name: "Victron Energy", slug: "victron", departments: ["Solar & Renewables"], productCount: 160, description: "Off-grid inverters, chargers, and energy monitoring.", website: "victronenergy.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Victron_Energy.png?v=1731277082" },
+  { name: "Goodman", slug: "goodman", departments: ["HVAC"], productCount: 240, description: "Residential and commercial air conditioning and heating systems.", website: "goodmanmfg.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Goodman.webp?v=1714417975" },
+  { name: "Daikin", slug: "daikin", departments: ["HVAC"], productCount: 190, description: "HVAC systems and indoor air quality solutions.", website: "daikin.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Daikin.png?v=1731277081" },
+  { name: "Briggs & Stratton", slug: "briggs-stratton", departments: ["Generators"], productCount: 140, description: "The most powerful home/business generator solutions.", website: "briggsandstratton.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Briggs_and_Stratton.webp?v=1714417975" },
+  { name: "Amana PTAC", slug: "amana", departments: ["HVAC"], productCount: 120, description: "High quality HVAC systems.", website: "amana-hac.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Amana_PTAC.webp?v=1714417975" },
+  { name: "LG Solar", slug: "lg-solar", departments: ["Solar & Renewables"], productCount: 45, description: "High-efficiency solar panels.", website: "lg.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/LG.png?v=1731277082" },
+  { name: "Unirac", slug: "unirac", departments: ["Solar & Renewables"], productCount: 180, description: "Solar mounting and racking systems.", website: "unirac.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Unirac.png?v=1731277082" },
+  { name: "EcoFasten", slug: "ecofasten", departments: ["Solar & Renewables"], productCount: 90, description: "Solar roof mount solutions.", website: "ecofastensolar.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/EcoFasten.webp?v=1714417975" },
+  { name: "AP Systems", slug: "ap-systems", departments: ["Solar & Renewables"], productCount: 55, description: "Microinverters and module-level power electronics.", website: "apsystems.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/AP_Systems.webp?v=1714417975" },
+  { name: "Hoymiles", slug: "hoymiles", departments: ["Solar & Renewables"], productCount: 40, description: "Microinverters and module-level power electronics.", website: "hoymiles.com", logo: "https://cdn.shopify.com/s/files/1/0723/2137/2981/files/Hoymiles.webp?v=1714417975" },
 ]
 
 export const products: Product[] = [
