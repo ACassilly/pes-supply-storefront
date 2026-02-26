@@ -1,10 +1,10 @@
-import { Truck, CreditCard, ShieldCheck, Headphones } from "lucide-react"
+import { Truck, ShieldCheck, Building2, Zap } from "lucide-react"
 
 const props = [
-  { icon: Truck, label: "Same-Day Shipping", sub: "Order by 2 PM ET" },
-  { icon: CreditCard, label: "Net-30 Terms", sub: "For approved accounts" },
-  { icon: ShieldCheck, label: "Authorized Distributor", sub: "Full OEM warranty" },
-  { icon: Headphones, label: "Real People", sub: "(888) 876-0007" },
+  { icon: ShieldCheck, label: "Not a Marketplace", sub: "Authorized distributor of record" },
+  { icon: Truck, label: "Portlandia Logistics", sub: "In-house fulfillment, not a 3PL" },
+  { icon: Building2, label: "BABA Compliant", sub: "Documentation included" },
+  { icon: Zap, label: "Power Link", sub: "We send you customers" },
 ]
 
 export function ValuePropStrip() {

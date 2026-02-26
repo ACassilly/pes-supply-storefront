@@ -32,7 +32,7 @@ export function NewArrivals() {
 
   return (
     <section className="py-6 md:py-8">
-      <div className="mx-auto max-w-[1400px] px-4">
+        <div className="mx-auto max-w-7xl px-4">
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-accent" />
