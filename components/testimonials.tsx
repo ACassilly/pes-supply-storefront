@@ -4,41 +4,26 @@ import { useState } from "react"
 import { Star, ChevronLeft, ChevronRight, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
+// NOTE: These are placeholder reviews for layout purposes only.
+// Replace with verified customer reviews before going live.
+// FTC requires testimonials to reflect genuine customer experiences.
 const reviews = [
   {
-    name: "Michael Chen, PE",
-    location: "Seattle, Washington",
-    quote: "I call, they pick up. I order, it ships. That's it. Been doing this 20 years and most distributors make you chase your own freight. PES just handles it.",
+    name: "Verified Pro Account",
+    location: "Licensed Electrical Contractor",
+    quote: "We process orders from contractors across all 48 states. Open a Pro Account to share your experience and see it featured here.",
     rating: 5,
   },
   {
-    name: "Sarah Martinez",
-    location: "Austin, Texas",
-    quote: "Switched about a year ago. Pricing is fair, the stuff shows up when they say it will, and I don't have to call three people to get a straight answer.",
-    rating: 4,
-  },
-  {
-    name: "David Kim, PMP",
-    location: "Denver, Colorado",
-    quote: "I manage 200+ units. I need one breaker or a case of 48 lamps, no minimums, no upsell games. PES gets that. The reorder process is dead simple too.",
+    name: "Verified Pro Account",
+    location: "Solar Installer",
+    quote: "We are actively collecting feedback from our Pro Account holders. Your review helps other contractors evaluate PES as a supply partner.",
     rating: 5,
   },
   {
-    name: "James Whitfield",
-    location: "Nashville, Tennessee",
-    quote: "Same-day processing is real. Ordered a panel at 11 AM, it shipped by 1 PM. Showed up next morning. PES doesn't mess around.",
-    rating: 5,
-  },
-  {
-    name: "Linda Tran",
-    location: "Phoenix, Arizona",
-    quote: "The solar panel kits came exactly as described, well packaged, and the price beat every quote I got locally. Will absolutely order again.",
-    rating: 4,
-  },
-  {
-    name: "Robert Egan",
-    location: "Charlotte, North Carolina",
-    quote: "Net-30 terms without jumping through hoops. My rep actually knows my account. It's like having a local counter without the drive.",
+    name: "Verified Pro Account",
+    location: "Property Manager",
+    quote: "Real reviews from real customers coming soon. In the meantime, call us at (888) 876-0007 and ask for references in your trade.",
     rating: 5,
   },
 ]
@@ -63,7 +48,7 @@ export function Testimonials() {
     <section className="bg-muted/30 py-10 md:py-14" aria-labelledby="reviews-heading">
       <div className="mx-auto max-w-7xl px-4">
         <h2 id="reviews-heading" className="mb-8 text-center text-xl font-bold text-foreground md:text-2xl">
-          Trust in our customers' experiences
+          What Our Customers Say
         </h2>
 
         <div className="relative">

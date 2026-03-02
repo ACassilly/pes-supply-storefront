@@ -14,10 +14,8 @@ const paymentMethods = [
   { name: "Net-30", bg: "bg-primary/10", text: "text-primary font-bold" },
 ]
 
-// Brands with logos get image tiles; others get text tiles
-const marqueBrands = brands.filter((b) => b.logo)
-const textBrands = brands.filter((b) => !b.logo).slice(0, 12)
-const allMarquee = [...marqueBrands, ...textBrands]
+// All brands use text tiles -- no external logo dependencies
+const allMarquee = brands.slice(0, 30)
 
 export function BrandPartners() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -64,16 +62,7 @@ export function BrandPartners() {
                 href={`/brands/${brand.slug}`}
                 className="flex h-16 w-36 shrink-0 items-center justify-center rounded-lg border border-border bg-background px-3 transition-all hover:border-primary/30 hover:shadow-md"
               >
-                {brand.logo ? (
-                  <img
-                    src={brand.logo}
-                    alt={brand.name}
-                    loading="lazy"
-                    className="h-10 w-auto max-w-[110px] object-contain"
-                  />
-                ) : (
-                  <span className="text-xs font-semibold text-muted-foreground">{brand.name}</span>
-                )}
+                <span className="text-xs font-bold text-foreground/70">{brand.name}</span>
               </Link>
             ))}
           </div>

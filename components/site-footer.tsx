@@ -131,6 +131,13 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
+
+      {/* Brand stamp */}
+      <div className="overflow-hidden border-t border-background/5 bg-foreground py-6">
+        <p className="text-center font-sans text-[clamp(2rem,8vw,6rem)] font-black uppercase leading-none tracking-tighter text-background/[0.04]" aria-hidden="true">
+          PORTLANDIA
+        </p>
+      </div>
     </footer>
   )
 }
