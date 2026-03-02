@@ -14,32 +14,7 @@ const shippingTiers = [
   { method: "Expedited / Hot Shot", transit: "Same-day or next-day", cost: "Custom quote", carrier: "Team drivers / dedicated", note: "Emergency & time-critical deliveries" },
 ]
 
-/* ── Zone data ── */
-const zones = [
-  { zone: "Zone 1 -- 1-2 Day Ground", region: "KY, IN, OH, TN, WV, IL", color: "bg-primary", description: "Typical 1-2 business day delivery." },
-  { zone: "Zone 2 -- 2-3 Day Ground", region: "GA, AL, MS, MO, IA, WI, MI, PA, VA, NC, SC, AR, KS, NE, MN, NY, NJ, MD, DE, DC, CT", color: "bg-primary/60", description: "Most of the eastern US and Midwest." },
-  { zone: "Zone 3 -- 3-5 Day Ground", region: "TX, FL, LA, OK, CO, SD, ND, WY, MT, ME, VT, NH, MA, RI, NM, AZ", color: "bg-primary/30", description: "Gulf states, Plains, Northeast, and Southwest." },
-  { zone: "Zone 4 -- 5-7 Day Ground", region: "WA, OR, CA, NV, UT, ID, AK, HI", color: "bg-muted-foreground/20", description: "West Coast and Pacific states." },
-]
-
-const stateZones: Record<string, number> = {
-  KY:1,IN:1,OH:1,TN:1,WV:1,IL:1,
-  GA:2,AL:2,MS:2,MO:2,IA:2,WI:2,MI:2,PA:2,VA:2,NC:2,SC:2,AR:2,KS:2,NE:2,MN:2,NY:2,NJ:2,MD:2,DE:2,DC:2,CT:2,
-  TX:3,FL:3,LA:3,OK:3,CO:3,SD:3,ND:3,WY:3,MT:3,ME:3,VT:3,NH:3,MA:3,RI:3,NM:3,AZ:3,
-  WA:4,OR:4,CA:4,NV:4,UT:4,ID:4,AK:4,HI:4,
-}
-
-const statePositions: Record<string,[number,number]> = {
-  WA:[120,75],OR:[95,145],CA:[70,280],NV:[115,240],ID:[155,145],MT:[210,80],WY:[230,170],UT:[175,240],
-  CO:[260,250],AZ:[155,330],NM:[225,340],ND:[310,85],SD:[315,140],NE:[330,190],KS:[345,245],OK:[365,295],
-  TX:[340,375],MN:[375,100],IA:[385,170],MO:[415,240],AR:[415,305],LA:[420,370],WI:[415,110],IL:[435,200],
-  MS:[440,330],IN:[465,205],MI:[475,130],OH:[510,195],KY:[495,245],TN:[490,275],AL:[475,320],GA:[510,320],
-  FL:[530,390],SC:[535,300],NC:[555,270],VA:[555,235],WV:[530,220],PA:[555,175],NY:[570,135],NJ:[580,185],
-  DE:[575,205],MD:[565,210],CT:[590,160],MA:[600,148],RI:[600,158],VT:[580,110],NH:[590,115],ME:[610,85],
-}
-
-function zoneColor(z: number) { return z===1?"fill-primary":z===2?"fill-primary/50":z===3?"fill-primary/25":"fill-muted" }
-function zoneTextColor(z: number) { return z<=2?"fill-primary-foreground":"fill-foreground" }
+/* Zone data kept for reference in FAQ answers */
 
 /* ── TOC sections ── */
 const tocSections = [
@@ -138,44 +113,17 @@ export function ShippingContent() {
           {/* Main column */}
           <div className="flex flex-col gap-12">
 
-            {/* Zone map */}
+            {/* Zone map -- real PES infographic */}
             <section>
-              <h2 className="mb-2 text-2xl font-bold text-foreground">Fast & Reliable Shipping Nationwide</h2>
-              <p className="mb-6 text-sm text-muted-foreground">Transit times are estimates for UPS/FedEx Ground from the nearest PES stocking or manufacturer location.</p>
-              <div className="flex flex-col gap-8 lg:flex-row">
-                <div className="relative flex items-center justify-center overflow-hidden rounded-xl border border-border bg-muted/20 p-6 lg:w-3/5">
-                  <svg viewBox="0 0 700 440" className="h-full w-full" aria-label="US shipping zone map" role="img">
-                    <title>Typical ground transit zones</title>
-                    {Object.entries(statePositions).map(([abbr, [x, y]]) => {
-                      const zone = stateZones[abbr] || 4
-                      return (<g key={abbr}><rect x={x-18} y={y-12} width={36} height={24} rx={4} className={`${zoneColor(zone)} stroke-background`} strokeWidth={1.5} /><text x={x} y={y+4} textAnchor="middle" className={`${zoneTextColor(zone)} text-[10px] font-bold`}>{abbr}</text></g>)
-                    })}
-                    {/* Port city markers */}
-                    {[{x:95,y:310,l:"LA/LB"},{x:350,y:390,l:"Houston"},{x:580,y:170,l:"NY/NJ"}].map((p) => (
-                      <g key={p.l}><rect x={p.x-6} y={p.y-6} width={12} height={12} rx={2} fill="hsl(210,80%,50%)" className="stroke-background" strokeWidth={1.5} /><text x={p.x} y={p.y-10} textAnchor="middle" className="fill-foreground text-[7px] font-bold">{p.l}</text></g>
-                    ))}
-                    {/* Louisville operations HQ */}
-                    <circle cx={495} cy={245} r={6} className="fill-accent stroke-background" strokeWidth={2} />
-                    <circle cx={495} cy={245} r={12} className="fill-accent/20" />
-                    <text x={495} y={230} textAnchor="middle" className="fill-foreground text-[9px] font-bold">Operations HQ</text>
-                  </svg>
-                </div>
-                <div className="flex flex-col gap-3 lg:w-2/5">
-                  {zones.map((z) => (
-                    <div key={z.zone} className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
-                      <div className={`mt-1 h-4 w-4 shrink-0 rounded ${z.color}`} />
-                      <div>
-                        <h3 className="text-sm font-bold text-card-foreground">{z.zone}</h3>
-                        <p className="mt-0.5 text-xs text-muted-foreground">{z.region}</p>
-                        <p className="mt-0.5 text-[11px] text-muted-foreground">{z.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                  <div className="mt-1 flex items-start gap-2 rounded-lg bg-muted/50 p-3">
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <p className="text-xs leading-relaxed text-muted-foreground">Transit times vary by product, stocking location, and carrier. Most orders ship directly from manufacturer or regional stocking partners.</p>
-                  </div>
-                </div>
+              <h2 className="mb-2 text-2xl font-bold text-foreground">Estimated Ground Delivery Windows</h2>
+              <p className="mb-6 text-sm text-muted-foreground">From the nearest PES or manufacturer stocking location. Processing adds 1-3 business days.</p>
+              <div className="overflow-hidden rounded-xl border border-border">
+                <img
+                  src="/images/pes-delivery-zones-map.jpg"
+                  alt="PES Supply estimated ground delivery windows map showing Zone 1 (1-3 days) through Zone 4 (5-7 days), 10 stocking partner locations including Rocklin CA, Colorado Springs CO, Princeton, West Jefferson OH, Wilton NY, Newark NJ, Jackson County, Loxley, Dallas, and Prescott. Louisville KY serves as network operations. Port cities at LA/Long Beach, Houston, and Newark NJ."
+                  className="w-full"
+                  loading="eager"
+                />
               </div>
             </section>
 
@@ -218,69 +166,21 @@ export function ShippingContent() {
               </div>
             </section>
 
-            {/* Shipping Types */}
+            {/* Delivery Methods -- real PES infographic */}
             <section id="shipping-types" className="scroll-mt-24">
               <div className="mb-3 flex items-center gap-2.5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><Clock className="h-4 w-4 text-primary" /></div>
-                <h2 className="text-xl font-bold text-foreground">Shipping Types</h2>
+                <h2 className="text-xl font-bold text-foreground">Delivery Methods</h2>
               </div>
-              <div className="rounded-xl border border-border bg-card px-6 py-5">
-                <p className="mb-4 text-sm text-card-foreground">Portlandia Logistics coordinates every shipment via <strong>UPS, FedEx, and 14,000+ vetted freight carriers</strong>. Insurance and tracking on every shipment.</p>
-                <div className="overflow-hidden rounded-lg border border-border">
-                  <table className="w-full text-sm">
-                    <thead><tr className="border-b border-border bg-muted/50"><th className="px-4 py-2.5 text-left font-semibold text-foreground">Method</th><th className="px-4 py-2.5 text-left font-semibold text-foreground">Transit Time</th><th className="hidden px-4 py-2.5 text-left font-semibold text-foreground md:table-cell">Cost</th><th className="hidden px-4 py-2.5 text-left font-semibold text-foreground lg:table-cell">Carrier</th></tr></thead>
-                    <tbody>
-                      {shippingTiers.map((t, i) => (
-                        <tr key={t.method} className={i < shippingTiers.length - 1 ? "border-b border-border" : ""}>
-                          <td className="px-4 py-3 font-medium text-foreground">{t.method}</td>
-                          <td className="px-4 py-3 text-muted-foreground">{t.transit}</td>
-                          <td className="hidden px-4 py-3 text-muted-foreground md:table-cell">{t.cost}</td>
-                          <td className="hidden px-4 py-3 text-muted-foreground lg:table-cell">{t.carrier}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <p className="mt-4 rounded-lg bg-muted/50 px-4 py-2.5 text-xs text-muted-foreground">Shipping times are in business days (Monday-Friday, excluding holidays) and begin once the order has been processed and shipped. Handling generally takes 0-1 business days for in-stock items. There is no overnight shipping for LTL freight.</p>
+              <div className="overflow-hidden rounded-xl border border-border">
+                <img
+                  src="/images/pes-delivery-methods.jpg"
+                  alt="PES Supply delivery methods: Standard Delivery for small items via UPS/FedEx/USPS Ground in 3-7 business days with no appointment needed and tracking by email. Scheduled Delivery for palletized orders like solar panels, batteries, racking, and generators in 5-10 business days with carrier-scheduled delivery window, curbside delivery standard, liftgate available at $75-$125, and BOL signature required. Project Delivery for full trucks coordinated with your timeline including container loads, full project kits, and bulk orders requiring forklift or dock access, with dedicated PES rep coordination, intermodal options for long-distance, and emergency hot-shot available."
+                  className="w-full"
+                />
               </div>
+              <p className="mt-3 rounded-lg bg-muted/50 px-4 py-2.5 text-xs text-muted-foreground">Shipping times are in business days (Monday-Friday, excluding holidays) and begin once the order has been processed and shipped. Handling generally takes 0-1 business days for in-stock items. There is no overnight shipping for LTL freight.</p>
             </section>
-
-            {/* Shipping method detail cards */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <div className="rounded-xl border border-border bg-card p-5">
-                <div className="mb-3 flex items-center gap-2"><Package className="h-5 w-5 text-primary" /><h3 className="text-base font-bold text-card-foreground">Parcel</h3></div>
-                <p className="mb-2 text-xs font-medium text-muted-foreground">Items under 150 lbs via UPS/FedEx</p>
-                <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Free on qualifying orders $999+.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Ships from the nearest manufacturer DC or stocking partner.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />1-5 business days depending on zone.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Tracking emailed as soon as label is created.</li>
-                </ul>
-              </div>
-              <div className="rounded-xl border border-border bg-card p-5">
-                <div className="mb-3 flex items-center gap-2"><Truck className="h-5 w-5 text-primary" /><h3 className="text-base font-bold text-card-foreground">LTL Freight</h3></div>
-                <p className="mb-2 text-xs font-medium text-muted-foreground">150-10,000 lbs, palletized, shared truck</p>
-                <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Free freight on qualifying orders over $999.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />2-5 business days, freight class optimized.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Liftgate service: <strong>$75-$125</strong> depending on shipment size.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Best for pallet quantities, battery systems, multi-unit orders.</li>
-                </ul>
-                <div className="mt-3 rounded-lg bg-accent/10 px-3 py-2">
-                  <p className="text-xs text-accent"><strong>Residential delivery?</strong> Expect a carrier surcharge ($75-$150). Commercial addresses and jobsites with dock access get priority routing and lower rates.</p>
-                </div>
-              </div>
-              <div className="rounded-xl border border-border bg-card p-5">
-                <div className="mb-3 flex items-center gap-2"><Truck className="h-5 w-5 text-primary" /><h3 className="text-base font-bold text-card-foreground">FTL / Dedicated / Hot Shot</h3></div>
-                <p className="mb-2 text-xs font-medium text-muted-foreground">Full trucks, port drayage, emergency delivery</p>
-                <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />FTL: 10,000+ lbs, direct point-to-point, 1-3 days.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Intermodal rail for long-haul 750+ miles (25% savings).</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Port drayage from LA, NY/NJ, Houston.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Hot shot same-day/next-day for emergencies.</li>
-                </ul>
-              </div>
-            </div>
 
             {/* Lead Times by Category */}
             <section id="lead-times" className="scroll-mt-24">
