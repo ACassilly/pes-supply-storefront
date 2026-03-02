@@ -264,11 +264,11 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Department links */}
-          <div className="flex min-w-0 flex-1 items-center overflow-hidden">
-            {departments.map((dept) => (
+          {/* Top departments -- show only 5 to keep bar clean */}
+          <div className="flex min-w-0 flex-1 items-center">
+            {departments.slice(0, 5).map((dept) => (
               <div key={dept.slug} className="relative" onMouseEnter={() => handleEnter(dept.name)} onMouseLeave={handleLeave}>
-                <Link href={`/departments/${dept.slug}`} className="block whitespace-nowrap px-2 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary" onKeyDown={(e) => handleKeyDown(e, dept.name)} onFocus={() => handleEnter(dept.name)} onBlur={handleLeave}>
+                <Link href={`/departments/${dept.slug}`} className="block whitespace-nowrap px-3 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary" onKeyDown={(e) => handleKeyDown(e, dept.name)} onFocus={() => handleEnter(dept.name)} onBlur={handleLeave}>
                   {dept.name}
                 </Link>
                 {megaOpen === dept.name && (
@@ -290,11 +290,8 @@ export function Navbar() {
 
           <div className="ml-auto flex shrink-0 items-center gap-3 pl-2">
             <QuickOrderPad />
-            <Link href="/quote" className="flex items-center gap-1.5 whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Request a Quote</Link>
-            <Link href="/bulk" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Bulk Pricing</Link>
+            <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-sale">Deals</Link>
             <Link href="/powerlink" className="flex items-center gap-1 whitespace-nowrap py-2 text-[13px] font-medium text-accent transition-colors hover:text-accent/80">Power Link</Link>
-            <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-sale">Deals & Clearance</Link>
-            <Link href="/pro" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Pro Account</Link>
           </div>
         </div>
       </nav>
