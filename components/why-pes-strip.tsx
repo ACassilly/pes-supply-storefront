@@ -1,9 +1,9 @@
-import { ShieldCheck, Truck, FileText, Users, Phone, Zap, Package, Award } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, ShieldCheck, Package, Award } from "lucide-react"
 
 const stats = [
-  { value: "52+", label: "Brands" },
+  { value: "169", label: "Authorized Brands" },
   { value: "10", label: "Stocking Locations" },
   { value: "48", label: "States Covered" },
   { value: "$999", label: "Free Freight Threshold" },
@@ -12,34 +12,34 @@ const stats = [
 
 const pillars = [
   {
-    icon: ShieldCheck,
-    title: "Authorized Distributor",
-    body: "Every product ships with the full manufacturer warranty. Direct from the factory, never gray market.",
+    image: "/images/pillar-warranty.jpg",
+    title: "Full OEM Warranties",
+    body: "Every product is factory-direct with the full manufacturer warranty. No gray market. No marketplace lottery. PES is the distributor of record.",
   },
   {
-    icon: Truck,
-    title: "Portlandia Logistics",
-    body: "Orders placed by 2 PM ET are processed same day. Shipped from the nearest manufacturer or stocking location.",
+    image: "/images/pillar-shipping.jpg",
+    title: "Ships from 10 Locations",
+    body: "We route every order from whichever stocking location is closest to your jobsite. Parcel, LTL, FTL, intermodal, or hot-shot -- we handle the carrier.",
   },
   {
-    icon: FileText,
-    title: "BABA Compliance Built In",
-    body: "Build America, Buy America documentation included with qualifying orders. Ready for federal and municipal procurement.",
+    image: "/images/pillar-baba.jpg",
+    title: "BABA Paperwork Included",
+    body: "Compliance letters, country-of-origin documentation, and manufacturer certifications ship with qualifying orders. No extra charge, no chasing paperwork.",
   },
   {
-    icon: Users,
-    title: "Power Link Network",
-    body: "The only distributor that sends you customers. Join our installer directory and get qualified leads by ZIP code.",
+    image: "/images/pillar-leads.jpg",
+    title: "We Send You Customers",
+    body: "Power Link is our contractor directory. Homeowners search by ZIP code and trade. We route them to you. No fees. No contracts.",
   },
   {
-    icon: Phone,
-    title: "Named Account Reps",
-    body: "Call and reach a real person who knows your account. Net-30 terms, volume pricing, and dedicated support.",
+    image: "/images/pillar-rep.jpg",
+    title: "A Rep Who Picks Up",
+    body: "You get a named account rep who knows your business, your pricing, and your job history. Call and talk to a person, not a phone tree.",
   },
   {
-    icon: Zap,
-    title: "One Order, Every Trade",
-    body: "Electrical, solar, HVAC, plumbing, tools, safety, and generators. One PO, one invoice across all trades.",
+    image: "/images/pillar-invoice.jpg",
+    title: "10 Departments. One Invoice.",
+    body: "Electrical, solar, HVAC, plumbing, tools, safety, EV, data, and generators on one PO. Stop managing a dozen vendor portals.",
   },
 ]
 
@@ -76,20 +76,22 @@ export function WhyPesStrip() {
 
         <div className="relative mx-auto max-w-7xl px-4">
           <h2 className="mb-1 text-center text-xl font-bold text-background md:text-2xl text-balance">
-            Everything You Need, Backed by Experts
+            Why contractors switch to PES
           </h2>
           <p className="mx-auto mb-10 max-w-lg text-center text-sm text-background/50 text-pretty">
-            A real distributor built for contractors, property managers, and procurement teams.
+            We built this for people who are tired of chasing freight, arguing with call centers, and managing a dozen vendor logins.
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {pillars.map((p) => (
-              <div key={p.title} className="rounded-xl border border-background/10 bg-background/5 p-5 backdrop-blur-sm">
-                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-primary/20">
-                  <p.icon className="h-4.5 w-4.5 text-primary" />
+              <div key={p.title} className="overflow-hidden rounded-xl border border-background/10 bg-background/5 backdrop-blur-sm">
+                <div className="relative aspect-[16/9] w-full overflow-hidden">
+                  <Image src={p.image} alt={p.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" loading="lazy" />
                 </div>
-                <h3 className="mb-1 text-sm font-bold text-background">{p.title}</h3>
-                <p className="text-xs leading-relaxed text-background/50">{p.body}</p>
+                <div className="p-5">
+                  <h3 className="mb-1 text-sm font-bold text-background">{p.title}</h3>
+                  <p className="text-xs leading-relaxed text-background/50">{p.body}</p>
+                </div>
               </div>
             ))}
           </div>

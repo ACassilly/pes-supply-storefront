@@ -4,26 +4,25 @@ import { useState } from "react"
 import { Star, ChevronLeft, ChevronRight, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-// NOTE: These are placeholder reviews for layout purposes only.
-// Replace with verified customer reviews before going live.
-// FTC requires testimonials to reflect genuine customer experiences.
+// PLACEHOLDER: Replace with verified customer reviews before launch.
+// FTC requires testimonials to reflect genuine, documented experiences.
 const reviews = [
   {
-    name: "Verified Pro Account",
-    location: "Licensed Electrical Contractor",
-    quote: "We process orders from contractors across all 48 states. Open a Pro Account to share your experience and see it featured here.",
+    name: "Your review here",
+    location: "Licensed Electrician",
+    quote: "We are collecting reviews from our first Pro Account holders. If you have ordered from PES, call (888) 876-0007 or email sales@pes.supply to submit yours.",
     rating: 5,
   },
   {
-    name: "Verified Pro Account",
+    name: "Your review here",
     location: "Solar Installer",
-    quote: "We are actively collecting feedback from our Pro Account holders. Your review helps other contractors evaluate PES as a supply partner.",
+    quote: "We do not publish fabricated testimonials. Real reviews from verified customers will appear here as our Pro Account base grows.",
     rating: 5,
   },
   {
-    name: "Verified Pro Account",
+    name: "Your review here",
     location: "Property Manager",
-    quote: "Real reviews from real customers coming soon. In the meantime, call us at (888) 876-0007 and ask for references in your trade.",
+    quote: "Want references in your trade? Call us. We will connect you directly with contractors in your region who have ordered from PES.",
     rating: 5,
   },
 ]
@@ -64,8 +63,8 @@ export function Testimonials() {
           )}
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:px-10">
-            {visible.map((review) => (
-              <div key={review.name} className="flex flex-col items-center rounded-xl border border-border bg-card px-6 py-8 text-center">
+            {visible.map((review, idx) => (
+              <div key={`review-${page}-${idx}`} className="flex flex-col items-center rounded-xl border border-border bg-card px-6 py-8 text-center">
                 <BigStars rating={review.rating} />
                 <blockquote className="mt-5 flex-1 text-sm leading-relaxed text-card-foreground">
                   {`\u201C${review.quote}\u201D`}

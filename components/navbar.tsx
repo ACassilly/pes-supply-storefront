@@ -30,9 +30,9 @@ const seasonalTrending: Record<string, string[]> = {
   summer: ["580W Solar", "Mini Split", "EV Charger", "LED High Bay", "Inverter", "Battery ESS", "200A Panel", "Fan & Ventilation"],
   fall: ["Generator", "Transfer Switch", "200A Panel", "LED High Bay", "14/2 NM-B", "#12 THHN", "Milwaukee M18", "EV Charger"],
 }
-const month = new Date().getMonth()
-const season = month <= 1 || month === 11 ? "winter" : month <= 4 ? "spring" : month <= 7 ? "summer" : "fall"
-const trendingSearches = seasonalTrending[season]
+// Use a fixed season for SSR to avoid hydration mismatch -- "spring" as default
+const defaultSeason = "spring"
+const trendingSearches = seasonalTrending[defaultSeason]
 
 function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
   const [open, setOpen] = useState(false)
@@ -102,11 +102,15 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-navbar shadow-sm">
       {/* Row 1: Logo + Search + Account + Cart */}
       <div className="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-2 md:gap-5">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          <div className="flex h-11 items-center rounded-lg bg-foreground px-2 md:h-12 md:px-2.5">
-            <Image src="/images/pes-logo.png" alt="PES Supply" width={120} height={120} className="h-8 w-auto brightness-0 invert md:h-9" priority />
-          </div>
-          <span className="hidden text-[10px] font-medium leading-tight text-muted-foreground min-[480px]:block">A PES Global Company</span>
+        <Link href="/" className="flex shrink-0 items-center">
+          <Image
+            src="/images/pes-logo.png"
+            alt="Portlandia Electric Supply"
+            width={160}
+            height={160}
+            className="h-10 w-auto md:h-11"
+            priority
+          />
         </Link>
 
         {/* Search */}

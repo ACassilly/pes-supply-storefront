@@ -1,26 +1,27 @@
+import Image from "next/image"
 import { Globe, Route, ShieldCheck, Truck, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 const pillars = [
   {
     icon: Globe,
-    title: "Global Sourcing",
-    desc: "PES Global procures from manufacturers across North America, Asia, and Europe -- giving PES Supply pricing leverage independent distributors can't match.",
+    title: "We Source It",
+    desc: "PES Global buys direct from manufacturers in the US, Asia, and Europe. That sourcing leverage is why our pricing beats local supply houses on volume.",
   },
   {
     icon: Route,
-    title: "Portlandia Logistics",
-    desc: "Our logistics arm coordinates every shipment -- routing orders from the nearest manufacturer DC or stocking partner via the fastest method. Parcel, LTL, FTL, intermodal, or hot shot.",
+    title: "We Ship It",
+    desc: "Portlandia Logistics routes from the closest of 10 stocking locations. Parcel, LTL, FTL, intermodal, hot-shot -- we pick the fastest, cheapest path and manage the carrier.",
   },
   {
     icon: ShieldCheck,
-    title: "Authorized Distributor",
-    desc: "Every product carries full OEM warranty. No grey market, no counterfeit risk, no marketplace lottery. PES is the distributor of record on every invoice.",
+    title: "We Stand Behind It",
+    desc: "PES is the distributor of record. Full OEM warranty on every product. If something is wrong, you call us -- not a manufacturer hotline in another country.",
   },
   {
     icon: Truck,
-    title: "Single-Source Ordering",
-    desc: "One PO, one invoice across 169 brands. PES consolidates your sourcing so you deal with one rep, not a dozen vendor portals.",
+    title: "One PO. One Invoice.",
+    desc: "Electrical, solar, HVAC, plumbing, tools, safety, EV, generators -- all on one purchase order. One rep handles it. One invoice to process.",
   },
 ]
 
@@ -31,23 +32,35 @@ export function PesGlobalSection() {
         <div className="mb-8 text-center">
           <p className="text-xs font-bold uppercase tracking-widest text-primary">A PES Global Company</p>
           <h2 className="mt-2 text-xl font-bold text-foreground md:text-2xl">
-            Local distributor. Global supply chain.
+            National pricing. Local service. Global sourcing.
           </h2>
           <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            PES Supply is backed by PES Global{"'"}s international procurement network, with logistics coordinated by Portlandia Logistics across 300+ manufacturer partners and 14,000+ vetted carriers. You get the pricing of a national distributor with the service of a local counter.
+            PES Supply is the distribution arm of PES Global. We source from 300+ manufacturers across three continents, then ship through Portlandia Logistics using 14,000+ vetted carriers. You get the volume pricing of a national distributor and a rep who knows your name.
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {pillars.map((p) => (
-            <div key={p.title} className="rounded-xl border border-border bg-card p-5">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <p.icon className="h-5 w-5 text-primary" />
-              </div>
-              <h3 className="text-sm font-bold text-card-foreground">{p.title}</h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{p.desc}</p>
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
+          {/* Photo strip */}
+          <div className="grid grid-cols-2 gap-3 lg:w-2/5">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+              <Image src="/images/global-sourcing.jpg" alt="International container port -- PES Global sourcing network" fill className="object-cover" sizes="(max-width: 1024px) 50vw, 20vw" loading="lazy" />
             </div>
-          ))}
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+              <Image src="/images/warehouse-logistics.jpg" alt="PES distribution warehouse with organized electrical supplies" fill className="object-cover" sizes="(max-width: 1024px) 50vw, 20vw" loading="lazy" />
+            </div>
+          </div>
+          {/* Pillar cards */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:w-3/5">
+            {pillars.map((p) => (
+              <div key={p.title} className="rounded-xl border border-border bg-card p-5">
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <p.icon className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-sm font-bold text-card-foreground">{p.title}</h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{p.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="mt-6 text-center">

@@ -5,10 +5,12 @@ import Link from "next/link"
 import { Lock, ArrowRight, X } from "lucide-react"
 
 export function TradePricingBanner() {
-  const [dismissed, setDismissed] = useState(true) // start hidden to avoid flash
+  const [mounted, setMounted] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
 
   useEffect(() => {
     setDismissed(sessionStorage.getItem("pes-trade-banner-dismissed") === "true")
+    setMounted(true)
   }, [])
 
   function dismiss() {
@@ -16,7 +18,7 @@ export function TradePricingBanner() {
     sessionStorage.setItem("pes-trade-banner-dismissed", "true")
   }
 
-  if (dismissed) return null
+  if (!mounted || dismissed) return null
 
   return (
     <section className="border-y border-primary/20 bg-primary/5">

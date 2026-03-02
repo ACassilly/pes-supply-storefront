@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Zap, Users, MapPin, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -22,11 +23,11 @@ export function PowerLinkCallout() {
               <span className="text-xs font-bold uppercase tracking-wider text-accent">Power Link</span>
             </div>
             <h2 className="text-xl font-bold text-foreground md:text-2xl">
-              We don{"'"}t just sell you materials. We send you customers.
+              Your material supplier that sends you work.
             </h2>
             <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
-              Power Link is PES{"'"}s installer directory. Homeowners and property managers search by ZIP code and trade, and we connect them to you.
-              No referral fees. No contracts. Just qualified leads from the same company that ships your materials.
+              Power Link is our contractor directory. When a homeowner or property manager needs an electrician, solar installer, or plumber, they search PES by ZIP code -- and we send them to you.
+              No referral fee. No contract. No catch.
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-5 md:justify-start">
               {stats.map((s) => (
@@ -41,18 +42,17 @@ export function PowerLinkCallout() {
             </div>
           </div>
 
-          {/* Right: CTA */}
+          {/* Right: Photo + CTA */}
           <div className="flex shrink-0 flex-col items-center gap-3">
-            <div className="rounded-xl border border-accent/20 bg-card px-6 py-5 text-center shadow-sm">
-              <p className="text-sm font-semibold text-foreground">Licensed contractor?</p>
-              <p className="mt-1 text-xs text-muted-foreground">Get listed in under 5 minutes.</p>
-              <Button asChild className="mt-3 gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">
+            <div className="relative h-48 w-64 overflow-hidden rounded-xl border border-accent/20 shadow-sm md:h-56 md:w-72">
+              <Image src="/images/powerlink-installer.jpg" alt="Installer meeting a homeowner through Power Link" fill className="object-cover" sizes="288px" loading="lazy" />
+            </div>
+            <div className="text-center">
+              <Button asChild className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">
                 <Link href="/powerlink">Join Power Link <ArrowRight className="h-3.5 w-3.5" /></Link>
               </Button>
+              <p className="mt-2 text-xs text-muted-foreground">Licensed contractors only. Free to join.</p>
             </div>
-            <Link href="/powerlink" className="text-xs text-muted-foreground hover:text-accent hover:underline">
-              Learn how it works
-            </Link>
           </div>
         </div>
       </div>

@@ -1,34 +1,34 @@
-import { UserPlus, Search, Truck, MapPin } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 
 const steps = [
   {
     number: "01",
-    icon: UserPlus,
-    title: "Create Your Pro Account",
-    description: "Get instant access to trade pricing, Net-30 terms, and a named account rep who knows your business.",
+    image: "/images/step-account.jpg",
+    title: "Open a Pro Account",
+    description: "Takes 5 minutes. Gets you trade pricing, Net-30 terms, and a named rep who actually picks up the phone.",
     link: { label: "Apply Now", href: "/pro" },
   },
   {
     number: "02",
-    icon: Search,
-    title: "Browse or Request a Quote",
-    description: "Search 40,000+ products, use Quick Order Pad for repeat buys, or submit a project list for a custom quote.",
+    image: "/images/step-search.jpg",
+    title: "Search, Quote, or Reorder",
+    description: "Browse the catalog. Paste SKUs into Quick Order Pad. Upload a project BOM for a custom quote. Whatever is fastest for you.",
     link: { label: "Request a Quote", href: "/quote" },
   },
   {
     number: "03",
-    icon: Truck,
-    title: "We Pick, Pack & Ship",
-    description: "Orders placed by 2 PM ET process same day. Portlandia Logistics routes from the nearest stocking location.",
+    image: "/images/step-ship.jpg",
+    title: "We Ship It",
+    description: "Order by 2 PM ET, it processes same day. Ships from whichever of our 10 locations is closest to your jobsite.",
     link: { label: "Shipping Details", href: "/shipping" },
   },
   {
     number: "04",
-    icon: MapPin,
-    title: "Track to Your Jobsite",
-    description: "Real-time tracking for parcel and freight. Liftgate, residential, and will-call pickup available.",
-    link: { label: "Learn More", href: "/shipping" },
+    image: "/images/step-deliver.jpg",
+    title: "Track It to the Door",
+    description: "Real-time tracking on every shipment -- parcel or freight. Liftgate, scheduled delivery, and will-call available.",
+    link: { label: "Delivery Options", href: "/shipping" },
   },
 ]
 
@@ -38,21 +38,19 @@ export function HowItWorks() {
       <div className="mx-auto max-w-7xl px-4">
         <p className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-primary">How It Works</p>
         <h2 id="how-it-works-heading" className="mb-2 text-center text-xl font-bold text-foreground md:text-2xl text-balance">
-          From account setup to delivery in 4 steps
+          Account to delivery. Four steps. No nonsense.
         </h2>
         <p className="mx-auto mb-10 max-w-md text-center text-sm text-muted-foreground text-pretty">
-          No minimums, no games. Just a straightforward way to buy electrical, solar, and building materials at trade pricing.
+          No minimums. No upsell games. No chasing your freight. Just materials at trade pricing, shipped from the nearest location.
         </p>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
             <div key={step.number} className="relative flex flex-col rounded-xl border border-border bg-card p-6">
-              {/* Step number */}
-              <span className="mb-4 text-3xl font-black text-primary/15">{step.number}</span>
-
-              {/* Icon */}
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <step.icon className="h-5 w-5 text-primary" />
+              {/* Photo */}
+              <div className="relative mb-4 aspect-[16/10] w-full overflow-hidden rounded-lg">
+                <Image src={step.image} alt={step.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover" loading="lazy" />
+                <div className="absolute left-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-black text-primary-foreground">{step.number}</div>
               </div>
 
               <h3 className="mb-1.5 text-sm font-bold text-card-foreground">{step.title}</h3>

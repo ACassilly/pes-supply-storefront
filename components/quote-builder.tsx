@@ -3,24 +3,23 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import {
-  Zap, Sun, Wind, Wrench, Flame, Droplets, ArrowRight, CheckCircle,
-} from "lucide-react"
+import Image from "next/image"
+import { ArrowRight, CheckCircle } from "lucide-react"
 
 const categories = [
-  { id: "electrical", label: "Electrical", icon: Zap },
-  { id: "solar", label: "Solar", icon: Sun },
-  { id: "generators", label: "Backup Power", icon: Wind },
-  { id: "tools", label: "Tools", icon: Wrench },
-  { id: "hvac", label: "HVAC", icon: Flame },
-  { id: "plumbing", label: "Plumbing", icon: Droplets },
+  { id: "electrical", label: "Electrical", image: "/images/quote-electrical.jpg" },
+  { id: "solar", label: "Solar", image: "/images/quote-solar.jpg" },
+  { id: "generators", label: "Backup Power", image: "/images/quote-generator.jpg" },
+  { id: "tools", label: "Tools", image: "/images/quote-tools.jpg" },
+  { id: "hvac", label: "HVAC", image: "/images/quote-hvac.jpg" },
+  { id: "plumbing", label: "Plumbing", image: "/images/quote-plumbing.jpg" },
 ]
 
 const benefits = [
-  "Volume pricing on pallet and container quantities",
-  "Custom BOM review by our engineering team",
-  "BABA compliance documentation included",
-  "Net-30 terms for qualified accounts",
+  "Pallet and container pricing -- not retail markup",
+  "Our team reviews your BOM and flags substitutions",
+  "BABA documentation included at no extra charge",
+  "Net-30 terms. No deposit required on qualified accounts.",
 ]
 
 export function QuoteBuilder() {
@@ -44,10 +43,10 @@ export function QuoteBuilder() {
               Project Quotes
             </p>
             <h2 id="quote-heading" className="mb-3 text-xl font-bold text-primary-foreground md:text-2xl text-balance">
-              Get Your Custom Quote
+              Tell us what you need. We price it.
             </h2>
             <p className="mb-6 max-w-md text-sm leading-relaxed text-primary-foreground/70">
-              Select the departments you need, and our team will build a custom quote with volume pricing, lead times, and compliance documentation.
+              Pick your departments, send a parts list or project scope, and we come back with volume pricing, lead times, and delivery coordination.
             </p>
 
             <ul className="flex flex-col gap-2.5">
@@ -72,14 +71,16 @@ export function QuoteBuilder() {
                   <button
                     key={cat.id}
                     onClick={() => toggle(cat.id)}
-                    className={`flex flex-col items-center gap-1.5 rounded-lg border px-3 py-3 text-center transition-all ${
+                    className={`flex flex-col items-center gap-1.5 overflow-hidden rounded-lg border text-center transition-all ${
                       isActive
-                        ? "border-primary-foreground bg-primary-foreground/20 text-primary-foreground"
-                        : "border-primary-foreground/20 bg-transparent text-primary-foreground/60 hover:border-primary-foreground/40 hover:text-primary-foreground/80"
+                        ? "border-primary-foreground ring-2 ring-primary-foreground/50"
+                        : "border-primary-foreground/20 hover:border-primary-foreground/40"
                     }`}
                   >
-                    <cat.icon className="h-5 w-5" />
-                    <span className="text-[10px] font-semibold">{cat.label}</span>
+                    <div className="relative aspect-square w-full overflow-hidden">
+                      <Image src={cat.image} alt={cat.label} fill sizes="80px" className={`object-cover transition-opacity ${isActive ? "opacity-100" : "opacity-60"}`} loading="lazy" />
+                    </div>
+                    <span className={`pb-2 text-[10px] font-semibold ${isActive ? "text-primary-foreground" : "text-primary-foreground/60"}`}>{cat.label}</span>
                   </button>
                 )
               })}

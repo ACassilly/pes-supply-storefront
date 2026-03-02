@@ -13,6 +13,8 @@ import { PesGlobalSection } from "@/components/pes-global-section"
 import { WhyPesStrip } from "@/components/why-pes-strip"
 import { QuoteBuilder } from "@/components/quote-builder"
 import { HowItWorks } from "@/components/how-it-works"
+import { ResidentialRedirect } from "@/components/residential-redirect"
+import { NewsletterCta } from "@/components/newsletter-cta"
 
 export default function Home() {
   return (
@@ -23,6 +25,7 @@ export default function Home() {
       <HowItWorks />
       <QuoteBuilder />
       <SolutionsGrid />
+      <ResidentialRedirect />
       <NewArrivals />
       <CuratedRows />
       <ShippingZoneTeaser />
@@ -32,6 +35,7 @@ export default function Home() {
       <PowerLinkCallout />
       <Testimonials />
       <BrandPartners />
+      <NewsletterCta />
     </>
   )
 }

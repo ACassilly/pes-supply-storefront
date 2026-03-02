@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Wrench, Building2, Landmark, Sun } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const departments = [
@@ -17,10 +17,10 @@ const departments = [
 ]
 
 const verticals = [
-  { title: "Contractors & Trades", desc: "Net-30, named reps, same-day ship", icon: Wrench, href: "/pro", color: "bg-primary/10 text-primary" },
-  { title: "Property Managers", desc: "No minimums, easy reorder, bulk lamps", icon: Building2, href: "/pro", color: "bg-accent/10 text-accent-foreground" },
-  { title: "Government & Municipal", desc: "BABA compliant, procurement docs", icon: Landmark, href: "/pro", color: "bg-secondary text-secondary-foreground" },
-  { title: "Solar Installers", desc: "Pallet pricing, Tier 1 modules, racking", icon: Sun, href: "/departments/solar", color: "bg-primary/10 text-primary" },
+  { title: "Contractors & Trades", desc: "Net-30, named reps, same-day ship", image: "/images/vertical-contractor.jpg", href: "/pro" },
+  { title: "Property Managers", desc: "No minimums, easy reorder, bulk lamps", image: "/images/vertical-property.jpg", href: "/pro" },
+  { title: "Government & Municipal", desc: "BABA compliant, procurement docs", image: "/images/vertical-government.jpg", href: "/pro" },
+  { title: "Solar Installers", desc: "Pallet pricing, Tier 1 modules, racking", image: "/images/vertical-solar.jpg", href: "/departments/solar" },
 ]
 
 export function SolutionsGrid() {
@@ -32,13 +32,12 @@ export function SolutionsGrid() {
         <p className="mb-4 text-xs text-muted-foreground">PES is built for professionals. Pick your lane.</p>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {verticals.map((v) => (
-            <Link key={v.title} href={v.href} className="group flex items-start gap-3 rounded-lg border border-border bg-card p-3 transition-all hover:border-primary/30 hover:shadow-md">
-              <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${v.color}`}>
-                <v.icon className="h-4 w-4" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-xs font-semibold text-card-foreground group-hover:text-primary">{v.title}</h3>
-                <p className="mt-0.5 text-[10px] leading-snug text-muted-foreground">{v.desc}</p>
+            <Link key={v.title} href={v.href} className="group relative flex flex-col justify-end overflow-hidden rounded-lg border border-border aspect-[4/3]">
+              <Image src={v.image} alt={v.title} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="relative p-3">
+                <h3 className="text-sm font-bold text-white group-hover:text-primary-foreground">{v.title}</h3>
+                <p className="mt-0.5 text-[11px] leading-snug text-white/70">{v.desc}</p>
               </div>
             </Link>
           ))}
