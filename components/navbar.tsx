@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw, Anchor } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
@@ -102,9 +102,12 @@ export function Navbar() {
       {/* Row 1: Logo + Search + Account + Cart */}
       <div className="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-2 md:gap-5">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <div className="flex h-10 items-center gap-1.5 md:h-11">
-            <span className="text-2xl font-black tracking-tight text-primary md:text-[28px]">PES</span>
-            <span className="hidden text-2xl font-light tracking-tight text-foreground min-[480px]:inline md:text-[28px]">Supply</span>
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary md:h-10 md:w-10">
+            <Anchor className="h-5 w-5 text-primary-foreground md:h-5.5 md:w-5.5" />
+          </div>
+          <div className="flex flex-col leading-none">
+            <span className="text-[15px] font-black uppercase tracking-tight text-foreground md:text-[17px]">Portlandia</span>
+            <span className="text-[9px] font-medium uppercase tracking-widest text-muted-foreground md:text-[10px]">Electric Supply</span>
           </div>
         </Link>
 

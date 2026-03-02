@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin } from "lucide-react"
+import { Phone, Mail, MapPin, Anchor } from "lucide-react"
 import { NewsletterForm } from "./newsletter-form"
 
 const footerLinks = [
@@ -65,9 +65,14 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
           {/* Brand column */}
           <div className="col-span-2">
-            <a href="/" className="mb-4 inline-flex items-center gap-1.5">
-              <span className="text-2xl font-black tracking-tight text-primary">PES</span>
-              <span className="text-2xl font-light tracking-tight text-background">Supply</span>
+            <a href="/" className="mb-4 inline-flex items-center gap-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary">
+                <Anchor className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="text-[15px] font-black uppercase tracking-tight text-background">Portlandia</span>
+                <span className="text-[9px] font-medium uppercase tracking-widest text-background/50">Electric Supply</span>
+              </div>
             </a>
             <p className="mb-4 max-w-xs text-sm leading-relaxed text-background/50">
               Wholesale electrical, solar, and building materials from 169 authorized brands. Shipped from 10 stocking locations nationwide. A PES Global company.
