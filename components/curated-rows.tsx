@@ -14,15 +14,16 @@ interface CuratedRow {
 
 const rows: CuratedRow[] = [
   {
-    title: "Ships Free Today",
-    subtitle: "Order by 2 PM ET for same-day dispatch. Free freight on orders $999+.",
+    title: "New Arrivals -- Ships Free",
+    subtitle: "Just landed. Order by 2 PM ET, ships same day. Free freight on $999+.",
     href: "/departments",
     products: [
-      { slug: "jinko-580w-bifacial-module", name: "Jinko 580W N-Type Bifacial Module", sku: "JKM580N-72HL4-V", price: 133.40, originalPrice: 174.00, rating: 4.8, reviews: 342, image: "/images/product-solar-panel.jpg", badge: "Ships Free", freeShipping: true },
-      { slug: "sol-ark-15k-hybrid-inverter", name: "Sol-Ark 15K Hybrid Inverter", sku: "SOL-ARK-15K", price: 3995.00, originalPrice: 4595.00, rating: 4.9, reviews: 187, image: "/images/product-inverter.jpg", badge: "Ships Free", freeShipping: true },
-      { slug: "generac-22kw-standby-generator", name: "Generac 22kW Standby Generator", sku: "7043", price: 5299.00, originalPrice: 5799.00, rating: 4.6, reviews: 128, image: "/images/product-generator.jpg", badge: "Ships Free", freeShipping: true },
-      { slug: "tesla-wall-connector-gen3", name: "Tesla Wall Connector Gen 3", sku: "1457768-01-F", price: 475.00, originalPrice: 530.00, rating: 4.7, reviews: 891, image: "/images/product-ev-charger.jpg", badge: "Ships Free", freeShipping: true },
-      { slug: "mrcool-diy-24k-mini-split", name: "MRCOOL DIY 24K BTU Mini Split", sku: "DIY-24-HP-C-230", price: 1549.00, originalPrice: 1899.00, rating: 4.6, reviews: 893, image: "/images/product-minisplit.jpg", badge: "Ships Free", freeShipping: true },
+      { slug: "sol-ark-15k-hybrid-inverter", name: "Sol-Ark 15K Hybrid Inverter", sku: "SOL-ARK-15K", price: 3995.00, originalPrice: 4595.00, rating: 4.9, reviews: 187, image: "/images/product-inverter.jpg", badge: "New", freeShipping: true },
+      { slug: "mrcool-diy-24k-mini-split", name: "MRCOOL DIY 24K BTU Mini Split", sku: "DIY-24-HP-C-230", price: 1549.00, originalPrice: 1899.00, rating: 4.6, reviews: 893, image: "/images/product-minisplit.jpg", badge: "New", freeShipping: true },
+      { slug: "jinko-580w-bifacial-module", name: "Jinko 580W N-Type Bifacial Module", sku: "JKM580N-72HL4-V", price: 133.40, originalPrice: 174.00, rating: 4.8, reviews: 342, image: "/images/product-solar-panel.jpg", badge: "New", freeShipping: true },
+      { slug: "tesla-wall-connector-gen3", name: "Tesla Wall Connector Gen 3", sku: "1457768-01-F", price: 475.00, originalPrice: 530.00, rating: 4.7, reviews: 891, image: "/images/product-ev-charger.jpg", badge: "New", freeShipping: true },
+      { slug: "eaton-br-100a-panel", name: "Eaton BR 100A Main Breaker Panel", sku: "EAT-BR2020B100V", price: 89.95, originalPrice: 119.00, rating: 4.5, reviews: 892, image: "/images/product-panel.jpg", badge: "New", freeShipping: false },
+      { slug: "generac-22kw-standby-generator", name: "Generac 22kW Standby Generator", sku: "7043", price: 5299.00, originalPrice: 5799.00, rating: 4.6, reviews: 128, image: "/images/product-generator.jpg", badge: "New", freeShipping: true },
     ],
   },
   {
