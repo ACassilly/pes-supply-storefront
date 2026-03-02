@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: 'PES Supply | 169 Brands, 500+ Vendors, 40,000+ Products | A PES Global Company',
     template: '%s | PES Supply',
   },
-  description: 'PES Supply -- the distribution engine of PES Global. 40,000+ products across electrical, solar, HVAC, plumbing, tools, safety, EV charging, generators, and more. 169 brands, 500+ vendors. Shipping nationwide from Louisville, KY.',
+  description: 'PES Supply -- the distribution engine of PES Global. 40,000+ products across electrical, solar, HVAC, plumbing, tools, safety, EV charging, generators, and more. 169 brands, 500+ vendors. Shipping nationwide from 10 stocking locations.',
   metadataBase: new URL('https://pes.supply'),
   openGraph: {
     type: 'website',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'PES Supply | A PES Global Company',
-    description: '169 brands, 500+ vendors, 40,000+ products. Same-day shipping from Louisville, KY.',
+    description: '169 brands, 500+ vendors, 40,000+ products. Same-day shipping from 10 stocking locations nationwide.',
   },
   robots: {
     index: true,

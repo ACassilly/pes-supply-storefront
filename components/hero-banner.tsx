@@ -73,7 +73,7 @@ export function HeroBanner() {
         onTouchEnd={onTouchEnd}
       >
         {slides.map((s, i) => (
-          <Image key={s.image} src={s.image} alt="" fill className={`object-cover transition-opacity duration-700 ${i === current ? "opacity-100" : "opacity-0"}`} priority={i === 0} loading={i === 0 ? "eager" : "lazy"} sizes="100vw" />
+          <Image key={s.image} src={s.image} alt="" fill className={`object-cover transition-opacity duration-700 ${i === current ? "opacity-100" : "opacity-0"}`} priority={i <= 1} loading={i <= 1 ? "eager" : "lazy"} sizes="100vw" />
         ))}
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/80 to-foreground/50" />
 

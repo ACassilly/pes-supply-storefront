@@ -3,7 +3,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
 const stats = [
-  { value: "52+", label: "Brands" },
+  { value: "169", label: "Authorized Brands" },
   { value: "10", label: "Stocking Locations" },
   { value: "48", label: "States Covered" },
   { value: "$999", label: "Free Freight Threshold" },

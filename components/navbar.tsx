@@ -30,9 +30,9 @@ const seasonalTrending: Record<string, string[]> = {
   summer: ["580W Solar", "Mini Split", "EV Charger", "LED High Bay", "Inverter", "Battery ESS", "200A Panel", "Fan & Ventilation"],
   fall: ["Generator", "Transfer Switch", "200A Panel", "LED High Bay", "14/2 NM-B", "#12 THHN", "Milwaukee M18", "EV Charger"],
 }
-const month = new Date().getMonth()
-const season = month <= 1 || month === 11 ? "winter" : month <= 4 ? "spring" : month <= 7 ? "summer" : "fall"
-const trendingSearches = seasonalTrending[season]
+// Use a fixed season for SSR to avoid hydration mismatch -- "spring" as default
+const defaultSeason = "spring"
+const trendingSearches = seasonalTrending[defaultSeason]
 
 function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
   const [open, setOpen] = useState(false)

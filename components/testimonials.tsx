@@ -64,8 +64,8 @@ export function Testimonials() {
           )}
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:px-10">
-            {visible.map((review) => (
-              <div key={review.name} className="flex flex-col items-center rounded-xl border border-border bg-card px-6 py-8 text-center">
+            {visible.map((review, idx) => (
+              <div key={`review-${page}-${idx}`} className="flex flex-col items-center rounded-xl border border-border bg-card px-6 py-8 text-center">
                 <BigStars rating={review.rating} />
                 <blockquote className="mt-5 flex-1 text-sm leading-relaxed text-card-foreground">
                   {`\u201C${review.quote}\u201D`}
