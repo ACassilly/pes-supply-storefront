@@ -13,7 +13,7 @@ const stats = [
 
 export function PowerLinkCallout() {
   return (
-    <section className="border-y border-accent/20 bg-accent/5 py-8 md:py-10" aria-label="Power Link Installer Network">
+    <section id="find-a-pro" className="scroll-mt-24 border-y border-accent/20 bg-accent/5 py-8 md:py-10" aria-label="Power Link Installer Network">
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex flex-col items-center gap-6 md:flex-row md:gap-10">
           {/* Left: branding + pitch */}
