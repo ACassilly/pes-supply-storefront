@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronDown, ChevronRight, Phone, Heart, RotateCcw, Home, Users, Package, Zap, Lightbulb, Sun, Wrench as Plumbing } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronDown, ChevronRight, Phone, MessageCircle, Mail, Heart, RotateCcw, Home, Users, Package, Zap, Lightbulb, Sun, Wrench as Plumbing } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
@@ -45,7 +45,7 @@ function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
 }
 
 /* Nav items with optional hover dropdown subcategories (2x2 grid with thumbnails) */
-const navItems: { label: string; href: string; icon: React.ComponentType<{ className?: string }>; dropdown?: { name: string; href: string; image: string }[] }[] = [
+const navItems: { label: string; href: string; icon: React.ComponentType<{ className?: string }>; dropdown?: { name: string; href: string; image: string }[]; contactDropdown?: boolean }[] = [
   { label: "Home", href: "/", icon: Home },
   { label: "About Us", href: "/about", icon: Users },
   { label: "All Products", href: "/departments", icon: Package },
@@ -85,7 +85,7 @@ const navItems: { label: string; href: string; icon: React.ComponentType<{ class
       { name: "Pumps", href: "/departments/plumbing/pumps", image: "/images/nav-pump.jpg" },
     ],
   },
-  { label: "Contact Us", href: "/contact", icon: Phone },
+  { label: "Contact Us", href: "/contact", icon: Phone, contactDropdown: true },
 ]
 
 export function Navbar() {
@@ -187,53 +187,101 @@ export function Navbar() {
       {/* Row 2: Main navigation bar */}
       <nav className="hidden border-t border-border bg-foreground md:block" aria-label="Main navigation">
         <div className="mx-auto flex max-w-[1400px] items-center justify-center px-4">
-          {navItems.map((item) => (
-            <div
-              key={item.label}
-              className="relative"
-              onMouseEnter={() => item.dropdown ? enterDrop(item.label) : undefined}
-              onMouseLeave={item.dropdown ? leaveDrop : undefined}
-            >
-              <Link
-                href={item.href}
-                className="flex items-center gap-1.5 whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-background/80 transition-colors hover:text-primary"
+          {navItems.map((item) => {
+            const hasDropdown = item.dropdown || item.contactDropdown
+            return (
+              <div
+                key={item.label}
+                className="relative"
+                onMouseEnter={() => hasDropdown ? enterDrop(item.label) : undefined}
+                onMouseLeave={hasDropdown ? leaveDrop : undefined}
               >
-                <item.icon className="h-3.5 w-3.5" />
-                {item.label}
-                {item.dropdown && <ChevronDown className="ml-0.5 h-3 w-3 opacity-50" />}
-              </Link>
-
-              {/* Dropdown */}
-              {item.dropdown && openDrop === item.label && (
-                <div
-                  className="absolute left-1/2 top-full z-50 w-[480px] -translate-x-1/2 rounded-b-xl border border-border bg-card p-4 shadow-xl"
-                  onMouseEnter={() => enterDrop(item.label)}
-                  onMouseLeave={leaveDrop}
+                <Link
+                  href={item.href}
+                  className="flex items-center gap-1.5 whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-background/80 transition-colors hover:text-primary"
                 >
-                  <div className="grid grid-cols-2 gap-2">
-                    {item.dropdown.map((sub) => (
-                      <Link
-                        key={sub.name}
-                        href={sub.href}
-                        className="flex items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-muted"
-                      >
-                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-border bg-muted/30">
-                          <Image src={sub.image} alt={sub.name} fill sizes="48px" className="object-cover" />
-                        </div>
-                        <span className="text-sm font-medium text-card-foreground">{sub.name}</span>
-                        <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
+                  <item.icon className="h-3.5 w-3.5" />
+                  {item.label}
+                  {hasDropdown && <ChevronDown className="ml-0.5 h-3 w-3 opacity-50" />}
+                </Link>
+
+                {/* Product subcategory dropdown */}
+                {item.dropdown && openDrop === item.label && (
+                  <div
+                    className="absolute left-1/2 top-full z-50 w-[480px] -translate-x-1/2 rounded-b-xl border border-border bg-card p-4 shadow-xl"
+                    onMouseEnter={() => enterDrop(item.label)}
+                    onMouseLeave={leaveDrop}
+                  >
+                    <div className="grid grid-cols-2 gap-2">
+                      {item.dropdown.map((sub) => (
+                        <Link
+                          key={sub.name}
+                          href={sub.href}
+                          className="flex items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-muted"
+                        >
+                          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-border bg-muted/30">
+                            <Image src={sub.image} alt={sub.name} fill sizes="48px" className="object-cover" />
+                          </div>
+                          <span className="text-sm font-medium text-card-foreground">{sub.name}</span>
+                          <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
+                        </Link>
+                      ))}
+                    </div>
+                    <div className="mt-3 border-t border-border pt-3">
+                      <Link href={item.href} className="text-sm font-semibold text-primary hover:underline">
+                        {`Shop All ${item.label} \u2192`}
                       </Link>
-                    ))}
+                    </div>
                   </div>
-                  <div className="mt-3 border-t border-border pt-3">
-                    <Link href={item.href} className="text-sm font-semibold text-primary hover:underline">
-                      {`Shop All ${item.label} \u2192`}
-                    </Link>
+                )}
+
+                {/* Contact Us dropdown */}
+                {item.contactDropdown && openDrop === item.label && (
+                  <div
+                    className="absolute right-0 top-full z-50 w-64 rounded-b-xl border border-border bg-card py-3 shadow-xl"
+                    onMouseEnter={() => enterDrop(item.label)}
+                    onMouseLeave={leaveDrop}
+                  >
+                    <div className="border-b border-border px-4 pb-3">
+                      <p className="text-xs font-semibold text-foreground">Monday - Friday</p>
+                      <p className="text-xs text-muted-foreground">8:00 AM - 5:00 PM EST</p>
+                    </div>
+                    <div className="flex flex-col gap-1 px-2 py-2">
+                      <button className="flex items-center gap-3 rounded-md px-3 py-2.5 text-left transition-colors hover:bg-muted">
+                        <MessageCircle className="h-5 w-5 text-primary" />
+                        <div>
+                          <p className="text-sm font-medium text-card-foreground">Live Chat</p>
+                          <p className="flex items-center gap-1 text-[10px] text-muted-foreground"><span className="inline-block h-1.5 w-1.5 rounded-full bg-primary" /> Online Now</p>
+                        </div>
+                      </button>
+                      <a href="tel:8888760007" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
+                        <Phone className="h-5 w-5 text-primary" />
+                        <div>
+                          <p className="text-sm font-medium text-card-foreground">Call</p>
+                          <p className="text-[10px] text-muted-foreground">(888) 876-0007</p>
+                        </div>
+                      </a>
+                      <a href="mailto:sales@pes.supply" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
+                        <Mail className="h-5 w-5 text-primary" />
+                        <div>
+                          <p className="text-sm font-medium text-card-foreground">Email</p>
+                          <p className="text-[10px] text-muted-foreground">sales@pes.supply</p>
+                        </div>
+                      </a>
+                    </div>
+                    <div className="border-t border-border px-4 pt-3">
+                      <p className="mb-1.5 text-xs font-semibold text-foreground">Need Help?</p>
+                      <div className="flex flex-col gap-1">
+                        <Link href="/shipping" className="text-xs text-muted-foreground hover:text-primary hover:underline">Track Your Order</Link>
+                        <Link href="/shipping" className="text-xs text-muted-foreground hover:text-primary hover:underline">Shipping & Returns</Link>
+                        <Link href="/quote" className="text-xs text-muted-foreground hover:text-primary hover:underline">Request a Quote</Link>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            )
+          })}
         </div>
       </nav>
 

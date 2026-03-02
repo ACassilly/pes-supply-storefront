@@ -77,13 +77,13 @@ export function HeroBanner() {
         ))}
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/80 to-foreground/50" />
 
-        <div className="relative mx-auto flex max-w-7xl items-center gap-6 px-4 py-6 md:py-8 lg:py-10">
-          {/* Left copy -- tighter */}
+        <div className="relative mx-auto flex max-w-7xl items-center gap-6 px-4 py-5 md:py-6">
+          {/* Left copy */}
           <div className="flex flex-1 flex-col">
-            <span className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-primary">{slide.eyebrow}</span>
-            <h1 className="max-w-md text-balance text-xl font-bold leading-tight text-background md:text-2xl lg:text-3xl">{slide.headline}</h1>
-            <p className="mt-2 max-w-sm text-pretty text-xs leading-relaxed text-background/60 md:text-sm">{slide.subline}</p>
-            <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-primary">{slide.eyebrow}</span>
+            <h1 className="max-w-md text-balance text-lg font-bold leading-tight text-background md:text-xl lg:text-2xl">{slide.headline}</h1>
+            <p className="mt-1.5 max-w-sm text-pretty text-xs leading-relaxed text-background/60">{slide.subline}</p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
               <Button size="sm" asChild className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90">
                 <Link href={slide.ctaHref}>{slide.cta} <ArrowRight className="h-3 w-3" /></Link>
               </Button>
@@ -92,7 +92,7 @@ export function HeroBanner() {
               </Button>
             </div>
             {/* Dots + arrows */}
-            <div className="mt-4 flex items-center gap-1.5">
+            <div className="mt-3 flex items-center gap-1.5">
               <button onClick={() => go(-1)} className="flex h-6 w-6 items-center justify-center rounded-full border border-background/20 text-background/50 hover:bg-background/10" aria-label="Previous slide">
                 <ChevronLeft className="h-3 w-3" />
               </button>
@@ -106,24 +106,24 @@ export function HeroBanner() {
           </div>
 
           {/* Right: key stats -- hidden on mobile */}
-          <div className="hidden w-64 shrink-0 flex-col gap-3 md:flex">
+          <div className="hidden w-56 shrink-0 flex-col gap-2 md:flex">
             {[
-              { stat: "40,000+", label: "SKUs. Electrical to generators." },
-              { stat: "169", label: "Brands. All authorized. All warrantied." },
-              { stat: "Same Day", label: "Ships if ordered before 2 PM ET." },
+              { stat: "40,000+", label: "SKUs across 10 departments" },
+              { stat: "169", label: "Authorized brands, full warranty" },
+              { stat: "Same Day", label: "Ships before 2 PM ET" },
             ].map((item) => (
-              <div key={item.stat} className="rounded-lg border border-background/10 bg-background/5 px-4 py-3 backdrop-blur-sm">
-                <p className="text-lg font-black text-primary">{item.stat}</p>
-                <p className="text-[11px] text-background/50">{item.label}</p>
+              <div key={item.stat} className="rounded-lg border border-background/10 bg-background/5 px-3 py-2 backdrop-blur-sm">
+                <p className="text-sm font-black text-primary">{item.stat}</p>
+                <p className="text-[10px] text-background/50">{item.label}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Slim trust strip -- matches MaxWarehouse 4-pillar pattern */}
+      {/* Slim trust strip */}
       <div className="border-b border-border bg-muted/60">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-1 px-4 py-2 text-[11px] md:justify-between">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-0.5 px-4 py-1.5 text-[10px] md:justify-between">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-muted-foreground">
             <span className="flex items-center gap-1"><Truck className="h-3 w-3 text-primary" /> Free freight $999+</span>
             <span className="hidden text-border sm:inline">|</span>

@@ -20,11 +20,11 @@ export function PartnerStrip() {
   }, [])
 
   return (
-    <section className="border-b border-border bg-card py-3" aria-label="Our Partners">
-      <div className="mx-auto flex max-w-[1400px] items-center gap-6 px-4">
+    <section className="border-b border-border bg-card py-1.5" aria-label="Our Partners">
+      <div className="mx-auto flex max-w-[1400px] items-center gap-4 px-4">
         {/* Label */}
-        <span className="hidden shrink-0 text-sm font-bold text-foreground md:block">Our Partners</span>
-        <div className="h-6 w-px shrink-0 bg-border hidden md:block" />
+        <span className="hidden shrink-0 text-xs font-bold text-foreground md:block">Our Partners</span>
+        <div className="h-5 w-px shrink-0 bg-border hidden md:block" />
 
         {/* Marquee */}
         <div
@@ -34,7 +34,7 @@ export function PartnerStrip() {
           onMouseLeave={() => setPaused(false)}
         >
           <div
-            className="flex gap-6"
+            className="flex gap-4"
             style={{
               animation: "scroll 40s linear infinite",
               animationPlayState: visible && !paused ? "running" : "paused",
@@ -46,7 +46,7 @@ export function PartnerStrip() {
               <Link
                 key={`${brand.slug}-${i}`}
                 href={`/brands/${brand.slug}`}
-                className="flex h-9 shrink-0 items-center rounded-md border border-border bg-background px-4 transition-colors hover:border-primary/30"
+                className="flex h-7 shrink-0 items-center rounded border border-border bg-background px-3 transition-colors hover:border-primary/30"
               >
                 <span className="whitespace-nowrap text-xs font-bold text-foreground/70">{brand.name}</span>
               </Link>
