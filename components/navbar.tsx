@@ -1,14 +1,13 @@
 "use client"
 
-import { useState, useRef, useEffect, useCallback } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronDown, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw, Home, Users, Package, Zap, Lightbulb, Sun, Wrench as Plumbing } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
 import { CartFlyout } from "@/components/cart-flyout"
-import { QuickOrderPad } from "@/components/quick-order-pad"
 
 const departments = [
   { name: "Electrical", slug: "electrical", subs: [{ name: "Circuit Breakers & Panels", slug: "circuit-breakers-panels" }, { name: "Wire & Cable", slug: "wire-cable" }, { name: "Conduit & Fittings", slug: "conduit-fittings" }, { name: "Switches & Outlets", slug: "switches-outlets" }, { name: "Boxes & Enclosures", slug: "boxes-enclosures" }, { name: "Disconnects & Transformers", slug: "disconnects-transformers" }] },
@@ -23,16 +22,7 @@ const departments = [
   { name: "Generators", slug: "generators", subs: [{ name: "Standby & Whole-Home", slug: "standby-generators" }, { name: "Portable", slug: "portable-generators" }, { name: "Commercial & Industrial", slug: "commercial-generators" }, { name: "Transfer Switches", slug: "transfer-switches" }, { name: "Parts & Maintenance", slug: "generator-parts" }] },
 ]
 
-// Seasonal trending searches -- rotates by quarter
-const seasonalTrending: Record<string, string[]> = {
-  winter: ["Transfer Switch", "Generator", "200A Panel", "LED High Bay", "Heat Tape", "Milwaukee M18", "14/2 NM-B", "#12 THHN"],
-  spring: ["580W Solar", "EV Charger", "Mini Split", "200A Panel", "14/2 NM-B", "Racking & Mounting", "Milwaukee M18", "#12 THHN"],
-  summer: ["580W Solar", "Mini Split", "EV Charger", "LED High Bay", "Inverter", "Battery ESS", "200A Panel", "Fan & Ventilation"],
-  fall: ["Generator", "Transfer Switch", "200A Panel", "LED High Bay", "14/2 NM-B", "#12 THHN", "Milwaukee M18", "EV Charger"],
-}
-// Use a fixed season for SSR to avoid hydration mismatch -- "spring" as default
-const defaultSeason = "spring"
-const trendingSearches = seasonalTrending[defaultSeason]
+
 
 function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
   const [open, setOpen] = useState(false)
@@ -57,29 +47,12 @@ function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
 export function Navbar() {
   const { count: cartCount, total: cartTotal } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [megaOpen, setMegaOpen] = useState<string | null>(null)
-  const [allMenuOpen, setAllMenuOpen] = useState(false)
   const [cartOpen, setCartOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [lang, setLang] = useState<"en" | "es">("en")
   const [searchQuery, setSearchQuery] = useState("")
   const [searchDept, setSearchDept] = useState("All Departments")
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const handleEnter = useCallback((name: string) => {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-    setMegaOpen(name)
-  }, [])
-
-  const handleLeave = useCallback(() => {
-    closeTimer.current = setTimeout(() => setMegaOpen(null), 150)
-  }, [])
-
-  function handleKeyDown(e: React.KeyboardEvent, name: string) {
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setMegaOpen(megaOpen === name ? null : name) }
-    if (e.key === "Escape") setMegaOpen(null)
-  }
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -88,15 +61,7 @@ export function Navbar() {
     }
   }
 
-  useEffect(() => {
-    return () => { if (closeTimer.current) clearTimeout(closeTimer.current) }
-  }, [])
 
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) { if (e.key === "Escape") { setMegaOpen(null); setAllMenuOpen(false) } }
-    document.addEventListener("keydown", onKey)
-    return () => document.removeEventListener("keydown", onKey)
-  }, [])
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-navbar shadow-sm">
@@ -233,32 +198,28 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Row 2: Category bar */}
-      <nav className="hidden border-t border-border bg-foreground md:block" aria-label="Department navigation">
-        <div className="mx-auto flex max-w-[1400px] items-center overflow-x-auto px-4 scrollbar-none">
-          {/* All menu */}
-          <div className="relative" onMouseEnter={() => setAllMenuOpen(true)} onMouseLeave={() => setAllMenuOpen(false)}>
-            <button className="flex items-center gap-1.5 py-2 pr-4 text-sm font-bold text-background transition-colors hover:text-primary" aria-expanded={allMenuOpen} aria-haspopup="true" onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setAllMenuOpen(!allMenuOpen) } if (e.key === "Escape") setAllMenuOpen(false) }}>
-              <Menu className="h-4 w-4" /> All
-            </button>
-            {allMenuOpen && (
-              <div className="absolute left-0 top-full z-50 w-64 rounded-b-lg border border-border bg-card py-2 shadow-xl" role="menu">
-                {departments.map((dept) => (
-                  <Link key={dept.slug} href={`/departments/${dept.slug}`} role="menuitem" className="flex items-center justify-between px-4 py-2.5 text-sm text-card-foreground transition-colors hover:bg-muted">
-                    {dept.name} <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Slim nav links */}
-          <Link href="/departments" className="whitespace-nowrap px-3 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Shop All</Link>
-          <Link href="/quote" className="whitespace-nowrap px-3 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Request a Quote</Link>
-          <Link href="/deals" className="whitespace-nowrap px-3 py-2 text-[13px] font-bold text-sale">Deals</Link>
-          <Link href="/powerlink" className="whitespace-nowrap px-3 py-2 text-[13px] font-medium text-accent transition-colors hover:text-accent/80">Power Link</Link>
-          <div className="flex-1" />
-          <QuickOrderPad />
+      {/* Row 2: Main navigation bar */}
+      <nav className="hidden border-t border-border bg-foreground md:block" aria-label="Main navigation">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-center px-4">
+          {[
+            { label: "Home", href: "/", icon: Home },
+            { label: "About Us", href: "/about", icon: Users },
+            { label: "All Products", href: "/departments", icon: Package },
+            { label: "Electrical", href: "/departments/electrical", icon: Zap },
+            { label: "Lighting", href: "/departments/lighting", icon: Lightbulb },
+            { label: "Solar", href: "/departments/solar", icon: Sun },
+            { label: "Plumbing", href: "/departments/plumbing", icon: Plumbing },
+            { label: "Contact Us", href: "/contact", icon: Phone },
+          ].map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="flex items-center gap-1.5 whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-background/80 transition-colors hover:text-primary"
+            >
+              <item.icon className="h-3.5 w-3.5" />
+              {item.label}
+            </Link>
+          ))}
         </div>
       </nav>
 
