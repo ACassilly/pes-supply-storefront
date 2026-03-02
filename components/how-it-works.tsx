@@ -1,28 +1,30 @@
+import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Search, Layers, ShoppingCart } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const steps = [
   {
     number: "01",
+    image: "/images/step-find-part.jpg",
     title: "Find a Part",
-    description: "Search by SKU, keyword, or brand across 10 departments and 100k+ products.",
-    link: { label: "Browse Products", href: "/departments" },
-    icon: Search,
+    description: "Search 40,000+ SKUs by part number, keyword, or brand. Electrical, solar, HVAC, plumbing, generators -- all in one catalog.",
+    link: { label: "Browse 10 Departments", href: "/departments" },
   },
   {
     number: "02",
-    title: "Build a Kit or Pallet / Container Deal",
-    description: "Bundle into a kit, request pallet pricing, or go container-load for max savings.",
-    link: { label: "Request a Quote", href: "/quote" },
-    icon: Layers,
+    image: "/images/step-build-kit.jpg",
+    title: "Build a Kit",
+    description: "Bundle what you need into a ready-to-ship kit. We build project kits and full pallet or container deals for:",
+    link: { label: "Request a Kit Quote", href: "/quote" },
+    kits: ["Solar", "Battery & ESS", "Generator", "HVAC", "EV Charger"],
   },
   {
     number: "03",
+    image: "/images/step-book-order.jpg",
     title: "Book Your Order",
-    description: "Check out online, call your rep, or submit a PO. We ship same day.",
-    link: { label: "Shipping Details", href: "/shipping" },
-    icon: ShoppingCart,
+    description: "Check out online, call your rep, or email a PO. Orders placed by 2 PM ET ship same day from the nearest of our 10 locations.",
+    link: { label: "Shipping & Delivery", href: "/shipping" },
   },
 ]
 
@@ -39,20 +41,28 @@ export function HowItWorks() {
 
         <div className="grid gap-3 sm:grid-cols-3">
           {steps.map((step, i) => (
-            <div key={step.number} className="relative flex items-start gap-3 rounded-lg border border-border bg-card p-3">
-              {/* Number + Icon */}
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                <step.icon className="h-4 w-4 text-primary" />
+            <div key={step.number} className="relative flex flex-col overflow-hidden rounded-lg border border-border bg-card">
+              {/* Photo */}
+              <div className="relative aspect-[16/9] w-full">
+                <Image src={step.image} alt={step.title} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover" loading="lazy" />
+                <div className="absolute left-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[10px] font-black text-primary-foreground">{step.number}</div>
               </div>
 
-              <div className="min-w-0 flex-1">
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-[10px] font-black text-primary">{step.number}</span>
-                  <h3 className="text-xs font-bold text-card-foreground">{step.title}</h3>
-                </div>
+              <div className="flex flex-1 flex-col p-3">
+                <h3 className="text-xs font-bold text-card-foreground">{step.title}</h3>
                 <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{step.description}</p>
-                <Link href={step.link.href} className="mt-1 inline-block text-[11px] font-semibold text-primary hover:underline">
-                  {step.link.label}
+
+                {/* Kit types for step 2 */}
+                {step.kits && (
+                  <div className="mt-1.5 flex flex-wrap gap-1">
+                    {step.kits.map((kit) => (
+                      <span key={kit} className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{kit}</span>
+                    ))}
+                  </div>
+                )}
+
+                <Link href={step.link.href} className="mt-2 inline-block text-[11px] font-semibold text-primary hover:underline">
+                  {step.link.label} {"\u2192"}
                 </Link>
               </div>
 

@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronDown, ChevronRight, Phone, MessageCircle, Mail, Heart, RotateCcw, Home, Users, Package, Zap, Lightbulb, Sun, Wrench as Plumbing } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronDown, ChevronRight, Phone, MessageCircle, Mail, Heart, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
@@ -45,12 +45,12 @@ function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
 }
 
 /* Nav items with optional hover dropdown subcategories (2x2 grid with thumbnails) */
-const navItems: { label: string; href: string; icon: React.ComponentType<{ className?: string }>; dropdown?: { name: string; href: string; image: string }[]; contactDropdown?: boolean }[] = [
-  { label: "Home", href: "/", icon: Home },
-  { label: "About Us", href: "/about", icon: Users },
-  { label: "All Products", href: "/departments", icon: Package },
+const navItems: { label: string; href: string; dropdown?: { name: string; href: string; image: string }[]; contactDropdown?: boolean }[] = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "All Products", href: "/departments" },
   {
-    label: "Electrical", href: "/departments/electrical", icon: Zap,
+    label: "Electrical", href: "/departments/electrical",
     dropdown: [
       { name: "Circuit Breakers & Panels", href: "/departments/electrical/circuit-breakers-panels", image: "/images/nav-circuit-breakers.jpg" },
       { name: "Wire & Cable", href: "/departments/electrical/wire-cable", image: "/images/nav-wire-cable.jpg" },
@@ -59,7 +59,7 @@ const navItems: { label: string; href: string; icon: React.ComponentType<{ class
     ],
   },
   {
-    label: "Lighting", href: "/departments/lighting", icon: Lightbulb,
+    label: "Lighting", href: "/departments/lighting",
     dropdown: [
       { name: "LED Fixtures", href: "/departments/lighting/led-fixtures", image: "/images/nav-led-fixtures.jpg" },
       { name: "High Bay & Industrial", href: "/departments/lighting/high-bay", image: "/images/nav-high-bay.jpg" },
@@ -68,7 +68,7 @@ const navItems: { label: string; href: string; icon: React.ComponentType<{ class
     ],
   },
   {
-    label: "Solar", href: "/departments/solar", icon: Sun,
+    label: "Solar", href: "/departments/solar",
     dropdown: [
       { name: "Solar Panels", href: "/departments/solar/solar-panels", image: "/images/nav-solar-panels.jpg" },
       { name: "Inverters & Optimizers", href: "/departments/solar/inverters-optimizers", image: "/images/nav-inverter.jpg" },
@@ -77,7 +77,7 @@ const navItems: { label: string; href: string; icon: React.ComponentType<{ class
     ],
   },
   {
-    label: "Plumbing", href: "/departments/plumbing", icon: Plumbing,
+    label: "Plumbing", href: "/departments/plumbing",
     dropdown: [
       { name: "Pipe & Fittings", href: "/departments/plumbing/pipe-fittings", image: "/images/nav-pipe-fittings.jpg" },
       { name: "Valves", href: "/departments/plumbing/valves", image: "/images/nav-valves.jpg" },
@@ -85,7 +85,7 @@ const navItems: { label: string; href: string; icon: React.ComponentType<{ class
       { name: "Pumps", href: "/departments/plumbing/pumps", image: "/images/nav-pump.jpg" },
     ],
   },
-  { label: "Contact Us", href: "/contact", icon: Phone, contactDropdown: true },
+  { label: "Contact Us", href: "/contact", contactDropdown: true },
 ]
 
 export function Navbar() {
@@ -198,9 +198,8 @@ export function Navbar() {
               >
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1.5 whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-background/80 transition-colors hover:text-primary"
+                  className="flex items-center gap-1 whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-background/80 transition-colors hover:text-primary"
                 >
-                  <item.icon className="h-3.5 w-3.5" />
                   {item.label}
                   {hasDropdown && <ChevronDown className="ml-0.5 h-3 w-3 opacity-50" />}
                 </Link>
