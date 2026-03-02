@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Send, CheckCircle } from "lucide-react"
 
 export function NewsletterCta() {
@@ -14,15 +15,16 @@ export function NewsletterCta() {
 
   return (
     <section className="relative overflow-hidden bg-foreground py-16">
-      {/* Subtle grid pattern */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: "linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-        }}
-        aria-hidden="true"
+      {/* Background photo */}
+      <Image
+        src="/images/newsletter-bg.jpg"
+        alt=""
+        fill
+        className="object-cover opacity-20"
+        sizes="100vw"
+        loading="lazy"
       />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/90 to-foreground/70" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-7xl px-4">
         <div className="mx-auto max-w-2xl text-center">

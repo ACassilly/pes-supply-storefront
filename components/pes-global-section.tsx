@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Globe, Route, ShieldCheck, Truck, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
@@ -38,16 +39,28 @@ export function PesGlobalSection() {
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {pillars.map((p) => (
-            <div key={p.title} className="rounded-xl border border-border bg-card p-5">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <p.icon className="h-5 w-5 text-primary" />
-              </div>
-              <h3 className="text-sm font-bold text-card-foreground">{p.title}</h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{p.desc}</p>
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
+          {/* Photo strip */}
+          <div className="grid grid-cols-2 gap-3 lg:w-2/5">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+              <Image src="/images/global-sourcing.jpg" alt="International container port -- PES Global sourcing network" fill className="object-cover" sizes="(max-width: 1024px) 50vw, 20vw" loading="lazy" />
             </div>
-          ))}
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+              <Image src="/images/warehouse-logistics.jpg" alt="PES distribution warehouse with organized electrical supplies" fill className="object-cover" sizes="(max-width: 1024px) 50vw, 20vw" loading="lazy" />
+            </div>
+          </div>
+          {/* Pillar cards */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:w-3/5">
+            {pillars.map((p) => (
+              <div key={p.title} className="rounded-xl border border-border bg-card p-5">
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <p.icon className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-sm font-bold text-card-foreground">{p.title}</h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{p.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="mt-6 text-center">

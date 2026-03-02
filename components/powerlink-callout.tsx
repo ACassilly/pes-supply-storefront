@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Zap, Users, MapPin, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -41,18 +42,17 @@ export function PowerLinkCallout() {
             </div>
           </div>
 
-          {/* Right: CTA */}
+          {/* Right: Photo + CTA */}
           <div className="flex shrink-0 flex-col items-center gap-3">
-            <div className="rounded-xl border border-accent/20 bg-card px-6 py-5 text-center shadow-sm">
-              <p className="text-sm font-semibold text-foreground">Licensed contractor?</p>
-              <p className="mt-1 text-xs text-muted-foreground">Get listed in under 5 minutes.</p>
-              <Button asChild className="mt-3 gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">
+            <div className="relative h-48 w-64 overflow-hidden rounded-xl border border-accent/20 shadow-sm md:h-56 md:w-72">
+              <Image src="/images/powerlink-installer.jpg" alt="Installer meeting a homeowner through Power Link" fill className="object-cover" sizes="288px" loading="lazy" />
+            </div>
+            <div className="text-center">
+              <Button asChild className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90">
                 <Link href="/powerlink">Join Power Link <ArrowRight className="h-3.5 w-3.5" /></Link>
               </Button>
+              <p className="mt-2 text-xs text-muted-foreground">Licensed contractors only. Free to join.</p>
             </div>
-            <Link href="/powerlink" className="text-xs text-muted-foreground hover:text-accent hover:underline">
-              Learn how it works
-            </Link>
           </div>
         </div>
       </div>
