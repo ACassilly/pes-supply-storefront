@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronDown, ChevronRight, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw, Home, Users, Package, Zap, Lightbulb, Sun, Wrench as Plumbing } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronDown, ChevronRight, Phone, MessageCircle, Mail, Heart, RotateCcw, Home, Users, Package, Zap, Lightbulb, Sun, Wrench as Plumbing } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
@@ -93,8 +93,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [cartOpen, setCartOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
-  const [langOpen, setLangOpen] = useState(false)
-  const [lang, setLang] = useState<"en" | "es">("en")
+  const [acctOpen, setAcctOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [searchDept, setSearchDept] = useState("All Departments")
   const [openDrop, setOpenDrop] = useState<string | null>(null)
@@ -196,45 +195,28 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Language / Currency selector */}
-        <div className="relative hidden md:block" onMouseEnter={() => setLangOpen(true)} onMouseLeave={() => setLangOpen(false)}>
-          <button className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted" aria-expanded={langOpen} aria-haspopup="true">
-            <Globe className="h-4 w-4 text-primary" />
-            <span className="text-sm font-bold uppercase">{lang}</span>
-            <ChevronDown className={`h-3 w-3 text-muted-foreground transition-transform ${langOpen ? "rotate-180" : ""}`} />
-          </button>
-          {langOpen && (
-            <div className="absolute right-0 top-full z-50 w-56 rounded-lg border border-border bg-card py-3 shadow-xl">
-              <p className="px-4 pb-2 text-xs font-semibold text-foreground">Select your preferred language</p>
-              <button onClick={() => { setLang("en"); setLangOpen(false) }} className={`flex w-full items-center gap-3 px-4 py-2 text-sm transition-colors hover:bg-muted ${lang === "en" ? "text-primary font-semibold" : "text-card-foreground"}`}>
-                <span className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${lang === "en" ? "border-primary" : "border-muted-foreground/40"}`}>
-                  {lang === "en" && <span className="h-2 w-2 rounded-full bg-primary" />}
-                </span>
-                English | $ USD
-              </button>
-              <button onClick={() => { setLang("es"); setLangOpen(false) }} className={`flex w-full items-center gap-3 px-4 py-2 text-sm transition-colors hover:bg-muted ${lang === "es" ? "text-primary font-semibold" : "text-card-foreground"}`}>
-                <span className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${lang === "es" ? "border-primary" : "border-muted-foreground/40"}`}>
-                  {lang === "es" && <span className="h-2 w-2 rounded-full bg-primary" />}
-                </span>
-                {"Espa\u00f1ol | $ USD"}
-              </button>
-            </div>
-          )}
-        </div>
-
         <div className="flex shrink-0 items-center gap-0.5">
-          <Link href="/account" className="hidden items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted md:flex" aria-label="Sign in or account">
-            <User className="h-5 w-5" />
-            <span className="hidden text-sm font-bold lg:inline">Sign In</span>
-          </Link>
-          <Link href="/orders" className="hidden items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted md:flex" aria-label="Orders">
-            <RotateCcw className="h-4.5 w-4.5" />
-            <span className="hidden text-sm font-bold lg:inline">Orders</span>
-          </Link>
-          <Link href="/lists" className="hidden items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted md:flex" aria-label="Saved lists">
-            <Heart className="h-4.5 w-4.5" />
-            <span className="hidden text-sm font-bold lg:inline">Lists</span>
-          </Link>
+          {/* My Account -- combines Sign In, Orders, Lists */}
+          <div className="relative hidden md:block" onMouseEnter={() => setAcctOpen(true)} onMouseLeave={() => setAcctOpen(false)}>
+            <button className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted" aria-expanded={acctOpen} aria-haspopup="true">
+              <User className="h-5 w-5" />
+              <span className="hidden text-sm font-bold lg:inline">My Account</span>
+              <ChevronDown className="h-3 w-3 text-muted-foreground" />
+            </button>
+            {acctOpen && (
+              <div className="absolute right-0 top-full z-50 w-48 rounded-lg border border-border bg-card py-2 shadow-xl">
+                <Link href="/account" className="flex items-center gap-2.5 px-4 py-2 text-sm text-card-foreground transition-colors hover:bg-muted">
+                  <User className="h-4 w-4 text-primary" /> Sign In
+                </Link>
+                <Link href="/orders" className="flex items-center gap-2.5 px-4 py-2 text-sm text-card-foreground transition-colors hover:bg-muted">
+                  <RotateCcw className="h-4 w-4 text-primary" /> Orders
+                </Link>
+                <Link href="/lists" className="flex items-center gap-2.5 px-4 py-2 text-sm text-card-foreground transition-colors hover:bg-muted">
+                  <Heart className="h-4 w-4 text-primary" /> Saved Lists
+                </Link>
+              </div>
+            )}
+          </div>
           <button onClick={() => setCartOpen(true)} className="relative flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted" aria-label={`Cart with ${cartCount} items`}>
             <div className="relative">
               <ShoppingCart className="h-5 w-5" />

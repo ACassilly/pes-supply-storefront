@@ -1,6 +1,5 @@
 import Image from "next/image"
 import { Phone, Mail, MapPin } from "lucide-react"
-import { NewsletterForm } from "./newsletter-form"
 
 const footerLinks = [
   {
@@ -108,15 +107,6 @@ export function SiteFooter() {
               </ul>
             </div>
           ))}
-        </div>
-
-        {/* Newsletter */}
-        <div className="mt-10 flex flex-col items-center gap-4 border-t border-background/10 pt-8 text-center md:flex-row md:text-left">
-          <div className="flex-1">
-            <h3 className="text-sm font-semibold text-background">Get trade pricing alerts</h3>
-            <p className="mt-0.5 text-xs text-background/50">New product drops, volume pricing, and contractor-only deals. No spam.</p>
-          </div>
-          <NewsletterForm />
         </div>
 
         {/* Bottom */}

@@ -12,7 +12,7 @@ const highlights = [
 
 export function ProCtaBanner() {
   return (
-    <section className="border-y border-border bg-foreground" aria-label="Open a Pro Account">
+    <section id="pro-account" className="scroll-mt-24 border-y border-border bg-foreground" aria-label="Open a Pro Account">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-10 md:flex-row md:gap-10">
         <div className="relative h-20 w-32 shrink-0 overflow-hidden rounded-lg md:h-24 md:w-40">
           <Image src="/images/team-warehouse.jpg" alt="PES Supply warehouse team" fill className="object-cover" sizes="160px" loading="lazy" />
