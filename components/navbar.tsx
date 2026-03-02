@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronDown, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw, Home, Users, Package, Zap, Lightbulb, Sun, Wrench as Plumbing } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronDown, ChevronRight, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw, Home, Users, Package, Zap, Lightbulb, Sun, Wrench as Plumbing } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
@@ -44,6 +44,50 @@ function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
   )
 }
 
+/* Nav items with optional hover dropdown subcategories (2x2 grid with thumbnails) */
+const navItems: { label: string; href: string; icon: React.ComponentType<{ className?: string }>; dropdown?: { name: string; href: string; image: string }[] }[] = [
+  { label: "Home", href: "/", icon: Home },
+  { label: "About Us", href: "/about", icon: Users },
+  { label: "All Products", href: "/departments", icon: Package },
+  {
+    label: "Electrical", href: "/departments/electrical", icon: Zap,
+    dropdown: [
+      { name: "Circuit Breakers & Panels", href: "/departments/electrical/circuit-breakers-panels", image: "/images/nav-circuit-breakers.jpg" },
+      { name: "Wire & Cable", href: "/departments/electrical/wire-cable", image: "/images/nav-wire-cable.jpg" },
+      { name: "Conduit & Fittings", href: "/departments/electrical/conduit-fittings", image: "/images/nav-conduit.jpg" },
+      { name: "Switches & Outlets", href: "/departments/electrical/switches-outlets", image: "/images/nav-switches.jpg" },
+    ],
+  },
+  {
+    label: "Lighting", href: "/departments/lighting", icon: Lightbulb,
+    dropdown: [
+      { name: "LED Fixtures", href: "/departments/lighting/led-fixtures", image: "/images/nav-led-fixtures.jpg" },
+      { name: "High Bay & Industrial", href: "/departments/lighting/high-bay", image: "/images/nav-high-bay.jpg" },
+      { name: "Outdoor & Area Lighting", href: "/departments/lighting/outdoor-area", image: "/images/nav-outdoor-light.jpg" },
+      { name: "Bulbs & Lamps", href: "/departments/lighting/bulbs-lamps", image: "/images/nav-bulbs.jpg" },
+    ],
+  },
+  {
+    label: "Solar", href: "/departments/solar", icon: Sun,
+    dropdown: [
+      { name: "Solar Panels", href: "/departments/solar/solar-panels", image: "/images/nav-solar-panels.jpg" },
+      { name: "Inverters & Optimizers", href: "/departments/solar/inverters-optimizers", image: "/images/nav-inverter.jpg" },
+      { name: "Solar Kits", href: "/departments/solar/solar-kits", image: "/images/nav-solar-kit.jpg" },
+      { name: "Batteries & ESS", href: "/departments/solar/batteries-ess", image: "/images/nav-battery.jpg" },
+    ],
+  },
+  {
+    label: "Plumbing", href: "/departments/plumbing", icon: Plumbing,
+    dropdown: [
+      { name: "Pipe & Fittings", href: "/departments/plumbing/pipe-fittings", image: "/images/nav-pipe-fittings.jpg" },
+      { name: "Valves", href: "/departments/plumbing/valves", image: "/images/nav-valves.jpg" },
+      { name: "Water Heaters", href: "/departments/plumbing/water-heaters", image: "/images/nav-water-heater.jpg" },
+      { name: "Pumps", href: "/departments/plumbing/pumps", image: "/images/nav-pump.jpg" },
+    ],
+  },
+  { label: "Contact Us", href: "/contact", icon: Phone },
+]
+
 export function Navbar() {
   const { count: cartCount, total: cartTotal } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -53,6 +97,16 @@ export function Navbar() {
   const [lang, setLang] = useState<"en" | "es">("en")
   const [searchQuery, setSearchQuery] = useState("")
   const [searchDept, setSearchDept] = useState("All Departments")
+  const [openDrop, setOpenDrop] = useState<string | null>(null)
+  const dropTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const enterDrop = useCallback((label: string) => {
+    if (dropTimer.current) clearTimeout(dropTimer.current)
+    setOpenDrop(label)
+  }, [])
+  const leaveDrop = useCallback(() => {
+    dropTimer.current = setTimeout(() => setOpenDrop(null), 120)
+  }, [])
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -201,24 +255,52 @@ export function Navbar() {
       {/* Row 2: Main navigation bar */}
       <nav className="hidden border-t border-border bg-foreground md:block" aria-label="Main navigation">
         <div className="mx-auto flex max-w-[1400px] items-center justify-center px-4">
-          {[
-            { label: "Home", href: "/", icon: Home },
-            { label: "About Us", href: "/about", icon: Users },
-            { label: "All Products", href: "/departments", icon: Package },
-            { label: "Electrical", href: "/departments/electrical", icon: Zap },
-            { label: "Lighting", href: "/departments/lighting", icon: Lightbulb },
-            { label: "Solar", href: "/departments/solar", icon: Sun },
-            { label: "Plumbing", href: "/departments/plumbing", icon: Plumbing },
-            { label: "Contact Us", href: "/contact", icon: Phone },
-          ].map((item) => (
-            <Link
+          {navItems.map((item) => (
+            <div
               key={item.label}
-              href={item.href}
-              className="flex items-center gap-1.5 whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-background/80 transition-colors hover:text-primary"
+              className="relative"
+              onMouseEnter={() => item.dropdown ? enterDrop(item.label) : undefined}
+              onMouseLeave={item.dropdown ? leaveDrop : undefined}
             >
-              <item.icon className="h-3.5 w-3.5" />
-              {item.label}
-            </Link>
+              <Link
+                href={item.href}
+                className="flex items-center gap-1.5 whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-background/80 transition-colors hover:text-primary"
+              >
+                <item.icon className="h-3.5 w-3.5" />
+                {item.label}
+                {item.dropdown && <ChevronDown className="ml-0.5 h-3 w-3 opacity-50" />}
+              </Link>
+
+              {/* Dropdown */}
+              {item.dropdown && openDrop === item.label && (
+                <div
+                  className="absolute left-1/2 top-full z-50 w-[480px] -translate-x-1/2 rounded-b-xl border border-border bg-card p-4 shadow-xl"
+                  onMouseEnter={() => enterDrop(item.label)}
+                  onMouseLeave={leaveDrop}
+                >
+                  <div className="grid grid-cols-2 gap-2">
+                    {item.dropdown.map((sub) => (
+                      <Link
+                        key={sub.name}
+                        href={sub.href}
+                        className="flex items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-muted"
+                      >
+                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-border bg-muted/30">
+                          <Image src={sub.image} alt={sub.name} fill sizes="48px" className="object-cover" />
+                        </div>
+                        <span className="text-sm font-medium text-card-foreground">{sub.name}</span>
+                        <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-3 border-t border-border pt-3">
+                    <Link href={item.href} className="text-sm font-semibold text-primary hover:underline">
+                      {`Shop All ${item.label} \u2192`}
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </nav>
