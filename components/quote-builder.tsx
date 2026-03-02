@@ -17,10 +17,10 @@ const categories = [
 ]
 
 const benefits = [
-  "Volume pricing on pallet and container quantities",
-  "Custom BOM review by our engineering team",
-  "BABA compliance documentation included",
-  "Net-30 terms for qualified accounts",
+  "Pallet and container pricing -- not retail markup",
+  "Our team reviews your BOM and flags substitutions",
+  "BABA documentation included at no extra charge",
+  "Net-30 terms. No deposit required on qualified accounts.",
 ]
 
 export function QuoteBuilder() {
@@ -44,10 +44,10 @@ export function QuoteBuilder() {
               Project Quotes
             </p>
             <h2 id="quote-heading" className="mb-3 text-xl font-bold text-primary-foreground md:text-2xl text-balance">
-              Get Your Custom Quote
+              Tell us what you need. We price it.
             </h2>
             <p className="mb-6 max-w-md text-sm leading-relaxed text-primary-foreground/70">
-              Select the departments you need, and our team will build a custom quote with volume pricing, lead times, and compliance documentation.
+              Pick your departments, send a parts list or project scope, and we come back with volume pricing, lead times, and delivery coordination.
             </p>
 
             <ul className="flex flex-col gap-2.5">

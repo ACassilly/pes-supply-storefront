@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useRef, useEffect, useCallback } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -102,11 +101,11 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-navbar shadow-sm">
       {/* Row 1: Logo + Search + Account + Cart */}
       <div className="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-2 md:gap-5">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          <div className="flex h-11 items-center rounded-lg bg-foreground px-2 md:h-12 md:px-2.5">
-            <Image src="/images/pes-logo.png" alt="PES Supply" width={120} height={120} className="h-8 w-auto brightness-0 invert md:h-9" priority />
+        <Link href="/" className="flex shrink-0 items-center gap-2">
+          <div className="flex h-10 items-center gap-1.5 md:h-11">
+            <span className="text-2xl font-black tracking-tight text-primary md:text-[28px]">PES</span>
+            <span className="hidden text-2xl font-light tracking-tight text-foreground min-[480px]:inline md:text-[28px]">Supply</span>
           </div>
-          <span className="hidden text-[10px] font-medium leading-tight text-muted-foreground min-[480px]:block">A PES Global Company</span>
         </Link>
 
         {/* Search */}

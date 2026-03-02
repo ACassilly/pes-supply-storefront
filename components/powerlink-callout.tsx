@@ -22,11 +22,11 @@ export function PowerLinkCallout() {
               <span className="text-xs font-bold uppercase tracking-wider text-accent">Power Link</span>
             </div>
             <h2 className="text-xl font-bold text-foreground md:text-2xl">
-              We don{"'"}t just sell you materials. We send you customers.
+              Your material supplier that sends you work.
             </h2>
             <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
-              Power Link is PES{"'"}s installer directory. Homeowners and property managers search by ZIP code and trade, and we connect them to you.
-              No referral fees. No contracts. Just qualified leads from the same company that ships your materials.
+              Power Link is our contractor directory. When a homeowner or property manager needs an electrician, solar installer, or plumber, they search PES by ZIP code -- and we send them to you.
+              No referral fee. No contract. No catch.
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-5 md:justify-start">
               {stats.map((s) => (

@@ -18,8 +18,8 @@ export function ProCtaBanner() {
           <Image src="/images/team-warehouse.jpg" alt="PES Supply warehouse team" fill className="object-cover" sizes="160px" loading="lazy" />
         </div>
         <div className="flex-1 text-center md:text-left">
-          <h2 className="text-lg font-bold text-background md:text-xl">One store. One team. Everything handled.</h2>
-          <p className="mt-1 text-sm text-background/60">Vendors list products on PES. We handle fulfillment, support, and warranties. You see one store. You get one invoice.</p>
+          <h2 className="text-lg font-bold text-background md:text-xl">Stop juggling vendors. Start ordering from one place.</h2>
+          <p className="mt-1 text-sm text-background/60">169 brands. 10 departments. One account rep, one invoice, one tracking number. We handle the freight -- you handle the job.</p>
           <div className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-1 md:justify-start">
             {highlights.map((h) => (
               <span key={h.text} className="flex items-center gap-1.5 text-xs text-background/70">

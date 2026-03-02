@@ -1,10 +1,10 @@
 import { Truck, ShieldCheck, Building2, Zap } from "lucide-react"
 
 const props = [
-  { icon: ShieldCheck, label: "169 Authorized Brands", sub: "Full OEM warranties on every order" },
-  { icon: Truck, label: "Portlandia Logistics", sub: "Managed shipping, parcel to full truckload" },
-  { icon: Building2, label: "BABA Compliant", sub: "Documentation ships with your order" },
-  { icon: Zap, label: "Power Link Network", sub: "We send qualified leads to our contractors" },
+  { icon: ShieldCheck, label: "Full OEM Warranties", sub: "169 brands. Factory-direct. No gray market." },
+  { icon: Truck, label: "Free Freight $999+", sub: "Same-day processing. 10 ship points." },
+  { icon: Building2, label: "BABA Ready", sub: "Compliance docs included. No extra charge." },
+  { icon: Zap, label: "Power Link", sub: "We send qualified leads to your business." },
 ]
 
 export function ValuePropStrip() {

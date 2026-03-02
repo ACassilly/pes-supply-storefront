@@ -8,24 +8,24 @@ import { ChevronLeft, ChevronRight, ArrowRight, Truck, ShieldCheck, Phone } from
 
 const slides = [
   {
-    eyebrow: "PES Supply | Authorized Distributor",
-    headline: "Everything for the job. One order. Ships today.",
-    subline: "40,000+ products from 169 brands. Full OEM warranties on every item. Orders processed same day, shipped from the nearest stocking location.",
-    cta: "Shop All Products", ctaHref: "/departments", ctaSecondary: "Open a Pro Account", ctaSecondaryHref: "/pro",
+    eyebrow: "Wholesale Electrical, Solar & Building Materials",
+    headline: "One PO. One invoice. Every trade covered.",
+    subline: "Electrical, solar, HVAC, plumbing, tools, safety, EV, and generators from 169 authorized brands. Trade pricing with full OEM warranties. Orders ship same day from 10 stocking locations.",
+    cta: "Browse Departments", ctaHref: "/departments", ctaSecondary: "Open a Pro Account", ctaSecondaryHref: "/pro",
     image: "/images/hero-commercial.jpg",
   },
   {
     eyebrow: "Power Link Installer Network",
-    headline: "Your supplier that sends you customers.",
-    subline: "Power Link connects homeowners and property managers to PES contractors by ZIP code and trade. Get qualified leads just for being a customer.",
-    cta: "Join Power Link", ctaHref: "/powerlink", ctaSecondary: "Learn More", ctaSecondaryHref: "/powerlink",
+    headline: "Buy materials from us. We send you customers back.",
+    subline: "Power Link is our contractor directory. Homeowners search by ZIP and trade -- we route them to you. No referral fees. No contracts. Just leads from the company that already ships your materials.",
+    cta: "Join Power Link", ctaHref: "/powerlink", ctaSecondary: "See How It Works", ctaSecondaryHref: "/powerlink",
     image: "/images/hero-workshop.jpg",
   },
   {
-    eyebrow: "BABA Compliant | PES Global Sourcing",
-    headline: "Procurement ready. Compliance built in.",
-    subline: "Build America, Buy America documentation ships with your order. Portlandia Logistics coordinates fulfillment across our nationwide stocking network.",
-    cta: "BABA Products", ctaHref: "/baba", ctaSecondary: "Request a Quote", ctaSecondaryHref: "/quote",
+    eyebrow: "BABA Compliant | Government & Municipal",
+    headline: "Compliance paperwork done before you ask.",
+    subline: "Build America, Buy America documentation ships with qualifying orders. BABA-eligible products flagged in the catalog. W-9, COI, and credit apps available on demand.",
+    cta: "BABA Catalog", ctaHref: "/baba", ctaSecondary: "Request a Quote", ctaSecondaryHref: "/quote",
     image: "/images/hero-solar.jpg",
   },
 ]
@@ -108,9 +108,9 @@ export function HeroBanner() {
           {/* Right: key stats -- hidden on mobile */}
           <div className="hidden w-64 shrink-0 flex-col gap-3 md:flex">
             {[
-              { stat: "40,000+", label: "Products across 10 departments" },
-              { stat: "169", label: "Authorized brands, full OEM warranties" },
-              { stat: "Same Day", label: "Processing on orders before 2 PM ET" },
+              { stat: "40,000+", label: "SKUs. Electrical to generators." },
+              { stat: "169", label: "Brands. All authorized. All warrantied." },
+              { stat: "Same Day", label: "Ships if ordered before 2 PM ET." },
             ].map((item) => (
               <div key={item.stat} className="rounded-lg border border-background/10 bg-background/5 px-4 py-3 backdrop-blur-sm">
                 <p className="text-lg font-black text-primary">{item.stat}</p>
@@ -124,18 +124,17 @@ export function HeroBanner() {
       {/* Slim trust strip -- matches MaxWarehouse 4-pillar pattern */}
       <div className="border-b border-border bg-muted/60">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-1 px-4 py-2 text-[11px] md:justify-between">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-            <span className="flex items-baseline gap-1">
-              <span className="text-xs font-bold text-foreground">Thousands</span>
-              <span className="text-muted-foreground">of contractors trust PES</span>
-            </span>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-muted-foreground">
+            <span className="flex items-center gap-1"><Truck className="h-3 w-3 text-primary" /> Free freight $999+</span>
             <span className="hidden text-border sm:inline">|</span>
-            <span className="text-muted-foreground">40,000+ products across 10 departments</span>
+            <span className="flex items-center gap-1"><ShieldCheck className="h-3 w-3 text-primary" /> Full OEM warranties</span>
+            <span className="hidden text-border sm:inline">|</span>
+            <span>Net-30 terms for qualified accounts</span>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-muted-foreground">
-            <span className="flex items-center gap-1"><Truck className="h-3 w-3 text-primary" /> Same-Day Shipping</span>
-            <span className="flex items-center gap-1"><ShieldCheck className="h-3 w-3 text-primary" /> Authorized Distributor</span>
-            <a href="tel:8888760007" className="flex items-center gap-1 transition-colors hover:text-primary"><Phone className="h-3 w-3 text-primary" /> (888) 876-0007</a>
+            <span>Orders by 2 PM ET ship same day</span>
+            <span className="hidden text-border sm:inline">|</span>
+            <a href="tel:8888760007" className="flex items-center gap-1 font-semibold transition-colors hover:text-primary"><Phone className="h-3 w-3 text-primary" /> (888) 876-0007</a>
           </div>
         </div>
       </div>
