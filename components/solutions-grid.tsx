@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button"
 const departments = [
   { name: "Electrical", slug: "electrical", count: "12,400+", image: "/images/cat-electrical.jpg", subs: ["Circuit Breakers", "Wire & Cable", "Conduit", "Switches & Outlets"] },
   { name: "Lighting", slug: "lighting", count: "5,200+", image: "/images/cat-lighting.jpg", subs: ["LED Fixtures", "High Bay", "Emergency & Exit", "Controls"] },
-  { name: "Solar & Renewables", slug: "solar", count: "4,200+", image: "/images/product-solar-panel.jpg", subs: ["Solar Panels", "Inverters", "Racking", "Batteries"] },
-  { name: "Tools & Test", slug: "tools", count: "6,800+", image: "/images/product-tools.jpg", subs: ["Power Tools", "Hand Tools", "Meters", "Fish Tape"] },
+  { name: "Solar & Renewables", slug: "solar", count: "4,200+", image: "/images/cat-racking.jpg", subs: ["Solar Panels", "Inverters", "Racking", "Batteries"] },
+  { name: "Tools & Test", slug: "tools", count: "6,800+", image: "/images/product-clamp-meter.jpg", subs: ["Power Tools", "Hand Tools", "Meters", "Fish Tape"] },
   { name: "HVAC", slug: "hvac", count: "3,600+", image: "/images/cat-hvac.jpg", subs: ["Mini Splits", "Thermostats", "Fans", "Heaters"] },
   { name: "Plumbing", slug: "plumbing", count: "2,900+", image: "/images/cat-plumbing.jpg", subs: ["Pipe & Fittings", "Valves", "Water Heaters", "Pumps"] },
   { name: "Generators", slug: "generators", count: "1,400+", image: "/images/cat-generators.jpg", subs: ["Standby", "Portable", "Transfer Switches", "Parts"] },

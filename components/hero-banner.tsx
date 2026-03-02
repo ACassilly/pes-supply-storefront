@@ -4,39 +4,31 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { StarRating } from "@/components/star-rating"
 import { ChevronLeft, ChevronRight, ArrowRight, Truck, ShieldCheck, Phone } from "lucide-react"
 
 const slides = [
   {
-    eyebrow: "Not a Marketplace -- An Authorized Distributor",
+    eyebrow: "PES Supply | Authorized Distributor",
     headline: "Everything for the job. One order. Ships today.",
-    subline: "40,000+ products from 169 brands. Full OEM warranties. In-house fulfillment by Portlandia Logistics from Louisville, KY. No grey market, no counterfeit risk.",
+    subline: "40,000+ products from 169 brands. Full OEM warranties on every item. Orders processed same day, shipped from the nearest stocking location.",
     cta: "Shop All Products", ctaHref: "/departments", ctaSecondary: "Open a Pro Account", ctaSecondaryHref: "/pro",
     image: "/images/hero-commercial.jpg",
   },
   {
     eyebrow: "Power Link Installer Network",
-    headline: "We sell you materials. Then we send you customers.",
-    subline: "Power Link connects homeowners and property managers to PES contractors by ZIP code and trade. No fees. No contracts. Just qualified leads from your supplier.",
+    headline: "Your supplier that sends you customers.",
+    subline: "Power Link connects homeowners and property managers to PES contractors by ZIP code and trade. Get qualified leads just for being a customer.",
     cta: "Join Power Link", ctaHref: "/powerlink", ctaSecondary: "Learn More", ctaSecondaryHref: "/powerlink",
     image: "/images/hero-workshop.jpg",
   },
   {
     eyebrow: "BABA Compliant | PES Global Sourcing",
     headline: "Procurement ready. Compliance built in.",
-    subline: "Build America, Buy America documentation ships with your order. PES Global sources domestically first. Portlandia Logistics fulfills in-house.",
+    subline: "Build America, Buy America documentation ships with your order. Portlandia Logistics coordinates fulfillment across our nationwide stocking network.",
     cta: "BABA Products", ctaHref: "/baba", ctaSecondary: "Request a Quote", ctaSecondaryHref: "/quote",
     image: "/images/hero-solar.jpg",
   },
 ]
-
-const heroProducts = [
-  { name: "Square D 200A Main Breaker Panel", slug: "square-d-200a-main-breaker-panel", price: 189.95, was: 234.00, rating: 4.7, reviews: 567, image: "/images/product-panel.jpg", tag: "In Stock" },
-  { name: "Jinko 580W Bifacial Module", slug: "jinko-580w-bifacial-module", price: 133.40, was: 174.00, rating: 4.8, reviews: 342, image: "/images/product-solar-panel.jpg", tag: "Ships Free" },
-  { name: "Milwaukee M18 FUEL Hammer Drill", slug: "milwaukee-m18-fuel-hammer-drill-kit", price: 199.00, was: 279.00, rating: 4.9, reviews: 1204, image: "/images/product-tools.jpg", tag: "Ships Today" },
-]
-
 
 
 export function HeroBanner() {
@@ -113,31 +105,18 @@ export function HeroBanner() {
             </div>
           </div>
 
-          {/* Right: compact product cards -- hidden on mobile */}
-          <div className="hidden w-72 shrink-0 flex-col gap-2 md:flex">
-            {heroProducts.map((p) => {
-              const pct = Math.round(((p.was - p.price) / p.was) * 100)
-              return (
-                <Link key={p.slug} href={`/products/${p.slug}`} className="group flex gap-2.5 rounded-md border border-background/10 bg-background/5 p-2 backdrop-blur-sm transition-colors hover:bg-background/10">
-                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded bg-muted">
-                    <Image src={p.image} alt={p.name} fill className="object-cover" sizes="56px" />
-                    <span className="absolute left-0 top-0 rounded-br bg-primary px-1 py-px text-[7px] font-bold uppercase text-primary-foreground">{p.tag}</span>
-                  </div>
-                  <div className="flex min-w-0 flex-1 flex-col justify-between py-px">
-                    <h3 className="line-clamp-1 text-[11px] font-semibold leading-tight text-background">{p.name}</h3>
-                    <div className="flex items-center gap-1">
-                      <StarRating rating={p.rating} size="xs" />
-                      <span className="text-[9px] text-background/40">({p.reviews.toLocaleString()})</span>
-                    </div>
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-xs font-bold text-background">${p.price.toFixed(2)}</span>
-                      <span className="text-[9px] text-background/40 line-through">${p.was.toFixed(2)}</span>
-                      <span className="text-[9px] font-bold text-sale">{pct}% OFF</span>
-                    </div>
-                  </div>
-                </Link>
-              )
-            })}
+          {/* Right: key stats -- hidden on mobile */}
+          <div className="hidden w-64 shrink-0 flex-col gap-3 md:flex">
+            {[
+              { stat: "40,000+", label: "Products across 10 departments" },
+              { stat: "169", label: "Authorized brands, full OEM warranties" },
+              { stat: "Same Day", label: "Processing on orders before 2 PM ET" },
+            ].map((item) => (
+              <div key={item.stat} className="rounded-lg border border-background/10 bg-background/5 px-4 py-3 backdrop-blur-sm">
+                <p className="text-lg font-black text-primary">{item.stat}</p>
+                <p className="text-[11px] text-background/50">{item.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

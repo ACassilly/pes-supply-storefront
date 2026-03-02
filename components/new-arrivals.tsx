@@ -7,7 +7,7 @@ import { ProductCard } from "@/components/product-card"
 
 const arrivals = [
   { slug: "sol-ark-15k-hybrid-inverter", name: "Sol-Ark 15K Hybrid Inverter", sku: "SA-15K", price: 3995.0, originalPrice: 4595.0, rating: 4.9, reviews: 187, image: "/images/product-inverter.jpg", badge: "Ready to Ship" as const, freeShipping: true },
-  { slug: "mrcool-diy-24k-mini-split", name: "MRCOOL DIY 24K BTU Mini Split", sku: "MRC-DIY-24-HP", price: 1549.0, originalPrice: 1899.0, rating: 4.6, reviews: 893, image: "/images/cat-hvac.jpg", badge: "In Stock" as const, freeShipping: true },
+  { slug: "mrcool-diy-24k-mini-split", name: "MRCOOL DIY 24K BTU Mini Split", sku: "MRC-DIY-24-HP", price: 1549.0, originalPrice: 1899.0, rating: 4.6, reviews: 893, image: "/images/product-minisplit.jpg", badge: "In Stock" as const, freeShipping: true },
   { slug: "tesla-wall-connector-gen3", name: "Tesla Wall Connector Gen 3", sku: "TSL-1457768", price: 475.0, originalPrice: 530.0, rating: 4.7, reviews: 891, image: "/images/product-ev-charger.jpg", badge: "In Stock" as const, freeShipping: true },
   { slug: "generac-22kw-standby-generator", name: "Generac 22kW Standby Generator", sku: "GEN-7043", price: 5299.0, originalPrice: 5799.0, rating: 4.6, reviews: 128, image: "/images/product-generator.jpg", badge: "In Stock" as const, freeShipping: true },
   { slug: "eaton-br-100a-panel", name: "Eaton BR 100A Main Breaker Panel", sku: "EAT-BR2020B100V", price: 89.95, originalPrice: 119.0, rating: 4.5, reviews: 892, image: "/images/product-panel.jpg", badge: "Ships Today" as const, freeShipping: false },

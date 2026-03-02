@@ -168,7 +168,7 @@ export function BabaContent() {
             <div className="text-center">
               <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-foreground">3</div>
               <h3 className="text-sm font-bold text-background">Materials + docs ship together</h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-background/60">Your order ships from Portlandia Logistics in Louisville with a complete BABA compliance package included.</p>
+              <p className="mt-1.5 text-xs leading-relaxed text-background/60">Your order ships with a complete BABA compliance package included. Portlandia Logistics coordinates fulfillment.</p>
             </div>
           </div>
         </div>

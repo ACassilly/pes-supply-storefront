@@ -1,4 +1,4 @@
-import { Globe, Warehouse, ShieldCheck, Truck, ArrowRight } from "lucide-react"
+import { Globe, Route, ShieldCheck, Truck, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 const pillars = [
@@ -8,9 +8,9 @@ const pillars = [
     desc: "PES Global procures from manufacturers across North America, Asia, and Europe -- giving PES Supply pricing leverage independent distributors can't match.",
   },
   {
-    icon: Warehouse,
+    icon: Route,
     title: "Portlandia Logistics",
-    desc: "Our in-house logistics arm picks, packs, and ships every order from Louisville, KY. No 3PL middlemen. When something goes wrong, our team fixes it -- not a call center.",
+    desc: "Our logistics arm coordinates every shipment -- routing orders from the nearest manufacturer DC or stocking partner via the fastest method. Parcel, LTL, FTL, intermodal, or hot shot.",
   },
   {
     icon: ShieldCheck,
@@ -19,8 +19,8 @@ const pillars = [
   },
   {
     icon: Truck,
-    title: "Single-Source Fulfillment",
-    desc: "One PO, one shipment, one invoice. PES consolidates across 169 brands so you don't manage a dozen vendors for one job.",
+    title: "Single-Source Ordering",
+    desc: "One PO, one invoice across 169 brands. PES consolidates your sourcing so you deal with one rep, not a dozen vendor portals.",
   },
 ]
 
@@ -34,7 +34,7 @@ export function PesGlobalSection() {
             Local distributor. Global supply chain.
           </h2>
           <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            PES Supply is backed by PES Global{"'"}s international procurement network, powered by Portlandia Logistics{"'"} in-house fulfillment, and built on 169 authorized brand partnerships. You get the pricing of a national distributor with the service of a local counter.
+            PES Supply is backed by PES Global{"'"}s international procurement network, with logistics coordinated by Portlandia Logistics across 300+ manufacturer partners and 14,000+ vetted carriers. You get the pricing of a national distributor with the service of a local counter.
           </p>
         </div>
 

@@ -1,0 +1,75 @@
+import { UserPlus, Search, Truck, MapPin } from "lucide-react"
+import Link from "next/link"
+
+const steps = [
+  {
+    number: "01",
+    icon: UserPlus,
+    title: "Create Your Pro Account",
+    description: "Get instant access to trade pricing, Net-30 terms, and a named account rep who knows your business.",
+    link: { label: "Apply Now", href: "/pro" },
+  },
+  {
+    number: "02",
+    icon: Search,
+    title: "Browse or Request a Quote",
+    description: "Search 40,000+ products, use Quick Order Pad for repeat buys, or submit a project list for a custom quote.",
+    link: { label: "Request a Quote", href: "/quote" },
+  },
+  {
+    number: "03",
+    icon: Truck,
+    title: "We Pick, Pack & Ship",
+    description: "Orders placed by 2 PM ET process same day. Portlandia Logistics routes from the nearest stocking location.",
+    link: { label: "Shipping Details", href: "/shipping" },
+  },
+  {
+    number: "04",
+    icon: MapPin,
+    title: "Track to Your Jobsite",
+    description: "Real-time tracking for parcel and freight. Liftgate, residential, and will-call pickup available.",
+    link: { label: "Learn More", href: "/shipping" },
+  },
+]
+
+export function HowItWorks() {
+  return (
+    <section className="py-10 md:py-14" aria-labelledby="how-it-works-heading">
+      <div className="mx-auto max-w-7xl px-4">
+        <p className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-primary">How It Works</p>
+        <h2 id="how-it-works-heading" className="mb-2 text-center text-xl font-bold text-foreground md:text-2xl text-balance">
+          From account setup to delivery in 4 steps
+        </h2>
+        <p className="mx-auto mb-10 max-w-md text-center text-sm text-muted-foreground text-pretty">
+          No minimums, no games. Just a straightforward way to buy electrical, solar, and building materials at trade pricing.
+        </p>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, i) => (
+            <div key={step.number} className="relative flex flex-col rounded-xl border border-border bg-card p-6">
+              {/* Step number */}
+              <span className="mb-4 text-3xl font-black text-primary/15">{step.number}</span>
+
+              {/* Icon */}
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                <step.icon className="h-5 w-5 text-primary" />
+              </div>
+
+              <h3 className="mb-1.5 text-sm font-bold text-card-foreground">{step.title}</h3>
+              <p className="mb-4 flex-1 text-xs leading-relaxed text-muted-foreground">{step.description}</p>
+
+              <Link href={step.link.href} className="text-xs font-semibold text-primary hover:underline">
+                {step.link.label}
+              </Link>
+
+              {/* Connector line on larger screens */}
+              {i < steps.length - 1 && (
+                <div className="absolute -right-3 top-1/2 hidden h-px w-6 bg-border lg:block" aria-hidden="true" />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

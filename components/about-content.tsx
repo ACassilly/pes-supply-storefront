@@ -163,12 +163,12 @@ export function AboutContent() {
         {/* Team / warehouse photo */}
         <section className="mb-16 overflow-hidden rounded-xl border border-border">
           <div className="relative aspect-[21/9]">
-            <Image src="/images/team-warehouse.jpg" alt="PES Supply warehouse team in Louisville, KY" fill className="object-cover" sizes="(max-width: 768px) 100vw, 1024px" />
+            <Image src="/images/team-warehouse.jpg" alt="PES Supply operations team in Louisville, KY" fill className="object-cover" sizes="(max-width: 768px) 100vw, 1024px" />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent" />
             <div className="absolute bottom-0 left-0 p-6 md:p-8">
-              <h2 className="text-xl font-bold text-background md:text-2xl">Our Louisville Team</h2>
+              <h2 className="text-xl font-bold text-background md:text-2xl">Our Operations Team</h2>
               <p className="mt-1 max-w-lg text-sm text-background/70">
-                Based at 1507 Portland Ave, Louisville, KY 40203. Our team picks, packs, and supports every order -- and actually picks up the phone when you call.
+                Based in Louisville, KY. Our team manages every order from placement to delivery -- and actually picks up the phone when you call.
               </p>
               <div className="mt-3 flex flex-wrap gap-3">
                 <a href="tel:8888760007" className="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-primary-foreground">(888) 876-0007</a>

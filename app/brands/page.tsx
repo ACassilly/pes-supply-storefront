@@ -49,7 +49,13 @@ export default function BrandsPage() {
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {deptBrands.map((brand) => (
                     <Link key={brand.slug} href={`/brands/${brand.slug}`} className="group flex items-center gap-3 rounded-lg border border-border bg-card p-3 transition-all hover:border-primary/30 hover:shadow-md">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-muted text-xs font-bold text-muted-foreground">{brand.name.slice(0, 2).toUpperCase()}</div>
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-muted">
+                        {brand.logo ? (
+                          <img src={brand.logo} alt={brand.name} loading="lazy" className="h-8 w-8 object-contain" />
+                        ) : (
+                          <span className="text-xs font-bold text-muted-foreground">{brand.name.slice(0, 2).toUpperCase()}</span>
+                        )}
+                      </div>
                       <div className="min-w-0 flex-1">
                         <h3 className="text-sm font-semibold text-card-foreground group-hover:text-primary">{brand.name}</h3>
                         <p className="truncate text-xs text-muted-foreground">{brand.productCount.toLocaleString()} products</p>

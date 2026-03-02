@@ -36,11 +36,11 @@ const topics = [
 const faqs = [
   {
     q: "Where is PES Supply located?",
-    a: "Our fulfillment center is in Louisville, KY -- centrally located for 1-2 day ground shipping to over 60% of the US population. PES Supply is a division of PES Global.",
+    a: "PES Supply is a division of PES Global, headquartered in Louisville, KY. Our operations team manages orders from here, with product shipping direct from manufacturer DCs and regional stocking partners nationwide.",
   },
   {
     q: "Do you have physical stores or a showroom?",
-    a: "We are an online distributor with in-house fulfillment. We do not have a retail storefront, but our Louisville warehouse is available for will-call pickup by appointment for Pro account holders.",
+    a: "We are an online distributor. We do not have a retail storefront. Our Louisville office handles operations, order management, and customer support.",
   },
   {
     q: "Where do you ship to?",
@@ -48,7 +48,7 @@ const faqs = [
   },
   {
     q: "What are your business hours?",
-    a: "Our team is available Monday through Friday, 8:00 AM to 5:00 PM Eastern. Orders placed by 2:00 PM ET ship same day. Live chat and email support are monitored during business hours.",
+    a: "Our team is available Monday through Friday, 8:00 AM to 5:00 PM Eastern. Orders placed by 2:00 PM ET are processed same day. Live chat and email support are monitored during business hours.",
   },
   {
     q: "How do I get trade or volume pricing?",
@@ -271,7 +271,7 @@ export function ContactContent() {
 
               {/* Address */}
               <div className="rounded-xl border border-border bg-card p-5">
-                <h3 className="flex items-center gap-2 text-sm font-bold text-card-foreground"><MapPin className="h-4 w-4 text-primary" /> Fulfillment Center</h3>
+                <h3 className="flex items-center gap-2 text-sm font-bold text-card-foreground"><MapPin className="h-4 w-4 text-primary" /> Operations Center</h3>
                 <p className="mt-2 text-sm text-muted-foreground">PES Supply<br />Louisville, KY 40299</p>
                 <p className="mt-1.5 text-xs text-muted-foreground">A division of PES Global</p>
               </div>

@@ -7,61 +7,42 @@ import { Button } from "@/components/ui/button"
 
 /* ── Shipping tiers ── */
 const shippingTiers = [
-  { method: "Standard Ground", transit: "1-5 business days", cost: "Calculated at checkout", carrier: "FedEx / UPS" },
-  { method: "Expedited (2-Day)", transit: "2 business days", cost: "Calculated at checkout", carrier: "FedEx / UPS" },
-  { method: "Next Day Air", transit: "1 business day", cost: "Calculated at checkout", carrier: "FedEx / UPS" },
-  { method: "Freight / LTL", transit: "3-10 business days", cost: "Free over $999", carrier: "Trusted freight partners" },
-  { method: "Hot-Shot / Project", transit: "Custom quote", cost: "Project-based pricing", carrier: "PES Logistics" },
+  { method: "Parcel (UPS/FedEx)", transit: "1-5 business days", cost: "Free over $999 / calculated", carrier: "UPS / FedEx Ground", note: "Items under 150 lbs" },
+  { method: "LTL Freight", transit: "2-5 business days", cost: "Free over $999 / quoted", carrier: "Portlandia Logistics network", note: "150-10,000 lbs, palletized" },
+  { method: "FTL / Dedicated", transit: "1-3 business days", cost: "Project-based pricing", carrier: "Portlandia Logistics (14,000+ carriers)", note: "Full truckloads 10,000+ lbs" },
+  { method: "Port & Intermodal", transit: "Varies by origin", cost: "Custom quote", carrier: "Portlandia Logistics", note: "Ocean containers, rail, utility-scale" },
+  { method: "Expedited / Hot Shot", transit: "Same-day or next-day", cost: "Custom quote", carrier: "Team drivers / dedicated", note: "Emergency & time-critical deliveries" },
 ]
 
-/* ── Zone data ── */
-const zones = [
-  { zone: "Zone 1 -- 1-Day Ground", region: "KY, IN, OH, TN, WV, IL", color: "bg-primary", description: "Next-day delivery via UPS/FedEx Ground." },
-  { zone: "Zone 2 -- 2-Day Ground", region: "GA, AL, MS, MO, IA, WI, MI, PA, VA, NC, SC, AR, KS, NE, MN, NY, NJ, MD, DE, DC, CT", color: "bg-primary/60", description: "Most of the eastern US and Midwest." },
-  { zone: "Zone 3 -- 3-Day Ground", region: "TX, FL, LA, OK, CO, SD, ND, WY, MT, ME, VT, NH, MA, RI, NM, AZ", color: "bg-primary/30", description: "Gulf states, Plains, Northeast, and Southwest." },
-  { zone: "Zone 4 -- 4-5 Day Ground", region: "WA, OR, CA, NV, UT, ID, AK, HI", color: "bg-muted-foreground/20", description: "West Coast and Pacific states." },
-]
-
-const stateZones: Record<string, number> = {
-  KY:1,IN:1,OH:1,TN:1,WV:1,IL:1,
-  GA:2,AL:2,MS:2,MO:2,IA:2,WI:2,MI:2,PA:2,VA:2,NC:2,SC:2,AR:2,KS:2,NE:2,MN:2,NY:2,NJ:2,MD:2,DE:2,DC:2,CT:2,
-  TX:3,FL:3,LA:3,OK:3,CO:3,SD:3,ND:3,WY:3,MT:3,ME:3,VT:3,NH:3,MA:3,RI:3,NM:3,AZ:3,
-  WA:4,OR:4,CA:4,NV:4,UT:4,ID:4,AK:4,HI:4,
-}
-
-const statePositions: Record<string,[number,number]> = {
-  WA:[120,75],OR:[95,145],CA:[70,280],NV:[115,240],ID:[155,145],MT:[210,80],WY:[230,170],UT:[175,240],
-  CO:[260,250],AZ:[155,330],NM:[225,340],ND:[310,85],SD:[315,140],NE:[330,190],KS:[345,245],OK:[365,295],
-  TX:[340,375],MN:[375,100],IA:[385,170],MO:[415,240],AR:[415,305],LA:[420,370],WI:[415,110],IL:[435,200],
-  MS:[440,330],IN:[465,205],MI:[475,130],OH:[510,195],KY:[495,245],TN:[490,275],AL:[475,320],GA:[510,320],
-  FL:[530,390],SC:[535,300],NC:[555,270],VA:[555,235],WV:[530,220],PA:[555,175],NY:[570,135],NJ:[580,185],
-  DE:[575,205],MD:[565,210],CT:[590,160],MA:[600,148],RI:[600,158],VT:[580,110],NH:[590,115],ME:[610,85],
-}
-
-function zoneColor(z: number) { return z===1?"fill-primary":z===2?"fill-primary/50":z===3?"fill-primary/25":"fill-muted" }
-function zoneTextColor(z: number) { return z<=2?"fill-primary-foreground":"fill-foreground" }
+/* Zone data kept for reference in FAQ answers */
 
 /* ── TOC sections ── */
 const tocSections = [
   { id: "free-shipping", label: "Free Shipping", icon: Truck },
   { id: "shipping-costs", label: "Shipping Costs", icon: DollarSign },
   { id: "shipping-types", label: "Shipping Types", icon: Clock },
+  { id: "lead-times", label: "Lead Times", icon: Clock },
   { id: "destinations", label: "Destinations", icon: MapPin },
+  { id: "receiving", label: "Receiving Guide", icon: FileText },
   { id: "confirmations", label: "Confirmations", icon: FileText },
   { id: "cancellations", label: "Cancellations", icon: XCircle },
+  { id: "returns", label: "Returns", icon: Package },
   { id: "damaged", label: "Damaged Products", icon: AlertTriangle },
   { id: "faq", label: "FAQ", icon: HelpCircle },
 ]
 
 /* ── FAQ ── */
 const faqs = [
-  { q: "How long does it take for my order to ship?", a: "Most in-stock orders placed before 2:00 PM ET Monday-Friday ship the same business day. Orders placed after the cutoff or on weekends/holidays ship the next business day. Some oversized or LTL freight items may require 1-2 additional handling days." },
+  { q: "How long does it take for my order to ship?", a: "Most in-stock orders placed before 2:00 PM ET Monday-Friday are processed the same business day. Parcel items (electrical, tools, accessories) typically ship within 1-2 days. Solar panels, inverters, and batteries may take 2-7 days depending on manufacturer availability. Generators and specialty equipment can be 5-14 days. See our Lead Times section above for details by category." },
   { q: "Do you offer free shipping?", a: "Yes. Standard ground shipping is free on qualifying orders of $999 or more within the contiguous United States. Orders under $999 receive a calculated rate at checkout based on weight and destination. Pro Account holders receive reduced freight thresholds -- contact your rep for details." },
-  { q: "Can I expedite my order?", a: "Yes. 2-Day and Next-Day air options are available at checkout for most items under 150 lbs. LTL freight shipments (pallets, panels, large equipment) cannot be expedited. Contact us for hot-shot delivery quotes on urgent job-site needs." },
+  { q: "Can I expedite my order?", a: "Yes. 2-Day and Next-Day air options are available at checkout for most items under 150 lbs. LTL freight shipments (pallets, panels, large equipment) cannot be expedited via air but can be shipped via hot-shot dedicated truck for same-day or next-day delivery. Call (888) 876-0007 for hot-shot quotes." },
   { q: "Do you ship to Alaska, Hawaii, or U.S. territories?", a: "Currently we ship only within the contiguous 48 United States. We do not ship to Alaska, Hawaii, Puerto Rico, Guam, U.S. Virgin Islands, or APO/FPO addresses. International shipments can be arranged through PES Global -- contact sales@pes.supply for a quote." },
-  { q: "How are oversized or heavy items shipped?", a: "Items over 150 lbs or exceeding standard parcel dimensions ship via LTL freight carrier. LTL shipments typically arrive in 3-10 business days depending on destination. Liftgate delivery is available for an additional charge if you do not have a loading dock." },
-  { q: "What if my order arrives damaged?", a: "Inspect all deliveries upon receipt. If damage is visible while the carrier is on site, take photos and refuse the damaged items. Contact us within 48 hours with your order number and photos. For concealed damage discovered after delivery, notify us within 7 days. We will file a carrier claim and arrange a replacement or refund." },
-  { q: "Can I change my shipping address after ordering?", a: "Address changes can be made within 30 minutes of order confirmation, before the order enters our pick-pack queue. After that window the order cannot be redirected. Please verify your address at checkout." },
+  { q: "How are oversized or heavy items shipped?", a: "Items over 150 lbs or exceeding standard parcel dimensions ship via LTL freight carrier. LTL shipments typically arrive in 2-5 business days depending on destination. Liftgate delivery is $75-$125 depending on shipment size. Residential delivery incurs an additional surcharge from the carrier." },
+  { q: "What if my order arrives damaged?", a: "Inspect all deliveries upon receipt and note any damage on the BOL before signing. If damage is visible, take photos and refuse the damaged items. Contact us within 48 hours with your order number, signed BOL, and photos. For concealed damage discovered after delivery, notify us within 7 days. We will file a carrier claim and arrange a replacement or refund." },
+  { q: "Can I change my shipping address after ordering?", a: "Address changes can be made within 30 minutes of order confirmation, before the order enters the fulfillment queue. After that window the order cannot be redirected. Please verify your address at checkout." },
+  { q: "Do you offer local pickup?", a: "Local pickup is available at select stocking partner locations. Check availability at checkout or contact your account rep. This option is great for contractors near a regional hub who need materials the same day." },
+  { q: "Am I tax-exempt?", a: "If you hold a valid resale certificate or tax-exempt status, upload your documentation in your Pro Account settings to remove sales tax at checkout. Contact your account rep if you need help setting this up." },
+  { q: "Where can I track my order?", a: "Track your order anytime at pes.supply/account/orders. You can also use the tracking number emailed to you after shipment. If you can't find your tracking email, contact us with your order number and we'll resend it." },
   { q: "Do you offer freight or pallet pricing?", a: "Yes. Bulk and pallet orders receive volume-based freight discounts. Pro Account holders receive the best rates. Visit our Bulk Pricing page or contact your account rep for a custom freight quote." },
 ]
 
@@ -87,10 +68,10 @@ export function ShippingContent() {
             <span className="text-sm font-bold uppercase tracking-widest">Shipping & Delivery</span>
           </div>
           <h1 className="mt-4 text-balance text-3xl font-extrabold tracking-tight text-background md:text-4xl">
-            Same-Day Shipping from Louisville, KY
+            Same-Day Order Processing
           </h1>
           <p className="mt-3 max-w-2xl text-pretty text-base leading-relaxed text-background/60">
-            Order by 2 PM ET and it ships today. Free freight on orders over $999. Every shipment fully insured with real-time tracking. In-house logistics -- not a 3PL.
+            Order by 2 PM ET and it ships today. Free freight on qualified orders over $999. Every shipment fully insured with real-time tracking. Portlandia Logistics coordinates every delivery.
           </p>
         </div>
       </section>
@@ -132,39 +113,17 @@ export function ShippingContent() {
           {/* Main column */}
           <div className="flex flex-col gap-12">
 
-            {/* Zone map */}
+            {/* Zone map -- real PES infographic */}
             <section>
-              <h2 className="mb-2 text-2xl font-bold text-foreground">Fast & Reliable Shipping Nationwide</h2>
-              <p className="mb-6 text-sm text-muted-foreground">Transit times are estimates for UPS/FedEx Ground after same-day dispatch from Louisville, KY.</p>
-              <div className="flex flex-col gap-8 lg:flex-row">
-                <div className="relative flex items-center justify-center overflow-hidden rounded-xl border border-border bg-muted/20 p-6 lg:w-3/5">
-                  <svg viewBox="0 0 700 440" className="h-full w-full" aria-label="US shipping zone map" role="img">
-                    <title>Shipping zones from Louisville, KY</title>
-                    {Object.entries(statePositions).map(([abbr, [x, y]]) => {
-                      const zone = stateZones[abbr] || 4
-                      return (<g key={abbr}><rect x={x-18} y={y-12} width={36} height={24} rx={4} className={`${zoneColor(zone)} stroke-background`} strokeWidth={1.5} /><text x={x} y={y+4} textAnchor="middle" className={`${zoneTextColor(zone)} text-[10px] font-bold`}>{abbr}</text></g>)
-                    })}
-                    <circle cx={495} cy={245} r={6} className="fill-accent stroke-background" strokeWidth={2} />
-                    <circle cx={495} cy={245} r={12} className="fill-accent/20" />
-                    <text x={495} y={230} textAnchor="middle" className="fill-foreground text-[9px] font-bold">Louisville</text>
-                  </svg>
-                </div>
-                <div className="flex flex-col gap-3 lg:w-2/5">
-                  {zones.map((z) => (
-                    <div key={z.zone} className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
-                      <div className={`mt-1 h-4 w-4 shrink-0 rounded ${z.color}`} />
-                      <div>
-                        <h3 className="text-sm font-bold text-card-foreground">{z.zone}</h3>
-                        <p className="mt-0.5 text-xs text-muted-foreground">{z.region}</p>
-                        <p className="mt-0.5 text-[11px] text-muted-foreground">{z.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                  <div className="mt-1 flex items-start gap-2 rounded-lg bg-muted/50 p-3">
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <p className="text-xs leading-relaxed text-muted-foreground">Ships from Louisville, KY 40203. Transit times may vary during peak seasons.</p>
-                  </div>
-                </div>
+              <h2 className="mb-2 text-2xl font-bold text-foreground">Estimated Ground Delivery Windows</h2>
+              <p className="mb-6 text-sm text-muted-foreground">From the nearest PES or manufacturer stocking location. Processing adds 1-3 business days.</p>
+              <div className="overflow-hidden rounded-xl border border-border">
+                <img
+                  src="/images/pes-delivery-zones-map.jpg"
+                  alt="PES Supply estimated ground delivery windows map showing Zone 1 (1-3 days) through Zone 4 (5-7 days), 10 stocking partner locations including Rocklin CA, Colorado Springs CO, Princeton, West Jefferson OH, Wilton NY, Newark NJ, Jackson County, Loxley, Dallas, and Prescott. Louisville KY serves as network operations. Port cities at LA/Long Beach, Houston, and Newark NJ."
+                  className="w-full"
+                  loading="eager"
+                />
               </div>
             </section>
 
@@ -207,54 +166,91 @@ export function ShippingContent() {
               </div>
             </section>
 
-            {/* Shipping Types */}
+            {/* Delivery Methods -- real PES infographic */}
             <section id="shipping-types" className="scroll-mt-24">
               <div className="mb-3 flex items-center gap-2.5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><Clock className="h-4 w-4 text-primary" /></div>
-                <h2 className="text-xl font-bold text-foreground">Shipping Types</h2>
+                <h2 className="text-xl font-bold text-foreground">Delivery Methods</h2>
+              </div>
+              <div className="overflow-hidden rounded-xl border border-border">
+                <img
+                  src="/images/pes-delivery-methods.jpg"
+                  alt="PES Supply delivery methods: Standard Delivery for small items via UPS/FedEx/USPS Ground in 3-7 business days with no appointment needed and tracking by email. Scheduled Delivery for palletized orders like solar panels, batteries, racking, and generators in 5-10 business days with carrier-scheduled delivery window, curbside delivery standard, liftgate available at $75-$125, and BOL signature required. Project Delivery for full trucks coordinated with your timeline including container loads, full project kits, and bulk orders requiring forklift or dock access, with dedicated PES rep coordination, intermodal options for long-distance, and emergency hot-shot available."
+                  className="w-full"
+                />
+              </div>
+              <p className="mt-3 rounded-lg bg-muted/50 px-4 py-2.5 text-xs text-muted-foreground">Shipping times are in business days (Monday-Friday, excluding holidays) and begin once the order has been processed and shipped. Handling generally takes 0-1 business days for in-stock items. There is no overnight shipping for LTL freight.</p>
+            </section>
+
+            {/* Lead Times by Category */}
+            <section id="lead-times" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><Clock className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Estimated Lead Times by Category</h2>
               </div>
               <div className="rounded-xl border border-border bg-card px-6 py-5">
-                <p className="mb-4 text-sm text-card-foreground">PES partners with <strong>UPS, FedEx, and freight carriers</strong> offering insurance and tracking on every shipment.</p>
+                <p className="mb-4 text-sm text-card-foreground">Processing times vary by product type and manufacturer availability. These are typical lead times after order confirmation:</p>
                 <div className="overflow-hidden rounded-lg border border-border">
                   <table className="w-full text-sm">
-                    <thead><tr className="border-b border-border bg-muted/50"><th className="px-4 py-2.5 text-left font-semibold text-foreground">Method</th><th className="px-4 py-2.5 text-left font-semibold text-foreground">Transit Time</th><th className="hidden px-4 py-2.5 text-left font-semibold text-foreground md:table-cell">Cost</th><th className="hidden px-4 py-2.5 text-left font-semibold text-foreground lg:table-cell">Carrier</th></tr></thead>
+                    <thead><tr className="border-b border-border bg-muted/50"><th className="px-4 py-2.5 text-left font-semibold text-foreground">Category</th><th className="px-4 py-2.5 text-left font-semibold text-foreground">Typical Lead Time</th><th className="hidden px-4 py-2.5 text-left font-semibold text-foreground md:table-cell">Notes</th></tr></thead>
                     <tbody>
-                      {shippingTiers.map((t, i) => (
-                        <tr key={t.method} className={i < shippingTiers.length - 1 ? "border-b border-border" : ""}>
-                          <td className="px-4 py-3 font-medium text-foreground">{t.method}</td>
-                          <td className="px-4 py-3 text-muted-foreground">{t.transit}</td>
-                          <td className="hidden px-4 py-3 text-muted-foreground md:table-cell">{t.cost}</td>
-                          <td className="hidden px-4 py-3 text-muted-foreground lg:table-cell">{t.carrier}</td>
-                        </tr>
-                      ))}
+                      <tr className="border-b border-border"><td className="px-4 py-2.5 text-card-foreground">Electrical, Tools, Safety, Accessories</td><td className="px-4 py-2.5 font-semibold text-primary">1-2 business days</td><td className="hidden px-4 py-2.5 text-muted-foreground md:table-cell">Usually in stock, ships quickly</td></tr>
+                      <tr className="border-b border-border"><td className="px-4 py-2.5 text-card-foreground">Solar Panels, Inverters, Batteries</td><td className="px-4 py-2.5 font-semibold text-accent">2-7 business days</td><td className="hidden px-4 py-2.5 text-muted-foreground md:table-cell">Depends on manufacturer availability</td></tr>
+                      <tr className="border-b border-border"><td className="px-4 py-2.5 text-card-foreground">Generators, EV Chargers, Specialty</td><td className="px-4 py-2.5 font-semibold text-accent">5-14 business days</td><td className="hidden px-4 py-2.5 text-muted-foreground md:table-cell">Often made-to-order or drop-shipped</td></tr>
+                      <tr><td className="px-4 py-2.5 text-card-foreground">Racking & Mounting Systems</td><td className="px-4 py-2.5 font-semibold text-accent">Varies</td><td className="hidden px-4 py-2.5 text-muted-foreground md:table-cell">Confirm lead time with your rep</td></tr>
                     </tbody>
                   </table>
                 </div>
-                <p className="mt-4 rounded-lg bg-muted/50 px-4 py-2.5 text-xs text-muted-foreground">Shipping times are in business days (Monday-Friday, excluding holidays) and begin once the order has been processed and shipped. Handling generally takes 0-1 business days for in-stock items. There is no overnight shipping for LTL freight.</p>
+                <div className="mt-4 rounded-lg bg-accent/10 px-4 py-3">
+                  <p className="text-xs font-medium text-accent"><strong>Solar panel pro tip:</strong> We recommend ordering 2-5% more panels than your design requires to account for possible transit damage. Replacements ship fast, but having spares on site keeps your crew working.</p>
+                </div>
+                <p className="mt-3 rounded-lg bg-muted/50 px-4 py-2.5 text-xs text-muted-foreground">During Q4 (October-December) and end-of-year ITC deadlines, processing and transit times may extend by 2-3 business days.</p>
               </div>
             </section>
 
-            {/* Ground vs Freight detail cards */}
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-xl border border-border bg-card p-5">
-                <div className="mb-3 flex items-center gap-2"><Package className="h-5 w-5 text-primary" /><h3 className="text-base font-bold text-card-foreground">Ground / Parcel</h3></div>
-                <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Free on orders $999+. Otherwise calculated at checkout.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />UPS Ground, FedEx Ground, or USPS Priority depending on weight.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Expedited (2-Day, Next Day) available at checkout.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Tracking emailed as soon as label is created.</li>
-                </ul>
+            {/* Will Call / Local Pickup */}
+            <section className="scroll-mt-24">
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <div className="mb-3 flex items-center gap-2"><MapPin className="h-5 w-5 text-primary" /><h3 className="text-base font-bold text-card-foreground">Will Call / Local Pickup</h3></div>
+                <p className="text-sm leading-relaxed text-card-foreground">Local pickup is available at select stocking partner locations. Check availability at checkout or contact your account rep. For contractors near a regional hub, this is the fastest way to get materials on site the same day.</p>
               </div>
-              <div className="rounded-xl border border-border bg-card p-5">
-                <div className="mb-3 flex items-center gap-2"><Truck className="h-5 w-5 text-primary" /><h3 className="text-base font-bold text-card-foreground">Freight / LTL</h3></div>
-                <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Items over 150 lbs ship via LTL freight carrier.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Free freight on panels, generators, and inverters over $999.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Liftgate and residential delivery available for additional fee.</li>
-                  <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Request a freight quote for pallet or job-site delivery.</li>
-                </ul>
+            </section>
+
+            {/* Receiving Guide */}
+            <section id="receiving" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><FileText className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Freight Receiving Guide</h2>
               </div>
-            </div>
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <p className="mb-4 text-sm leading-relaxed text-card-foreground">LTL and FTL shipments require you to inspect and sign a Bill of Lading (BOL) at delivery. <strong>How you handle the BOL directly affects your ability to file a damage claim.</strong> Follow these steps:</p>
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <p className="mb-2 text-sm font-semibold text-foreground">1. Count every piece against the BOL</p>
+                    <p className="text-sm text-muted-foreground">Match the number of pallets, boxes, and loose items to the line items on the BOL. If something is missing, note it on the BOL before signing.</p>
+                  </div>
+                  <div>
+                    <p className="mb-2 text-sm font-semibold text-foreground">2. Inspect for visible damage</p>
+                    <p className="text-sm text-muted-foreground">Look at all sides of every pallet and box. Check for crushed corners, torn shrink wrap, punctured boxes, and water damage. Take photos of everything -- even if it looks fine.</p>
+                  </div>
+                  <div>
+                    <p className="mb-2 text-sm font-semibold text-foreground">3. Note ALL damage on the BOL</p>
+                    <p className="text-sm text-muted-foreground">Write specific notes like &quot;2 boxes crushed on left side&quot; or &quot;pallet wrap torn, panels exposed.&quot; Generic notes like &quot;possible damage&quot; weaken your claim. Be specific.</p>
+                  </div>
+                  <div>
+                    <p className="mb-2 text-sm font-semibold text-foreground">4. Sign &quot;Subject to Inspection&quot;</p>
+                    <p className="text-sm text-muted-foreground">Next to your signature, write &quot;Subject to further inspection&quot; or &quot;STC&quot; (Subject to Count). This preserves your right to file a concealed damage claim after unpacking.</p>
+                  </div>
+                  <div>
+                    <p className="mb-2 text-sm font-semibold text-foreground">5. Keep copies of everything</p>
+                    <p className="text-sm text-muted-foreground">Keep your copy of the signed BOL, all photos, and the carrier&apos;s PRO number. You&apos;ll need these if you file a damage claim.</p>
+                  </div>
+                </div>
+                <div className="mt-4 rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3">
+                  <p className="text-xs font-medium text-destructive"><strong>Important:</strong> If the BOL is signed clean (no damage notes) and you discover damage later, PES Supply cannot guarantee the carrier will honor the claim. Always note damage before signing.</p>
+                </div>
+              </div>
+            </section>
 
             {/* Destinations */}
             <section id="destinations" className="scroll-mt-24">
@@ -269,6 +265,9 @@ export function ShippingContent() {
                 <div className="rounded-lg border border-accent/20 bg-accent/5 px-4 py-3">
                   <p className="text-xs font-medium text-accent">International Shipping: For orders outside the U.S., contact PES Global at <a href="mailto:sales@pes.supply" className="underline">sales@pes.supply</a> for a custom quote and logistics coordination.</p>
                 </div>
+                <div className="mt-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
+                  <p className="text-xs font-medium text-primary"><strong>Tax-exempt?</strong> Upload your resale certificate in your Pro Account settings to remove sales tax at checkout. Contact your account rep for help.</p>
+                </div>
               </div>
             </section>
 
@@ -279,7 +278,9 @@ export function ShippingContent() {
                 <h2 className="text-xl font-bold text-foreground">Shipping & Order Confirmations</h2>
               </div>
               <div className="rounded-xl border border-border bg-card px-6 py-5">
-                <p className="text-sm leading-relaxed text-card-foreground">As soon as your order is placed, you will receive an email confirmation with your order summary. A second email with tracking information and the expected shipping date will be sent once the order ships. Tracking numbers are provided upon availability. We recommend keeping them on hand.</p>
+                <p className="mb-3 text-sm leading-relaxed text-card-foreground">As soon as your order is placed, you will receive an email confirmation with your order summary. A second email with tracking information and the expected shipping date will be sent once the order ships. Tracking numbers are provided upon availability.</p>
+                <p className="mb-3 text-sm leading-relaxed text-card-foreground"><strong>Track your order anytime</strong> at <a href="https://pes.supply/account/orders" className="font-semibold text-primary hover:underline">pes.supply/account/orders</a> or contact us with your order number if you can&apos;t locate your tracking email.</p>
+                <p className="text-sm leading-relaxed text-card-foreground">For LTL freight shipments, you will also receive the carrier name, PRO number, and estimated delivery window. Keep the PRO number handy -- you&apos;ll need it to schedule your delivery appointment and reference it on the BOL at receiving.</p>
               </div>
             </section>
 
@@ -291,7 +292,26 @@ export function ShippingContent() {
               </div>
               <div className="rounded-xl border border-border bg-card px-6 py-5">
                 <p className="mb-3 text-sm leading-relaxed text-card-foreground">Order cancellations are permitted <strong>within 30 minutes</strong> of receiving your emailed order confirmation. You can cancel through your account dashboard or by calling <a href="tel:8888760007" className="font-semibold text-primary hover:underline">(888) 876-0007</a> during business hours.</p>
-                <p className="text-sm text-muted-foreground">After the 30-minute window, orders enter our pick-pack queue and cannot be stopped or redirected. If your order has already shipped, please initiate a return.</p>
+                <p className="text-sm text-muted-foreground">After the 30-minute window, orders enter the fulfillment queue and cannot be stopped or redirected. If your order has already shipped, please initiate a return.</p>
+              </div>
+            </section>
+
+            {/* Freight Returns */}
+            <section id="returns" className="scroll-mt-24">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><Package className="h-4 w-4 text-primary" /></div>
+                <h2 className="text-xl font-bold text-foreground">Freight Returns</h2>
+              </div>
+              <div className="rounded-xl border border-border bg-card px-6 py-5">
+                <p className="mb-3 text-sm leading-relaxed text-card-foreground">Returning a freight shipment (pallets, panels, large equipment) is not the same as returning a parcel package. Please review these requirements before initiating a freight return:</p>
+                <ul className="flex flex-col gap-2.5">
+                  <li className="flex items-start gap-2.5 text-sm text-card-foreground"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><strong>Contact us within 30 days</strong> of delivery to initiate a return.</li>
+                  <li className="flex items-start gap-2.5 text-sm text-card-foreground"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />Items must be in <strong>original, unopened packaging</strong> and in resellable condition.</li>
+                  <li className="flex items-start gap-2.5 text-sm text-card-foreground"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />Freight returns are subject to a <strong>restocking fee</strong> plus return shipping costs.</li>
+                  <li className="flex items-start gap-2.5 text-sm text-card-foreground"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />You are responsible for palletizing and shrink-wrapping the return shipment.</li>
+                  <li className="flex items-start gap-2.5 text-sm text-card-foreground"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />PES will arrange carrier pickup. <strong>Do not ship returns without an RMA number.</strong></li>
+                </ul>
+                <p className="mt-4 rounded-lg bg-muted/50 px-4 py-2.5 text-xs text-muted-foreground">Installed, modified, or custom-ordered products cannot be returned. Contact your account rep or email <a href="mailto:connect@portlandiaelectric.supply" className="font-medium text-primary hover:underline">connect@portlandiaelectric.supply</a> to start the process.</p>
               </div>
             </section>
 

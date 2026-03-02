@@ -105,8 +105,8 @@ export function BulkDiscountContent() {
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10"><Package className="h-5 w-5 text-primary" /></div>
             <div>
-              <p className="text-sm font-bold text-foreground">Ships from Louisville</p>
-              <p className="text-xs text-muted-foreground">1-2 day ground to 60% of the US</p>
+              <p className="text-sm font-bold text-foreground">Managed Fulfillment</p>
+              <p className="text-xs text-muted-foreground">Ships from the nearest stocking location</p>
             </div>
           </div>
         </div>
