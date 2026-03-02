@@ -233,18 +233,6 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Trending searches - lg+ only, seasonal rotation */}
-      <div className="hidden border-t border-border bg-muted/40 lg:block">
-        <div className="mx-auto flex max-w-[1400px] items-center gap-2 px-4 py-1">
-          <span className="text-[10px] font-medium text-muted-foreground">Trending:</span>
-          {trendingSearches.map((term) => (
-            <Link key={term} href={`/search?q=${encodeURIComponent(term)}`} className="rounded-full border border-border bg-card px-2.5 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
-              {term}
-            </Link>
-          ))}
-        </div>
-      </div>
-
       {/* Row 2: Category bar */}
       <nav className="hidden border-t border-border bg-foreground md:block" aria-label="Department navigation">
         <div className="mx-auto flex max-w-[1400px] items-center overflow-x-auto px-4 scrollbar-none">
@@ -264,35 +252,13 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Top departments -- show only 5 to keep bar clean */}
-          <div className="flex min-w-0 flex-1 items-center">
-            {departments.slice(0, 5).map((dept) => (
-              <div key={dept.slug} className="relative" onMouseEnter={() => handleEnter(dept.name)} onMouseLeave={handleLeave}>
-                <Link href={`/departments/${dept.slug}`} className="block whitespace-nowrap px-3 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary" onKeyDown={(e) => handleKeyDown(e, dept.name)} onFocus={() => handleEnter(dept.name)} onBlur={handleLeave}>
-                  {dept.name}
-                </Link>
-                {megaOpen === dept.name && (
-                  <div className="absolute left-1/2 top-full z-50 w-[480px] -translate-x-1/2 rounded-b-lg border border-border bg-card p-5 shadow-xl" onMouseEnter={() => handleEnter(dept.name)} onMouseLeave={handleLeave} role="menu">
-                    <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">{dept.name}</div>
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-1">
-                      {dept.subs.map((sub) => (
-                        <Link key={sub.slug} href={`/departments/${dept.slug}/${sub.slug}`} role="menuitem" className="rounded-md px-2 py-1.5 text-sm text-card-foreground transition-colors hover:bg-muted hover:text-primary">{sub.name}</Link>
-                      ))}
-                    </div>
-                    <div className="mt-4 border-t border-border pt-3">
-                      <Link href={`/departments/${dept.slug}`} className="text-sm font-semibold text-primary hover:underline">{`Shop All ${dept.name} \u2192`}</Link>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="ml-auto flex shrink-0 items-center gap-3 pl-2">
-            <QuickOrderPad />
-            <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-sale">Deals</Link>
-            <Link href="/powerlink" className="flex items-center gap-1 whitespace-nowrap py-2 text-[13px] font-medium text-accent transition-colors hover:text-accent/80">Power Link</Link>
-          </div>
+          {/* Slim nav links */}
+          <Link href="/departments" className="whitespace-nowrap px-3 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Shop All</Link>
+          <Link href="/quote" className="whitespace-nowrap px-3 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Request a Quote</Link>
+          <Link href="/deals" className="whitespace-nowrap px-3 py-2 text-[13px] font-bold text-sale">Deals</Link>
+          <Link href="/powerlink" className="whitespace-nowrap px-3 py-2 text-[13px] font-medium text-accent transition-colors hover:text-accent/80">Power Link</Link>
+          <div className="flex-1" />
+          <QuickOrderPad />
         </div>
       </nav>
 
