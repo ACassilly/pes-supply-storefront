@@ -1,6 +1,4 @@
 import { HeroBanner } from "@/components/hero-banner"
-import { TradePricingBanner } from "@/components/trade-pricing-banner"
-import { ValuePropStrip } from "@/components/value-prop-strip"
 import { SolutionsGrid } from "@/components/solutions-grid"
 import { NewArrivals } from "@/components/new-arrivals"
 import { CuratedRows } from "@/components/curated-rows"
@@ -20,11 +18,9 @@ export default function Home() {
   return (
     <>
       <HeroBanner />
-      <TradePricingBanner />
-      <ValuePropStrip />
       <HowItWorks />
-      <QuoteBuilder />
       <SolutionsGrid />
+      <QuoteBuilder />
       <ResidentialRedirect />
       <NewArrivals />
       <CuratedRows />

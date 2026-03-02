@@ -34,21 +34,21 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-10 md:py-14" aria-labelledby="how-it-works-heading">
+    <section className="py-6 md:py-8" aria-labelledby="how-it-works-heading">
       <div className="mx-auto max-w-7xl px-4">
         <p className="mb-1 text-center text-xs font-semibold uppercase tracking-widest text-primary">How It Works</p>
-        <h2 id="how-it-works-heading" className="mb-2 text-center text-xl font-bold text-foreground md:text-2xl text-balance">
+        <h2 id="how-it-works-heading" className="mb-1 text-center text-lg font-bold text-foreground md:text-xl text-balance">
           Account to delivery. Four steps. No nonsense.
         </h2>
-        <p className="mx-auto mb-10 max-w-md text-center text-sm text-muted-foreground text-pretty">
+        <p className="mx-auto mb-6 max-w-md text-center text-xs text-muted-foreground text-pretty">
           No minimums. No upsell games. No chasing your freight. Just materials at trade pricing, shipped from the nearest location.
         </p>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
-            <div key={step.number} className="relative flex flex-col rounded-xl border border-border bg-card p-6">
+            <div key={step.number} className="relative flex flex-col rounded-xl border border-border bg-card p-4">
               {/* Photo */}
-              <div className="relative mb-4 aspect-[16/10] w-full overflow-hidden rounded-lg">
+              <div className="relative mb-3 aspect-[16/10] w-full overflow-hidden rounded-lg">
                 <Image src={step.image} alt={step.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover" loading="lazy" />
                 <div className="absolute left-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-black text-primary-foreground">{step.number}</div>
               </div>

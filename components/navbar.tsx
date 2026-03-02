@@ -1,14 +1,13 @@
 "use client"
 
-import { useState, useRef, useEffect, useCallback } from "react"
+import { useState, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, ShoppingCart, User, Menu, X, ChevronRight, ChevronDown, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw } from "lucide-react"
+import { Search, ShoppingCart, User, Menu, X, ChevronDown, ChevronRight, Phone, MessageCircle, Mail, Globe, Heart, RotateCcw, Home, Users, Package, Zap, Lightbulb, Sun, Wrench as Plumbing } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
 import { CartFlyout } from "@/components/cart-flyout"
-import { QuickOrderPad } from "@/components/quick-order-pad"
 
 const departments = [
   { name: "Electrical", slug: "electrical", subs: [{ name: "Circuit Breakers & Panels", slug: "circuit-breakers-panels" }, { name: "Wire & Cable", slug: "wire-cable" }, { name: "Conduit & Fittings", slug: "conduit-fittings" }, { name: "Switches & Outlets", slug: "switches-outlets" }, { name: "Boxes & Enclosures", slug: "boxes-enclosures" }, { name: "Disconnects & Transformers", slug: "disconnects-transformers" }] },
@@ -23,16 +22,7 @@ const departments = [
   { name: "Generators", slug: "generators", subs: [{ name: "Standby & Whole-Home", slug: "standby-generators" }, { name: "Portable", slug: "portable-generators" }, { name: "Commercial & Industrial", slug: "commercial-generators" }, { name: "Transfer Switches", slug: "transfer-switches" }, { name: "Parts & Maintenance", slug: "generator-parts" }] },
 ]
 
-// Seasonal trending searches -- rotates by quarter
-const seasonalTrending: Record<string, string[]> = {
-  winter: ["Transfer Switch", "Generator", "200A Panel", "LED High Bay", "Heat Tape", "Milwaukee M18", "14/2 NM-B", "#12 THHN"],
-  spring: ["580W Solar", "EV Charger", "Mini Split", "200A Panel", "14/2 NM-B", "Racking & Mounting", "Milwaukee M18", "#12 THHN"],
-  summer: ["580W Solar", "Mini Split", "EV Charger", "LED High Bay", "Inverter", "Battery ESS", "200A Panel", "Fan & Ventilation"],
-  fall: ["Generator", "Transfer Switch", "200A Panel", "LED High Bay", "14/2 NM-B", "#12 THHN", "Milwaukee M18", "EV Charger"],
-}
-// Use a fixed season for SSR to avoid hydration mismatch -- "spring" as default
-const defaultSeason = "spring"
-const trendingSearches = seasonalTrending[defaultSeason]
+
 
 function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
   const [open, setOpen] = useState(false)
@@ -54,32 +44,69 @@ function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
   )
 }
 
+/* Nav items with optional hover dropdown subcategories (2x2 grid with thumbnails) */
+const navItems: { label: string; href: string; icon: React.ComponentType<{ className?: string }>; dropdown?: { name: string; href: string; image: string }[] }[] = [
+  { label: "Home", href: "/", icon: Home },
+  { label: "About Us", href: "/about", icon: Users },
+  { label: "All Products", href: "/departments", icon: Package },
+  {
+    label: "Electrical", href: "/departments/electrical", icon: Zap,
+    dropdown: [
+      { name: "Circuit Breakers & Panels", href: "/departments/electrical/circuit-breakers-panels", image: "/images/nav-circuit-breakers.jpg" },
+      { name: "Wire & Cable", href: "/departments/electrical/wire-cable", image: "/images/nav-wire-cable.jpg" },
+      { name: "Conduit & Fittings", href: "/departments/electrical/conduit-fittings", image: "/images/nav-conduit.jpg" },
+      { name: "Switches & Outlets", href: "/departments/electrical/switches-outlets", image: "/images/nav-switches.jpg" },
+    ],
+  },
+  {
+    label: "Lighting", href: "/departments/lighting", icon: Lightbulb,
+    dropdown: [
+      { name: "LED Fixtures", href: "/departments/lighting/led-fixtures", image: "/images/nav-led-fixtures.jpg" },
+      { name: "High Bay & Industrial", href: "/departments/lighting/high-bay", image: "/images/nav-high-bay.jpg" },
+      { name: "Outdoor & Area Lighting", href: "/departments/lighting/outdoor-area", image: "/images/nav-outdoor-light.jpg" },
+      { name: "Bulbs & Lamps", href: "/departments/lighting/bulbs-lamps", image: "/images/nav-bulbs.jpg" },
+    ],
+  },
+  {
+    label: "Solar", href: "/departments/solar", icon: Sun,
+    dropdown: [
+      { name: "Solar Panels", href: "/departments/solar/solar-panels", image: "/images/nav-solar-panels.jpg" },
+      { name: "Inverters & Optimizers", href: "/departments/solar/inverters-optimizers", image: "/images/nav-inverter.jpg" },
+      { name: "Solar Kits", href: "/departments/solar/solar-kits", image: "/images/nav-solar-kit.jpg" },
+      { name: "Batteries & ESS", href: "/departments/solar/batteries-ess", image: "/images/nav-battery.jpg" },
+    ],
+  },
+  {
+    label: "Plumbing", href: "/departments/plumbing", icon: Plumbing,
+    dropdown: [
+      { name: "Pipe & Fittings", href: "/departments/plumbing/pipe-fittings", image: "/images/nav-pipe-fittings.jpg" },
+      { name: "Valves", href: "/departments/plumbing/valves", image: "/images/nav-valves.jpg" },
+      { name: "Water Heaters", href: "/departments/plumbing/water-heaters", image: "/images/nav-water-heater.jpg" },
+      { name: "Pumps", href: "/departments/plumbing/pumps", image: "/images/nav-pump.jpg" },
+    ],
+  },
+  { label: "Contact Us", href: "/contact", icon: Phone },
+]
+
 export function Navbar() {
   const { count: cartCount, total: cartTotal } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [megaOpen, setMegaOpen] = useState<string | null>(null)
-  const [allMenuOpen, setAllMenuOpen] = useState(false)
   const [cartOpen, setCartOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [lang, setLang] = useState<"en" | "es">("en")
   const [searchQuery, setSearchQuery] = useState("")
   const [searchDept, setSearchDept] = useState("All Departments")
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [openDrop, setOpenDrop] = useState<string | null>(null)
+  const dropTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const handleEnter = useCallback((name: string) => {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-    setMegaOpen(name)
+  const enterDrop = useCallback((label: string) => {
+    if (dropTimer.current) clearTimeout(dropTimer.current)
+    setOpenDrop(label)
   }, [])
-
-  const handleLeave = useCallback(() => {
-    closeTimer.current = setTimeout(() => setMegaOpen(null), 150)
+  const leaveDrop = useCallback(() => {
+    dropTimer.current = setTimeout(() => setOpenDrop(null), 120)
   }, [])
-
-  function handleKeyDown(e: React.KeyboardEvent, name: string) {
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setMegaOpen(megaOpen === name ? null : name) }
-    if (e.key === "Escape") setMegaOpen(null)
-  }
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -88,15 +115,7 @@ export function Navbar() {
     }
   }
 
-  useEffect(() => {
-    return () => { if (closeTimer.current) clearTimeout(closeTimer.current) }
-  }, [])
 
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) { if (e.key === "Escape") { setMegaOpen(null); setAllMenuOpen(false) } }
-    document.addEventListener("keydown", onKey)
-    return () => document.removeEventListener("keydown", onKey)
-  }, [])
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-navbar shadow-sm">
@@ -233,69 +252,56 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Trending searches - lg+ only, seasonal rotation */}
-      <div className="hidden border-t border-border bg-muted/40 lg:block">
-        <div className="mx-auto flex max-w-[1400px] items-center gap-2 px-4 py-1">
-          <span className="text-[10px] font-medium text-muted-foreground">Trending:</span>
-          {trendingSearches.map((term) => (
-            <Link key={term} href={`/search?q=${encodeURIComponent(term)}`} className="rounded-full border border-border bg-card px-2.5 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
-              {term}
-            </Link>
-          ))}
-        </div>
-      </div>
+      {/* Row 2: Main navigation bar */}
+      <nav className="hidden border-t border-border bg-foreground md:block" aria-label="Main navigation">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-center px-4">
+          {navItems.map((item) => (
+            <div
+              key={item.label}
+              className="relative"
+              onMouseEnter={() => item.dropdown ? enterDrop(item.label) : undefined}
+              onMouseLeave={item.dropdown ? leaveDrop : undefined}
+            >
+              <Link
+                href={item.href}
+                className="flex items-center gap-1.5 whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-background/80 transition-colors hover:text-primary"
+              >
+                <item.icon className="h-3.5 w-3.5" />
+                {item.label}
+                {item.dropdown && <ChevronDown className="ml-0.5 h-3 w-3 opacity-50" />}
+              </Link>
 
-      {/* Row 2: Category bar */}
-      <nav className="hidden border-t border-border bg-foreground md:block" aria-label="Department navigation">
-        <div className="mx-auto flex max-w-[1400px] items-center overflow-x-auto px-4 scrollbar-none">
-          {/* All menu */}
-          <div className="relative" onMouseEnter={() => setAllMenuOpen(true)} onMouseLeave={() => setAllMenuOpen(false)}>
-            <button className="flex items-center gap-1.5 py-2 pr-4 text-sm font-bold text-background transition-colors hover:text-primary" aria-expanded={allMenuOpen} aria-haspopup="true" onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setAllMenuOpen(!allMenuOpen) } if (e.key === "Escape") setAllMenuOpen(false) }}>
-              <Menu className="h-4 w-4" /> All
-            </button>
-            {allMenuOpen && (
-              <div className="absolute left-0 top-full z-50 w-64 rounded-b-lg border border-border bg-card py-2 shadow-xl" role="menu">
-                {departments.map((dept) => (
-                  <Link key={dept.slug} href={`/departments/${dept.slug}`} role="menuitem" className="flex items-center justify-between px-4 py-2.5 text-sm text-card-foreground transition-colors hover:bg-muted">
-                    {dept.name} <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Department links */}
-          <div className="flex min-w-0 flex-1 items-center overflow-hidden">
-            {departments.map((dept) => (
-              <div key={dept.slug} className="relative" onMouseEnter={() => handleEnter(dept.name)} onMouseLeave={handleLeave}>
-                <Link href={`/departments/${dept.slug}`} className="block whitespace-nowrap px-2 py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary" onKeyDown={(e) => handleKeyDown(e, dept.name)} onFocus={() => handleEnter(dept.name)} onBlur={handleLeave}>
-                  {dept.name}
-                </Link>
-                {megaOpen === dept.name && (
-                  <div className="absolute left-1/2 top-full z-50 w-[480px] -translate-x-1/2 rounded-b-lg border border-border bg-card p-5 shadow-xl" onMouseEnter={() => handleEnter(dept.name)} onMouseLeave={handleLeave} role="menu">
-                    <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">{dept.name}</div>
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-1">
-                      {dept.subs.map((sub) => (
-                        <Link key={sub.slug} href={`/departments/${dept.slug}/${sub.slug}`} role="menuitem" className="rounded-md px-2 py-1.5 text-sm text-card-foreground transition-colors hover:bg-muted hover:text-primary">{sub.name}</Link>
-                      ))}
-                    </div>
-                    <div className="mt-4 border-t border-border pt-3">
-                      <Link href={`/departments/${dept.slug}`} className="text-sm font-semibold text-primary hover:underline">{`Shop All ${dept.name} \u2192`}</Link>
-                    </div>
+              {/* Dropdown */}
+              {item.dropdown && openDrop === item.label && (
+                <div
+                  className="absolute left-1/2 top-full z-50 w-[480px] -translate-x-1/2 rounded-b-xl border border-border bg-card p-4 shadow-xl"
+                  onMouseEnter={() => enterDrop(item.label)}
+                  onMouseLeave={leaveDrop}
+                >
+                  <div className="grid grid-cols-2 gap-2">
+                    {item.dropdown.map((sub) => (
+                      <Link
+                        key={sub.name}
+                        href={sub.href}
+                        className="flex items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-muted"
+                      >
+                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-border bg-muted/30">
+                          <Image src={sub.image} alt={sub.name} fill sizes="48px" className="object-cover" />
+                        </div>
+                        <span className="text-sm font-medium text-card-foreground">{sub.name}</span>
+                        <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
+                      </Link>
+                    ))}
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="ml-auto flex shrink-0 items-center gap-3 pl-2">
-            <QuickOrderPad />
-            <Link href="/quote" className="flex items-center gap-1.5 whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Request a Quote</Link>
-            <Link href="/bulk" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Bulk Pricing</Link>
-            <Link href="/powerlink" className="flex items-center gap-1 whitespace-nowrap py-2 text-[13px] font-medium text-accent transition-colors hover:text-accent/80">Power Link</Link>
-            <Link href="/deals" className="whitespace-nowrap py-2 text-[13px] font-bold text-sale">Deals & Clearance</Link>
-            <Link href="/pro" className="whitespace-nowrap py-2 text-[13px] font-medium text-background/80 transition-colors hover:text-primary">Pro Account</Link>
-          </div>
+                  <div className="mt-3 border-t border-border pt-3">
+                    <Link href={item.href} className="text-sm font-semibold text-primary hover:underline">
+                      {`Shop All ${item.label} \u2192`}
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </nav>
 
