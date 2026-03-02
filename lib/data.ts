@@ -1,5 +1,20 @@
 // Shared product/department/brand data used across all pages
 
+export type ProductType = "part" | "kit"
+
+export interface KitItem {
+  name: string
+  sku: string
+  qty: number
+  slug?: string
+}
+
+export interface ProductDocument {
+  label: string
+  url: string
+  type: "datasheet" | "install-guide" | "warranty" | "spec-sheet" | "certificate"
+}
+
 export interface Product {
   id: number
   slug: string
@@ -19,6 +34,20 @@ export interface Product {
   description: string
   features: string[]
   shipsFrom: string
+  // New fields -- all optional for backward compat
+  type?: ProductType
+  gallery?: string[]
+  includes?: KitItem[]
+  documents?: ProductDocument[]
+  certifications?: string[]
+  weight?: string
+  dimensions?: string
+  warranty?: string
+  leadTime?: string
+  minOrderQty?: number
+  compatibleWith?: string[]
+  upc?: string
+  countryOfOrigin?: string
 }
 
 export interface Department {
@@ -215,18 +244,73 @@ export const brands: Brand[] = [
 ]
 
 export const products: Product[] = [
-  { id: 1, slug: "square-d-200a-main-breaker-panel", name: "Square D 200A Main Breaker Panel", brand: "Schneider Electric", category: "circuit-breakers-panels", department: "electrical", price: 189.95, originalPrice: 234.0, rating: 4.7, reviews: 567, image: "/images/product-panel.jpg", badge: "In Stock", freeShipping: false, specs: ["200A", "30-Space", "Indoor"], sku: "SQD-HOM3060M200PC", description: "Square D Homeline 200-amp 30-space 60-circuit main breaker load center. UL listed, NEMA 1 indoor rated. Compatible with Homeline plug-on neutral breakers.", features: ["200A main breaker included", "30 spaces, 60 circuits", "Plug-on neutral ready", "NEMA 1 indoor enclosure", "UL listed, CSA certified"], shipsFrom: "Louisville, KY" },
+  { id: 1, slug: "square-d-200a-main-breaker-panel", name: "Square D 200A Main Breaker Panel", brand: "Schneider Electric", category: "circuit-breakers-panels", department: "electrical", price: 189.95, originalPrice: 234.0, rating: 4.7, reviews: 567, image: "/images/product-panel.jpg", badge: "In Stock", freeShipping: false, specs: ["200A", "30-Space", "Indoor"], sku: "SQD-HOM3060M200PC", description: "Square D Homeline 200-amp 30-space 60-circuit main breaker load center. UL listed, NEMA 1 indoor rated. Compatible with Homeline plug-on neutral breakers.", features: ["200A main breaker included", "30 spaces, 60 circuits", "Plug-on neutral ready", "NEMA 1 indoor enclosure", "UL listed, CSA certified"], shipsFrom: "Manufacturer DC", type: "part", gallery: ["/images/product-panel.jpg", "/images/product-panel.jpg"], certifications: ["UL Listed", "CSA Certified", "NEMA 1"], weight: "32 lbs", dimensions: "15.4 x 3.75 x 26.6 in", warranty: "1-year manufacturer warranty", leadTime: "1-2 business days", upc: "785901877684", countryOfOrigin: "Mexico", documents: [{ label: "Specification Sheet", url: "#", type: "spec-sheet" }, { label: "Installation Guide", url: "#", type: "install-guide" }, { label: "UL Certificate", url: "#", type: "certificate" }], compatibleWith: ["eaton-br-100a-panel"] },
   { id: 2, slug: "milwaukee-m18-fuel-hammer-drill-kit", name: 'Milwaukee M18 FUEL 1/2" Hammer Drill Kit', brand: "Milwaukee Tool", category: "power-tools", department: "tools", price: 199.0, originalPrice: 279.0, rating: 4.9, reviews: 1204, image: "/images/product-tools.jpg", badge: "Ships Today", freeShipping: true, specs: ["18V", "Brushless", "2-Speed"], sku: "MIL-2904-22", description: "Milwaukee M18 FUEL 1/2-inch hammer drill/driver kit with POWERSTATE brushless motor, REDLINK PLUS intelligence, and REDLITHIUM battery technology.", features: ["POWERSTATE brushless motor", "REDLINK PLUS intelligence", "0-2,000 RPM", "1,200 in-lbs torque", "Includes 2 batteries, charger, and bag"], shipsFrom: "Louisville, KY" },
   { id: 3, slug: "mrcool-diy-24k-mini-split", name: "MRCOOL DIY 24K BTU Ductless Mini Split", brand: "MRCOOL", category: "mini-splits", department: "hvac", price: 1549.0, originalPrice: 1899.0, rating: 4.6, reviews: 893, image: "/images/cat-hvac.jpg", badge: "In Stock", freeShipping: true, specs: ["24K BTU", "20 SEER", "WiFi"], sku: "MRC-DIY-24-HP-WM-230C", description: "MRCOOL DIY 4th Generation 24,000 BTU ductless mini split heat pump. WiFi-enabled, works with Alexa and Google. DIY-friendly pre-charged line set.", features: ["24,000 BTU cooling/heating", "20 SEER efficiency", "WiFi smart control", "DIY pre-charged line set", "Energy Star certified"], shipsFrom: "Louisville, KY" },
-  { id: 4, slug: "jinko-580w-bifacial-module", name: "Jinko 580W N-Type Bifacial Module", brand: "Jinko Solar", category: "solar-panels", department: "solar", price: 133.4, originalPrice: 174.0, rating: 4.8, reviews: 342, image: "/images/product-solar-panel.jpg", badge: "Ready to Ship", freeShipping: true, specs: ["580W", "Bifacial", "Tier 1"], sku: "JKM580N-72HL4-BDV", description: "Jinko Tiger Neo 580W bifacial N-type solar module. Industry-leading efficiency with TOPCon cell technology. 30-year performance warranty.", features: ["580W rated output", "N-type TOPCon cells", "Bifacial power gain up to 25%", "21.8% module efficiency", "30-year linear warranty"], shipsFrom: "Louisville, KY" },
+  { id: 4, slug: "jinko-580w-bifacial-module", name: "Jinko 580W N-Type Bifacial Module", brand: "Jinko Solar", category: "solar-panels", department: "solar", price: 133.4, originalPrice: 174.0, rating: 4.8, reviews: 342, image: "/images/product-solar-panel.jpg", badge: "Ready to Ship", freeShipping: true, specs: ["580W", "Bifacial", "Tier 1"], sku: "JKM580N-72HL4-BDV", description: "Jinko Tiger Neo 580W bifacial N-type solar module. Industry-leading efficiency with TOPCon cell technology. 30-year performance warranty.", features: ["580W rated output", "N-type TOPCon cells", "Bifacial power gain up to 25%", "21.8% module efficiency", "30-year linear warranty"], shipsFrom: "Manufacturer DC", type: "part", gallery: ["/images/product-solar-panel.jpg", "/images/product-solar-panel.jpg"], certifications: ["UL 61730", "IEC 61215", "BABA Eligible"], weight: "62 lbs", dimensions: "90.2 x 44.7 x 1.4 in", warranty: "12-year product, 30-year linear performance", leadTime: "2-7 business days", upc: "697681340015", countryOfOrigin: "China (BABA alternatives available)", documents: [{ label: "Datasheet", url: "#", type: "datasheet" }, { label: "Installation Manual", url: "#", type: "install-guide" }, { label: "Warranty Certificate", url: "#", type: "warranty" }, { label: "UL Certificate", url: "#", type: "certificate" }], compatibleWith: ["sol-ark-15k-hybrid-inverter"] },
   { id: 5, slug: "generac-22kw-standby-generator", name: "Generac 22kW Standby Generator", brand: "Generac", category: "standby-generators", department: "generators", price: 5299.0, originalPrice: 5799.0, rating: 4.6, reviews: 128, image: "/images/product-generator.jpg", badge: "In Stock", freeShipping: true, specs: ["22kW", "NG/LP", "Auto Transfer"], sku: "GEN-7043", description: "Generac Guardian Series 22kW whole-home standby generator with 200A automatic transfer switch. Runs on natural gas or LP. Mobile Link WiFi monitoring.", features: ["22,000W standby power", "200A smart transfer switch", "Dual fuel: natural gas or LP", "Mobile Link WiFi monitoring", "5-year limited warranty"], shipsFrom: "Louisville, KY" },
   { id: 6, slug: "sharkbite-push-connect-valve-kit", name: 'SharkBite 1/2" Push-to-Connect Valve Kit', brand: "SharkBite", category: "valves", department: "plumbing", price: 24.97, originalPrice: 34.99, rating: 4.8, reviews: 2310, image: "/images/cat-plumbing.jpg", badge: "Ships Today", freeShipping: false, specs: ['1/2"', "Push-Fit", "Lead-Free"], sku: "SHK-22222-0000LFA", description: "SharkBite 1/2-inch push-to-connect quarter-turn ball valve. No soldering, clamps, or glue required. Lead-free brass construction.", features: ["Push-to-connect installation", "No tools required", "Lead-free brass", "Quarter-turn operation", "Works on copper, PEX, CPVC"], shipsFrom: "Louisville, KY" },
   { id: 7, slug: "tesla-wall-connector-gen3", name: "Tesla Wall Connector Gen 3 EV Charger", brand: "Tesla", category: "l2-residential", department: "ev-charging", price: 475.0, originalPrice: 530.0, rating: 4.7, reviews: 891, image: "/images/product-ev-charger.jpg", badge: "In Stock", freeShipping: true, specs: ["48A", "Level 2", "WiFi"], sku: "TSL-1457768-S-02-F", description: "Tesla Wall Connector Gen 3 with up to 48A output. Compatible with all Tesla vehicles and J1772 EVs with adapter. WiFi-enabled for OTA updates.", features: ["Up to 48A / 11.5kW output", "24-foot cable length", "WiFi connectivity", "Power sharing for multiple units", "Indoor/outdoor rated"], shipsFrom: "Louisville, KY" },
-  { id: 8, slug: "sol-ark-15k-hybrid-inverter", name: "Sol-Ark 15K Hybrid Inverter", brand: "Sol-Ark", category: "inverters-optimizers", department: "solar", price: 3995.0, originalPrice: 4595.0, rating: 4.9, reviews: 187, image: "/images/product-inverter.jpg", badge: "Ready to Ship", freeShipping: true, specs: ["15kW", "Hybrid", "200A MPPT"], sku: "SA-15K", description: "Sol-Ark 15K all-in-one hybrid inverter. Supports grid-tied, off-grid, and battery backup. Built-in 200A MPPT charge controllers and rapid shutdown.", features: ["15kW continuous output", "Built-in 200A MPPT", "Grid-tied + off-grid capable", "Rapid shutdown compliant", "10-year warranty, made in USA"], shipsFrom: "Louisville, KY" },
+  { id: 8, slug: "sol-ark-15k-hybrid-inverter", name: "Sol-Ark 15K Hybrid Inverter", brand: "Sol-Ark", category: "inverters-optimizers", department: "solar", price: 3995.0, originalPrice: 4595.0, rating: 4.9, reviews: 187, image: "/images/product-inverter.jpg", badge: "Ready to Ship", freeShipping: true, specs: ["15kW", "Hybrid", "200A MPPT"], sku: "SA-15K", description: "Sol-Ark 15K all-in-one hybrid inverter. Supports grid-tied, off-grid, and battery backup. Built-in 200A MPPT charge controllers and rapid shutdown.", features: ["15kW continuous output", "Built-in 200A MPPT", "Grid-tied + off-grid capable", "Rapid shutdown compliant", "10-year warranty, made in USA"], shipsFrom: "Manufacturer DC", type: "part", gallery: ["/images/product-inverter.jpg", "/images/product-inverter.jpg"], certifications: ["UL 1741", "IEEE 1547", "FCC Part 15", "BABA Compliant"], weight: "123 lbs", dimensions: "28.3 x 15.6 x 9.8 in", warranty: "10-year manufacturer warranty", leadTime: "2-5 business days", countryOfOrigin: "USA", documents: [{ label: "Datasheet", url: "#", type: "datasheet" }, { label: "Installation Manual", url: "#", type: "install-guide" }, { label: "Warranty Document", url: "#", type: "warranty" }], compatibleWith: ["jinko-580w-bifacial-module"] },
   { id: 9, slug: "eaton-br-100a-panel", name: "Eaton BR 100A Main Breaker Panel", brand: "Eaton", category: "circuit-breakers-panels", department: "electrical", price: 89.95, originalPrice: 119.0, rating: 4.5, reviews: 892, image: "/images/product-panel.jpg", badge: "In Stock", freeShipping: false, specs: ["100A", "20-Space", "Indoor"], sku: "EAT-BR2020B100V", description: "Eaton BR Series 100-amp 20-space 20-circuit main breaker load center with value pack.", features: ["100A main breaker included", "20 spaces, 20 circuits", "Type BR breaker compatible", "NEMA 1 indoor enclosure", "UL listed"], shipsFrom: "Louisville, KY" },
   { id: 10, slug: "klein-cl800-digital-clamp-meter", name: "Klein CL800 Digital Clamp Meter", brand: "Klein Tools", category: "meters-testers", department: "tools", price: 89.99, originalPrice: 109.99, rating: 4.8, reviews: 1456, image: "/images/product-tools.jpg", badge: "Ships Today", freeShipping: false, specs: ["600A AC/DC", "TRMS", "CAT III"], sku: "KLE-CL800", description: "Klein Tools CL800 digital clamp meter with auto-ranging True RMS. Measures AC/DC current to 600A and AC/DC voltage to 1000V.", features: ["600A AC/DC current", "True RMS for accuracy", "Auto-ranging", "Temperature measurement", "CAT III 1000V rated"], shipsFrom: "Louisville, KY" },
   { id: 11, slug: "lithonia-2x4-led-troffer", name: "Lithonia 2x4 LED Flat Panel Troffer", brand: "Lithonia", category: "led-fixtures", department: "lighting", price: 64.5, originalPrice: 89.0, rating: 4.6, reviews: 2340, image: "/images/cat-lighting.jpg", badge: "In Stock", freeShipping: false, specs: ["40W", "5000K", "DLC"], sku: "LIT-CPX-2X4-4000LM-50K", description: "Lithonia CPX 2x4 LED flat panel troffer. 4,000 lumens, 5000K daylight. DLC premium listed for utility rebates.", features: ["4,000 lumens output", "5000K daylight color", "DLC Premium listed", "10-year warranty", "Drop ceiling compatible"], shipsFrom: "Louisville, KY" },
   { id: 12, slug: "honeywell-t6-pro-thermostat", name: "Honeywell T6 Pro Programmable Thermostat", brand: "Honeywell", category: "thermostats", department: "hvac", price: 79.99, originalPrice: 99.99, rating: 4.4, reviews: 678, image: "/images/cat-hvac.jpg", badge: "Ships Today", freeShipping: false, specs: ["7-Day", "2H/2C", "Pro Install"], sku: "HON-TH6220U2000", description: "Honeywell T6 Pro programmable thermostat with flexible scheduling. Compatible with most HVAC systems.", features: ["7-day programmable", "2 heat / 2 cool stages", "Large backlit display", "Pro installer preferred", "UL listed"], shipsFrom: "Louisville, KY" },
+  {
+    id: 13,
+    slug: "pes-10kw-residential-solar-kit",
+    name: "PES 10kW Residential Solar Kit -- Jinko + Sol-Ark + IronRidge",
+    brand: "PES Supply",
+    category: "solar-kits",
+    department: "solar",
+    price: 12495.0,
+    originalPrice: 15230.0,
+    rating: 4.8,
+    reviews: 47,
+    image: "/images/product-solar-panel.jpg",
+    badge: "Ready to Ship",
+    freeShipping: true,
+    specs: ["10kW", "18 Panels", "Hybrid Ready"],
+    sku: "PES-KIT-10KW-RES-01",
+    description: "Complete 10kW residential solar kit designed for grid-tied or hybrid installations. Includes 18x Jinko 580W N-Type bifacial panels, 1x Sol-Ark 15K hybrid inverter, and complete IronRidge XR100 racking for standard comp shingle roofs. All components are UL listed and BABA-eligible. Kit is designed by PES engineers for a typical 2,000-3,000 sq ft home. Does not include batteries, conduit, wire, or permitting -- those can be quoted separately through your account rep.",
+    features: [
+      "18x Jinko 580W panels (10.44kW nameplate)",
+      "1x Sol-Ark 15K hybrid inverter",
+      "IronRidge XR100 racking for comp shingle roof",
+      "All UL listed, BABA-eligible components",
+      "Designed for grid-tied or hybrid (battery-ready)",
+      "Free freight to commercial address",
+      "Engineering stamp available (separate quote)",
+    ],
+    shipsFrom: "Multiple locations",
+    type: "kit",
+    gallery: ["/images/product-solar-panel.jpg", "/images/product-inverter.jpg", "/images/product-solar-panel.jpg"],
+    includes: [
+      { name: "Jinko 580W N-Type Bifacial Module", sku: "JKM580N-72HL4-BDV", qty: 18, slug: "jinko-580w-bifacial-module" },
+      { name: "Sol-Ark 15K Hybrid Inverter", sku: "SA-15K", qty: 1, slug: "sol-ark-15k-hybrid-inverter" },
+      { name: "IronRidge XR100 Rail (168 in)", sku: "IR-XR-100-168A", qty: 12 },
+      { name: "IronRidge FlashFoot2 Comp", sku: "IR-FF2-001", qty: 36 },
+      { name: "IronRidge UFO Mid Clamp", sku: "IR-UFO-MC-01", qty: 34 },
+      { name: "IronRidge UFO End Clamp", sku: "IR-UFO-EC-01", qty: 4 },
+      { name: "IronRidge Splice Bar", sku: "IR-SB-01", qty: 6 },
+      { name: "IronRidge Grounding Lug", sku: "IR-GL-01", qty: 18 },
+    ],
+    documents: [
+      { label: "Kit Bill of Materials (BOM)", url: "#", type: "spec-sheet" },
+      { label: "Jinko Panel Datasheet", url: "#", type: "datasheet" },
+      { label: "Sol-Ark Install Manual", url: "#", type: "install-guide" },
+      { label: "IronRidge Racking Guide", url: "#", type: "install-guide" },
+      { label: "BABA Compliance Letter", url: "#", type: "certificate" },
+    ],
+    certifications: ["UL 61730", "UL 1741", "IEC 61215", "BABA Eligible", "FCC Part 15"],
+    weight: "1,850 lbs (palletized)",
+    dimensions: "Ships on 2 pallets: 48x40x60 in each",
+    warranty: "Component warranties apply: 30-year Jinko, 10-year Sol-Ark, 25-year IronRidge",
+    leadTime: "3-7 business days (multi-location coordination)",
+    minOrderQty: 1,
+    countryOfOrigin: "Multi-origin (panels: China, inverter: USA, racking: USA)",
+    compatibleWith: [],
+  },
 ]
 
 export function getProductsByDepartment(deptSlug: string): Product[] {
