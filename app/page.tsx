@@ -1,4 +1,5 @@
 import { HeroBanner } from "@/components/hero-banner"
+import { PartnerStrip } from "@/components/partner-strip"
 import { HowItWorks } from "@/components/how-it-works"
 import { WhoWeServe } from "@/components/who-we-serve"
 import { SolutionsGrid } from "@/components/solutions-grid"
@@ -18,6 +19,7 @@ export default function Home() {
   return (
     <>
       <HeroBanner />
+      <PartnerStrip />
       <HowItWorks />
       <WhoWeServe />
       <SolutionsGrid />
