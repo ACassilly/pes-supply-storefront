@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, ArrowRight, Truck, ShieldCheck, Phone } from "lucide-react"
+import { Icon } from "@/components/icon"
 
 const slides = [
   {
@@ -85,7 +85,7 @@ export function HeroBanner() {
             <p className="mt-1.5 max-w-sm text-pretty text-xs leading-relaxed text-background/60">{slide.subline}</p>
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <Button size="sm" asChild className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90">
-                <Link href={slide.ctaHref}>{slide.cta} <ArrowRight className="h-3 w-3" /></Link>
+                <Link href={slide.ctaHref}>{slide.cta} <Icon name="arrow-right" className="h-3 w-3" /></Link>
               </Button>
               <Button size="sm" variant="outline" asChild className="gap-1.5 border-background/40 bg-transparent text-background hover:border-background hover:bg-background/10">
                 <Link href={slide.ctaSecondaryHref}>{slide.ctaSecondary}</Link>
@@ -94,13 +94,13 @@ export function HeroBanner() {
             {/* Dots + arrows */}
             <div className="mt-3 flex items-center gap-1.5">
               <button onClick={() => go(-1)} className="flex h-6 w-6 items-center justify-center rounded-full border border-background/20 text-background/50 hover:bg-background/10" aria-label="Previous slide">
-                <ChevronLeft className="h-3 w-3" />
+                <Icon name="chevron-left" className="h-3 w-3" />
               </button>
               {slides.map((_, i) => (
                 <button key={i} onClick={() => { setCurrent(i); resetTimer() }} className={`h-1 rounded-full transition-all ${i === current ? "w-6 bg-primary" : "w-2 bg-background/25"}`} aria-label={`Go to slide ${i + 1}`} aria-current={i === current ? "true" : undefined} />
               ))}
               <button onClick={() => go(1)} className="flex h-6 w-6 items-center justify-center rounded-full border border-background/20 text-background/50 hover:bg-background/10" aria-label="Next slide">
-                <ChevronRight className="h-3 w-3" />
+                <Icon name="chevron-right" className="h-3 w-3" />
               </button>
             </div>
           </div>
@@ -125,16 +125,16 @@ export function HeroBanner() {
       <div className="border-b border-border bg-muted/60">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-0.5 px-4 py-1.5 text-[10px] md:justify-between">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-muted-foreground">
-            <span className="flex items-center gap-1"><Truck className="h-3 w-3 text-primary" /> Free freight $999+</span>
+            <span className="flex items-center gap-1"><Icon name="truck" className="h-3 w-3" /> Free freight $999+</span>
             <span className="hidden text-border sm:inline">|</span>
-            <span className="flex items-center gap-1"><ShieldCheck className="h-3 w-3 text-primary" /> Full OEM warranties</span>
+            <span className="flex items-center gap-1"><Icon name="shield-check" className="h-3 w-3" /> Full OEM warranties</span>
             <span className="hidden text-border sm:inline">|</span>
             <span>Net-30 terms for qualified accounts</span>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-muted-foreground">
             <span>Orders by 2 PM ET ship same day</span>
             <span className="hidden text-border sm:inline">|</span>
-            <a href="tel:8888760007" className="flex items-center gap-1 font-semibold transition-colors hover:text-primary"><Phone className="h-3 w-3 text-primary" /> (888) 876-0007</a>
+            <a href="tel:8888760007" className="flex items-center gap-1 font-semibold transition-colors hover:text-primary"><Icon name="phone" className="h-3 w-3" /> (888) 876-0007</a>
           </div>
         </div>
       </div>
