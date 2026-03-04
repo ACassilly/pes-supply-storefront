@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Icon } from "@/components/icon"
+import { ArrowRight, BookOpen } from "lucide-react"
 
 const posts = [
   {

@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
-import { Icon } from "@/components/icon"
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
 import { ProductCard, type ProductCardData } from "@/components/product-card"
 
 interface CuratedRow {

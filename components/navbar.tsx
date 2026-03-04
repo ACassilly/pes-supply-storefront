@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Icon } from "@/components/icon"
+import { Search, ShoppingCart, User, Menu, X, ChevronDown, ChevronRight, Phone, MessageCircle, Mail, Heart, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/hooks/use-cart"
@@ -30,7 +30,7 @@ function MobileDeptAccordion({ dept }: { dept: (typeof departments)[0] }) {
     <div className="border-b border-border">
       <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between px-1 py-3 text-sm font-medium text-card-foreground">
         {dept.name}
-        <Icon name="chevron-down" className={`h-4 w-4 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
       <div className={`grid transition-all duration-200 ${open ? "grid-rows-[1fr] pb-3 pl-3" : "grid-rows-[0fr]"}`}>
         <div className="overflow-hidden">
@@ -139,7 +139,7 @@ export function Navbar() {
             </select>
             <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search products, brands, or part numbers..." className="h-11 min-w-0 flex-1 bg-transparent px-4 text-sm text-foreground outline-none placeholder:text-muted-foreground" />
             <button type="submit" className="flex h-11 w-12 shrink-0 items-center justify-center bg-primary text-primary-foreground transition-colors hover:bg-primary/90" aria-label="Search">
-              <Icon name="search" className="h-5 w-5" />
+              <Search className="h-5 w-5" />
             </button>
           </div>
         </form>
@@ -149,20 +149,20 @@ export function Navbar() {
           {/* My Account -- combines Sign In, Orders, Lists */}
           <div className="relative hidden md:block" onMouseEnter={() => setAcctOpen(true)} onMouseLeave={() => setAcctOpen(false)}>
             <button className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted" aria-expanded={acctOpen} aria-haspopup="true">
-              <Icon name="user" className="h-5 w-5" />
+              <User className="h-5 w-5" />
               <span className="hidden text-sm font-bold lg:inline">My Account</span>
-              <Icon name="chevron-down" className="h-3 w-3" />
+              <ChevronDown className="h-3 w-3 text-muted-foreground" />
             </button>
             {acctOpen && (
               <div className="absolute right-0 top-full z-50 w-48 rounded-lg border border-border bg-card py-2 shadow-xl">
                 <Link href="/account" className="flex items-center gap-2.5 px-4 py-2 text-sm text-card-foreground transition-colors hover:bg-muted">
-                  <Icon name="user" className="h-4 w-4" /> Sign In
+                  <User className="h-4 w-4 text-primary" /> Sign In
                 </Link>
                 <Link href="/orders" className="flex items-center gap-2.5 px-4 py-2 text-sm text-card-foreground transition-colors hover:bg-muted">
-                  <Icon name="rotate-ccw" className="h-4 w-4" /> Orders
+                  <RotateCcw className="h-4 w-4 text-primary" /> Orders
                 </Link>
                 <Link href="/lists" className="flex items-center gap-2.5 px-4 py-2 text-sm text-card-foreground transition-colors hover:bg-muted">
-                  <Icon name="heart" className="h-4 w-4" /> Saved Lists
+                  <Heart className="h-4 w-4 text-primary" /> Saved Lists
                 </Link>
               </div>
             )}

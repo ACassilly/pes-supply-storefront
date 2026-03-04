@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Icon } from "@/components/icon"
+import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const steps = [
