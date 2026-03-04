@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ShieldCheck, Package, Award } from "lucide-react"
+
 
 const stats = [
   { value: "169", label: "Authorized Brands" },
@@ -44,9 +44,9 @@ const pillars = [
 ]
 
 const certBadges = [
-  { label: "UL Listed", icon: ShieldCheck },
-  { label: "BABA Compliant", icon: Award },
-  { label: "Energy Star", icon: Package },
+  { label: "UL Listed", image: "/images/icon-ul.jpg" },
+  { label: "BABA Compliant", image: "/images/icon-award.jpg" },
+  { label: "Energy Star", image: "/images/icon-energystar.jpg" },
 ]
 
 export function WhyPesStrip() {
@@ -100,7 +100,7 @@ export function WhyPesStrip() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             {certBadges.map((badge) => (
               <div key={badge.label} className="flex items-center gap-2 rounded-full border border-background/10 bg-background/5 px-4 py-2">
-                <badge.icon className="h-4 w-4 text-primary" />
+                <Image src={badge.image} alt={badge.label} width={16} height={16} className="h-4 w-4 object-contain" />
                 <span className="text-xs font-semibold text-background/70">{badge.label}</span>
               </div>
             ))}
@@ -108,7 +108,7 @@ export function WhyPesStrip() {
 
           <div className="mt-6 flex justify-center">
             <Link href="/pro" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline">
-              Open a Pro Account <ArrowRight className="h-3.5 w-3.5" />
+              {"Open a Pro Account \u2192"}
             </Link>
           </div>
         </div>

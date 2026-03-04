@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Plus, Trash2, Phone, Mail, MessageCircle, DollarSign, Warehouse, UserCheck, Package, CheckCircle } from "lucide-react"
+import { Plus, Trash2, CheckCircle } from "lucide-react"
 
 const INDUSTRIES = [
   "Construction & General Contracting",
@@ -229,21 +230,21 @@ export function QuoteForm() {
             </div>
             <div className="mt-4 flex flex-col gap-2">
               <a href="tel:8888760007" className="flex items-center gap-2.5 rounded-md border border-border px-3 py-2.5 transition-colors hover:bg-muted">
-                <Phone className="h-4 w-4 text-primary" />
+                <Image src="/images/icon-phone.jpg" alt="" width={16} height={16} className="h-4 w-4 object-contain" />
                 <div>
                   <p className="text-xs font-medium text-card-foreground">Call</p>
                   <p className="text-[10px] text-muted-foreground">(888) 876-0007</p>
                 </div>
               </a>
               <a href="mailto:quotes@pes.supply" className="flex items-center gap-2.5 rounded-md border border-border px-3 py-2.5 transition-colors hover:bg-muted">
-                <Mail className="h-4 w-4 text-primary" />
+                <Image src="/images/icon-email.jpg" alt="" width={16} height={16} className="h-4 w-4 object-contain" />
                 <div>
                   <p className="text-xs font-medium text-card-foreground">Email</p>
                   <p className="text-[10px] text-muted-foreground">quotes@pes.supply</p>
                 </div>
               </a>
               <button className="flex items-center gap-2.5 rounded-md border border-border px-3 py-2.5 text-left transition-colors hover:bg-muted">
-                <MessageCircle className="h-4 w-4 text-primary" />
+                <Image src="/images/icon-chat.jpg" alt="" width={16} height={16} className="h-4 w-4 object-contain" />
                 <div>
                   <p className="text-xs font-medium text-card-foreground">Live Chat</p>
                   <p className="flex items-center gap-1 text-[10px] text-muted-foreground"><span className="inline-block h-1.5 w-1.5 rounded-full bg-primary" /> Online Now</p>
@@ -294,14 +295,14 @@ export function QuoteForm() {
       <section className="border-t border-border bg-muted/40 py-10">
         <div className="mx-auto grid max-w-[1400px] gap-6 px-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: DollarSign, title: "Professional pricing for every trade", desc: "Custom rates for contractors, installers, and property managers." },
-            { icon: Warehouse, title: "Nationwide stocking network", desc: "Portlandia Logistics ships from the nearest location. Parcel to full truckload." },
-            { icon: UserCheck, title: "Dedicated account management", desc: "Your named rep handles every quote and every follow-up." },
-            { icon: Package, title: "40,000+ SKUs across 10 departments", desc: "Electrical, solar, HVAC, plumbing, tools, safety, EV, generators." },
+            { image: "/images/icon-pricing.jpg", title: "Professional pricing for every trade", desc: "Custom rates for contractors, installers, and property managers." },
+            { image: "/images/icon-warehouse.jpg", title: "Nationwide stocking network", desc: "Portlandia Logistics ships from the nearest location. Parcel to full truckload." },
+            { image: "/images/icon-account-mgr.jpg", title: "Dedicated account management", desc: "Your named rep handles every quote and every follow-up." },
+            { image: "/images/icon-catalog.jpg", title: "40,000+ SKUs across 10 departments", desc: "Electrical, solar, HVAC, plumbing, tools, safety, EV, generators." },
           ].map((card) => (
             <div key={card.title} className="flex flex-col items-center rounded-lg border border-border bg-card px-4 py-6 text-center">
-              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                <card.icon className="h-6 w-6 text-primary" />
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 overflow-hidden">
+                <Image src={card.image} alt="" width={24} height={24} className="h-6 w-6 object-contain" />
               </div>
               <p className="text-sm font-bold text-card-foreground">{card.title}</p>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{card.desc}</p>

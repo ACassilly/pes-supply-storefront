@@ -1,5 +1,4 @@
 import Image from "next/image"
-import { Phone, Mail, MapPin } from "lucide-react"
 
 const footerLinks = [
   {
@@ -78,11 +77,11 @@ export function SiteFooter() {
               Wholesale electrical, solar, and building materials from 169 authorized brands. Shipped from 10 stocking locations nationwide. A PES Global company.
             </p>
             <div className="flex flex-col gap-2 text-xs text-background/50">
-              <a href="tel:8888760007" className="flex items-center gap-2 hover:text-primary"><Phone className="h-3.5 w-3.5" /> (888) 876-0007</a>
-              <a href="tel:5027900600" className="flex items-center gap-2 hover:text-primary"><Phone className="h-3.5 w-3.5" /> (502) 790-0600</a>
-              <a href="mailto:connect@portlandiaelectric.supply" className="flex items-center gap-2 hover:text-primary"><Mail className="h-3.5 w-3.5" /> connect@portlandiaelectric.supply</a>
+              <a href="tel:8888760007" className="flex items-center gap-2 hover:text-primary"><Image src="/images/icon-phone.jpg" alt="" width={14} height={14} className="h-3.5 w-3.5 object-contain brightness-0 invert opacity-50" /> (888) 876-0007</a>
+              <a href="tel:5027900600" className="flex items-center gap-2 hover:text-primary"><Image src="/images/icon-phone.jpg" alt="" width={14} height={14} className="h-3.5 w-3.5 object-contain brightness-0 invert opacity-50" /> (502) 790-0600</a>
+              <a href="mailto:connect@portlandiaelectric.supply" className="flex items-center gap-2 hover:text-primary"><Image src="/images/icon-email.jpg" alt="" width={14} height={14} className="h-3.5 w-3.5 object-contain brightness-0 invert opacity-50" /> connect@portlandiaelectric.supply</a>
               <a href="https://maps.google.com/?q=1507+Portland+Ave+Louisville+KY+40203" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary">
-                <MapPin className="h-3.5 w-3.5" /> 1507 Portland Ave, Louisville, KY 40203
+                <Image src="/images/icon-mappin.jpg" alt="" width={14} height={14} className="h-3.5 w-3.5 object-contain brightness-0 invert opacity-50" /> 1507 Portland Ave, Louisville, KY 40203
               </a>
             </div>
             <div className="mt-4 flex items-center gap-3">
