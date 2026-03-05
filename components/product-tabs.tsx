@@ -9,7 +9,7 @@ interface Props {
   product: Product
 }
 
-type TabId = "description" | "specs" | "kit-contents" | "documents" | "warranty" | "shipping"
+type TabId = "description" | "specs" | "cross-ref" | "kit-contents" | "documents" | "warranty" | "shipping"
 
 export function ProductTabs({ product }: Props) {
   const isKit = product.type === "kit"
@@ -17,6 +17,7 @@ export function ProductTabs({ product }: Props) {
   const tabs: { id: TabId; label: string }[] = [
     { id: "description", label: "Description" },
     { id: "specs", label: "Specifications" },
+    ...(product.crossRef?.length ? [{ id: "cross-ref" as TabId, label: `Cross Reference (${product.crossRef.length})` }] : []),
     ...(isKit && product.includes?.length ? [{ id: "kit-contents" as TabId, label: `Kit Contents (${product.includes.length})` }] : []),
     ...(product.documents?.length ? [{ id: "documents" as TabId, label: `Documents (${product.documents.length})` }] : []),
     { id: "warranty", label: "Warranty" },
@@ -50,6 +51,7 @@ export function ProductTabs({ product }: Props) {
       <div className="py-6">
         {activeTab === "description" && <DescriptionTab product={product} />}
         {activeTab === "specs" && <SpecsTab product={product} />}
+        {activeTab === "cross-ref" && <CrossRefTab crossRef={product.crossRef || []} product={product} />}
         {activeTab === "kit-contents" && <KitContentsTab items={product.includes || []} />}
         {activeTab === "documents" && <DocumentsTab documents={product.documents || []} />}
         {activeTab === "warranty" && <WarrantyTab product={product} />}
@@ -213,6 +215,56 @@ function DocumentsTab({ documents }: { documents: ProductDocument[] }) {
             <ExternalLink className="h-4 w-4 text-muted-foreground" />
           </a>
         ))}
+      </div>
+    </div>
+  )
+}
+
+function CrossRefTab({ crossRef, product }: { crossRef: { brand: string; partNumber: string; note?: string }[]; product: Product }) {
+  return (
+    <div className="flex flex-col gap-6">
+      <div>
+        <p className="text-sm text-muted-foreground">
+          The following manufacturer part numbers are cross-referenced to this product. Use this table to convert a competitor or legacy part number to the PES Supply equivalent.
+        </p>
+      </div>
+
+      <div className="overflow-hidden rounded-lg border border-border">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-border bg-muted/50">
+              <th className="px-4 py-2.5 text-left font-semibold text-foreground">Competitor Brand</th>
+              <th className="px-4 py-2.5 text-left font-semibold text-foreground">Their Part Number</th>
+              <th className="hidden px-4 py-2.5 text-left font-semibold text-foreground sm:table-cell">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {crossRef.map((ref, i) => (
+              <tr key={ref.partNumber} className={`border-b border-border last:border-0 ${i % 2 === 0 ? "bg-card" : "bg-muted/20"}`}>
+                <td className="px-4 py-2.5 font-medium text-foreground">{ref.brand}</td>
+                <td className="px-4 py-2.5 font-mono text-sm text-primary">{ref.partNumber}</td>
+                <td className="hidden px-4 py-2.5 text-muted-foreground sm:table-cell">{ref.note || "--"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold text-primary">PES Supply Part:</span>
+          <span className="font-mono text-sm font-bold text-foreground">{product.sku}</span>
+        </div>
+        <p className="mt-1 text-xs text-muted-foreground">
+          All cross references are for identification purposes only. Specifications may vary between manufacturers. Always verify that the replacement part meets your project requirements before ordering.
+        </p>
+      </div>
+
+      <div className="rounded-lg border border-border bg-card px-4 py-3">
+        <p className="text-sm text-muted-foreground">
+          <span className="font-semibold text-foreground">{"Don't see your part number?"}</span>{" "}
+          Call our cross-reference team at <a href="tel:8888760007" className="font-semibold text-primary hover:underline">(888) 876-0007</a> or email <a href="mailto:parts@pes.supply" className="font-semibold text-primary hover:underline">parts@pes.supply</a>. We cross-reference 40,000+ SKUs and can look up any manufacturer part number in minutes.
+        </p>
       </div>
     </div>
   )
