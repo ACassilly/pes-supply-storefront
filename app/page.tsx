@@ -1,3 +1,18 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Wholesale Electrical & Solar Supply | PES Supply",
+  description: "Wholesale electrical, solar, HVAC, plumbing, and industrial supplies. 40,000+ products from 200+ brands. Free freight on $999+. Contractor pricing, same-day shipping.",
+  alternates: { canonical: "https://portlandiaelectric.supply" },
+  openGraph: {
+    title: "Wholesale Electrical & Solar Supply | PES Supply",
+    description: "40,000+ products from 200+ brands. Contractor pricing with free freight on $999+.",
+    url: "https://portlandiaelectric.supply",
+    siteName: "PES Supply",
+    type: "website",
+  },
+}
+
 import { HeroBanner } from "@/components/hero-banner"
 import { PartnerStrip } from "@/components/partner-strip"
 import { HowItWorks } from "@/components/how-it-works"
@@ -16,8 +31,37 @@ import { BrandPartners } from "@/components/brand-partners"
 import { NewsletterCta } from "@/components/newsletter-cta"
 
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "PES Supply",
+    url: "https://portlandiaelectric.supply",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://portlandiaelectric.supply/search?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+  }
+
+  const orgJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Portlandia Electric Supply",
+    alternateName: "PES Supply",
+    url: "https://portlandiaelectric.supply",
+    description: "Wholesale electrical, solar, HVAC, plumbing, and industrial supplies for contractors and businesses.",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+1-503-888-8PES",
+      contactType: "sales",
+      availableLanguage: "English",
+    },
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
       <HeroBanner />
       <PartnerStrip />
       <HowItWorks />

@@ -49,6 +49,7 @@ export interface Product {
   upc?: string
   countryOfOrigin?: string
   crossRef?: { brand: string; partNumber: string; note?: string }[]
+  variantId?: string  // Shopify variant GID for cart operations
 }
 
 export interface Department {
@@ -334,6 +335,58 @@ export function getBrand(slug: string): Brand | undefined {
 
 export function getProduct(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug)
+}
+
+// ── Shopify-backed async fetch functions ──
+// These pull real data from Shopify Storefront API with static fallback
+
+export async function fetchShopifyProducts(limit = 50): Promise<Product[]> {
+  try {
+    const { getProducts: shopifyGetProducts } = await import("@/lib/shopify")
+    const { shopifyToProduct } = await import("@/lib/shopify/adapter")
+    const shopifyProducts = await shopifyGetProducts({ first: limit })
+    return shopifyProducts.map(shopifyToProduct)
+  } catch (e) {
+    console.error("[data] Shopify fetch failed, using static fallback:", e)
+    return products
+  }
+}
+
+export async function fetchShopifyProduct(slug: string): Promise<Product | undefined> {
+  try {
+    const { getProduct: shopifyGetProduct } = await import("@/lib/shopify")
+    const { shopifyToProduct } = await import("@/lib/shopify/adapter")
+    const sp = await shopifyGetProduct(slug)
+    if (sp) return shopifyToProduct(sp)
+  } catch (e) {
+    console.error("[data] Shopify product fetch failed, using static fallback:", e)
+  }
+  return products.find((p) => p.slug === slug)
+}
+
+export async function fetchShopifyCollectionProducts(collectionHandle: string, limit = 50): Promise<Product[]> {
+  try {
+    const { getCollectionProducts } = await import("@/lib/shopify")
+    const { shopifyToProduct } = await import("@/lib/shopify/adapter")
+    const shopifyProducts = await getCollectionProducts({ collection: collectionHandle, limit })
+    return shopifyProducts.map(shopifyToProduct)
+  } catch (e) {
+    console.error("[data] Shopify collection fetch failed, using static fallback:", e)
+    return products.filter((p) => p.department === collectionHandle)
+  }
+}
+
+export async function searchShopifyProducts(query: string, limit = 20): Promise<Product[]> {
+  try {
+    const { searchProducts: shopifySearch } = await import("@/lib/shopify")
+    const { shopifyToProduct } = await import("@/lib/shopify/adapter")
+    const shopifyProducts = await shopifySearch(query, limit)
+    return shopifyProducts.map(shopifyToProduct)
+  } catch (e) {
+    console.error("[data] Shopify search failed, using static fallback:", e)
+    const q = query.toLowerCase()
+    return products.filter((p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q))
+  }
 }
 
 export function searchCrossRef(query: string): { product: Product; match: { brand: string; partNumber: string; note?: string } }[] {

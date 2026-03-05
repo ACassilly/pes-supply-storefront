@@ -2,7 +2,13 @@ import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: '*', allow: '/', disallow: '/api/' },
-    sitemap: 'https://pes.supply/sitemap.xml',
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/', '/account/', '/orders/', '/lists/', '/cart'],
+      },
+    ],
+    sitemap: 'https://portlandiaelectric.supply/sitemap.xml',
   }
 }

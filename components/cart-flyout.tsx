@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { useCart } from "@/hooks/use-cart"
 
 export function CartFlyout({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { items, count, total, updateQty, removeItem, clearCart } = useCart()
+  const { items, count, total, updateQty, removeItem, clearCart, checkoutUrl } = useCart()
   const [rfqMode, setRfqMode] = useState(false)
   const [rfqSubmitted, setRfqSubmitted] = useState(false)
   const freeFreight = total >= 999
@@ -111,7 +111,7 @@ export function CartFlyout({ open, onClose }: { open: boolean; onClose: () => vo
               )
             ) : (
               <div className="flex flex-col gap-2">
-                <Button className="w-full" size="lg">Proceed to Checkout</Button>
+                <Button className="w-full" size="lg" onClick={() => { if (checkoutUrl) window.location.href = checkoutUrl }} disabled={!checkoutUrl}>Proceed to Checkout</Button>
                 <Button variant="outline" className="w-full gap-1.5" size="lg" onClick={() => setRfqMode(true)}>
                   <FileText className="h-4 w-4" /> Request a Quote Instead
                 </Button>

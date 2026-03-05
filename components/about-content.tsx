@@ -188,7 +188,7 @@ export function AboutContent() {
             PowerLink is the backbone of PES{"'"}s commitment to creating a dynamic, collaborative supply chain. With real-time inventory visibility, collaborative project tools, and lifecycle support, PowerLink is rapidly expanding to connect energy professionals nationwide with a vision to serve over 1.2 million members.
           </p>
           <div className="mt-4 flex flex-wrap gap-4">
-            <a href="#" className="rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground">Join PowerLink</a>
+            <a href="/powerlink" className="rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground">Join PowerLink</a>
             <a href="mailto:connect@portlandiaelectric.supply" className="rounded-lg border border-border px-5 py-2.5 text-sm font-medium text-foreground">Learn More</a>
           </div>
         </section>
