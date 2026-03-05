@@ -5,7 +5,7 @@
 
 const ODOO_URL = "https://id.pes.supply";
 const ODOO_USERNAME = "alex.cassilly@pes.supply";
-const ODOO_PASSWORD = "PESAdmin2026@";
+const ODOO_PASSWORD = "PESadmin2026!";
 
 let SESSION_ID = null;
 
