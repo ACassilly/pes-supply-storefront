@@ -21,11 +21,16 @@ export function shopifyToProduct(sp: ShopifyProduct): Product {
     ?.filter((o) => o.name !== "Title")
     .flatMap((o) => o.values.slice(0, 2)) || []
 
-  // Extract variants for SKU
-  const variants = Array.isArray(sp.variants)
-    ? sp.variants
-    : sp.variants?.edges?.map((e: any) => e.node) || []
+  // Extract variants for SKU and cart operations
+  // Handle both array format and edges format from Shopify
+  let variants: any[] = []
+  if (Array.isArray(sp.variants)) {
+    variants = sp.variants
+  } else if (sp.variants?.edges) {
+    variants = sp.variants.edges.map((e: any) => e.node)
+  }
   const firstVariant = variants[0]
+  console.log("[v0] shopifyToProduct variants:", { handle: sp.handle, variantCount: variants.length, firstVariantId: firstVariant?.id })
 
   return {
     id: hashId(sp.id),

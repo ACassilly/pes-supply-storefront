@@ -12,8 +12,10 @@ export function AddToCartButton({ product, size = "sm", className = "" }: { prod
   const [adding, setAdding] = useState(false)
 
   const handleAdd = useCallback(async () => {
+    console.log("[v0] AddToCartButton clicked, product:", { id: product.id, name: product.name, variantId: product.variantId })
     if (!product.variantId) {
       // No Shopify variant ID -- show toast anyway for static products
+      console.log("[v0] No variantId, showing toast only")
       triggerCartToast({ name: product.name, price: product.price, image: product.image })
       return
     }
@@ -22,7 +24,7 @@ export function AddToCartButton({ product, size = "sm", className = "" }: { prod
       await addItem({ variantId: product.variantId, name: product.name, price: product.price, image: product.image })
       triggerCartToast({ name: product.name, price: product.price, image: product.image })
     } catch (e) {
-      console.error("[AddToCart] Failed:", e)
+      console.error("[v0] AddToCart Failed:", e)
     } finally {
       setAdding(false)
     }
