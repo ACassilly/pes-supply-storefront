@@ -7,6 +7,7 @@ import { SiteFooter } from '@/components/site-footer'
 import { CartToastProvider } from '@/components/cart-toast'
 import { BackToTop } from '@/components/back-to-top'
 import { ChatWidget } from '@/components/chat-widget'
+import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="bg-background">
+    <html lang="en" className="bg-background" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -78,19 +79,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body className={`${_inter.variable} ${_geistMono.variable} font-sans antialiased`}>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
-          Skip to main content
-        </a>
-        <TopBar />
-        <Navbar />
-        <main id="main-content">
-          {children}
-        </main>
-        <SiteFooter />
-        <CartToastProvider />
-        <ChatWidget />
-        <BackToTop />
-        <Analytics />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
+            Skip to main content
+          </a>
+          <TopBar />
+          <Navbar />
+          <main id="main-content">
+            {children}
+          </main>
+          <SiteFooter />
+          <CartToastProvider />
+          <ChatWidget />
+          <BackToTop />
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )
