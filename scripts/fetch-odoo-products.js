@@ -62,22 +62,130 @@ async function getDbList() {
   }
 }
 
-// Step 2: Authenticate
+// Step 2: Authenticate - try multiple methods for Odoo 19 compatibility
 async function authenticate(db) {
-  console.log(`[v0] Authenticating to ${ODOO_URL} with db=${db}...`);
-  const result = await jsonRpc(`${ODOO_URL}/web/session/authenticate`, "call", {
-    db: db,
-    login: ODOO_USERNAME,
-    password: ODOO_PASSWORD,
-  });
-
-  if (!result || !result.uid) {
-    console.error("[v0] Auth failed. Result:", JSON.stringify(result, null, 2));
-    throw new Error("Authentication failed");
+  // Method 1: /web/session/authenticate (standard)
+  console.log(`[v0] Auth attempt 1: /web/session/authenticate with db=${db}...`);
+  try {
+    const result = await jsonRpc(`${ODOO_URL}/web/session/authenticate`, "call", {
+      db: db,
+      login: ODOO_USERNAME,
+      password: ODOO_PASSWORD,
+    });
+    if (result && result.uid) {
+      console.log(`[v0] Authenticated via /web/session/authenticate! uid=${result.uid}, name=${result.name}`);
+      return result;
+    }
+    console.log("[v0] Method 1 returned no uid:", JSON.stringify(result, null, 2).slice(0, 500));
+  } catch (e) {
+    console.log(`[v0] Method 1 failed: ${e.message}`);
   }
 
-  console.log(`[v0] Authenticated! uid=${result.uid}, name=${result.name}`);
-  return result;
+  // Method 2: XML-RPC style via /jsonrpc common.login
+  console.log(`[v0] Auth attempt 2: XML-RPC common/login with db=${db}...`);
+  try {
+    const uid = await jsonRpc(`${ODOO_URL}/jsonrpc`, "call", {
+      service: "common",
+      method: "login",
+      args: [db, ODOO_USERNAME, ODOO_PASSWORD],
+    });
+    if (uid && uid !== false) {
+      console.log(`[v0] Authenticated via common/login! uid=${uid}`);
+      // Now establish web session too
+      try {
+        const session = await jsonRpc(`${ODOO_URL}/web/session/authenticate`, "call", {
+          db: db,
+          login: ODOO_USERNAME,
+          password: ODOO_PASSWORD,
+        });
+        if (session && session.uid) return session;
+      } catch (_) { /* fall through */ }
+      return { uid, name: ODOO_USERNAME };
+    }
+    console.log("[v0] Method 2 returned:", uid);
+  } catch (e) {
+    console.log(`[v0] Method 2 failed: ${e.message}`);
+  }
+
+  // Method 3: /jsonrpc common/authenticate
+  console.log(`[v0] Auth attempt 3: common/authenticate with db=${db}...`);
+  try {
+    const uid = await jsonRpc(`${ODOO_URL}/jsonrpc`, "call", {
+      service: "common",
+      method: "authenticate",
+      args: [db, ODOO_USERNAME, ODOO_PASSWORD, {}],
+    });
+    if (uid && uid !== false) {
+      console.log(`[v0] Authenticated via common/authenticate! uid=${uid}`);
+      return { uid, name: ODOO_USERNAME };
+    }
+    console.log("[v0] Method 3 returned:", uid);
+  } catch (e) {
+    console.log(`[v0] Method 3 failed: ${e.message}`);
+  }
+
+  // Method 4: Try /web/login as a regular form post to get session cookie
+  console.log(`[v0] Auth attempt 4: /web/login form POST with db=${db}...`);
+  try {
+    // First GET the login page to get CSRF token
+    const loginPage = await fetch(`${ODOO_URL}/web/login`, {
+      method: "GET",
+      redirect: "manual",
+    });
+    const html = await loginPage.text();
+    const csrfMatch = html.match(/name="csrf_token"[^>]*value="([^"]+)"/);
+    const csrf = csrfMatch ? csrfMatch[1] : "";
+    console.log(`[v0] CSRF token found: ${csrf ? "yes" : "no"}`);
+    
+    const loginCookie = loginPage.headers.get("set-cookie");
+    const sessionMatch = loginCookie?.match(/session_id=([^;]+)/);
+    const sessionCookie = sessionMatch ? sessionMatch[1] : "";
+
+    const formData = new URLSearchParams();
+    formData.append("login", ODOO_USERNAME);
+    formData.append("password", ODOO_PASSWORD);
+    formData.append("db", db);
+    if (csrf) formData.append("csrf_token", csrf);
+
+    const loginRes = await fetch(`${ODOO_URL}/web/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        ...(sessionCookie ? { "Cookie": `session_id=${sessionCookie}` } : {}),
+      },
+      body: formData.toString(),
+      redirect: "manual",
+    });
+
+    const status = loginRes.status;
+    const location = loginRes.headers.get("location");
+    const resCookie = loginRes.headers.get("set-cookie");
+    console.log(`[v0] Form login status: ${status}, redirect: ${location}`);
+    
+    if (status === 303 || status === 302) {
+      // Successful login redirects to /web
+      const newSession = resCookie?.match(/session_id=([^;]+)/);
+      if (newSession) {
+        SESSION_ID = newSession[1];
+        console.log("[v0] Got session from form login!");
+        
+        // Now get session info
+        const sessionInfo = await jsonRpc(`${ODOO_URL}/web/session/get_session_info`, "call", {});
+        if (sessionInfo && sessionInfo.uid) {
+          console.log(`[v0] Authenticated via form login! uid=${sessionInfo.uid}, name=${sessionInfo.name}`);
+          return sessionInfo;
+        }
+      }
+    } else {
+      const body = await loginRes.text();
+      const errorMatch = body.match(/class="alert[^"]*"[^>]*>([\s\S]*?)<\/div>/);
+      if (errorMatch) console.log("[v0] Login error:", errorMatch[1].trim().replace(/<[^>]+>/g, ""));
+    }
+  } catch (e) {
+    console.log(`[v0] Method 4 failed: ${e.message}`);
+  }
+
+  throw new Error(`All authentication methods failed for db=${db}`);
 }
 
 // Step 3: Search and read products
@@ -236,7 +344,7 @@ async function main() {
       console.log(`[v0] Using database: ${dbName}`);
     } else {
       // Try common database names
-      const candidates = ["id-pes-supply", "id_pes_supply", "pes", "pes-supply", "odoo", "main", "production"];
+      const candidates = ["pes_crm", "id-pes-supply", "id_pes_supply", "pes", "pes-supply", "odoo", "main", "production"];
       for (const candidate of candidates) {
         try {
           console.log(`[v0] Trying database name: ${candidate}`);
