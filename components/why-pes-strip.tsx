@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ShieldCheck, Package, Award } from "lucide-react"
+import { ShieldCheck, Package, Award, ArrowRight } from "lucide-react"
 
 const stats = [
   { value: "169", label: "Authorized Brands" },
