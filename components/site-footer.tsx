@@ -36,6 +36,7 @@ const footerLinks = [
       { label: "Warranty Info", href: "/shipping" },
       { label: "Return Policy", href: "/returns" },
       { label: "Shipping & Delivery", href: "/shipping" },
+      { label: "Blog & Guides", href: "/blog" },
     ],
   },
   {
@@ -43,7 +44,7 @@ const footerLinks = [
     links: [
       { label: "About PES Supply", href: "/about" },
       { label: "PES Global", href: "/about" },
-      { label: "Careers", href: "/about" },
+      { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
       { label: "Brands", href: "/brands" },
     ],
@@ -119,11 +120,11 @@ export function SiteFooter() {
             </span>
           </div>
           <div className="flex flex-wrap gap-4 text-xs text-background/40">
-            <a href="#" className="hover:text-background">Privacy</a>
-            <a href="#" className="hover:text-background">Terms</a>
+            <a href="/privacy" className="hover:text-background">Privacy</a>
+            <a href="/terms" className="hover:text-background">Terms</a>
             <a href="/returns" className="hover:text-background">Returns</a>
             <a href="/shipping" className="hover:text-background">Shipping</a>
-            <a href="#" className="hover:text-background">Accessibility</a>
+            <a href="/accessibility" className="hover:text-background">Accessibility</a>
           </div>
         </div>
       </div>
