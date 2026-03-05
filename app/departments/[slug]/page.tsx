@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Truck, ShieldCheck, Star, ChevronRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { departments, getProductsByDepartment } from "@/lib/data"
+import { departments, getProductsByDepartment, fetchShopifyCollectionProducts } from "@/lib/data"
 import type { Metadata } from "next"
 import { AddToCartButton } from "@/components/add-to-cart-button"
 
@@ -26,7 +26,9 @@ export default async function DepartmentPage({ params }: { params: Promise<{ slu
   const dept = departments.find((d) => d.slug === slug)
   if (!dept) notFound()
 
-  const deptProducts = getProductsByDepartment(slug)
+  // Try Shopify collection first, fall back to static data
+  const shopifyProducts = await fetchShopifyCollectionProducts(slug, 50)
+  const deptProducts = shopifyProducts.length > 0 ? shopifyProducts : getProductsByDepartment(slug)
 
   return (
     <div className="bg-background">

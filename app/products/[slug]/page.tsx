@@ -3,7 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ChevronRight, Star, Truck, ShieldCheck, MapPin, Check, Package, Clock, Scale, Globe } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { products, departments, getProductsByDepartment } from "@/lib/data"
+import { products, departments, getProductsByDepartment, fetchShopifyProduct, fetchShopifyCollectionProducts } from "@/lib/data"
 import { AddToCartButton } from "@/components/add-to-cart-button"
 import { RequestQuoteButton } from "@/components/request-quote-button"
 import { ProductImageGallery } from "@/components/product-image-gallery"
@@ -12,13 +12,12 @@ import { StickyBuyBar } from "@/components/sticky-buy-bar"
 import { PartNumberLookup } from "@/components/part-number-lookup"
 import type { Metadata } from "next"
 
-export async function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }))
-}
+// Dynamic rendering - products come from Shopify Storefront API
+export const dynamic = "force-dynamic"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const product = products.find((p) => p.slug === slug)
+  const product = await fetchShopifyProduct(slug)
   if (!product) return {}
   return {
     title: `${product.name} | ${product.brand} | PES Supply`,
@@ -33,12 +32,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const product = products.find((p) => p.slug === slug)
+  // Try Shopify first, fall back to static
+  const product = await fetchShopifyProduct(slug)
   if (!product) notFound()
 
   const dept = departments.find((d) => d.slug === product.department)
-  const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-  const related = getProductsByDepartment(product.department).filter((p) => p.id !== product.id).slice(0, 4)
+  const discount = product.originalPrice > product.price ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0
+  const related = (await fetchShopifyCollectionProducts(product.department, 8)).filter((p) => p.id !== product.id).slice(0, 4)
   const compatible = (product.compatibleWith || []).map((s) => products.find((p) => p.slug === s)).filter(Boolean)
   const isKit = product.type === "kit"
   const gallery = product.gallery?.length ? product.gallery : [product.image]

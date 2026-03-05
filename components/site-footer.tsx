@@ -116,7 +116,7 @@ export function SiteFooter() {
             <span>{`\u00A9 ${year} PES Supply (Portlandia Electric Supply, Inc.). All rights reserved.`}</span>
             <span>
               {"PES Supply is a division of "}
-              <a href="#" className="font-semibold text-background/60 hover:text-primary">PES Global</a>.
+              <a href="/about" className="font-semibold text-background/60 hover:text-primary">PES Global</a>.
             </span>
           </div>
           <div className="flex flex-wrap gap-4 text-xs text-background/40">

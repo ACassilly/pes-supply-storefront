@@ -7,17 +7,25 @@ import { useCart } from "@/hooks/use-cart"
 import { triggerCartToast } from "@/components/cart-toast"
 import type { Product } from "@/lib/data"
 
-export function AddToCartButton({ product, size = "sm", className = "" }: { product: Pick<Product, "id" | "name" | "price" | "image">; size?: "sm" | "default" | "lg"; className?: string }) {
+export function AddToCartButton({ product, size = "sm", className = "" }: { product: Pick<Product, "id" | "name" | "price" | "image"> & { variantId?: string }; size?: "sm" | "default" | "lg"; className?: string }) {
   const { addItem } = useCart()
   const [adding, setAdding] = useState(false)
 
-  const handleAdd = useCallback(() => {
-    setAdding(true)
-    setTimeout(() => {
-      addItem({ id: product.id, name: product.name, price: product.price, image: product.image })
+  const handleAdd = useCallback(async () => {
+    if (!product.variantId) {
+      // No Shopify variant ID -- show toast anyway for static products
       triggerCartToast({ name: product.name, price: product.price, image: product.image })
+      return
+    }
+    setAdding(true)
+    try {
+      await addItem({ variantId: product.variantId, name: product.name, price: product.price, image: product.image })
+      triggerCartToast({ name: product.name, price: product.price, image: product.image })
+    } catch (e) {
+      console.error("[AddToCart] Failed:", e)
+    } finally {
       setAdding(false)
-    }, 400)
+    }
   }, [addItem, product])
 
   return (

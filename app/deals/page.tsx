@@ -168,7 +168,7 @@ export default function DealsPage() {
               {activeTab === "weekly" ? "Handpicked items with special pricing -- refreshed every Monday." : activeTab === "open-box" ? "Open box products fully inspected and tested. Same product, lower cost." : "Warehouse closeout -- final markdowns, while supplies last."}
             </p>
           </div>
-          <Link href="#" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline md:flex">View all items <ArrowRight className="h-3.5 w-3.5" /></Link>
+          <Link href="/departments" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline md:flex">View all items <ArrowRight className="h-3.5 w-3.5" /></Link>
         </div>
 
         {/* Product grid */}

@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronRight, Star, Truck, Globe, ShieldCheck } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { brands, getProductsByBrand } from "@/lib/data"
+import { brands, getProductsByBrand, searchShopifyProducts } from "@/lib/data"
 import { AddToCartButton } from "@/components/add-to-cart-button"
 import type { Metadata } from "next"
 
@@ -26,7 +26,9 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
   const brand = brands.find((b) => b.slug === slug)
   if (!brand) notFound()
 
-  const brandProducts = getProductsByBrand(slug)
+  // Try Shopify search for brand, fall back to static data
+  const shopifyProducts = await searchShopifyProducts(brand.name, 50)
+  const brandProducts = shopifyProducts.length > 0 ? shopifyProducts : getProductsByBrand(slug)
 
   return (
     <div className="bg-background">
