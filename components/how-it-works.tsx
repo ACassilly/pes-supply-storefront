@@ -78,12 +78,12 @@ export function HowItWorks() {
         <div className="mt-3 flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
           <Button asChild size="sm" className="gap-1.5">
             <a href="#pro-account">
-              I{"'"}m a Pro <Icon name="arrow-right" className="h-3.5 w-3.5" />
+              I{"'"}m a Pro <ArrowRight className="h-3.5 w-3.5" />
             </a>
           </Button>
           <Button asChild variant="outline" size="sm" className="gap-1.5 border-accent text-accent hover:bg-accent hover:text-accent-foreground">
             <Link href="#find-a-pro">
-              Need a Pro for Your Job? <Icon name="arrow-right" className="h-3.5 w-3.5" />
+              Need a Pro for Your Job? <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </Button>
         </div>

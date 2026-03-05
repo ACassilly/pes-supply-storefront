@@ -83,14 +83,14 @@ function ScrollableRow({ row }: { row: CuratedRow }) {
           <p className="mt-0.5 text-xs text-muted-foreground">{row.subtitle}</p>
         </div>
         <Link href={row.href} className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline sm:flex">
-          Shop All <Icon name="arrow-right" className="h-3.5 w-3.5" />
+          Shop All <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
 
       <div className="relative">
         {canLeft && (
           <button onClick={() => scroll(-1)} className="absolute -left-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card shadow-md hover:bg-muted" aria-label="Scroll left">
-            <Icon name="chevron-left" className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4" />
           </button>
         )}
         <div ref={scrollRef} className="scrollbar-none flex gap-3 overflow-x-auto scroll-smooth">
@@ -100,14 +100,14 @@ function ScrollableRow({ row }: { row: CuratedRow }) {
         </div>
         {canRight && (
           <button onClick={() => scroll(1)} className="absolute -right-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card shadow-md hover:bg-muted" aria-label="Scroll right">
-            <Icon name="chevron-right" className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4" />
           </button>
         )}
       </div>
 
       <div className="mt-3 flex justify-center sm:hidden">
         <Link href={row.href} className="flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
-          Shop All <Icon name="arrow-right" className="h-3.5 w-3.5" />
+          Shop All <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </div>

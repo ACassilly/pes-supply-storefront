@@ -169,7 +169,7 @@ export function Navbar() {
           </div>
           <button onClick={() => setCartOpen(true)} className="relative flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-foreground transition-colors hover:bg-muted" aria-label={`Cart with ${cartCount} items`}>
             <div className="relative">
-              <Icon name="shopping-cart" className="h-5 w-5" />
+              <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
                 <Badge className="absolute -right-2 -top-2 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-accent p-0 text-[9px] font-bold text-accent-foreground">
                   {cartCount}
@@ -179,7 +179,7 @@ export function Navbar() {
             <span className="hidden text-sm font-bold sm:inline">{cartTotal > 0 ? `$${cartTotal.toFixed(2)}` : "Cart"}</span>
           </button>
           <Button variant="ghost" size="icon" className="text-foreground md:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
-            {mobileOpen ? <Icon name="x" className="h-6 w-6" /> : <Icon name="menu" className="h-6 w-6" />}
+            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
       </div>
@@ -201,7 +201,7 @@ export function Navbar() {
                   className="flex items-center gap-1 whitespace-nowrap px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-background/80 transition-colors hover:text-primary"
                 >
                   {item.label}
-                  {hasDropdown && <Icon name="chevron-down" className="ml-0.5 h-3 w-3 opacity-50" />}
+                  {hasDropdown && <ChevronDown className="ml-0.5 h-3 w-3 opacity-50" />}
                 </Link>
 
                 {/* Product subcategory dropdown */}
@@ -222,7 +222,7 @@ export function Navbar() {
                             <Image src={sub.image} alt={sub.name} fill sizes="48px" className="object-cover" />
                           </div>
                           <span className="text-sm font-medium text-card-foreground">{sub.name}</span>
-                          <Icon name="chevron-right" className="ml-auto h-4 w-4 shrink-0" />
+                          <ChevronRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
                         </Link>
                       ))}
                     </div>
@@ -247,21 +247,21 @@ export function Navbar() {
                     </div>
                     <div className="flex flex-col gap-1 px-2 py-2">
                       <button className="flex items-center gap-3 rounded-md px-3 py-2.5 text-left transition-colors hover:bg-muted">
-                        <Icon name="message-circle" className="h-5 w-5" />
+                        <MessageCircle className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm font-medium text-card-foreground">Live Chat</p>
                           <p className="flex items-center gap-1 text-[10px] text-muted-foreground"><span className="inline-block h-1.5 w-1.5 rounded-full bg-primary" /> Online Now</p>
                         </div>
                       </button>
                       <a href="tel:8888760007" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
-                        <Icon name="phone" className="h-5 w-5" />
+                        <Phone className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm font-medium text-card-foreground">Call</p>
                           <p className="text-[10px] text-muted-foreground">(888) 876-0007</p>
                         </div>
                       </a>
                       <a href="mailto:sales@pes.supply" className="flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted">
-                        <Icon name="mail" className="h-5 w-5" />
+                        <Mail className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm font-medium text-card-foreground">Email</p>
                           <p className="text-[10px] text-muted-foreground">sales@pes.supply</p>
@@ -289,14 +289,14 @@ export function Navbar() {
         <div className="max-h-[80vh] overflow-y-auto border-t border-border bg-card md:hidden" role="dialog" aria-label="Navigation menu">
           <div className="p-4">
             <form onSubmit={handleSearch} className="mb-4 flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-3">
-              <Icon name="search" className="h-4 w-4" />
+              <Search className="h-4 w-4 text-muted-foreground" />
               <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search products, brands, or part numbers..." className="h-10 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
             </form>
             <div className="mb-3 grid grid-cols-2 gap-2">
-              <Link href="/account" className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><Icon name="user" className="h-4 w-4" /> Sign In</Link>
-              <button onClick={() => { setMobileOpen(false); setCartOpen(true) }} className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><Icon name="shopping-cart" className="h-4 w-4" /> {cartTotal > 0 ? `$${cartTotal.toFixed(2)}` : "Cart"}{cartCount > 0 ? ` (${cartCount})` : ""}</button>
-              <Link href="/orders" className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><Icon name="rotate-ccw" className="h-4 w-4" /> Orders</Link>
-              <Link href="/lists" className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><Icon name="heart" className="h-4 w-4" /> Lists</Link>
+              <Link href="/account" className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><User className="h-4 w-4" /> Sign In</Link>
+              <button onClick={() => { setMobileOpen(false); setCartOpen(true) }} className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><ShoppingCart className="h-4 w-4" /> {cartTotal > 0 ? `$${cartTotal.toFixed(2)}` : "Cart"}{cartCount > 0 ? ` (${cartCount})` : ""}</button>
+              <Link href="/orders" className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><RotateCcw className="h-4 w-4" /> Orders</Link>
+              <Link href="/lists" className="flex items-center justify-center gap-2 rounded-lg border border-border py-2.5 text-sm font-medium text-card-foreground"><Heart className="h-4 w-4" /> Lists</Link>
             </div>
             <div className="mb-4 flex gap-2">
               <Link href="/deals" className="flex flex-1 items-center justify-center rounded-lg bg-sale/10 py-2.5 text-sm font-bold text-sale">Deals & Clearance</Link>

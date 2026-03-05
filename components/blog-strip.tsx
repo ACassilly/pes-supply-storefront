@@ -32,11 +32,11 @@ export function BlogStrip() {
       <div className="mx-auto max-w-7xl px-4">
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Icon name="book-open" className="h-4 w-4" />
+            <BookOpen className="h-4 w-4 text-primary" />
             <h2 className="text-lg font-bold text-foreground">From the PES Blog</h2>
           </div>
           <Link href="/blog" className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
-            All Articles <Icon name="arrow-right" className="h-3 w-3" />
+            All Articles <ArrowRight className="h-3 w-3" />
           </Link>
         </div>
 

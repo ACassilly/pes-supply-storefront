@@ -26,7 +26,7 @@ export function SolutionsGrid() {
           <p className="mt-0.5 text-xs text-muted-foreground">Everything between the meter and the roof. One supplier, one order.</p>
         </div>
         <Link href="/departments" className="hidden items-center gap-1 text-sm font-semibold text-primary hover:underline sm:flex">
-          View All <Icon name="arrow-right" className="h-3.5 w-3.5" />
+          View All <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
 
@@ -53,7 +53,7 @@ export function SolutionsGrid() {
 
       <div className="mt-4 flex justify-center sm:hidden">
         <Button variant="outline" size="sm" className="gap-1 text-primary" asChild>
-          <Link href="/departments">View All Departments <Icon name="arrow-right" className="h-3 w-3" /></Link>
+          <Link href="/departments">View All Departments <ArrowRight className="h-3 w-3" /></Link>
         </Button>
       </div>
     </section>
