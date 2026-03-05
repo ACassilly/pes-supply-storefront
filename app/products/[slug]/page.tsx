@@ -9,6 +9,7 @@ import { RequestQuoteButton } from "@/components/request-quote-button"
 import { ProductImageGallery } from "@/components/product-image-gallery"
 import { ProductTabs } from "@/components/product-tabs"
 import { StickyBuyBar } from "@/components/sticky-buy-bar"
+import { PartNumberLookup } from "@/components/part-number-lookup"
 import type { Metadata } from "next"
 
 export async function generateStaticParams() {
@@ -181,6 +182,35 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </div>
             )}
 
+            {/* Cross Reference / Number Conversion */}
+            {product.crossRef && product.crossRef.length > 0 && (
+              <div className="mt-4 rounded-lg border border-primary/20 bg-primary/5 p-4">
+                <h3 className="mb-3 text-sm font-bold text-foreground">Part Number Cross Reference</h3>
+                <p className="mb-3 text-xs text-muted-foreground">Replacing a competitor part? This product is a direct replacement for:</p>
+                <div className="overflow-hidden rounded-md border border-border">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="bg-muted/50">
+                        <th className="px-3 py-2 text-left font-semibold text-foreground">Brand</th>
+                        <th className="px-3 py-2 text-left font-semibold text-foreground">Part Number</th>
+                        <th className="hidden px-3 py-2 text-left font-semibold text-foreground sm:table-cell">Note</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {product.crossRef.map((ref, i) => (
+                        <tr key={ref.partNumber} className={i % 2 === 0 ? "bg-card" : "bg-muted/20"}>
+                          <td className="px-3 py-2 font-medium text-foreground">{ref.brand}</td>
+                          <td className="px-3 py-2 font-mono text-primary">{ref.partNumber}</td>
+                          <td className="hidden px-3 py-2 text-muted-foreground sm:table-cell">{ref.note || "--"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-2 text-[10px] text-muted-foreground">Cross references are for identification purposes. Always verify specs before ordering. Need a part number not listed? Call (888) 876-0007.</p>
+              </div>
+            )}
+
             {/* Kit contents quick summary */}
             {isKit && product.includes && product.includes.length > 0 && (
               <div className="mt-4 rounded-lg border border-border bg-card p-4">
@@ -226,6 +256,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       {/* Tabs Section */}
       <section className="mx-auto max-w-7xl px-4 py-4">
         <ProductTabs product={product} />
+      </section>
+
+      {/* Part Number Lookup */}
+      <section className="mx-auto max-w-7xl px-4 py-6">
+        <PartNumberLookup />
       </section>
 
       {/* Compatible Products */}

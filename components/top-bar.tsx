@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { ChevronLeft, ChevronRight, Truck, Phone, Zap, ShieldCheck } from "lucide-react"
 import Link from "next/link"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const announcements = [
   { icon: Truck, text: "Free Freight on Orders $999+", highlight: "Shipped via Portlandia Logistics from 10 locations", href: "/shipping" },
@@ -74,8 +75,14 @@ export function TopBar() {
 
         {/* Right links - visible at md+ */}
         <div className="hidden shrink-0 items-center gap-2 md:flex">
+          <ThemeToggle />
           <span className="text-topbar-foreground/20">|</span>
           <Link href="/account" className="font-semibold text-primary transition-colors hover:underline">Sign In / Register</Link>
+        </div>
+
+        {/* Theme toggle on mobile */}
+        <div className="flex shrink-0 md:hidden">
+          <ThemeToggle />
         </div>
       </div>
     </div>
