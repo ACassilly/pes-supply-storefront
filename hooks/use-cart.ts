@@ -84,48 +84,37 @@ export function useCart() {
 
   async function ensureCart(): Promise<string> {
     const existing = getStoredCartId()
-    if (existing) {
-      console.log("[v0] useCart: using existing cart", existing)
-      return existing
-    }
-    console.log("[v0] useCart: creating new cart...")
+    if (existing) return existing
     const res = await fetch("/api/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "create" }),
     })
     const json = await res.json()
-    console.log("[v0] useCart: create response", json)
     if (json.cart?.id) {
       storeCartId(json.cart.id)
-      // Also update SWR state immediately after cart creation
       mutate(parseShopifyCart(json.cart), { revalidate: false })
       return json.cart.id
     }
     throw new Error("Failed to create cart")
   }
 
-  async function addItem(product: { variantId: string; name: string; price: number; image: string }) {
-    console.log("[v0] useCart.addItem called with:", product)
+  async function addItem(product: { variantId: string; name: string; price: number; image: string; quantity?: number }) {
     const cid = await ensureCart()
-    console.log("[v0] useCart: adding to cart", cid, "variant", product.variantId)
+    const qty = product.quantity || 1
     const res = await fetch("/api/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         action: "add",
         cartId: cid,
-        lines: [{ merchandiseId: product.variantId, quantity: 1 }],
+        lines: [{ merchandiseId: product.variantId, quantity: qty }],
       }),
     })
     const json = await res.json()
-    console.log("[v0] useCart: add response", json)
     if (json.cart) {
-      const parsed = parseShopifyCart(json.cart)
-      console.log("[v0] useCart: parsed cart", parsed)
-      mutate(parsed, { revalidate: false })
+      mutate(parseShopifyCart(json.cart), { revalidate: false })
     } else if (json.error) {
-      console.error("[v0] useCart: add error", json.error)
       throw new Error(json.error)
     }
   }

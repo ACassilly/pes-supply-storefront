@@ -30,7 +30,6 @@ export function shopifyToProduct(sp: ShopifyProduct): Product {
     variants = sp.variants.edges.map((e: any) => e.node)
   }
   const firstVariant = variants[0]
-  console.log("[v0] shopifyToProduct variants:", { handle: sp.handle, variantCount: variants.length, firstVariantId: firstVariant?.id })
 
   return {
     id: hashId(sp.id),

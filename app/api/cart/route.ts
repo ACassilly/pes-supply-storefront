@@ -27,19 +27,14 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const { action, cartId, lines, lineIds } = body
-    console.log("[v0] /api/cart POST:", { action, cartId, lines, lineIds })
 
     if (action === "create") {
-      console.log("[v0] Creating cart...")
       const cart = await createCart()
-      console.log("[v0] Cart created:", cart?.id)
       return NextResponse.json({ cart })
     }
 
     if (action === "add" && cartId && lines) {
-      console.log("[v0] Adding lines to cart:", cartId, lines)
       const cart = await addCartLines(cartId, lines)
-      console.log("[v0] Lines added, cart lines:", cart?.lines?.edges?.length)
       return NextResponse.json({ cart })
     }
 

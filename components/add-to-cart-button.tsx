@@ -28,8 +28,8 @@ export function AddToCartButton({ product, size = "sm", className = "", quantity
     try {
       await addItem({ variantId: product.variantId, name: product.name, price: product.price, image: product.image, quantity })
       triggerCartToast({ name: product.name, price: product.price, image: product.image, quantity })
-    } catch (e) {
-      console.error("[v0] AddToCart Failed:", e)
+    } catch {
+      // Handle silently - toast already shown for success
     } finally {
       setAdding(false)
     }

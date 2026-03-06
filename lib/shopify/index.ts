@@ -18,8 +18,6 @@ const SHOPIFY_STORE_DOMAIN = rawStoreDomain
 // Use current stable API version
 const SHOPIFY_STOREFRONT_API_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/2024-10/graphql.json`
 
-console.log("[v0] Shopify config:", { rawStoreDomain, SHOPIFY_STORE_DOMAIN, SHOPIFY_STOREFRONT_API_URL })
-
 // Tokenless Shopify API request
 async function shopifyFetch<T>({
   query,
