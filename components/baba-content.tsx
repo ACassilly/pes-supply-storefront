@@ -269,6 +269,48 @@ export function BabaContent() {
         </div>
       </section>
 
+      {/* Compliance Resources */}
+      <section className="border-t border-border bg-muted/30 py-10 md:py-14">
+        <div className="mx-auto max-w-7xl px-4">
+          <h2 className="mb-2 text-center text-xl font-bold text-foreground md:text-2xl">Compliance Resources</h2>
+          <p className="mx-auto mb-8 max-w-xl text-center text-sm text-muted-foreground">
+            Download guides and documentation to support your BABA compliance requirements.
+          </p>
+          <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-3">
+            <a href="/docs/baba-compliance-guide.pdf" download className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-primary/30 hover:shadow-md">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                <FileCheck className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <p className="font-semibold text-card-foreground group-hover:text-primary">BABA Compliance Guide</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">PDF, 2.4 MB</p>
+              </div>
+            </a>
+            <a href="/docs/baba-certification-list.pdf" download className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-primary/30 hover:shadow-md">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                <ShieldCheck className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <p className="font-semibold text-card-foreground group-hover:text-primary">Certified Products List</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">PDF, 1.8 MB</p>
+              </div>
+            </a>
+            <a href="/docs/baba-procurement-requirements.pdf" download className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-primary/30 hover:shadow-md">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                <Scale className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <p className="font-semibold text-card-foreground group-hover:text-primary">Procurement Requirements</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">PDF, 1.2 MB</p>
+              </div>
+            </a>
+          </div>
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            Need custom documentation? <a href="mailto:compliance@pes.supply" className="text-primary hover:underline">Contact our compliance team</a>
+          </p>
+        </div>
+      </section>
+
       {/* Bottom CTA */}
       <section className="border-t border-border bg-primary/5 py-10">
         <div className="mx-auto max-w-7xl px-4 text-center">

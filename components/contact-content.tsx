@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Phone, MessageCircle, Mail, ChevronDown, Package, FileText, Truck, RotateCcw, UserPlus, ArrowRightLeft, LogIn, MapPin, Clock, Globe } from "lucide-react"
+import { Phone, MessageCircle, Mail, ChevronDown, Package, FileText, Truck, RotateCcw, UserPlus, ArrowRightLeft, LogIn, MapPin, Clock, Globe, X, Send, Loader2 } from "lucide-react"
 
 const quickActions = [
   { label: "Check Order Status", href: "/shipping", icon: Package },
@@ -75,6 +75,32 @@ export function ContactContent() {
   const [contactBy, setContactBy] = useState<"email" | "phone">("email")
   const [language, setLanguage] = useState<"en" | "es">("en")
   const [submitted, setSubmitted] = useState(false)
+  
+  // Chat widget state
+  const [chatOpen, setChatOpen] = useState(false)
+  const [chatMessages, setChatMessages] = useState<{role: "user" | "agent"; text: string}[]>([
+    { role: "agent", text: "Hi! Welcome to PES Supply. How can I help you today?" }
+  ])
+  const [chatInput, setChatInput] = useState("")
+  const [chatSending, setChatSending] = useState(false)
+
+  const handleChatSend = useCallback(() => {
+    if (!chatInput.trim()) return
+    const userMsg = chatInput.trim()
+    setChatMessages((prev) => [...prev, { role: "user", text: userMsg }])
+    setChatInput("")
+    setChatSending(true)
+    // Simulate agent response
+    setTimeout(() => {
+      setChatMessages((prev) => [...prev, { 
+        role: "agent", 
+        text: "Thanks for reaching out! A PES team member will respond shortly. In the meantime, you can call us at (888) 876-0007 for immediate assistance." 
+      }])
+      setChatSending(false)
+    }, 1500)
+  }, [chatInput])
+
+  const openChat = useCallback(() => setChatOpen(true), [])
 
   return (
     <main className="bg-background">
@@ -91,7 +117,7 @@ export function ContactContent() {
               <span className="text-lg font-bold">Call</span>
               <span className="text-sm text-background/60">(888) 876-0007</span>
             </a>
-            <button className="flex flex-col items-center gap-2 rounded-xl border border-background/10 bg-background/5 p-6 transition-colors hover:bg-background/10">
+            <button onClick={openChat} className="flex flex-col items-center gap-2 rounded-xl border border-background/10 bg-background/5 p-6 transition-colors hover:bg-background/10">
               <MessageCircle className="h-8 w-8 text-primary" />
               <span className="text-lg font-bold">Live Chat</span>
               <span className="flex items-center gap-1 text-sm text-background/60"><span className="inline-block h-2 w-2 rounded-full bg-primary" /> Online Now</span>
@@ -308,6 +334,54 @@ export function ContactContent() {
           </div>
         </div>
       </section>
+
+      {/* Chat Widget */}
+      {chatOpen && (
+        <div className="fixed bottom-4 right-4 z-50 flex w-80 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-2xl sm:w-96">
+          {/* Header */}
+          <div className="flex items-center justify-between bg-primary px-4 py-3">
+            <div className="flex items-center gap-2">
+              <MessageCircle className="h-5 w-5 text-primary-foreground" />
+              <span className="text-sm font-bold text-primary-foreground">Chat with PES</span>
+            </div>
+            <button onClick={() => setChatOpen(false)} className="rounded p-1 text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+          {/* Messages */}
+          <div className="flex max-h-72 flex-1 flex-col gap-2 overflow-y-auto p-4">
+            {chatMessages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}>
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+            {chatSending && (
+              <div className="flex justify-start">
+                <div className="flex items-center gap-2 rounded-lg bg-muted px-3 py-2 text-sm text-muted-foreground">
+                  <Loader2 className="h-3 w-3 animate-spin" /> Typing...
+                </div>
+              </div>
+            )}
+          </div>
+          {/* Input */}
+          <div className="border-t border-border p-3">
+            <form onSubmit={(e) => { e.preventDefault(); handleChatSend() }} className="flex gap-2">
+              <input
+                type="text"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                placeholder="Type a message..."
+                className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+              />
+              <button type="submit" disabled={!chatInput.trim() || chatSending} className="rounded-lg bg-primary px-3 py-2 text-primary-foreground disabled:opacity-50">
+                <Send className="h-4 w-4" />
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   )
 }

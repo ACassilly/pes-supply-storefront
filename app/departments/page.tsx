@@ -25,10 +25,19 @@ export default function DepartmentsPage() {
         <p className="mt-2 text-sm text-muted-foreground">Everything between the meter and the roof. 40,000+ products across 10 departments.</p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {departments.map((dept) => (
+          {departments.map((dept, idx) => (
             <Link key={dept.slug} href={`/departments/${dept.slug}`} className="group flex gap-4 overflow-hidden rounded-lg border border-border bg-card p-4 transition-all hover:border-primary/30 hover:shadow-md">
-              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-md bg-muted">
-                <Image src={dept.image} alt={dept.name} fill sizes="96px" className="object-cover" />
+              <div className="relative aspect-square h-24 w-24 shrink-0 overflow-hidden rounded-md bg-muted">
+                <Image 
+                  src={dept.image} 
+                  alt={dept.name} 
+                  fill 
+                  sizes="96px" 
+                  className="object-cover" 
+                  priority={idx < 6}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAMH/8QAIRAAAQMDBAMAAAAAAAAAAAAAAQACAwQFEQYSITFBUWH/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABkRAAIDAQAAAAAAAAAAAAAAAAECAAMRIf/aAAwDAQACEQMRAD8Az+31dXR3SFkdQWMbK0Ma3hwBxggrTI76W6iBp3nDQBknqixE2sQKj2f/2Q=="
+                />
               </div>
               <div className="flex flex-1 flex-col">
                 <h2 className="text-sm font-bold text-card-foreground group-hover:text-primary">{dept.name}</h2>
