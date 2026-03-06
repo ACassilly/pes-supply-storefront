@@ -83,10 +83,10 @@ export default async function DepartmentPage({
   searchParams 
 }: { 
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ sort?: string; brands?: string; price?: string; inStock?: string; page?: string }>
+  searchParams: Promise<{ sort?: string; brands?: string; price?: string; inStock?: string; page?: string; subcategory?: string }>
 }) {
   const { slug } = await params
-  const { sort = "best-selling", brands, price, inStock, page = "1" } = await searchParams
+  const { sort = "best-selling", brands, price, inStock, page = "1", subcategory } = await searchParams
   const dept = departments.find((d) => d.slug === slug)
   if (!dept) notFound()
 
@@ -94,8 +94,13 @@ export default async function DepartmentPage({
   const shopifyProducts = await fetchShopifyCollectionProducts(slug, 100)
   const allProducts = shopifyProducts.length > 0 ? shopifyProducts : getProductsByDepartment(slug)
   
+  // Apply subcategory filter (if provided, filter by category field)
+  const subcategoryFilteredProducts = subcategory 
+    ? allProducts.filter((p) => p.category.toLowerCase() === subcategory.toLowerCase() || p.category.toLowerCase().includes(subcategory.toLowerCase()))
+    : allProducts
+  
   // Apply filters
-  const filteredProducts = filterProducts(allProducts, { brands, price, inStock })
+  const filteredProducts = filterProducts(subcategoryFilteredProducts, { brands, price, inStock })
   
   // Apply sorting
   const sortedProducts = sortProducts(filteredProducts, sort)
@@ -145,18 +150,37 @@ export default async function DepartmentPage({
       {/* Subcategories */}
       <section className="mx-auto max-w-7xl px-4 py-10">
         <h2 className="mb-5 text-lg font-bold text-foreground">Shop by Category</h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {dept.subs.map((sub) => (
-            <Link
-              key={sub.slug}
-              href={`/departments/${slug}/${sub.slug}`}
-              className="group flex flex-col items-center gap-2 rounded-lg border border-border bg-card p-4 text-center transition-all hover:border-primary/30 hover:shadow-md"
-            >
-              <span className="text-sm font-semibold text-card-foreground group-hover:text-primary">{sub.name}</span>
-              <span className="text-xs text-muted-foreground">{sub.count} products</span>
-              <ArrowRight className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
-            </Link>
-          ))}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-7">
+          {/* All Products reset */}
+          <Link
+            href={`/departments/${slug}`}
+            className={`group flex flex-col items-center gap-2 rounded-lg border p-4 text-center transition-all hover:shadow-md ${
+              !subcategory 
+                ? "border-primary bg-primary/5 border-2" 
+                : "border-border bg-card hover:border-primary/30"
+            }`}
+          >
+            <span className={`text-sm font-semibold ${!subcategory ? "text-primary" : "text-card-foreground group-hover:text-primary"}`}>All Products</span>
+            <span className="text-xs text-muted-foreground">{dept.count}</span>
+          </Link>
+          {dept.subs.map((sub) => {
+            const isActive = subcategory === sub.slug
+            return (
+              <Link
+                key={sub.slug}
+                href={`/departments/${slug}?subcategory=${sub.slug}`}
+                className={`group flex flex-col items-center gap-2 rounded-lg border p-4 text-center transition-all hover:shadow-md ${
+                  isActive 
+                    ? "border-primary bg-primary/5 border-2" 
+                    : "border-border bg-card hover:border-primary/30"
+                }`}
+              >
+                <span className={`text-sm font-semibold ${isActive ? "text-primary" : "text-card-foreground group-hover:text-primary"}`}>{sub.name}</span>
+                <span className="text-xs text-muted-foreground">{sub.count} products</span>
+                <ArrowRight className={`h-3.5 w-3.5 transition-transform group-hover:translate-x-1 ${isActive ? "text-primary" : "text-muted-foreground group-hover:text-primary"}`} />
+              </Link>
+            )
+          })}
         </div>
       </section>
 

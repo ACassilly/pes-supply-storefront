@@ -7,28 +7,33 @@ import { useCart } from "@/hooks/use-cart"
 import { triggerCartToast } from "@/components/cart-toast"
 import type { Product } from "@/lib/data"
 
-export function AddToCartButton({ product, size = "sm", className = "" }: { product: Pick<Product, "id" | "name" | "price" | "image"> & { variantId?: string }; size?: "sm" | "default" | "lg"; className?: string }) {
+interface AddToCartButtonProps {
+  product: Pick<Product, "id" | "name" | "price" | "image"> & { variantId?: string }
+  size?: "sm" | "default" | "lg"
+  className?: string
+  quantity?: number
+}
+
+export function AddToCartButton({ product, size = "sm", className = "", quantity = 1 }: AddToCartButtonProps) {
   const { addItem } = useCart()
   const [adding, setAdding] = useState(false)
 
   const handleAdd = useCallback(async () => {
-    console.log("[v0] AddToCartButton clicked, product:", { id: product.id, name: product.name, variantId: product.variantId })
     if (!product.variantId) {
       // No Shopify variant ID -- show toast anyway for static products
-      console.log("[v0] No variantId, showing toast only")
-      triggerCartToast({ name: product.name, price: product.price, image: product.image })
+      triggerCartToast({ name: product.name, price: product.price, image: product.image, quantity })
       return
     }
     setAdding(true)
     try {
-      await addItem({ variantId: product.variantId, name: product.name, price: product.price, image: product.image })
-      triggerCartToast({ name: product.name, price: product.price, image: product.image })
+      await addItem({ variantId: product.variantId, name: product.name, price: product.price, image: product.image, quantity })
+      triggerCartToast({ name: product.name, price: product.price, image: product.image, quantity })
     } catch (e) {
       console.error("[v0] AddToCart Failed:", e)
     } finally {
       setAdding(false)
     }
-  }, [addItem, product])
+  }, [addItem, product, quantity])
 
   return (
     <Button size={size} className={`mt-3 w-full gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 ${className}`} onClick={handleAdd} disabled={adding}>

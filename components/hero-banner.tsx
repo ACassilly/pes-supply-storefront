@@ -41,7 +41,7 @@ export function HeroBanner() {
     if (timerRef.current) clearInterval(timerRef.current)
     timerRef.current = setInterval(() => {
       if (!paused) setCurrent((p) => (p + 1) % slides.length)
-    }, 7000)
+    }, 6000) // 6 second autoplay interval
   }, [paused])
 
   useEffect(() => {

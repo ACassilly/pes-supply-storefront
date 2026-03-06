@@ -1,9 +1,17 @@
 "use client"
 
-import Link from "next/link"
-import { ArrowRight, ShieldCheck, FileCheck, Building2, CheckCircle2, ChevronDown, Scale, Landmark, HardHat, Globe } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { ArrowRight, ShieldCheck, FileCheck, Building2, CheckCircle2, ChevronDown, Scale, Landmark, HardHat, Globe, ChevronRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { products } from "@/lib/data"
+
+// Filter for BABA-eligible products
+const babaProducts = products.filter((p) => 
+  p.certifications?.some(c => c.toLowerCase().includes("baba")) ||
+  p.countryOfOrigin?.toLowerCase().includes("usa")
+)
 
 const eligibleCategories = [
   { name: "Electrical Distribution", examples: "Panels, breakers, switchgear, disconnects, transformers" },
@@ -147,6 +155,67 @@ export function BabaContent() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Shop BABA-Compliant Products */}
+      <section className="border-y border-border bg-muted/30 py-10 md:py-14">
+        <div className="mx-auto max-w-7xl px-4">
+          <h2 className="mb-2 text-center text-xl font-bold text-foreground md:text-2xl">Shop BABA-Compliant Products</h2>
+          <p className="mx-auto mb-8 max-w-xl text-center text-sm text-muted-foreground">
+            Browse our catalog of domestically manufactured and BABA-eligible products. Full documentation included with every order.
+          </p>
+          
+          {babaProducts.length > 0 ? (
+            <>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {babaProducts.slice(0, 8).map((product) => {
+                  const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+                  return (
+                    <Link key={product.id} href={`/products/${product.slug}`} className="group rounded-lg border border-border bg-card transition-all hover:border-primary/30 hover:shadow-md">
+                      <div className="relative aspect-square overflow-hidden rounded-t-lg bg-muted">
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        {discount > 0 && (
+                          <span className="absolute left-2 top-2 rounded bg-sale px-1.5 py-0.5 text-[10px] font-bold text-sale-foreground">-{discount}%</span>
+                        )}
+                        <span className="absolute right-2 top-2 rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">BABA</span>
+                      </div>
+                      <div className="p-3">
+                        <p className="text-[10px] font-semibold text-primary">{product.brand}</p>
+                        <h3 className="mt-0.5 line-clamp-2 text-sm font-semibold text-card-foreground group-hover:text-primary">{product.name}</h3>
+                        <div className="mt-2 flex items-baseline gap-2">
+                          <span className="text-lg font-bold text-foreground">${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
+                          {product.originalPrice > product.price && (
+                            <span className="text-xs text-muted-foreground line-through">${product.originalPrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
+                          )}
+                        </div>
+                        <p className="mt-1 text-[10px] text-primary font-medium">{product.badge}</p>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+              <div className="mt-8 text-center">
+                <Button asChild variant="outline" className="gap-1.5">
+                  <Link href="/quote">Request Full BABA Catalog <ChevronRight className="h-3.5 w-3.5" /></Link>
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">Contact our compliance team for our full BABA-eligible product catalog.</p>
+              <Button asChild className="mt-4 gap-1.5">
+                <Link href="/contact">Contact Compliance Team <ArrowRight className="h-3.5 w-3.5" /></Link>
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 

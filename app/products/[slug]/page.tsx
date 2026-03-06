@@ -4,7 +4,7 @@ import Image from "next/image"
 import { ChevronRight, Star, Truck, ShieldCheck, MapPin, Check, Package, Clock, Scale, Globe } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { products, departments, getProductsByDepartment, fetchShopifyProduct, fetchShopifyCollectionProducts } from "@/lib/data"
-import { AddToCartButton } from "@/components/add-to-cart-button"
+import { PdpAddToCart } from "@/components/pdp-add-to-cart"
 import { RequestQuoteButton } from "@/components/request-quote-button"
 import { ProductImageGallery } from "@/components/product-image-gallery"
 import { ProductTabs } from "@/components/product-tabs"
@@ -233,8 +233,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             )}
 
             {/* Actions */}
-            <div id="quote-section" className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <AddToCartButton product={product} size="lg" className="mt-0 sm:flex-1" />
+            <div id="quote-section" className="mt-6 flex flex-col gap-4">
+              <PdpAddToCart product={product} />
               <RequestQuoteButton productName={product.name} sku={product.sku} />
             </div>
 
