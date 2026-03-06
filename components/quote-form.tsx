@@ -45,8 +45,17 @@ interface LineItem {
   zip: string
 }
 
+interface FormErrors {
+  firstName?: string
+  lastName?: string
+  email?: string
+  phone?: string
+  lineItem?: string
+}
+
 export function QuoteForm() {
   const [submitted, setSubmitted] = useState(false)
+  const [errors, setErrors] = useState<FormErrors>({})
   const [lines, setLines] = useState<LineItem[]>([
     { id: 1, item: "", qty: "", zip: "" },
   ])
@@ -70,6 +79,27 @@ export function QuoteForm() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    const form = e.target as HTMLFormElement
+    const firstName = (form.elements.namedItem("q-first") as HTMLInputElement)?.value
+    const lastName = (form.elements.namedItem("q-last") as HTMLInputElement)?.value
+    const email = (form.elements.namedItem("q-email") as HTMLInputElement)?.value
+    const phone = (form.elements.namedItem("q-phone") as HTMLInputElement)?.value
+
+    const newErrors: FormErrors = {}
+    
+    if (!firstName?.trim()) newErrors.firstName = "First name is required"
+    if (!lastName?.trim()) newErrors.lastName = "Last name is required"
+    if (!email?.trim()) newErrors.email = "Email is required"
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = "Please enter a valid email"
+    if (!phone?.trim()) newErrors.phone = "Phone number is required"
+    
+    // Check that at least one line item has content
+    const hasValidLine = lines.some((l) => l.item.trim() !== "")
+    if (!hasValidLine) newErrors.lineItem = "At least one product is required"
+
+    setErrors(newErrors)
+    if (Object.keys(newErrors).length > 0) return
+
     setSubmitted(true)
   }
 
@@ -109,19 +139,23 @@ export function QuoteForm() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
                     <Label htmlFor="q-first" className="text-xs font-medium text-foreground">First Name <span className="text-sale">*</span></Label>
-                    <Input id="q-first" required placeholder="Alex" className="h-9 text-sm" />
+                    <Input id="q-first" name="q-first" placeholder="Alex" className={`h-9 text-sm ${errors.firstName ? "border-destructive" : ""}`} />
+                    {errors.firstName && <p className="text-xs text-destructive">{errors.firstName}</p>}
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="q-last" className="text-xs font-medium text-foreground">Last Name <span className="text-sale">*</span></Label>
-                    <Input id="q-last" required placeholder="Johnson" className="h-9 text-sm" />
+                    <Input id="q-last" name="q-last" placeholder="Johnson" className={`h-9 text-sm ${errors.lastName ? "border-destructive" : ""}`} />
+                    {errors.lastName && <p className="text-xs text-destructive">{errors.lastName}</p>}
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="q-email" className="text-xs font-medium text-foreground">Email <span className="text-sale">*</span></Label>
-                    <Input id="q-email" type="email" required placeholder="alex@company.com" className="h-9 text-sm" />
+                    <Input id="q-email" name="q-email" type="email" placeholder="alex@company.com" className={`h-9 text-sm ${errors.email ? "border-destructive" : ""}`} />
+                    {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="q-phone" className="text-xs font-medium text-foreground">Phone</Label>
-                    <Input id="q-phone" type="tel" placeholder="(555) 123-4567" className="h-9 text-sm" />
+                    <Label htmlFor="q-phone" className="text-xs font-medium text-foreground">Phone <span className="text-sale">*</span></Label>
+                    <Input id="q-phone" name="q-phone" type="tel" placeholder="(555) 123-4567" className={`h-9 text-sm ${errors.phone ? "border-destructive" : ""}`} />
+                    {errors.phone && <p className="text-xs text-destructive">{errors.phone}</p>}
                   </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="q-biz" className="text-xs font-medium text-foreground">Business Name <span className="text-sale">*</span></Label>
@@ -163,8 +197,7 @@ export function QuoteForm() {
                           value={line.item}
                           onChange={(e) => updateLine(line.id, "item", e.target.value)}
                           placeholder="Product name, MPN, SKU, or URL"
-                          className="h-9 text-sm"
-                          required
+                          className={`h-9 text-sm ${errors.lineItem && idx === 0 && !line.item ? "border-destructive" : ""}`}
                         />
                         <Input
                           value={line.qty}
@@ -173,14 +206,12 @@ export function QuoteForm() {
                           type="number"
                           min="1"
                           className="h-9 text-sm"
-                          required
                         />
                         <Input
                           value={line.zip}
                           onChange={(e) => updateLine(line.id, "zip", e.target.value)}
                           placeholder="ZIP Code"
                           className="h-9 text-sm"
-                          required
                         />
                       </div>
                       <button
@@ -194,6 +225,7 @@ export function QuoteForm() {
                     </div>
                   ))}
                 </div>
+                {errors.lineItem && <p className="text-xs text-destructive">{errors.lineItem}</p>}
                 <button type="button" onClick={addLine} className="flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline">
                   <Plus className="h-4 w-4" /> Add more items
                 </button>

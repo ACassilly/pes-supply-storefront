@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
 import { TopBar } from '@/components/top-bar'
 import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
@@ -92,7 +91,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <CartToastProvider />
           <ChatWidget />
           <BackToTop />
-          <Analytics />
         </ThemeProvider>
       </body>
     </html>

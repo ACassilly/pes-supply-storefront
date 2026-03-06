@@ -90,26 +90,32 @@ export function useCart() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "create" }),
     })
-    const { cart } = await res.json()
-    storeCartId(cart.id)
-    return cart.id
+    const json = await res.json()
+    if (json.cart?.id) {
+      storeCartId(json.cart.id)
+      mutate(parseShopifyCart(json.cart), { revalidate: false })
+      return json.cart.id
+    }
+    throw new Error("Failed to create cart")
   }
 
-  async function addItem(product: { variantId: string; name: string; price: number; image: string }) {
+  async function addItem(product: { variantId: string; name: string; price: number; image: string; quantity?: number }) {
     const cid = await ensureCart()
+    const qty = product.quantity || 1
     const res = await fetch("/api/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         action: "add",
         cartId: cid,
-        lines: [{ merchandiseId: product.variantId, quantity: 1 }],
+        lines: [{ merchandiseId: product.variantId, quantity: qty }],
       }),
     })
-    const { cart } = await res.json()
-    if (cart) {
-      const parsed = parseShopifyCart(cart)
-      mutate(parsed, { revalidate: false })
+    const json = await res.json()
+    if (json.cart) {
+      mutate(parseShopifyCart(json.cart), { revalidate: false })
+    } else if (json.error) {
+      throw new Error(json.error)
     }
   }
 

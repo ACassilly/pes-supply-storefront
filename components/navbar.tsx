@@ -85,6 +85,15 @@ const navItems: { label: string; href: string; dropdown?: { name: string; href: 
       { name: "Pumps", href: "/departments/plumbing/pumps", image: "/images/nav-pump.jpg" },
     ],
   },
+  {
+    label: "HVAC", href: "/departments/hvac",
+    dropdown: [
+      { name: "Mini Splits", href: "/departments/hvac/mini-splits", image: "/images/nav-mini-split.jpg" },
+      { name: "Thermostats", href: "/departments/hvac/thermostats", image: "/images/nav-thermostat.jpg" },
+      { name: "Fans & Ventilation", href: "/departments/hvac/fans-ventilation", image: "/images/nav-fan.jpg" },
+      { name: "Heaters", href: "/departments/hvac/heaters", image: "/images/nav-heater.jpg" },
+    ],
+  },
   { label: "Contact Us", href: "/contact", contactDropdown: true },
 ]
 

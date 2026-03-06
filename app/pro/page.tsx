@@ -304,6 +304,113 @@ export default function ProPage() {
         </div>
       </section>
 
+      {/* Verticals - Who We Serve anchor sections */}
+      <section className="border-b border-border py-12">
+        <div className="mx-auto max-w-7xl px-4">
+          <h2 className="mb-8 text-center text-xl font-bold text-foreground md:text-2xl">Who We Serve</h2>
+          
+          {/* Contractors */}
+          <div id="contractors" className="scroll-mt-20 mb-10">
+            <div className="rounded-xl border border-border bg-card p-6 md:p-8">
+              <div className="flex flex-col gap-6 md:flex-row md:items-center">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-card-foreground">Contractors & Trades</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">Electrical, HVAC, plumbing, solar, and general contractors get the tools and terms to run jobs profitably.</p>
+                  <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                    {["Net-30 terms from day one", "Same-day shipping before 2 PM ET", "Named account rep in Louisville", "Quick-order pad for takeoff sheets", "Job-level tracking and reporting", "Pro pricing that improves with volume"].map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-foreground">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="shrink-0">
+                  <Button asChild className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                    <a href="#register">Open a Pro Account <ArrowRight className="h-4 w-4" /></a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Property Managers */}
+          <div id="property-managers" className="scroll-mt-20 mb-10">
+            <div className="rounded-xl border border-border bg-card p-6 md:p-8">
+              <div className="flex flex-col gap-6 md:flex-row md:items-center">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-card-foreground">Property Managers</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">Multifamily, commercial, and residential property managers get no-minimum orders and easy reordering.</p>
+                  <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                    {["No minimum order requirements", "Bulk lamps and maintenance supplies", "One-click reorder from history", "Multi-property account structure", "Consolidated invoicing", "Dedicated support team"].map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-foreground">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="shrink-0">
+                  <Button asChild className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                    <a href="#register">Get Started <ArrowRight className="h-4 w-4" /></a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Municipalities */}
+          <div id="municipalities" className="scroll-mt-20 mb-10">
+            <div className="rounded-xl border border-border bg-card p-6 md:p-8">
+              <div className="flex flex-col gap-6 md:flex-row md:items-center">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-card-foreground">Government & Municipal</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">Cities, counties, school districts, and public agencies get BABA-compliant materials with procurement-ready documentation.</p>
+                  <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                    {["BABA compliance documentation", "W-9 and COI on demand", "Net-30/45/60 terms available", "Procurement portal access", "GSA and co-op pricing", "Project-level documentation"].map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-foreground">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="shrink-0">
+                  <Button asChild className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Link href="/baba">BABA Catalog <ArrowRight className="h-4 w-4" /></Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Utilities */}
+          <div id="utilities" className="scroll-mt-20">
+            <div className="rounded-xl border border-border bg-card p-6 md:p-8">
+              <div className="flex flex-col gap-6 md:flex-row md:items-center">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-card-foreground">Utilities & Infrastructure</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">Electric utilities, water districts, and infrastructure contractors get large-scale project support.</p>
+                  <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                    {["High-voltage distribution equipment", "Transformer and switchgear sourcing", "Mill test reports and certifications", "Project staging and scheduling", "LTL and FTL freight coordination", "Enterprise account management"].map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-foreground">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="shrink-0">
+                  <Button asChild className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Link href="/quote">Request a Quote <ArrowRight className="h-4 w-4" /></Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="border-b border-border py-12">
         <div className="mx-auto max-w-7xl px-4">

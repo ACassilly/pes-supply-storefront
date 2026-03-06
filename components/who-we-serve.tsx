@@ -2,10 +2,10 @@ import Image from "next/image"
 import Link from "next/link"
 
 const verticals = [
-  { title: "Contractors & Trades", desc: "Net-30, named reps, same-day ship", image: "/images/vertical-contractor.jpg", href: "/pro" },
-  { title: "Property Managers", desc: "No minimums, easy reorder, bulk lamps", image: "/images/vertical-property.jpg", href: "/pro" },
-  { title: "Government & Municipal", desc: "BABA compliant, procurement docs", image: "/images/vertical-government.jpg", href: "/pro" },
-  { title: "Solar Installers", desc: "Pallet pricing, Tier 1 modules, racking", image: "/images/vertical-solar.jpg", href: "/departments/solar" },
+  { title: "Contractors & Trades", desc: "Net-30, named reps, same-day ship", image: "/images/vertical-contractor.jpg", href: "/pro#contractors" },
+  { title: "Property Managers", desc: "No minimums, easy reorder, bulk lamps", image: "/images/vertical-property.jpg", href: "/pro#property-managers" },
+  { title: "Government & Municipal", desc: "BABA compliant, procurement docs", image: "/images/vertical-government.jpg", href: "/pro#municipalities" },
+  { title: "Utility Companies", desc: "Transformer stock, emergency orders", image: "/images/vertical-solar.jpg", href: "/pro#utilities" },
 ]
 
 export function WhoWeServe() {

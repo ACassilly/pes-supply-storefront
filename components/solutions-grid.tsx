@@ -41,9 +41,12 @@ export function SolutionsGrid() {
               <span className="text-[10px] text-muted-foreground">{dept.count} products</span>
               {/* Exposed subcategories -- Zoro pattern */}
               <div className="mt-1.5 flex flex-col gap-0.5">
-                {dept.subs.map((sub) => (
-                  <Link key={sub} href={`/departments/${dept.slug}`} className="text-[10px] text-muted-foreground transition-colors hover:text-primary">{sub}</Link>
-                ))}
+                {dept.subs.map((sub) => {
+                  const subSlug = sub.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "and")
+                  return (
+                    <Link key={sub} href={`/departments/${dept.slug}?subcategory=${subSlug}`} className="text-[10px] text-muted-foreground transition-colors hover:text-primary">{sub}</Link>
+                  )
+                })}
                 <Link href={`/departments/${dept.slug}`} className="mt-0.5 text-[10px] font-semibold text-primary">Shop all &rarr;</Link>
               </div>
             </div>

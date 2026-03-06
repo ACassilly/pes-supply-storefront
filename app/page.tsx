@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 }
 
 import { HeroBanner } from "@/components/hero-banner"
+import { StatsBar } from "@/components/stats-bar"
 import { PartnerStrip } from "@/components/partner-strip"
 import { HowItWorks } from "@/components/how-it-works"
 import { WhoWeServe } from "@/components/who-we-serve"
@@ -63,6 +64,7 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
       <HeroBanner />
+      <StatsBar />
       <PartnerStrip />
       <HowItWorks />
       <WhoWeServe />

@@ -1,13 +1,11 @@
+"use client"
+
+import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { BookOpen, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import type { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "Blog | PES Supply",
-  description: "Technical guides, product spotlights, code updates, and industry news from PES Supply. Written for contractors, installers, and building professionals.",
-}
+import { Suspense } from "react"
 
 const categories = ["All", "Electrical", "Solar", "Generators", "HVAC", "Lighting", "Tools", "Industry News"]
 
@@ -74,33 +72,45 @@ const posts = [
   },
 ]
 
-export default function BlogPage() {
-  const featured = posts.filter((p) => p.featured)
-  const rest = posts.filter((p) => !p.featured)
+function BlogContent() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const activeCategory = searchParams.get("category") || "All"
+
+  const filteredPosts = activeCategory === "All" 
+    ? posts 
+    : posts.filter((p) => p.category === activeCategory)
+
+  const featured = filteredPosts.filter((p) => p.featured)
+  const rest = filteredPosts.filter((p) => !p.featured)
+
+  function handleCategoryClick(cat: string) {
+    const params = new URLSearchParams(searchParams.toString())
+    if (cat === "All") {
+      params.delete("category")
+    } else {
+      params.set("category", cat)
+    }
+    router.push(`/blog${params.toString() ? `?${params.toString()}` : ""}`, { scroll: false })
+  }
 
   return (
-    <main>
-      {/* Hero */}
-      <section className="border-b border-border bg-foreground">
-        <div className="mx-auto max-w-7xl px-4 py-10 text-center">
-          <div className="mb-3 flex items-center justify-center gap-2">
-            <BookOpen className="h-5 w-5 text-primary" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-primary">PES Supply Blog</span>
-          </div>
-          <h1 className="text-2xl font-bold text-background md:text-3xl">Technical Guides & Industry News</h1>
-          <p className="mt-2 text-sm text-background/60">Written for contractors, installers, and building professionals. No fluff.</p>
-        </div>
-      </section>
-
-      <div className="mx-auto max-w-7xl px-4 py-10">
-        {/* Category pills */}
-        <div className="mb-8 flex flex-wrap gap-2">
-          {categories.map((cat) => (
-            <button key={cat} className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${cat === "All" ? "bg-primary text-primary-foreground" : "border border-border bg-card text-muted-foreground hover:border-primary/30 hover:text-foreground"}`}>
+    <div className="mx-auto max-w-7xl px-4 py-10">
+      {/* Category pills */}
+      <div className="mb-8 flex flex-wrap gap-2">
+        {categories.map((cat) => {
+          const isActive = cat === activeCategory
+          return (
+            <button 
+              key={cat} 
+              onClick={() => handleCategoryClick(cat)}
+              className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${isActive ? "bg-primary text-primary-foreground" : "border border-border bg-card text-muted-foreground hover:border-primary/30 hover:text-foreground"}`}
+            >
               {cat}
             </button>
-          ))}
-        </div>
+          )
+        })}
+      </div>
 
         {/* Featured posts */}
         <div className="mb-10 grid gap-6 md:grid-cols-2">
@@ -143,16 +153,37 @@ export default function BlogPage() {
           ))}
         </div>
 
-        {/* Newsletter CTA */}
-        <div className="mt-12 rounded-xl border border-border bg-muted/30 p-6 text-center md:p-8">
-          <h3 className="text-lg font-bold text-foreground">Get the PES Supply Newsletter</h3>
-          <p className="mt-1 text-sm text-muted-foreground">Code updates, product drops, and Pro-only deals. Monthly. No spam.</p>
-          <div className="mx-auto mt-4 flex max-w-sm gap-2">
-            <input type="email" placeholder="you@company.com" className="flex-1 rounded-lg border border-input bg-background px-3 py-2.5 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
-            <Button size="sm" className="gap-1.5">Subscribe <ArrowRight className="h-3.5 w-3.5" /></Button>
-          </div>
+      {/* Newsletter CTA */}
+      <div className="mt-12 rounded-xl border border-border bg-muted/30 p-6 text-center md:p-8">
+        <h3 className="text-lg font-bold text-foreground">Get the PES Supply Newsletter</h3>
+        <p className="mt-1 text-sm text-muted-foreground">Code updates, product drops, and Pro-only deals. Monthly. No spam.</p>
+        <div className="mx-auto mt-4 flex max-w-sm gap-2">
+          <input type="email" placeholder="you@company.com" className="flex-1 rounded-lg border border-input bg-background px-3 py-2.5 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+          <Button size="sm" className="gap-1.5">Subscribe <ArrowRight className="h-3.5 w-3.5" /></Button>
         </div>
       </div>
+    </div>
+  )
+}
+
+export default function BlogPage() {
+  return (
+    <main>
+      {/* Hero */}
+      <section className="border-b border-border bg-foreground">
+        <div className="mx-auto max-w-7xl px-4 py-10 text-center">
+          <div className="mb-3 flex items-center justify-center gap-2">
+            <BookOpen className="h-5 w-5 text-primary" />
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">PES Supply Blog</span>
+          </div>
+          <h1 className="text-2xl font-bold text-background md:text-3xl">Technical Guides & Industry News</h1>
+          <p className="mt-2 text-sm text-background/60">Written for contractors, installers, and building professionals. No fluff.</p>
+        </div>
+      </section>
+
+      <Suspense fallback={<div className="mx-auto max-w-7xl px-4 py-10">Loading...</div>}>
+        <BlogContent />
+      </Suspense>
     </main>
   )
 }

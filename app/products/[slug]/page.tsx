@@ -4,7 +4,7 @@ import Image from "next/image"
 import { ChevronRight, Star, Truck, ShieldCheck, MapPin, Check, Package, Clock, Scale, Globe } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { products, departments, getProductsByDepartment, fetchShopifyProduct, fetchShopifyCollectionProducts } from "@/lib/data"
-import { AddToCartButton } from "@/components/add-to-cart-button"
+import { PdpAddToCart } from "@/components/pdp-add-to-cart"
 import { RequestQuoteButton } from "@/components/request-quote-button"
 import { ProductImageGallery } from "@/components/product-image-gallery"
 import { ProductTabs } from "@/components/product-tabs"
@@ -135,6 +135,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <Link href="/account" className="mt-1.5 inline-block text-xs font-semibold text-primary hover:underline">Sign in for Pro pricing</Link>
             </div>
 
+            {/* Bulk / Tiered Pricing */}
+            <div className="mt-4 rounded-lg border border-border bg-muted/30 p-4">
+              <h3 className="mb-2 text-sm font-bold text-foreground">Volume Pricing</h3>
+              <div className="flex flex-wrap gap-3 text-xs">
+                <span className="rounded-md bg-background px-2.5 py-1.5 font-medium">1-9: <span className="font-bold text-foreground">${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span></span>
+                <span className="rounded-md bg-background px-2.5 py-1.5 font-medium">10-49: <span className="font-bold text-primary">${(product.price * 0.95).toLocaleString("en-US", { minimumFractionDigits: 2 })}</span></span>
+                <span className="rounded-md bg-background px-2.5 py-1.5 font-medium">50+: <span className="font-bold text-primary">${(product.price * 0.90).toLocaleString("en-US", { minimumFractionDigits: 2 })}</span></span>
+              </div>
+              <Link href="/quote" className="mt-2 inline-block text-xs font-semibold text-primary hover:underline">Need 100+ units? Request a bulk quote</Link>
+            </div>
+
             {/* Availability + shipping info */}
             <div className="mt-4 flex flex-col gap-2">
               <div className="flex items-center gap-2 text-sm">
@@ -233,8 +244,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             )}
 
             {/* Actions */}
-            <div id="quote-section" className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <AddToCartButton product={product} size="lg" className="mt-0 sm:flex-1" />
+            <div id="quote-section" className="mt-6 flex flex-col gap-4">
+              <PdpAddToCart product={product} />
               <RequestQuoteButton productName={product.name} sku={product.sku} />
             </div>
 
