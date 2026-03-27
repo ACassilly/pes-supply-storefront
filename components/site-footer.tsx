@@ -1,5 +1,9 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
-import { Phone, Mail, MapPin } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, CheckCircle2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const socialLinks = [
   { name: "Facebook", href: "https://facebook.com/portlandiaelectric", path: "M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" },
@@ -60,9 +64,52 @@ const footerLinks = [
 
 export function SiteFooter() {
   const year = new Date().getFullYear()
+  const [email, setEmail] = useState("")
+  const [subscribed, setSubscribed] = useState(false)
+  const [subscribing, setSubscribing] = useState(false)
+
+  function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault()
+    if (!email) return
+    setSubscribing(true)
+    setTimeout(() => {
+      setSubscribing(false)
+      setSubscribed(true)
+    }, 1000)
+  }
 
   return (
     <footer className="bg-foreground text-background/80" aria-label="Site footer">
+      {/* Newsletter Section */}
+      <div className="border-b border-background/10">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row">
+          <div>
+            <h3 className="text-lg font-bold text-background">Get the PES Newsletter</h3>
+            <p className="text-sm text-background/50">Pro deals, code updates, and product drops. Monthly. No spam.</p>
+          </div>
+          {subscribed ? (
+            <div className="flex items-center gap-2 text-primary">
+              <CheckCircle2 className="h-5 w-5" />
+              <span className="text-sm font-semibold">You&apos;re subscribed!</span>
+            </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex w-full max-w-sm gap-2">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@company.com"
+                required
+                className="flex-1 rounded-lg border border-background/20 bg-background/10 px-4 py-2.5 text-sm text-background placeholder:text-background/40 focus:border-primary focus:outline-none"
+              />
+              <Button type="submit" disabled={subscribing} className="gap-1.5">
+                {subscribing ? "..." : "Subscribe"} <ArrowRight className="h-3.5 w-3.5" />
+              </Button>
+            </form>
+          )}
+        </div>
+      </div>
+
       <div className="mx-auto max-w-7xl px-4 py-12">
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
           {/* Brand column */}
