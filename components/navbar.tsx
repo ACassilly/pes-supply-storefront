@@ -94,6 +94,16 @@ const navItems: { label: string; href: string; dropdown?: { name: string; href: 
       { name: "Heaters", href: "/departments/hvac/heaters", image: "/images/nav-heater.jpg" },
     ],
   },
+  { 
+    label: "Find an Installer", 
+    href: "/powerlink/directory",
+    dropdown: [
+      { name: "Electricians", href: "/powerlink/directory?category=electrician", image: "/images/nav-electrician.jpg" },
+      { name: "Solar Installers", href: "/powerlink/directory?category=solar", image: "/images/nav-solar-installer.jpg" },
+      { name: "HVAC Contractors", href: "/powerlink/directory?category=hvac", image: "/images/nav-hvac-installer.jpg" },
+      { name: "Join PowerLink", href: "/powerlink", image: "/images/nav-powerlink.jpg" },
+    ],
+  },
   { label: "Contact Us", href: "/contact", contactDropdown: true },
 ]
 
