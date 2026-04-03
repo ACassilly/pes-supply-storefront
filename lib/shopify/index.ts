@@ -97,7 +97,6 @@ export async function getProducts({
                 node {
                   url
                   altText
-                  thumbhash
                 }
               }
             }
@@ -175,7 +174,6 @@ export async function getProduct(
             node {
               url
               altText
-              thumbhash
             }
           }
         }
@@ -236,7 +234,6 @@ export async function getCollections(first = 10): Promise<ShopifyCollection[]> {
             image {
               url
               altText
-              thumbhash
             }
           }
         }
@@ -296,7 +293,6 @@ export async function getCollectionProducts({
                   node {
                     url
                     altText
-                    thumbhash
                   }
                 }
               }
@@ -384,7 +380,6 @@ export async function searchProducts(searchQuery: string, first = 20): Promise<S
                 node {
                   url
                   altText
-                  thumbhash
                 }
               }
             }
@@ -447,7 +442,6 @@ export async function getCollectionByHandle(handle: string): Promise<(ShopifyCol
         image {
           url
           altText
-          thumbhash
         }
         products(first: 50, sortKey: BEST_SELLING) {
           edges {
@@ -464,7 +458,6 @@ export async function getCollectionByHandle(handle: string): Promise<(ShopifyCol
                   node {
                     url
                     altText
-                    thumbhash
                   }
                 }
               }
@@ -655,7 +648,7 @@ export async function createCart(): Promise<ShopifyCart> {
                           node {
                             url
                             altText
-                            thumbhash
+       
                           }
                         }
                       }
@@ -725,7 +718,7 @@ export async function addCartLines(
                           node {
                             url
                             altText
-                            thumbhash
+       
                           }
                         }
                       }
@@ -801,7 +794,7 @@ export async function updateCartLines(
                           node {
                             url
                             altText
-                            thumbhash
+       
                           }
                         }
                       }
@@ -877,7 +870,7 @@ export async function removeCartLines(
                           node {
                             url
                             altText
-                            thumbhash
+       
                           }
                         }
                       }
@@ -954,7 +947,7 @@ export async function getCart(cartId: string): Promise<ShopifyCart | null> {
                         node {
                           url
                           altText
-                          thumbhash
+     
                         }
                       }
                     }
