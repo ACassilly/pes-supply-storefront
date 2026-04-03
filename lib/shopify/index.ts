@@ -18,7 +18,7 @@ const SHOPIFY_STORE_DOMAIN = rawStoreDomain
 // Use current stable API version
 const SHOPIFY_STOREFRONT_API_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/2024-10/graphql.json`
 
-// Tokenless Shopify API request
+// Authenticated Shopify Storefront API request
 async function shopifyFetch<T>({
   query,
   variables = {},
@@ -31,6 +31,7 @@ async function shopifyFetch<T>({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN || '',
       },
       body: JSON.stringify({
         query,
