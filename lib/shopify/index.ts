@@ -1,3 +1,5 @@
+// PES Supply Storefront v1.0 - Shopify Integration
+
 import {
   ProductCollectionSortKey,
   ProductSortKey,
