@@ -1,15 +1,9 @@
 # ============================================================================
-# PES Supply — CI Deploy
-# Architecture: Azure App Service PRIMARY, Vercel FALLBACK
+# PES Supply — Deploy
+# Azure App Service PRIMARY → Vercel (alex-demo-pes-supply-vercel) FALLBACK
 #
-# Staging:    auto on push to main → Azure App Service (staging slot)
-#             if Azure health check fails → Vercel preview fallback
-#
-# Production: manual workflow_dispatch only → Azure App Service (production)
-#             if Azure health check fails → Vercel production fallback
-#
-# This mirrors exactly what deploy-azure.sh does from Codespace,
-# so CI and local Codespace deploys are always in sync.
+# Staging:    auto on every push to main
+# Production: manual workflow_dispatch only
 # ============================================================================
 name: Deploy pes.supply
 
@@ -19,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'staging (auto) or production (manual only)'
+        description: 'Target environment'
         required: true
         default: 'staging'
         type: choice
@@ -33,9 +27,11 @@ env:
   NODE_VERSION: '22'
   PNPM_VERSION: '9'
   TARGET: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.environment) || 'staging' }}
+  VERCEL_ORG_ID: team_XQxmrDxKnJR8qGObDLGjZrY9
+  VERCEL_PROJECT_ID: prj_RFHh7bl9ekSNk8LAA96sXPCJ5gjB
 
 jobs:
-  # ── 1. BUILD ──────────────────────────────────────────────────────────────
+  # ── BUILD ────────────────────────────────────────────────────────────────
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -60,8 +56,11 @@ jobs:
           NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${{ secrets.STAGING_MEDUSA_PUBLISHABLE_KEY }}
           NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.STAGING_STRIPE_PUBLISHABLE_KEY }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.STAGING_GA_MEASUREMENT_ID }}
+          NEXT_PUBLIC_GTM_ID: ${{ secrets.NEXT_PUBLIC_GTM_ID }}
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
           REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
           COMMERCE_PROVIDER: medusa
+          NEXT_PUBLIC_APP_VERSION: ${{ github.sha }}
         run: pnpm build
 
       - name: Build (production)
@@ -72,11 +71,14 @@ jobs:
           NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY }}
           NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+          NEXT_PUBLIC_GTM_ID: ${{ secrets.NEXT_PUBLIC_GTM_ID }}
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
           REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
           COMMERCE_PROVIDER: medusa
+          NEXT_PUBLIC_APP_VERSION: ${{ github.sha }}
         run: pnpm build
 
-      - name: Package
+      - name: Package build
         run: zip -r build.zip .next public package.json pnpm-lock.yaml next.config.mjs --exclude '*.map' --exclude '.next/cache/*'
 
       - uses: actions/upload-artifact@v4
@@ -85,12 +87,12 @@ jobs:
           path: build.zip
           retention-days: 3
 
-  # ── 2a. AZURE PRIMARY ─────────────────────────────────────────────────────
+  # ── AZURE PRIMARY ────────────────────────────────────────────────────────
   azure:
-    name: Azure App Service (${{ needs.build.result && 'primary' }})
+    name: → Azure App Service
     needs: build
     runs-on: ubuntu-latest
-    environment: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') && 'production' || 'staging' }}
+    environment: ${{ env.TARGET }}
     outputs:
       healthy: ${{ steps.health.outputs.ok }}
     steps:
@@ -98,7 +100,7 @@ jobs:
         with:
           name: build-${{ env.TARGET }}
 
-      - name: Deploy to Azure Web App (staging)
+      - name: Deploy staging
         if: env.TARGET == 'staging'
         uses: azure/webapps-deploy@v3
         with:
@@ -106,7 +108,7 @@ jobs:
           publish-profile: ${{ secrets.AZURE_STAGING_PUBLISH_PROFILE }}
           package: build.zip
 
-      - name: Deploy to Azure Web App (production)
+      - name: Deploy production
         if: env.TARGET == 'production'
         uses: azure/webapps-deploy@v3
         with:
@@ -117,23 +119,23 @@ jobs:
       - name: Health check
         id: health
         run: |
-          URL=$([[ "$TARGET" == "production" ]] && echo "https://pes.supply/api/health" || echo "https://staging.pes.supply/api/health")
+          URL=$([[ "${{ env.TARGET }}" == "production" ]] && echo "https://pes.supply/api/health" || echo "https://staging.pes.supply/api/health")
           sleep 20
           if curl -sf --retry 5 --retry-delay 10 "$URL" > /dev/null; then
             echo "ok=true" >> $GITHUB_OUTPUT
             echo "✅ Azure healthy: $URL"
           else
             echo "ok=false" >> $GITHUB_OUTPUT
-            echo "⚠️ Azure health check failed — Vercel fallback will activate"
+            echo "⚠️ Azure unhealthy — activating Vercel fallback"
           fi
 
-  # ── 2b. VERCEL FALLBACK (fires ONLY when Azure is unhealthy) ──────────────
+  # ── VERCEL FALLBACK (alex-demo-pes-supply-vercel) ───────────────────────
   vercel-fallback:
-    name: Vercel Fallback
+    name: ↪ Vercel Fallback
     needs: azure
     if: needs.azure.outputs.healthy == 'false'
     runs-on: ubuntu-latest
-    environment: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') && 'production' || 'staging' }}
+    environment: ${{ env.TARGET }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -148,35 +150,33 @@ jobs:
         if: env.TARGET == 'staging'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_SITE_URL: https://staging.pes.supply
           NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://api-staging.pes.supply
           NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${{ secrets.STAGING_MEDUSA_PUBLISHABLE_KEY }}
           COMMERCE_PROVIDER: medusa
+          NEXT_PUBLIC_APP_VERSION: ${{ github.sha }}
         run: |
           pnpm dlx vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
           pnpm dlx vercel build --token=$VERCEL_TOKEN
           pnpm dlx vercel deploy --prebuilt --token=$VERCEL_TOKEN
-          echo "🟡 Vercel staging fallback live"
+          echo "🟡 Vercel staging fallback live (alex-demo-pes-supply-vercel)"
 
       - name: Vercel fallback (production)
         if: env.TARGET == 'production'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_SITE_URL: https://pes.supply
           NEXT_PUBLIC_MEDUSA_BACKEND_URL: https://api.pes.supply
           NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY }}
           COMMERCE_PROVIDER: medusa
+          NEXT_PUBLIC_APP_VERSION: ${{ github.sha }}
         run: |
           pnpm dlx vercel pull --yes --environment=production --token=$VERCEL_TOKEN
           pnpm dlx vercel build --prod --token=$VERCEL_TOKEN
           pnpm dlx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
-          echo "🟡 Vercel production fallback live — pes.supply now on Vercel until Azure is restored"
+          echo "🟡 Vercel production fallback live (alex-demo-pes-supply-vercel)"
 
-  # ── 3. SMOKE TESTS ────────────────────────────────────────────────────────
+  # ── SMOKE TESTS ──────────────────────────────────────────────────────────
   smoke:
     name: Smoke Tests
     needs: [azure, vercel-fallback]
