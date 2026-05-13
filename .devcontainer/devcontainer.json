@@ -3,14 +3,19 @@
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
   "features": {
     "ghcr.io/devcontainers/features/node:1": { "version": "22" },
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/postgres:1": {
+      "version": "15",
+      "postgresPassword": "medusa"
+    }
   },
-  "postCreateCommand": "npm install -g pnpm@latest && pnpm install",
-  "postStartCommand": "echo '✅ PES Supply Codespace ready. Run: pnpm dev'",
-  "forwardPorts": [3000, 9000],
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postStartCommand": "echo '✅ PES Supply Codespace ready.  Storefront → pnpm dev   Medusa → cd ~/medusa-pes-supply && npm run dev'",
+  "forwardPorts": [3000, 9000, 5432],
   "portsAttributes": {
     "3000": { "label": "Next.js Storefront", "onAutoForward": "openPreview" },
-    "9000": { "label": "Medusa Backend" }
+    "9000": { "label": "Medusa Backend API", "onAutoForward": "notify" },
+    "5432": { "label": "PostgreSQL", "onAutoForward": "silent" }
   },
   "customizations": {
     "vscode": {
@@ -19,7 +24,10 @@
         "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
         "prisma.prisma",
-        "ms-azuretools.vscode-azureappservice"
+        "ms-azuretools.vscode-azureappservice",
+        "ms-vscode.azure-account",
+        "cloudflare.cloudflare-workers-bindings",
+        "vercel.vercel-vscode"
       ],
       "settings": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -29,6 +37,7 @@
     }
   },
   "remoteEnv": {
-    "NODE_ENV": "development"
+    "NODE_ENV": "development",
+    "MEDUSA_DB_URL": "postgresql://postgres:medusa@localhost:5432/medusa_pes"
   }
 }

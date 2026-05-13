@@ -1,0 +1,35 @@
+# ============================================================================
+# PES Supply – Cloudflare Cache Purge
+# Triggers after a successful production deploy to clear stale edge cache
+# ============================================================================
+name: Cloudflare Cache Purge
+
+on:
+  workflow_run:
+    workflows: ["Deploy pes.supply to Azure", "Vercel Production Deploy"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  purge:
+    name: Purge Cloudflare Cache
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Purge everything
+        run: |
+          echo "Purging Cloudflare cache for pes.supply zone..."
+          RESPONSE=$(curl -s -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}')
+          echo "Cloudflare response: $RESPONSE"
+          echo $RESPONSE | grep -q '"success":true' && echo "✅ Cache purged" || echo "⚠️  Purge may have failed — check CF_ZONE_ID + CF_API_TOKEN"
+
+      - name: Verify edge response
+        run: |
+          sleep 5
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://pes.supply)
+          echo "pes.supply HTTP status: $STATUS"
+          [ "$STATUS" = "200" ] && echo "✅ Edge responding 200" || echo "⚠️  Edge returned $STATUS"
