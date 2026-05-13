@@ -1,70 +1,62 @@
-/**
- * Medusa Webhook Handler
- * 
- * Receives webhooks from Medusa and processes them through the commerce layer.
- * 
- * Required env vars:
- * - MEDUSA_WEBHOOK_SECRET: For webhook verification
- */
-
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyMedusaWebhook, processWebhook } from '@/lib/commerce/webhooks'
-import type { WebhookEventType } from '@/lib/commerce/types'
+import type { MedusaOrderPayload } from '@/scripts/odoo-medusa-sync'
 
-const WEBHOOK_SECRET = process.env.MEDUSA_WEBHOOK_SECRET || ''
-
-// Map Medusa event types to our event types
-const eventMap: Record<string, WebhookEventType> = {
-  'product.created': 'product.created',
-  'product.updated': 'product.updated',
-  'product.deleted': 'product.deleted',
-  'order.placed': 'order.created',
-  'order.updated': 'order.updated',
-  'order.completed': 'order.fulfilled',
-  'order.canceled': 'order.cancelled',
-  'inventory-item.updated': 'inventory.updated',
-  'customer.created': 'customer.created',
-  'customer.updated': 'customer.updated',
-}
-
-export async function POST(request: NextRequest) {
-  try {
-    const body = await request.text()
-    const signature = request.headers.get('x-medusa-signature') || ''
-
-    // Verify webhook signature
-    if (WEBHOOK_SECRET) {
-      const isValid = await verifyMedusaWebhook(body, signature, WEBHOOK_SECRET)
-      if (!isValid) {
-        console.error('Invalid Medusa webhook signature')
-        return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
-      }
-    }
-
-    // Parse the webhook data
-    const payload = JSON.parse(body)
-    const eventType = eventMap[payload.event]
-
-    if (!eventType) {
-      console.log(`Unknown Medusa webhook event: ${payload.event}`)
-      return NextResponse.json({ received: true, processed: false })
-    }
-
-    // Process the webhook
-    await processWebhook({
-      id: payload.id || `medusa_${Date.now()}`,
-      type: eventType,
-      createdAt: payload.timestamp || new Date().toISOString(),
-      data: payload.data,
-      source: 'medusa',
-    })
-
-    return NextResponse.json({ received: true, processed: true })
-  } catch (error) {
-    console.error('Medusa webhook error:', error)
-    return NextResponse.json(
-      { error: 'Webhook processing failed' },
-      { status: 500 }
-    )
+/**
+ * POST /api/webhooks/medusa
+ * Configure in Medusa subscriber:
+ *   events: ['product.updated', 'order.placed', 'inventory_item.updated']
+ *   url: https://pes.supply/api/webhooks/medusa
+ *   headers: { 'x-medusa-webhook-secret': process.env.MEDUSA_WEBHOOK_SECRET }
+ */
+export async function POST(req: NextRequest) {
+  const secret = req.headers.get('x-medusa-webhook-secret')
+  if (secret !== process.env.MEDUSA_WEBHOOK_SECRET) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
+
+  let body: { event?: string; data?: Record<string, unknown> } = {}
+  try { body = await req.json() } catch {
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+  }
+
+  const { event, data } = body
+  console.log(`[webhook/medusa] event: ${event}`)
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+  const revalidateSecret = process.env.REVALIDATE_SECRET ?? ''
+
+  switch (event) {
+    case 'product.updated': {
+      const handle = (data as { handle?: string })?.handle
+      await fetch(`${baseUrl}/api/revalidate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-revalidate-secret': revalidateSecret },
+        body: JSON.stringify({ type: 'product', handle }),
+      }).catch((e) => console.error('[webhook] revalidate failed:', e))
+      break
+    }
+    case 'inventory_item.updated': {
+      await fetch(`${baseUrl}/api/revalidate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-revalidate-secret': revalidateSecret },
+        body: JSON.stringify({ type: 'all' }),
+      }).catch((e) => console.error('[webhook] revalidate failed:', e))
+      break
+    }
+    case 'order.placed': {
+      if (process.env.SYNC_TO_ODOO === 'true') {
+        try {
+          const { pushOrderToOdoo } = await import('@/scripts/odoo-medusa-sync')
+          await pushOrderToOdoo(data as MedusaOrderPayload)
+        } catch (e) {
+          console.error('[webhook] Odoo order push failed:', e)
+        }
+      }
+      break
+    }
+    default:
+      console.log(`[webhook/medusa] Unhandled event: ${event}`)
+  }
+
+  return NextResponse.json({ received: true, event, timestamp: new Date().toISOString() })
 }
