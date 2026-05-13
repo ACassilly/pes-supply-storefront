@@ -4,16 +4,18 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": { "version": "22" },
     "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/azure-cli:1": {},
     "ghcr.io/devcontainers/features/postgres:1": {
       "version": "15",
       "postgresPassword": "medusa"
     }
   },
   "postCreateCommand": "bash .devcontainer/setup.sh",
-  "postStartCommand": "echo '✅ PES Supply Codespace ready.  Storefront → pnpm dev   Medusa → cd ~/medusa-pes-supply && npm run dev'",
-  "forwardPorts": [3000, 9000, 5432],
+  "postStartCommand": "echo '\u2705 PES Supply Codespace ready. | Storefront \u2192 pnpm dev | Medusa \u2192 cd ~/medusa-pes-supply && npm run dev | Deploy \u2192 deploy-azure staging'",
+  "forwardPorts": [3000, 3001, 9000, 5432],
   "portsAttributes": {
-    "3000": { "label": "Next.js Storefront", "onAutoForward": "openPreview" },
+    "3000": { "label": "Next.js (dev)", "onAutoForward": "openPreview" },
+    "3001": { "label": "Next.js (staging preview)", "onAutoForward": "notify" },
     "9000": { "label": "Medusa Backend API", "onAutoForward": "notify" },
     "5432": { "label": "PostgreSQL", "onAutoForward": "silent" }
   },
