@@ -2,16 +2,22 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { useCart } from '@/lib/commerce/cart-context'
+import { StripePaymentForm } from './stripe-payment-form'
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '')
 
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL ?? ''
 const MEDUSA_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY ?? ''
 
-type Step = 'address' | 'shipping' | 'payment' | 'confirm'
+type Step = 'address' | 'shipping' | 'payment'
 
 interface ShippingOption {
   id: string
@@ -44,36 +50,47 @@ export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
 
   const [address, setAddress] = useState({
-    email: '', first_name: '', last_name: '',
-    address_1: '', address_2: '', city: '',
-    province: '', postal_code: '', country_code: 'us', phone: '',
+    email: '',
+    first_name: '',
+    last_name: '',
+    address_1: '',
+    address_2: '',
+    city: '',
+    province: '',
+    postal_code: '',
+    country_code: 'us',
+    phone: '',
   })
 
   const cartId = cart?.id
 
   useEffect(() => {
-    if (!cartId && step !== 'address') router.push('/cart')
-  }, [cartId, step, router])
+    if (!cartId) router.push('/cart')
+  }, [cartId, router])
 
   async function handleAddressSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!cartId) return
-    setLoading(true); setError(null)
+    setLoading(true)
+    setError(null)
     try {
       await medusaStore(`/store/carts/${cartId}`, {
         method: 'POST',
         body: JSON.stringify({
           email: address.email,
           shipping_address: {
-            first_name: address.first_name, last_name: address.last_name,
-            address_1: address.address_1, address_2: address.address_2,
-            city: address.city, province: address.province,
-            postal_code: address.postal_code, country_code: address.country_code,
-            phone: address.phone,
+            first_name: address.first_name,
+            last_name: address.last_name,
+            address_1: address.address_1,
+            address_2: address.address_2 || undefined,
+            city: address.city,
+            province: address.province || undefined,
+            postal_code: address.postal_code,
+            country_code: address.country_code,
+            phone: address.phone || undefined,
           },
         }),
       })
-      // Fetch shipping options
       const data = await medusaStore<{ shipping_options: ShippingOption[] }>(
         `/store/shipping-options?cart_id=${cartId}`
       )
@@ -81,43 +98,48 @@ export default function CheckoutPage() {
       setStep('shipping')
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Address update failed')
-    } finally { setLoading(false) }
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleShippingSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!cartId || !selectedShipping) return
-    setLoading(true); setError(null)
+    setLoading(true)
+    setError(null)
     try {
       await medusaStore(`/store/carts/${cartId}/shipping-methods`, {
         method: 'POST',
         body: JSON.stringify({ option_id: selectedShipping }),
       })
-      // Init Stripe payment session
-      const data = await medusaStore<{ cart: { payment_sessions: Array<{ provider_id: string; data: { client_secret?: string } }> } }>(
-        `/store/carts/${cartId}/payment-sessions`,
-        { method: 'POST', body: JSON.stringify({ provider_id: 'stripe' }) }
-      )
+      const data = await medusaStore<{
+        cart: { payment_sessions: Array<{ provider_id: string; data: { client_secret?: string } }> }
+      }>(`/store/carts/${cartId}/payment-sessions`, {
+        method: 'POST',
+        body: JSON.stringify({ provider_id: 'stripe' }),
+      })
       const session = data.cart.payment_sessions?.find((s) => s.provider_id === 'stripe')
       setClientSecret(session?.data?.client_secret ?? null)
       setStep('payment')
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Shipping selection failed')
-    } finally { setLoading(false) }
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handlePaymentComplete() {
     if (!cartId) return
-    setLoading(true); setError(null)
     try {
       await medusaStore(`/store/carts/${cartId}/payment-session`, {
         method: 'POST',
         body: JSON.stringify({ provider_id: 'stripe' }),
       })
-      const data = await medusaStore<{ type: string; order?: { id: string; display_id: number } }>(
-        `/store/carts/${cartId}/complete`,
-        { method: 'POST' }
-      )
+      const data = await medusaStore<{
+        type: string
+        order?: { id: string; display_id: number }
+      }>(`/store/carts/${cartId}/complete`, { method: 'POST' })
       if (data.type === 'order' && data.order) {
         clearCart()
         router.push(`/order/confirmed?id=${data.order.display_id}`)
@@ -125,71 +147,99 @@ export default function CheckoutPage() {
         setError('Order completion failed — please try again')
       }
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Payment failed')
-    } finally { setLoading(false) }
+      setError(e instanceof Error ? e.message : 'Order completion failed')
+      throw e // Re-throw so StripePaymentForm can show error state
+    }
   }
+
+  const inputCls = 'mt-1'
 
   return (
     <div className="mx-auto max-w-xl px-4 py-12">
       <h1 className="mb-8 text-2xl font-semibold tracking-tight">Checkout</h1>
 
+      {/* Step indicator */}
+      <div className="mb-8 flex items-center gap-2 text-sm">
+        {(['address', 'shipping', 'payment'] as Step[]).map((s, i) => (
+          <>
+            <span
+              key={s}
+              className={`capitalize ${
+                step === s ? 'font-semibold text-foreground' : 'text-muted-foreground'
+              }`}
+            >
+              {s}
+            </span>
+            {i < 2 && <span className="text-muted-foreground">/</span>}
+          </>
+        ))}
+      </div>
+
       {error && (
-        <div className="mb-4 rounded bg-destructive/10 px-4 py-3 text-sm text-destructive">
+        <div className="mb-4 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
           {error}
         </div>
       )}
 
-      {/* ── STEP 1: Address */}
+      {/* STEP 1: Address */}
       {step === 'address' && (
         <form onSubmit={handleAddressSubmit} className="space-y-4">
-          <h2 className="font-medium">Contact &amp; Shipping Address</h2>
           <div>
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" required value={address.email}
+            <Input id="email" type="email" required className={inputCls}
+              value={address.email}
               onChange={(e) => setAddress((a) => ({ ...a, email: e.target.value }))} />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label htmlFor="first_name">First name</Label>
-              <Input id="first_name" required value={address.first_name}
+              <Input id="first_name" required className={inputCls}
+                value={address.first_name}
                 onChange={(e) => setAddress((a) => ({ ...a, first_name: e.target.value }))} />
             </div>
             <div>
               <Label htmlFor="last_name">Last name</Label>
-              <Input id="last_name" required value={address.last_name}
+              <Input id="last_name" required className={inputCls}
+                value={address.last_name}
                 onChange={(e) => setAddress((a) => ({ ...a, last_name: e.target.value }))} />
             </div>
           </div>
           <div>
             <Label htmlFor="address_1">Address</Label>
-            <Input id="address_1" required value={address.address_1}
+            <Input id="address_1" required className={inputCls}
+              value={address.address_1}
               onChange={(e) => setAddress((a) => ({ ...a, address_1: e.target.value }))} />
           </div>
           <div>
-            <Label htmlFor="address_2">Apartment, suite, etc.</Label>
-            <Input id="address_2" value={address.address_2}
+            <Label htmlFor="address_2">Apt, suite, etc.</Label>
+            <Input id="address_2" className={inputCls}
+              value={address.address_2}
               onChange={(e) => setAddress((a) => ({ ...a, address_2: e.target.value }))} />
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-1">
               <Label htmlFor="city">City</Label>
-              <Input id="city" required value={address.city}
+              <Input id="city" required className={inputCls}
+                value={address.city}
                 onChange={(e) => setAddress((a) => ({ ...a, city: e.target.value }))} />
             </div>
             <div>
               <Label htmlFor="province">State</Label>
-              <Input id="province" value={address.province}
+              <Input id="province" className={inputCls}
+                value={address.province}
                 onChange={(e) => setAddress((a) => ({ ...a, province: e.target.value }))} />
             </div>
             <div>
               <Label htmlFor="postal_code">ZIP</Label>
-              <Input id="postal_code" required value={address.postal_code}
+              <Input id="postal_code" required className={inputCls}
+                value={address.postal_code}
                 onChange={(e) => setAddress((a) => ({ ...a, postal_code: e.target.value }))} />
             </div>
           </div>
           <div>
             <Label htmlFor="phone">Phone (optional)</Label>
-            <Input id="phone" type="tel" value={address.phone}
+            <Input id="phone" type="tel" className={inputCls}
+              value={address.phone}
               onChange={(e) => setAddress((a) => ({ ...a, phone: e.target.value }))} />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
@@ -198,7 +248,7 @@ export default function CheckoutPage() {
         </form>
       )}
 
-      {/* ── STEP 2: Shipping */}
+      {/* STEP 2: Shipping */}
       {step === 'shipping' && (
         <form onSubmit={handleShippingSubmit} className="space-y-4">
           <h2 className="font-medium">Shipping Method</h2>
@@ -206,14 +256,22 @@ export default function CheckoutPage() {
             <p className="text-sm text-muted-foreground">No shipping options available for this address.</p>
           )}
           {shippingOptions.map((opt) => (
-            <label key={opt.id} className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition-colors hover:bg-accent">
-              <input type="radio" name="shipping" value={opt.id}
+            <label
+              key={opt.id}
+              className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition-colors hover:bg-accent"
+            >
+              <input
+                type="radio" name="shipping" value={opt.id}
                 checked={selectedShipping === opt.id}
-                onChange={() => setSelectedShipping(opt.id)} />
+                onChange={() => setSelectedShipping(opt.id)}
+              />
               <div className="flex flex-1 items-center justify-between">
                 <span className="font-medium">{opt.name}</span>
                 <span className="text-sm">
-                  {(opt.amount / 100).toLocaleString('en-US', { style: 'currency', currency: opt.currency_code.toUpperCase() })}
+                  {(opt.amount / 100).toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: opt.currency_code.toUpperCase(),
+                  })}
                 </span>
               </div>
             </label>
@@ -228,30 +286,24 @@ export default function CheckoutPage() {
         </form>
       )}
 
-      {/* ── STEP 3: Payment */}
+      {/* STEP 3: Payment */}
       {step === 'payment' && (
         <div className="space-y-4">
           <h2 className="font-medium">Payment</h2>
           {clientSecret ? (
-            <div className="rounded-lg border p-4">
-              <p className="mb-4 text-sm text-muted-foreground">
-                Complete payment via Stripe. Your card details are processed securely by Stripe and never touch our servers.
-              </p>
-              {/* 
-                Mount Stripe Elements here.
-                Install: pnpm add @stripe/react-stripe-js @stripe/stripe-js
-                Then replace this block with <Elements stripe={stripePromise} options={{ clientSecret }}>
-                  <PaymentElement />
-                  <Button onClick={handlePaymentComplete}>Place order</Button>
-                </Elements>
-              */}
-              <p className="text-xs text-muted-foreground">client_secret: {clientSecret.slice(0, 20)}…</p>
-              <Button className="mt-4 w-full" onClick={handlePaymentComplete} disabled={loading}>
-                {loading ? 'Placing order…' : 'Place order'}
-              </Button>
-            </div>
+            <Elements
+              stripe={stripePromise}
+              options={{
+                clientSecret,
+                appearance: { theme: 'stripe' },
+              }}
+            >
+              <StripePaymentForm onComplete={handlePaymentComplete} />
+            </Elements>
           ) : (
-            <p className="text-sm text-destructive">Failed to initialize payment. Please go back and try again.</p>
+            <p className="text-sm text-destructive">
+              Failed to initialize payment. Please go back and try again.
+            </p>
           )}
           <Button variant="outline" onClick={() => setStep('shipping')}>Back</Button>
         </div>
