@@ -1,51 +1,105 @@
-/**
- * PM2 Ecosystem Config — pes.supply Azure VM
- * Deploy to: /var/www/pes-supply/pm2-ecosystem.config.js
- * Start:     pm2 start pm2-ecosystem.config.js
- * Save:      pm2 save && pm2 startup
- */
+// PM2 ecosystem — run: pm2 start scripts/pm2-ecosystem.config.js
 module.exports = {
   apps: [
     {
+      // Production Next.js storefront — port 3000
       name: 'pes-supply',
       cwd: '/var/www/pes-supply',
       script: 'node_modules/.bin/next',
-      args: 'start',
-      instances: 2,
+      args: 'start -p 3000',
+      interpreter: 'none',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3000,
+      },
+      instances: 'max',
       exec_mode: 'cluster',
+      autorestart: true,
+      watch: false,
       max_memory_restart: '512M',
-      env: { NODE_ENV: 'production', PORT: 3000 },
+      log_file: '/var/log/pm2/pes-supply.log',
       error_file: '/var/log/pm2/pes-supply-error.log',
-      out_file: '/var/log/pm2/pes-supply-out.log',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss',
+      time: true,
     },
     {
-      name: 'pes-supply-medusa',
+      // Staging Next.js storefront — port 3001
+      name: 'pes-supply-staging',
+      cwd: '/var/www/pes-supply-staging',
+      script: 'node_modules/.bin/next',
+      args: 'start -p 3001',
+      interpreter: 'none',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3001,
+      },
+      instances: 2,
+      exec_mode: 'cluster',
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '384M',
+      log_file: '/var/log/pm2/pes-supply-staging.log',
+      error_file: '/var/log/pm2/pes-supply-staging-error.log',
+      time: true,
+    },
+    {
+      // Production Medusa backend — port 9000
+      name: 'medusa-production',
       cwd: '/home/pesadmin/medusa-pes-supply',
       script: 'node_modules/.bin/medusa',
       args: 'start',
+      interpreter: 'none',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 9000,
+      },
       instances: 1,
       exec_mode: 'fork',
-      max_memory_restart: '1G',
-      env: { NODE_ENV: 'production', PORT: 9000 },
-      error_file: '/var/log/pm2/medusa-error.log',
-      out_file: '/var/log/pm2/medusa-out.log',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss',
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '768M',
+      log_file: '/var/log/pm2/medusa-production.log',
+      error_file: '/var/log/pm2/medusa-production-error.log',
+      time: true,
     },
     {
+      // Staging Medusa backend — port 9001
+      name: 'medusa-staging',
+      cwd: '/home/pesadmin/medusa-staging',
+      script: 'node_modules/.bin/medusa',
+      args: 'start',
+      interpreter: 'none',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 9001,
+      },
+      instances: 1,
+      exec_mode: 'fork',
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '512M',
+      log_file: '/var/log/pm2/medusa-staging.log',
+      error_file: '/var/log/pm2/medusa-staging-error.log',
+      time: true,
+    },
+    {
+      // Odoo ↔ Medusa sync worker (runs every 5 min via setInterval)
       name: 'pes-supply-sync',
       cwd: '/var/www/pes-supply',
       script: 'npx',
       args: 'tsx scripts/odoo-medusa-sync.ts',
+      interpreter: 'none',
+      env: {
+        NODE_ENV: 'production',
+      },
       instances: 1,
       exec_mode: 'fork',
-      cron_restart: '*/15 * * * *',
-      autorestart: false,
+      autorestart: true,
+      cron_restart: '*/5 * * * *',
+      watch: false,
       max_memory_restart: '256M',
-      env: { NODE_ENV: 'production', SYNC_INTERVAL_MS: '0' },
-      error_file: '/var/log/pm2/sync-error.log',
-      out_file: '/var/log/pm2/sync-out.log',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss',
+      log_file: '/var/log/pm2/pes-supply-sync.log',
+      error_file: '/var/log/pm2/pes-supply-sync-error.log',
+      time: true,
     },
   ],
 }
