@@ -1,8 +1,7 @@
 # ============================================================================
 # PES Supply — Deploy
-# Azure App Service PRIMARY → Vercel (alex-demo-pes-supply-vercel) FALLBACK
-#
-# Staging:    auto on every push to main
+# Azure App Service PRIMARY (PES-Stage) → Vercel (alex-demo-pes-supply-vercel) FALLBACK
+# Staging: auto on every push to main
 # Production: manual workflow_dispatch only
 # ============================================================================
 name: Deploy pes.supply
@@ -29,6 +28,7 @@ env:
   TARGET: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.environment) || 'staging' }}
   VERCEL_ORG_ID: team_XQxmrDxKnJR8qGObDLGjZrY9
   VERCEL_PROJECT_ID: prj_RFHh7bl9ekSNk8LAA96sXPCJ5gjB
+  AZURE_STAGING_APP: PES-Stage
 
 jobs:
   # ── BUILD ────────────────────────────────────────────────────────────────
@@ -78,7 +78,7 @@ jobs:
           NEXT_PUBLIC_APP_VERSION: ${{ github.sha }}
         run: pnpm build
 
-      - name: Package build
+      - name: Package
         run: zip -r build.zip .next public package.json pnpm-lock.yaml next.config.mjs --exclude '*.map' --exclude '.next/cache/*'
 
       - uses: actions/upload-artifact@v4
@@ -89,10 +89,9 @@ jobs:
 
   # ── AZURE PRIMARY ────────────────────────────────────────────────────────
   azure:
-    name: → Azure App Service
+    name: → Azure (PES-Stage)
     needs: build
     runs-on: ubuntu-latest
-    environment: ${{ env.TARGET }}
     outputs:
       healthy: ${{ steps.health.outputs.ok }}
     steps:
@@ -100,15 +99,15 @@ jobs:
         with:
           name: build-${{ env.TARGET }}
 
-      - name: Deploy staging
+      - name: Deploy to Azure (staging)
         if: env.TARGET == 'staging'
         uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ secrets.AZURE_STAGING_APP_NAME }}
+          app-name: PES-Stage
           publish-profile: ${{ secrets.AZURE_STAGING_PUBLISH_PROFILE }}
           package: build.zip
 
-      - name: Deploy production
+      - name: Deploy to Azure (production)
         if: env.TARGET == 'production'
         uses: azure/webapps-deploy@v3
         with:
@@ -119,7 +118,7 @@ jobs:
       - name: Health check
         id: health
         run: |
-          URL=$([[ "${{ env.TARGET }}" == "production" ]] && echo "https://pes.supply/api/health" || echo "https://staging.pes.supply/api/health")
+          URL=$([[ "${{ env.TARGET }}" == "production" ]] && echo "https://pes.supply/api/health" || echo "https://pes-stage-eucmbnd7hfdafeat.eastus2-01.azurewebsites.net/api/health")
           sleep 20
           if curl -sf --retry 5 --retry-delay 10 "$URL" > /dev/null; then
             echo "ok=true" >> $GITHUB_OUTPUT
@@ -129,13 +128,12 @@ jobs:
             echo "⚠️ Azure unhealthy — activating Vercel fallback"
           fi
 
-  # ── VERCEL FALLBACK (alex-demo-pes-supply-vercel) ───────────────────────
+  # ── VERCEL FALLBACK ──────────────────────────────────────────────────────
   vercel-fallback:
     name: ↪ Vercel Fallback
     needs: azure
     if: needs.azure.outputs.healthy == 'false'
     runs-on: ubuntu-latest
-    environment: ${{ env.TARGET }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -174,9 +172,9 @@ jobs:
           pnpm dlx vercel pull --yes --environment=production --token=$VERCEL_TOKEN
           pnpm dlx vercel build --prod --token=$VERCEL_TOKEN
           pnpm dlx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
-          echo "🟡 Vercel production fallback live (alex-demo-pes-supply-vercel)"
+          echo "🟡 Vercel production fallback live"
 
-  # ── SMOKE TESTS ──────────────────────────────────────────────────────────
+  # ── SMOKE TESTS ───────────────────────────────────────────────────────────
   smoke:
     name: Smoke Tests
     needs: [azure, vercel-fallback]
@@ -186,5 +184,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run smoke tests
         env:
-          STAGING_URL: ${{ env.TARGET == 'production' && 'https://pes.supply' || 'https://staging.pes.supply' }}
+          STAGING_URL: https://pes-stage-eucmbnd7hfdafeat.eastus2-01.azurewebsites.net
         run: bash scripts/staging-smoke-test.sh
