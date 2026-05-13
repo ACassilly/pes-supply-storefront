@@ -1,42 +1,55 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
+import { NextRequest, NextResponse } from 'next/server'
 
 /**
  * POST /api/revalidate
- * On-demand ISR revalidation endpoint.
- * Called by Medusa webhooks (product.updated, inventory.updated) and Odoo sync.
+ * On-demand ISR revalidation triggered by Medusa product/category webhooks.
  *
- * Headers: x-revalidate-secret: <REVALIDATE_SECRET env var>
- * Body: { type: 'product'|'category'|'all', handle?: string }
+ * Body: { secret, path?, tag? }
+ * GET:  ?secret=...&path=...&tag=...
  */
 export async function POST(req: NextRequest) {
-  const secret = req.headers.get('x-revalidate-secret')
+  try {
+    const body = await req.json()
+    const { secret, path, tag } = body ?? {}
+
+    if (secret !== process.env.REVALIDATE_SECRET) {
+      return NextResponse.json({ error: 'Invalid secret' }, { status: 401 })
+    }
+    if (!path && !tag) {
+      return NextResponse.json({ error: 'Provide path or tag' }, { status: 400 })
+    }
+
+    const revalidated: string[] = []
+    if (path) { revalidatePath(path); revalidated.push(`path:${path}`) }
+    if (tag)  { revalidateTag(tag);   revalidated.push(`tag:${tag}`) }
+
+    return NextResponse.json({ revalidated: true, items: revalidated, timestamp: new Date().toISOString() })
+  } catch (err: unknown) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : 'Revalidation failed' },
+      { status: 500 },
+    )
+  }
+}
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url)
+  const secret = searchParams.get('secret')
+  const path   = searchParams.get('path')
+  const tag    = searchParams.get('tag')
+
   if (secret !== process.env.REVALIDATE_SECRET) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Invalid secret' }, { status: 401 })
   }
 
-  let body: { type?: string; handle?: string } = {}
-  try { body = await req.json() } catch { /* empty body is fine */ }
+  const revalidated: string[] = []
+  if (path) { revalidatePath(path); revalidated.push(`path:${path}`) }
+  if (tag)  { revalidateTag(tag);   revalidated.push(`tag:${tag}`) }
 
-  const { type = 'all', handle } = body
-
-  if (type === 'product' && handle) {
-    revalidatePath(`/products/${handle}`)
-    revalidateTag('products')
-  } else if (type === 'category' && handle) {
-    revalidatePath(`/categories/${handle}`)
-    revalidateTag('categories')
-  } else {
-    revalidatePath('/', 'layout')
-    revalidateTag('products')
-    revalidateTag('categories')
-    revalidateTag('cart')
+  if (!revalidated.length) {
+    return NextResponse.json({ error: 'Provide path or tag' }, { status: 400 })
   }
 
-  return NextResponse.json({
-    revalidated: true,
-    type,
-    handle: handle ?? 'all',
-    timestamp: new Date().toISOString(),
-  })
+  return NextResponse.json({ revalidated: true, items: revalidated, timestamp: new Date().toISOString() })
 }
