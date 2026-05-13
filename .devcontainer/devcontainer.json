@@ -1,23 +1,15 @@
 {
-  "name": "PES Supply – Next.js + Medusa Dev",
+  "name": "PES Supply Storefront",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
   "features": {
     "ghcr.io/devcontainers/features/node:1": { "version": "22" },
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/azure-cli:1": {},
-    "ghcr.io/devcontainers/features/postgres:1": {
-      "version": "15",
-      "postgresPassword": "medusa"
-    }
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "postCreateCommand": "bash .devcontainer/setup.sh",
-  "postStartCommand": "echo '\u2705 PES Supply Codespace ready. | Storefront \u2192 pnpm dev | Medusa \u2192 cd ~/medusa-pes-supply && npm run dev | Deploy \u2192 deploy-azure staging'",
-  "forwardPorts": [3000, 3001, 9000, 5432],
+  "postCreateCommand": "npm install -g pnpm@9 && pnpm install",
+  "forwardPorts": [3000, 9000],
   "portsAttributes": {
-    "3000": { "label": "Next.js (dev)", "onAutoForward": "openPreview" },
-    "3001": { "label": "Next.js (staging preview)", "onAutoForward": "notify" },
-    "9000": { "label": "Medusa Backend API", "onAutoForward": "notify" },
-    "5432": { "label": "PostgreSQL", "onAutoForward": "silent" }
+    "3000": { "label": "Next.js", "onAutoForward": "openBrowser" },
+    "9000": { "label": "Medusa Backend" }
   },
   "customizations": {
     "vscode": {
@@ -25,21 +17,17 @@
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
-        "prisma.prisma",
-        "ms-azuretools.vscode-azureappservice",
-        "ms-vscode.azure-account",
-        "cloudflare.cloudflare-workers-bindings",
-        "vercel.vercel-vscode"
+        "github.copilot",
+        "github.copilot-chat"
       ],
       "settings": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.formatOnSave": true,
-        "typescript.tsdk": "node_modules/typescript/lib"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
       }
     }
   },
   "remoteEnv": {
-    "NODE_ENV": "development",
-    "MEDUSA_DB_URL": "postgresql://postgres:medusa@localhost:5432/medusa_pes"
+    "COMMERCE_PROVIDER": "medusa",
+    "NEXT_PUBLIC_SITE_URL": "https://pes.supply"
   }
 }
