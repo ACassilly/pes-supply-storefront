@@ -1,65 +1,89 @@
-import type { MetadataRoute } from 'next'
-import { departments, brands } from '@/lib/data'
+import { MetadataRoute } from 'next'
 
-export const dynamic = 'force-dynamic'
+const BASE = 'https://pes.supply'
+
+const STATIC_PAGES: Array<{
+  url: string
+  priority: number
+  changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']
+}> = [
+  { url: '/', priority: 1.0, changeFrequency: 'daily' },
+  { url: '/products', priority: 0.9, changeFrequency: 'daily' },
+  { url: '/brands', priority: 0.8, changeFrequency: 'weekly' },
+  { url: '/departments', priority: 0.8, changeFrequency: 'weekly' },
+  { url: '/deals', priority: 0.8, changeFrequency: 'daily' },
+  { url: '/bulk', priority: 0.7, changeFrequency: 'weekly' },
+  { url: '/pro', priority: 0.7, changeFrequency: 'weekly' },
+  { url: '/search', priority: 0.6, changeFrequency: 'daily' },
+  { url: '/blog', priority: 0.6, changeFrequency: 'weekly' },
+  { url: '/about', priority: 0.5, changeFrequency: 'monthly' },
+  { url: '/contact', priority: 0.5, changeFrequency: 'monthly' },
+  { url: '/shipping', priority: 0.5, changeFrequency: 'monthly' },
+  { url: '/returns', priority: 0.5, changeFrequency: 'monthly' },
+  { url: '/quote', priority: 0.6, changeFrequency: 'monthly' },
+  { url: '/powerlink', priority: 0.6, changeFrequency: 'monthly' },
+  { url: '/careers', priority: 0.4, changeFrequency: 'monthly' },
+  { url: '/privacy', priority: 0.3, changeFrequency: 'yearly' },
+  { url: '/terms', priority: 0.3, changeFrequency: 'yearly' },
+  { url: '/accessibility', priority: 0.3, changeFrequency: 'yearly' },
+]
+
+async function fetchMedusaProducts(): Promise<Array<{ handle: string; updated_at: string }>> {
+  const medusaUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+  const pubKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
+  if (!medusaUrl || !pubKey) return []
+  try {
+    const res = await fetch(
+      `${medusaUrl}/store/products?limit=500&fields=handle,updated_at`,
+      { headers: { 'x-publishable-api-key': pubKey }, next: { revalidate: 3600 } },
+    )
+    if (!res.ok) return []
+    const data = await res.json()
+    return data.products ?? []
+  } catch { return [] }
+}
+
+async function fetchMedusaCategories(): Promise<Array<{ handle: string; updated_at: string }>> {
+  const medusaUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+  const pubKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
+  if (!medusaUrl || !pubKey) return []
+  try {
+    const res = await fetch(
+      `${medusaUrl}/store/product-categories?limit=200&fields=handle,updated_at`,
+      { headers: { 'x-publishable-api-key': pubKey }, next: { revalidate: 3600 } },
+    )
+    if (!res.ok) return []
+    const data = await res.json()
+    return data.product_categories ?? []
+  } catch { return [] }
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://portlandiaelectric.supply'
+  const [products, categories] = await Promise.all([
+    fetchMedusaProducts(),
+    fetchMedusaCategories(),
+  ])
 
-  // Static pages
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: 'daily', priority: 1 },
-    { url: `${baseUrl}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/shipping`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${baseUrl}/returns`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${baseUrl}/pro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${baseUrl}/powerlink`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/powerlink/directory`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${baseUrl}/quote`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/departments`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${baseUrl}/brands`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${baseUrl}/deals`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
-    { url: `${baseUrl}/bulk`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${baseUrl}/baba`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
-    { url: `${baseUrl}/search`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.6 },
-    { url: `${baseUrl}/careers`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${baseUrl}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
-    { url: `${baseUrl}/terms`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
-    { url: `${baseUrl}/accessibility`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
-  ]
-
-  // Department pages
-  const deptPages: MetadataRoute.Sitemap = departments.map((d) => ({
-    url: `${baseUrl}/departments/${d.slug}`,
+  const staticEntries: MetadataRoute.Sitemap = STATIC_PAGES.map((p) => ({
+    url: `${BASE}${p.url}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
+    changeFrequency: p.changeFrequency,
+    priority: p.priority,
   }))
 
-  // Brand pages
-  const brandPages: MetadataRoute.Sitemap = brands.map((b) => ({
-    url: `${baseUrl}/brands/${b.slug}`,
-    lastModified: new Date(),
+  const productEntries: MetadataRoute.Sitemap = products.map((p) => ({
+    url: `${BASE}/products/${p.handle}`,
+    lastModified: p.updated_at ? new Date(p.updated_at) : new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }))
 
-  // Product pages from Shopify
-  let productPages: MetadataRoute.Sitemap = []
-  try {
-    const { getProducts } = await import('@/lib/shopify')
-    const shopifyProducts = await getProducts({ first: 250 })
-    productPages = shopifyProducts.map((p) => ({
-      url: `${baseUrl}/products/${p.handle}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    }))
-  } catch (e) {
-    console.error('[sitemap] Could not fetch Shopify products:', e)
-  }
+  const categoryEntries: MetadataRoute.Sitemap = categories.map((c) => ({
+    url: `${BASE}/categories/${c.handle}`,
+    lastModified: c.updated_at ? new Date(c.updated_at) : new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.75,
+  }))
 
-  return [...staticPages, ...deptPages, ...brandPages, ...productPages]
+  return [...staticEntries, ...categoryEntries, ...productEntries]
 }

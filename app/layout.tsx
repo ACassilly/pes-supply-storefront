@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Geist_Mono } from 'next/font/google'
+import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { TopBar } from '@/components/top-bar'
 import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
@@ -11,8 +14,11 @@ import { CookieConsent } from '@/components/cookie-consent'
 import { AnnouncementBanner } from '@/components/announcement-banner'
 import './globals.css'
 
-const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const _geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
+const _inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const _geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+const GOOGLE_VERIFY = process.env.GOOGLE_SITE_VERIFICATION
 
 export const viewport: Viewport = {
   themeColor: '#1a7a3d',
@@ -24,56 +30,82 @@ export const metadata: Metadata = {
     default: 'PES Supply | 169 Brands, 500+ Vendors, 40,000+ Products | A PES Global Company',
     template: '%s | PES Supply',
   },
-  description: 'PES Supply -- the distribution engine of PES Global. 40,000+ products across electrical, solar, HVAC, plumbing, tools, safety, EV charging, generators, and more. 169 brands, 500+ vendors. Shipping nationwide from 10 stocking locations.',
+  description:
+    'PES Supply -- the distribution engine of PES Global. 40,000+ products across electrical, solar, HVAC, plumbing, tools, safety, EV charging, generators, and more. 169 brands, 500+ vendors. Shipping nationwide from 10 stocking locations.',
   metadataBase: new URL('https://pes.supply'),
+  ...(GOOGLE_VERIFY ? { verification: { google: GOOGLE_VERIFY } } : {}),
   openGraph: {
     type: 'website',
     locale: 'en_US',
     siteName: 'PES Supply',
     title: 'PES Supply | 169 Brands, 500+ Vendors, 40,000+ Products',
-    description: 'The distribution arm of PES Global. Electrical, solar, lighting, tools, HVAC, plumbing, and more. Same-day shipping. Net-30 terms.',
+    description:
+      'The distribution arm of PES Global. Electrical, solar, lighting, tools, HVAC, plumbing, and more. Same-day shipping. Net-30 terms.',
     images: [{ url: '/images/pes-logo.png', width: 600, height: 600, alt: 'PES Supply' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'PES Supply | A PES Global Company',
-    description: '169 brands, 500+ vendors, 40,000+ products. Same-day shipping from 10 stocking locations nationwide.',
+    description:
+      '169 brands, 500+ vendors, 40,000+ products. Same-day shipping from 10 stocking locations nationwide.',
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="bg-background" suppressHydrationWarning>
       <head>
+        {/* Google Analytics 4 */}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{page_path:window.location.pathname});`}
+            </Script>
+          </>
+        )}
+        {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
+              '@context': 'https://schema.org',
+              '@graph': [
                 {
-                  "@type": "Organization",
-                  name: "PES Supply",
-                  legalName: "Portlandia Electric Supply, Inc.",
-                  alternateName: "Portlandia Electric Supply",
-                  url: "https://pes.supply",
-                  logo: "https://pes.supply/images/pes-logo.png",
-                  telephone: "+1-888-876-0007",
-                  email: "connect@portlandiaelectric.supply",
-                  address: { "@type": "PostalAddress", streetAddress: "1507 Portland Ave", addressLocality: "Louisville", addressRegion: "KY", postalCode: "40203", addressCountry: "US" },
-                  parentOrganization: { "@type": "Organization", name: "PES Global" },
-                  description: "169 brands, 500+ vendors, 40,000+ products across energy, electrical, solar, tools, HVAC, plumbing, and more.",
+                  '@type': 'Organization',
+                  name: 'PES Supply',
+                  legalName: 'Portlandia Electric Supply, Inc.',
+                  alternateName: 'Portlandia Electric Supply',
+                  url: 'https://pes.supply',
+                  logo: 'https://pes.supply/images/pes-logo.png',
+                  telephone: '+1-888-876-0007',
+                  email: 'connect@portlandiaelectric.supply',
+                  address: {
+                    '@type': 'PostalAddress',
+                    streetAddress: '1507 Portland Ave',
+                    addressLocality: 'Louisville',
+                    addressRegion: 'KY',
+                    postalCode: '40203',
+                    addressCountry: 'US',
+                  },
+                  parentOrganization: { '@type': 'Organization', name: 'PES Global' },
+                  description:
+                    '169 brands, 500+ vendors, 40,000+ products across energy, electrical, solar, tools, HVAC, plumbing, and more.',
                 },
                 {
-                  "@type": "WebSite",
-                  name: "PES Supply",
-                  url: "https://pes.supply",
-                  potentialAction: { "@type": "SearchAction", target: "https://pes.supply/search?q={search_term_string}", "query-input": "required name=search_term_string" },
-                }
+                  '@type': 'WebSite',
+                  name: 'PES Supply',
+                  url: 'https://pes.supply',
+                  potentialAction: {
+                    '@type': 'SearchAction',
+                    target: 'https://pes.supply/search?q={search_term_string}',
+                    'query-input': 'required name=search_term_string',
+                  },
+                },
               ],
             }),
           }}
@@ -81,21 +113,25 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className={`${_inter.variable} ${_geistMono.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
-          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+          >
             Skip to main content
           </a>
           <AnnouncementBanner />
           <TopBar />
           <Navbar />
-          <main id="main-content">
-            {children}
-          </main>
+          <main id="main-content">{children}</main>
           <SiteFooter />
           <CartToastProvider />
           <ChatWidget />
           <BackToTop />
           <CookieConsent />
         </ThemeProvider>
+        {/* Vercel Analytics + Speed Insights */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
