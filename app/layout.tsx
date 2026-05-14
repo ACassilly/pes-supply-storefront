@@ -3,6 +3,7 @@ import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { CartProvider } from '@/lib/commerce/cart-context'
+import { ChatWidgetLoader } from '@/components/chat-widget-loader'
 import './globals.css'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pes.supply'
@@ -141,6 +142,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CartProvider>
           {children}
         </CartProvider>
+
+        {/* Chat widget — floats bottom-right on every page */}
+        <ChatWidgetLoader />
 
         <Analytics />
         <SpeedInsights />
