@@ -1,98 +1,191 @@
 "use client"
 
-import { useState } from "react"
-import { MessageCircle, X, Send, Phone } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState, useRef, useEffect } from "react"
+import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+interface Message {
+  role: "user" | "assistant"
+  content: string
+}
+
+const WELCOME: Message = {
+  role: "assistant",
+  content:
+    "Hi! I'm the PES Supply assistant 👋 I can help you find products, answer questions about orders, shipping, returns, or bulk pricing. What can I help you with today?",
+}
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false)
-  const [message, setMessage] = useState("")
-  const [messages, setMessages] = useState<{ from: "user" | "agent"; text: string }[]>([
-    { from: "agent", text: "Hey! Need help finding a product or getting a quote? Our team is standing by." },
-  ])
+  const [messages, setMessages] = useState<Message[]>([WELCOME])
+  const [input, setInput] = useState("")
+  const [loading, setLoading] = useState(false)
+  const bottomRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  function handleSend(e: React.FormEvent) {
-    e.preventDefault()
-    if (!message.trim()) return
-    setMessages(prev => [...prev, { from: "user", text: message }])
-    setMessage("")
-    setTimeout(() => {
-      setMessages(prev => [...prev, {
-        from: "agent",
-        text: "Thanks for reaching out! A PES team member will respond shortly. For immediate help, call us at (888) 876-0007.",
-      }])
-    }, 1200)
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 100)
+    }
+  }, [open])
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages, loading])
+
+  const sendMessage = async () => {
+    const text = input.trim()
+    if (!text || loading) return
+
+    const userMessage: Message = { role: "user", content: text }
+    const updated = [...messages, userMessage]
+    setMessages(updated)
+    setInput("")
+    setLoading(true)
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: updated.filter((m) => m.role !== "assistant" || updated.indexOf(m) > 0),
+        }),
+      })
+
+      const data = await res.json()
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: data.content || "Sorry, I couldn't get a response. Please try again.",
+        },
+      ])
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "Sorry, something went wrong. Please try again or visit our [contact page](/contact).",
+        },
+      ])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault()
+      sendMessage()
+    }
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-[9990]">
-      {open ? (
-        <div className="flex h-[420px] w-[340px] flex-col overflow-hidden rounded-xl border border-border bg-card shadow-2xl">
+    <>
+      {/* Chat window */}
+      {open && (
+        <div className="fixed bottom-20 right-4 z-50 w-[350px] max-w-[calc(100vw-2rem)] flex flex-col rounded-2xl shadow-2xl border border-border bg-background overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between bg-primary px-4 py-3">
-            <div>
-              <p className="text-sm font-bold text-primary-foreground">PES Supply</p>
-              <p className="text-[10px] text-primary-foreground/70">Typically replies in minutes</p>
+          <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground">
+            <div className="flex items-center gap-2">
+              <Bot className="h-5 w-5" />
+              <div>
+                <p className="text-sm font-semibold leading-none">PES Supply Assistant</p>
+                <p className="text-xs opacity-80 mt-0.5">Ask me anything</p>
+              </div>
             </div>
-            <button onClick={() => setOpen(false)} className="text-primary-foreground/70 hover:text-primary-foreground" aria-label="Close chat">
-              <X className="h-5 w-5" />
+            <button
+              onClick={() => setOpen(false)}
+              className="rounded-full p-1 hover:bg-white/20 transition-colors"
+              aria-label="Close chat"
+            >
+              <X className="h-4 w-4" />
             </button>
           </div>
 
           {/* Messages */}
-          <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-3">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[380px] min-h-[200px]">
             {messages.map((msg, i) => (
-              <div key={i} className={`max-w-[85%] rounded-lg px-3 py-2 text-xs leading-relaxed ${msg.from === "agent" ? "self-start bg-muted text-card-foreground" : "self-end bg-primary text-primary-foreground"}`}>
-                {msg.text}
+              <div
+                key={i}
+                className={cn(
+                  "flex gap-2 text-sm",
+                  msg.role === "user" ? "flex-row-reverse" : "flex-row"
+                )}
+              >
+                <div
+                  className={cn(
+                    "flex-shrink-0 h-7 w-7 rounded-full flex items-center justify-center",
+                    msg.role === "user"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground"
+                  )}
+                >
+                  {msg.role === "user" ? (
+                    <User className="h-3.5 w-3.5" />
+                  ) : (
+                    <Bot className="h-3.5 w-3.5" />
+                  )}
+                </div>
+                <div
+                  className={cn(
+                    "rounded-2xl px-3 py-2 max-w-[80%] whitespace-pre-wrap leading-relaxed",
+                    msg.role === "user"
+                      ? "bg-primary text-primary-foreground rounded-tr-sm"
+                      : "bg-muted text-foreground rounded-tl-sm"
+                  )}
+                >
+                  {msg.content}
+                </div>
               </div>
             ))}
-          </div>
 
-          {/* Quick actions */}
-          <div className="flex gap-1.5 border-t border-border px-3 py-2">
-            {["Get a quote", "Track an order", "Talk to a rep"].map((action) => (
-              <button
-                key={action}
-                onClick={() => {
-                  setMessages(prev => [...prev, { from: "user", text: action }])
-                  setTimeout(() => {
-                    setMessages(prev => [...prev, { from: "agent", text: "Got it -- a team member will jump in shortly to help with that." }])
-                  }, 1000)
-                }}
-                className="rounded-full border border-border px-2.5 py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-              >
-                {action}
-              </button>
-            ))}
+            {loading && (
+              <div className="flex gap-2 text-sm">
+                <div className="flex-shrink-0 h-7 w-7 rounded-full bg-muted flex items-center justify-center">
+                  <Bot className="h-3.5 w-3.5 text-muted-foreground" />
+                </div>
+                <div className="bg-muted rounded-2xl rounded-tl-sm px-3 py-2 flex items-center gap-1">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
+                  <span className="text-muted-foreground text-xs">Typing...</span>
+                </div>
+              </div>
+            )}
+            <div ref={bottomRef} />
           </div>
 
           {/* Input */}
-          <form onSubmit={handleSend} className="flex items-center gap-2 border-t border-border px-3 py-2.5">
+          <div className="border-t border-border p-3 flex gap-2">
             <input
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type a message..."
-              className="h-8 flex-1 rounded-md border border-border bg-background px-3 text-xs outline-none focus:border-primary"
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Ask a question..."
+              disabled={loading}
+              className="flex-1 text-sm bg-muted rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 placeholder:text-muted-foreground"
             />
-            <button type="submit" className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90" aria-label="Send">
-              <Send className="h-3.5 w-3.5" />
+            <button
+              onClick={sendMessage}
+              disabled={loading || !input.trim()}
+              className="flex-shrink-0 h-9 w-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              aria-label="Send message"
+            >
+              <Send className="h-4 w-4" />
             </button>
-          </form>
-
-          {/* Call fallback */}
-          <div className="flex items-center justify-center gap-1.5 border-t border-border bg-muted/50 py-2 text-[10px] text-muted-foreground">
-            <Phone className="h-3 w-3" /> Prefer to call? <a href="tel:8888760007" className="font-semibold text-primary hover:underline">(888) 876-0007</a>
           </div>
         </div>
-      ) : (
-        <button
-          onClick={() => setOpen(true)}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg transition-transform hover:scale-105"
-          aria-label="Open live chat"
-        >
-          <MessageCircle className="h-6 w-6 text-primary-foreground" />
-        </button>
       )}
-    </div>
+
+      {/* Toggle button */}
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="fixed bottom-4 right-4 z-50 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-all duration-200 flex items-center justify-center hover:scale-105 active:scale-95"
+        aria-label={open ? "Close chat" : "Open chat"}
+      >
+        {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+      </button>
+    </>
   )
 }
