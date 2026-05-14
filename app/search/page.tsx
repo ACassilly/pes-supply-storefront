@@ -1,110 +1,126 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Search, ArrowRight, Star, Truck } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import type { Metadata } from "next"
-import { searchShopifyProducts, type Product } from "@/lib/data"
+import type { Metadata } from 'next'
+import { getProducts } from '@/lib/medusa'
+import { buildMetadata } from '@/lib/seo'
+import { trackSearch } from '@/lib/analytics'
+import ProductCard from '@/components/product-card'
+import ProductFilters from '@/components/product-filters'
 
-export const metadata: Metadata = {
-  title: "Search | PES Supply",
-  description: "Search 40,000+ electrical, solar, HVAC, and industrial products at PES Supply.",
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>
+}): Promise<Metadata> {
+  const { q } = await searchParams
+  return buildMetadata({
+    path: `/search${q ? `?q=${encodeURIComponent(q)}` : ''}`,
+    title: q ? `Search results for "${q}"` : 'Search',
+    description: q
+      ? `Find ${q} at PES Supply — professional electrical distributor.`
+      : 'Search all products at PES Supply.',
+  })
 }
 
-export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string; dept?: string }> }) {
-  const { q, dept } = await searchParams
-  const query = q?.trim() || ""
-  const results: Product[] = query ? await searchShopifyProducts(query, 40) : []
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; limit?: string; offset?: string }>
+}) {
+  const { q, limit = '24', offset = '0' } = await searchParams
+
+  let products: Awaited<ReturnType<typeof getProducts>>['products'] = []
+  let count = 0
+
+  if (q) {
+    try {
+      const data = await getProducts({
+        q,
+        limit: Number(limit),
+        offset: Number(offset),
+      })
+      products = data.products
+      count = data.count
+    } catch {
+      // Medusa not yet connected — show empty state
+    }
+  }
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      {/* Search header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-black text-foreground sm:text-3xl">
-          {query ? (
-            <>
-              {'Results for "'}<span className="text-primary">{query}</span>{'"'}
-            </>
-          ) : (
-            "Search Products"
+    <main className="min-h-screen bg-white dark:bg-gray-950">
+      <div className="max-w-7xl mx-auto px-4 py-10">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            {q ? (
+              <>
+                Results for{' '}
+                <span className="text-blue-600 dark:text-blue-400">"{q}"</span>
+              </>
+            ) : (
+              'Search Products'
+            )}
+          </h1>
+          {q && (
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              {count} product{count !== 1 ? 's' : ''} found
+            </p>
           )}
-        </h1>
-        {query && (
-          <p className="mt-1 text-sm text-muted-foreground">
-            {results.length} product{results.length !== 1 ? "s" : ""} found
-            {dept && dept !== "All Departments" ? ` in ${dept}` : ""}
-          </p>
+        </div>
+
+        {/* Search bar */}
+        <form method="GET" className="mb-8">
+          <div className="flex gap-3">
+            <input
+              type="search"
+              name="q"
+              defaultValue={q}
+              placeholder="Search by product name, part number, brand…"
+              className="flex-1 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="px-6 py-3 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+
+        {!q && (
+          <div className="py-20 text-center text-gray-500 dark:text-gray-400">
+            <p className="text-5xl mb-4">🔍</p>
+            <p className="text-lg font-medium">Enter a search term above to find products.</p>
+          </div>
+        )}
+
+        {q && products.length === 0 && (
+          <div className="py-20 text-center">
+            <p className="text-5xl mb-4">😕</p>
+            <p className="text-lg font-semibold text-gray-900 dark:text-white">
+              No results for &ldquo;{q}&rdquo;
+            </p>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Try different keywords, or{' '}
+              <a href="/contact" className="text-blue-600 underline">contact us</a>{' '}
+              for a custom quote.
+            </p>
+          </div>
+        )}
+
+        {products.length > 0 && (
+          <div className="flex gap-8">
+            <aside className="hidden lg:block w-56 shrink-0">
+              <ProductFilters />
+            </aside>
+            <div className="flex-1">
+              <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-5">
+                {products.map((p) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+              </div>
+            </div>
+          </div>
         )}
       </div>
-
-      {/* No query state */}
-      {!query && (
-        <div className="flex flex-col items-center gap-4 py-20 text-center">
-          <Search className="h-16 w-16 text-muted-foreground/20" />
-          <p className="text-lg text-muted-foreground">Enter a search term to find products, brands, or part numbers</p>
-        </div>
-      )}
-
-      {/* No results */}
-      {query && results.length === 0 && (
-        <div className="flex flex-col items-center gap-4 py-20 text-center">
-          <Search className="h-16 w-16 text-muted-foreground/20" />
-          <p className="text-lg font-semibold text-foreground">No results found</p>
-          <p className="max-w-md text-sm text-muted-foreground">
-            {'Try a different search term, check for typos, or browse our '}
-            <Link href="/departments" className="text-primary hover:underline">departments</Link>.
-          </p>
-        </div>
-      )}
-
-      {/* Results grid */}
-      {results.length > 0 && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {results.map((product) => (
-            <Link
-              key={product.id}
-              href={`/products/${product.slug}`}
-              className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-lg"
-            >
-              <div className="relative aspect-square bg-muted">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover transition-transform group-hover:scale-105"
-                />
-                <Badge className="absolute left-2 top-2 bg-primary text-primary-foreground text-[10px]">
-                  {product.badge}
-                </Badge>
-              </div>
-              <div className="flex flex-1 flex-col p-3">
-                <p className="text-xs text-muted-foreground">{product.brand}</p>
-                <h3 className="mt-0.5 line-clamp-2 text-sm font-semibold text-card-foreground group-hover:text-primary">
-                  {product.name}
-                </h3>
-                <div className="mt-1 flex items-center gap-1">
-                  <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                  <span className="text-xs font-medium text-foreground">{product.rating.toFixed(1)}</span>
-                  <span className="text-xs text-muted-foreground">({product.reviews})</span>
-                </div>
-                <div className="mt-auto flex items-end justify-between pt-2">
-                  <div>
-                    <span className="text-lg font-black text-foreground">${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
-                    {product.originalPrice > product.price && (
-                      <span className="ml-1.5 text-xs text-muted-foreground line-through">${product.originalPrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
-                    )}
-                  </div>
-                  {product.freeShipping && (
-                    <span className="flex items-center gap-0.5 text-[10px] font-semibold text-primary">
-                      <Truck className="h-3 w-3" /> Free
-                    </span>
-                  )}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
     </main>
   )
 }
